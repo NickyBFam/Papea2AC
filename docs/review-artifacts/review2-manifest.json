@@ -1,0 +1,163 @@
+{
+  "status": "WORKING_TREE_REVIEW_SUBMISSION_NOT_APPROVED",
+  "algorithm": "SHA-256 of raw file bytes; composite SHA-256 of UTF-8 lines: lowercase hash, two spaces, forward-slash relative path, LF; ordinal path order",
+  "exclusions": "review-artifacts directory (including this manifest), future reviews and baseline receipt; original Review #1 is included",
+  "composite_sha256": "1a1b987df59ef9fd411528296c2150f2b4fbbb3417ec36cddd286f1c65f64155",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "6e6d3f89696ffc382c8cf5d5b2b451e5a2f699790f0608c105f5035c647e7c2a",
+      "bytes": 1567
+    },
+    {
+      "path": "README.md",
+      "sha256": "1b6bd614be99b5d7fe5040f6bc77712bca22dabb570e2b53dca9574f32479c4e",
+      "bytes": 1442
+    },
+    {
+      "path": "docs/AI_DEVELOPMENT_RULES.md",
+      "sha256": "122ef0ff7068baa6c5da2da111ea9da6aba1fdbe8871413872141f55c348fda2",
+      "bytes": 5844
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "5d052c9219f668690e8d595ce648abb115a00aff2aa90b10eb6d73e4456ddb38",
+      "bytes": 15154
+    },
+    {
+      "path": "docs/COLLISION_ENGINE.md",
+      "sha256": "c050ef9e75b17fbde17d9cbcee0f011f40d2db5825d7f0fc96bf4b3056ca08e5",
+      "bytes": 4845
+    },
+    {
+      "path": "docs/COMBAT_MODEL.md",
+      "sha256": "089912c0e457454a2f40c6356f986cd04e2f5b72fc128d817784041259bfd9e0",
+      "bytes": 6429
+    },
+    {
+      "path": "docs/CONFIGURATION.md",
+      "sha256": "5ba424bc8b8449061b4c954d081d96c3d92e21b3fda646c7af055500f47af8a6",
+      "bytes": 3295
+    },
+    {
+      "path": "docs/EVIDENCE_MODEL.md",
+      "sha256": "2e30ee1fca6b495c0bf91a0c53fc91296bccd6284ed27bd072f8907cdfd539c1",
+      "bytes": 5842
+    },
+    {
+      "path": "docs/INPUT_RECONSTRUCTION.md",
+      "sha256": "4916f1523d96714be680034c775c6b92ee706132590d85fd4689e97965adf060",
+      "bytes": 3155
+    },
+    {
+      "path": "docs/INTAVE_REFERENCE_ANALYSIS.md",
+      "sha256": "5b0cf14a9886c31378830d6b645ef756bbf3c789032ca49d34a138e78fcef01e",
+      "bytes": 16374
+    },
+    {
+      "path": "docs/INTERACTION_MODEL.md",
+      "sha256": "8649d7e61a1d2915c663466b12c3d959e9f6d297ecff76ede2768c773623b833",
+      "bytes": 2001
+    },
+    {
+      "path": "docs/LATENCY_COMPENSATION.md",
+      "sha256": "372a2d29b8c6ebf08ab010f531f2e046ea58d5de75e6125970b4804e14579bc5",
+      "bytes": 6616
+    },
+    {
+      "path": "docs/MITIGATION.md",
+      "sha256": "fce5b28d5d42e6db46c310403a3702745d63c65f69e831e3169f0fec0819a582",
+      "bytes": 9321
+    },
+    {
+      "path": "docs/MOVEMENT_SIMULATION.md",
+      "sha256": "0471725e89bc3620cd19f40e4bbfeb72d54e770cf14a8bc9b2daefb05b76633c",
+      "bytes": 12168
+    },
+    {
+      "path": "docs/NUMERICAL_POLICY.md",
+      "sha256": "b39a49c5bb79972594c100c43de208d4efd5fb3f4581a8ecb33988f117112c55",
+      "bytes": 4592
+    },
+    {
+      "path": "docs/PACKET_PIPELINE.md",
+      "sha256": "0378dde2ee48decfeb9a33b3863987ad3e0612a92c98ba8cc4e7d1f2a9ca11ac",
+      "bytes": 13674
+    },
+    {
+      "path": "docs/PERFORMANCE.md",
+      "sha256": "2f6e9d01e39758103fe61cc51eb512a42691f8bf073ebefa06716ffb292d305d",
+      "bytes": 13471
+    },
+    {
+      "path": "docs/PHASE_0_REMEDIATION.md",
+      "sha256": "b8897ee0d7c32373b963331423ffa35fb0ca79e950d2b29de1e2815fb8150c91",
+      "bytes": 60180
+    },
+    {
+      "path": "docs/PHASE_0_REVIEW.md",
+      "sha256": "2ea9b8abce0dbf1c5a4a2f6b55ad09f050b281adbe6336f401e0617a4499b5d8",
+      "bytes": 9585
+    },
+    {
+      "path": "docs/PHASE_0_SENIOR_REVIEW.md",
+      "sha256": "86f18bcb1f00d7c8aaf29bb9a80a5261f658476b2b1d9f333d130fa3ae182341",
+      "bytes": 139108
+    },
+    {
+      "path": "docs/PLAYER_STATE.md",
+      "sha256": "604b26a659c331db509cb5dad60d9ba0d9488fa8ab6e0a9a98d4b87e54f5a36d",
+      "bytes": 7789
+    },
+    {
+      "path": "docs/PLAYER_TIMELINE.md",
+      "sha256": "75b38044cfb19c5d5de8b6a1c6b80aa2a6b93f121d77bde6cb19e159871f05af",
+      "bytes": 4129
+    },
+    {
+      "path": "docs/REPLAY_SYSTEM.md",
+      "sha256": "4d595dee93061a24062f9de9c3667391aa988fc8cef89edca542ebfc89272f60",
+      "bytes": 6849
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "sha256": "54c30f07f5b9e01776ca093f6ad2ec429e5662d79ce3d81a0a58884510776989",
+      "bytes": 6953
+    },
+    {
+      "path": "docs/TESTING.md",
+      "sha256": "159bdbf65882674e0776441a71f0df2e78d21a420d479ff1879b091eb4893ca1",
+      "bytes": 13478
+    },
+    {
+      "path": "docs/THREADING_MODEL.md",
+      "sha256": "7384e49e86d6e9945071c88763b9e4e9f3c4fff153fbd82ec98c9b05bee1eae1",
+      "bytes": 9589
+    },
+    {
+      "path": "docs/VERSION_SUPPORT.md",
+      "sha256": "140ccdc1ec92aeba1f984a017ffa91e7d5d4c792d24d5a32bcc5e724953922ef",
+      "bytes": 6348
+    },
+    {
+      "path": "docs/WORLD_MODEL.md",
+      "sha256": "1530deaa6d3a2a653a46040eca28bbf1b049aa7de110207c4f7ef37eaa38aa77",
+      "bytes": 9023
+    },
+    {
+      "path": "pom.xml",
+      "sha256": "ca0d599ec5522a46dfe96f41284f2793ee35e2c30555a68cd0fa1f60795f23ec",
+      "bytes": 2266
+    },
+    {
+      "path": "src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+      "sha256": "472c0edfc4f076170402fe4493a97e6abf5bc2ba1c4f457398c47a7d76a91a2a",
+      "bytes": 291
+    },
+    {
+      "path": "src/main/resources/plugin.yml",
+      "sha256": "7512436d3cc15eb06cdf097ef7cf1390be9e51c6a0f9d0a1b2ab4579de93b0e8",
+      "bytes": 116
+    }
+  ]
+}
