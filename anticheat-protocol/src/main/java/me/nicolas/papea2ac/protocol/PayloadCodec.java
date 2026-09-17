@@ -1,0 +1,119 @@
+package me.nicolas.papea2ac.protocol;
+
+import java.io.*;
+import java.util.*;
+
+/** Bounded schema-1 semantic encoding. This never accepts native packet bytes. */
+public final class PayloadCodec {
+    private PayloadCodec() {}
+    public static byte[] encode(PacketPayload payload) throws IOException {
+        var bytes = new ByteArrayOutputStream();
+        try (var out = new DataOutputStream(bytes)) {
+            out.writeByte(1);
+            write(out, payload);
+        }
+        if (bytes.size() > 65536) throw new IOException("payload limit");
+        return bytes.toByteArray();
+    }
+    public static PacketPayload decode(byte[] bytes) throws IOException {
+        if (bytes.length > 65536) throw new IOException("payload limit");
+        try (var in = new DataInputStream(new ByteArrayInputStream(bytes))) {
+            if (in.readUnsignedByte() != 1) throw new IOException("payload schema");
+            PacketPayload payload = read(in, false);
+            if (in.available() != 0) throw new IOException("trailing payload bytes");
+            return payload;
+        } catch (IllegalArgumentException e) {
+            throw new IOException("invalid semantic payload", e);
+        }
+    }
+    private static void vector(DataOutputStream out, PacketPayload.Position p) throws IOException {
+        out.writeDouble(p.x()); out.writeDouble(p.y()); out.writeDouble(p.z());
+    }
+    private static PacketPayload.Position vector(DataInputStream in) throws IOException {
+        return new PacketPayload.Position(in.readDouble(), in.readDouble(), in.readDouble());
+    }
+    private static void rotation(DataOutputStream out, PacketPayload.Rotation r) throws IOException {
+        out.writeFloat(r.yaw()); out.writeFloat(r.pitch());
+    }
+    private static PacketPayload.Rotation rotation(DataInputStream in) throws IOException {
+        return new PacketPayload.Rotation(in.readFloat(), in.readFloat());
+    }
+    private static boolean bool(DataInputStream in) throws IOException {
+        int value = in.readUnsignedByte();
+        if (value > 1) throw new IOException("noncanonical boolean");
+        return value == 1;
+    }
+    private static int count(DataInputStream in, int limit) throws IOException {
+        int value = in.readInt();
+        if (value < 0 || value > limit) throw new IOException("count limit");
+        return value;
+    }
+    private static String text(DataInputStream in, int limit) throws IOException {
+        // readUTF allocates at most 64 KiB, already inside the per-record byte limit.
+        String value = in.readUTF();
+        if (value.length() > limit) throw new IOException("text limit");
+        return value;
+    }
+    private static void write(DataOutputStream out, PacketPayload payload) throws IOException {
+        switch (payload) {
+            case SemanticPayload p -> { out.writeByte(11); SemanticCodec.write(out,p); }
+            case PacketPayload.Movement p -> {
+                out.writeByte(1); out.writeBoolean(p.position() != null);
+                if (p.position() != null) vector(out, p.position());
+                out.writeBoolean(p.rotation() != null);
+                if (p.rotation() != null) rotation(out, p.rotation());
+                out.writeBoolean(p.onGround()); out.writeBoolean(p.horizontalCollision());
+            }
+            case PacketPayload.Control p -> { out.writeByte(2); out.writeUTF(p.kind().name()); out.writeLong(p.value()); }
+            case PacketPayload.Uncovered p -> { out.writeByte(3); out.writeUTF(p.family().name()); out.writeUTF(p.reason()); }
+            case PacketPayload.Bundle p -> {
+                out.writeByte(4); out.writeInt(p.children().size());
+                for (var child : p.children()) write(out, child);
+            }
+            case PacketPayload.Velocity p -> { out.writeByte(5); out.writeInt(p.entityId()); vector(out, p.vector()); }
+            case PacketPayload.Explosion p -> {
+                out.writeByte(6); vector(out, p.center()); out.writeFloat(p.radius()); out.writeInt(p.blockCount()); out.writeBoolean(p.playerKnockback().isPresent());
+                if (p.playerKnockback().isPresent()) vector(out, p.playerKnockback().get());
+            }
+            case PacketPayload.Vehicle p -> { out.writeByte(7); vector(out, p.position()); rotation(out, p.rotation()); out.writeBoolean(p.onGround()); }
+            case PacketPayload.Passengers p -> {
+                out.writeByte(8); out.writeInt(p.vehicleId()); out.writeInt(p.passengers().size());
+                for (int id : p.passengers()) out.writeInt(id);
+            }
+            case PacketPayload.Health p -> { out.writeByte(9); out.writeFloat(p.health()); out.writeInt(p.food()); out.writeFloat(p.saturation()); }
+            case PacketPayload.TickRate p -> { out.writeByte(10); out.writeFloat(p.rate()); out.writeBoolean(p.frozen()); }
+        }
+    }
+    private static PacketPayload read(DataInputStream in, boolean insideBundle) throws IOException {
+        return switch (in.readUnsignedByte()) {
+            case 11 -> SemanticCodec.read(in);
+            case 1 -> new PacketPayload.Movement(bool(in) ? vector(in) : null, bool(in) ? rotation(in) : null, bool(in), bool(in));
+            case 2 -> new PacketPayload.Control(PacketPayload.ControlKind.valueOf(text(in, 32)), in.readLong());
+            case 3 -> new PacketPayload.Uncovered(PacketPayload.Family.valueOf(text(in, 32)), text(in, 128));
+            case 4 -> {
+                if (insideBundle) throw new IOException("nested bundle");
+                int n = count(in, 256); var children = new ArrayList<PacketPayload>(n); int charged = 0;
+                for (int i = 0; i < n; i++) {
+                    PacketPayload child = read(in, true); charged += child.chargedBytes();
+                    if (charged > 65536) throw new IOException("bundle retained-byte limit");
+                    children.add(child);
+                }
+                yield new PacketPayload.Bundle(children);
+            }
+            case 5 -> new PacketPayload.Velocity(in.readInt(), vector(in));
+            case 6 -> {
+                var center = vector(in); float radius = in.readFloat(); int blockCount = in.readInt();
+                yield new PacketPayload.Explosion(center, radius, blockCount, bool(in) ? Optional.of(vector(in)) : Optional.empty());
+            }
+            case 7 -> new PacketPayload.Vehicle(vector(in), rotation(in), bool(in));
+            case 8 -> {
+                int id = in.readInt(), n = count(in, 256); var passengers = new ArrayList<Integer>(n);
+                for (int i = 0; i < n; i++) passengers.add(in.readInt());
+                yield new PacketPayload.Passengers(id, passengers);
+            }
+            case 9 -> new PacketPayload.Health(in.readFloat(), in.readInt(), in.readFloat());
+            case 10 -> new PacketPayload.TickRate(in.readFloat(), bool(in));
+            default -> throw new IOException("unknown payload tag");
+        };
+    }
+}

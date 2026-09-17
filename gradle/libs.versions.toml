@@ -1,0 +1,5 @@
+[versions]
+java = "25"
+paper = "26.2.build.124-stable"
+junit = "5.12.2"
+netty = "4.2.15.Final"

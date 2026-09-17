@@ -1,0 +1,5 @@
+# Normalize line endings: LF everywhere except gradlew.bat, which is a Windows batch
+# script and conventionally ships with CRLF.
+* text=auto eol=lf
+gradlew.bat text eol=crlf
+gradle/wrapper/gradle-wrapper.jar binary

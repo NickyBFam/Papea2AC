@@ -1,0 +1,287 @@
+{
+  "date": "2026-09-16",
+  "status": "READY_FOR_SENIOR_CODE_REVIEW",
+  "statusNote": "All local P1-H1/H2/H3/M1 obligations pass, and a subsequent hardening pass against independent-reviewer-identified risks (see docs/PHASE_1_HARDENING.md) is complete, including one real, previously undetected bug fixed (periodic pipeline audit invalidating every early-hook-bound session's health). Not self-approved; not committed; not Phase 2. Remaining items are external qualification only (real client join, second OS/architecture host, native fault/load qualification) and are for Senior Code Review to weigh.",
+  "headBefore": "43d8988862be0823e78d023a9d75854bab69a6cc",
+  "sourceManifestSha256": "3fae7e20abf7d3d8713e2301a626db51d662e3851971c9e013bdc0431b6d85c4",
+  "testsReverifiedDate": "2026-09-16",
+  "tests": {
+    "passed": 210,
+    "failed": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "suite": "me.nicolas.papea2ac.testing.ArchitectureTest",
+        "tests": 6,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.LiveRecordingTest",
+        "tests": 8,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.PacketTruthTest",
+        "tests": 33,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.ReplayTest",
+        "tests": 8,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.ResourceSafetyTest",
+        "tests": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeFaultTest",
+        "tests": 5,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest"
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativePacketTest",
+        "tests": 14,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest"
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeSemanticTest",
+        "tests": 14,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest"
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeSessionLifecycleTest",
+        "tests": 10,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativePlayLifecycleTest",
+        "tests": 9,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.SemanticCoverageTest",
+        "tests": 2,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest"
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.TransportPhaseTest",
+        "tests": 4,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeEarlyTransportSemanticTest",
+        "tests": 8,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeEarlyTransportHookTest",
+        "tests": 5,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeInventoryTest",
+        "tests": 9,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeEntityMiscTest",
+        "tests": 6,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeWorldMiscTest",
+        "tests": 6,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.NativeChunkTest",
+        "tests": 2,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.CheckpointReplayTest",
+        "tests": 7,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.RuntimeControlOrderingTest",
+        "tests": 6,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.WriterWatchdogTest",
+        "tests": 7,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.FaultInjectionAndFairnessTest",
+        "tests": 6,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.LongRunRetentionTest",
+        "tests": 3,
+        "failed": 0,
+        "skipped": 0,
+        "addedThisSession": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.PreLoginAdmissionAndAuditTest",
+        "tests": 11,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedInHardeningPass": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.BindingRaceTest",
+        "tests": 4,
+        "failed": 0,
+        "skipped": 0,
+        "task": "nativeTest",
+        "addedInHardeningPass": true
+      },
+      {
+        "suite": "me.nicolas.papea2ac.testing.StaleControlAndResourceAccountingTest",
+        "tests": 4,
+        "failed": 0,
+        "skipped": 0,
+        "addedInHardeningPass": true
+      }
+    ]
+  },
+  "regressionFixedThisSession": "LiveRecordingTest.fencedHungShardKeepsSessionLeaseUntilWriterTerminates() failed nondeterministically on Windows: PacketEngine.close()/CaptureWriter.close() intentionally do not join the writer thread (a hung writer must not block shutdown), so the test could return, and JUnit's @TempDir cleanup could run, while the writer daemon thread was still mid-write. Windows cannot delete a directory containing an open file handle (POSIX can), producing DirectoryNotEmptyException. Fixed by having the test await ReplayQuota IO/PROMOTION usage reaching zero (proof the writer actually finished) before returning, matching the pattern already used in the sibling recording test. No production code changed.",
+  "semanticCoverageWorkThisSession": "Independently re-audited docs/phase1-artifacts/packet-coverage.tsv against PACKET_PIPELINE.md's Observation Matrix (the authoritative Phase 1 requirements list) rather than trusting prior status labels. Closed 52 of the 87 mandatory gaps: 30 newly implemented and native-tested (NativeSessionLifecycleTest, NativePlayLifecycleTest) typed SemanticPayload records for the CONFIGURATION/HANDSHAKE session-lifecycle family and simple PLAY-state identity/lifecycle packets, plus 15 legitimate mandatory->false reclassifications citing an exact precedent already accepted elsewhere in the same file for the identical shared native class (e.g. cookie_request/response, custom_payload, resource_pack, custom_click_action), plus 7 stale-documentation corrections where a shared native class (keep_alive, pong) was already handled by the existing normalizer but the coverage table had not been updated. Left the HANDSHAKING (1) and LOGIN (9) families, and PLAY clientbound minecraft:login (JoinGame), explicitly unresolved and NOT reclassified: PaperCapture.attach() installs the capture tap on PlayerJoinEvent, which is after those packets are sent, so no normalizer mapping can make them reachable under the current profile; closing them requires a reviewed earlier-attach change (e.g. Paper's raw channel-init hook API), which is out of scope for this pass. Did not attempt block_entity_data/chunk/light/inventory-item/entity-metadata families (level_chunk_with_light, section_blocks_update, container_set_content/slot, set_equipment, set_cursor_item, set_player_inventory, set_entity_data, damage_event, entity_event, move_minecart_along_track, chunk_batch_start/finished, chunks_biomes) — these require real ItemStack/NBT/chunk-section semantic modeling, a materially larger and riskier scope than could be verified against pinned bytecode in this pass. 35 mandatory gaps remain, all in the categories above.",
+  "cleanBuild": "PASS",
+  "javacLint": "-Xlint:all -Werror; PASS",
+  "architecture": "6 tests PASS; 27 approved Markdown hashes unchanged; exact DAG",
+  "replay": "Committed capsule and fresh-process Windows x64 checks PASS; second OS/architecture PENDING",
+  "benchmark": "JMH 1.37; 5 paths; 3 forks x 5 warmup x 10 measurement iterations; JVM Temurin 25.0.4.1+1-LTS (-Xms512m -Xmx512m); host Windows 11 (NICKY); re-run 2026-09-16 after this session's P1-H2/H3/M1 runtime/control/replay changes (normalize=13.942ns/op, enqueueDequeue=36.773ns/op, sequence=43.941ns/op, journal=29.451ns/op, correlate=950.564ns/op) - all within normal run-to-run variance of the prior semantic-normalization-session numbers (11.124/37.518/52.405/32.993/1039.134ns/op respectively), no material regression from the new administrative ControlChange/CheckpointMarker interception in the shard loop; shared-host descriptive results only, not a production performance gate",
+  "paperSmokeThisSession": "RERUN 2026-09-16 after the early-transport implementation, since that work materially changed platform-facing plugin lifecycle code (PaperCapture.registerEarlyHook/afterInitChannel, Papea2AC.onEnable/onDisable). Real pinned Paper 26.2 server, rebuilt plugin jar, java -jar paper.jar --nogui, console 'stop': startup completed in 4.883s, '[Papea2AC] Enabling Papea2AC' and '[Papea2AC] Disabling Papea2AC' both logged with zero exceptions and zero 'Early transport capture unavailable' warning anywhere in the log, proving registerEarlyHook()'s reflective Proxy/addListener call against the REAL server jar (not just nativeTest's copy) succeeded silently. No player connected during this run; that remains external qualification (see docs/PHASE_1_EARLY_TRANSPORT_INVESTIGATION.md).",
+  "paperSmokeThisSessionH2H3M1": "RERUN 2026-09-16 because the P1-H2/H3/M1 work materially changed runtime/replay/control behavior (PacketEngine control-event interception, SessionRecording pause/resume, new /papea2ac subcommands). First attempt FAILED to enable at all: 'NoClassDefFoundError: me/nicolas/papea2AC/Papea2AC (wrong name: me/nicolas/papea2ac/Papea2AC)' - a real, pre-existing bug this smoke rerun caught: Papea2AC.java's package declaration had drifted to lowercase 'me.nicolas.papea2ac' (visible on disk since the semantic-normalization session, noted at the time but not investigated because it 'didn't block compilation') while plugin.yml's main: field and every other platform-paper file still declared uppercase 'me.nicolas.papea2AC' - Windows' case-insensitive filesystem let this compile silently in every prior nativeTest/unit-test run (no real Bukkit PluginClassLoader was ever exercised), but a real Bukkit classloader enforces exact-case matching between plugin.yml's main: and the compiled class's own internal name, so the plugin failed to load entirely. Fixed by correcting Papea2AC.java's package declaration back to 'me.nicolas.papea2AC' (the majority/established casing already used by all 6 files in the platform subpackage and by plugin.yml); no other file referenced the old lowercase package. Rebuilt the plugin jar, verified via 'jar tf' that the compiled class now lives at the correctly-cased me/nicolas/papea2AC/Papea2AC.class entry, and reran the smoke test: startup completed in 8.500s, plugin enabled and disabled cleanly with zero exceptions, no 'Early transport capture unavailable' warning (early hook still registers silently). Exercised the new commands from console (which bypasses permission checks): 'papea2ac capture off' then 'on' correctly flipped capture=false/true on the next status; 'papea2ac effects suspend' then 'resume' both correctly reported effectsSuspended=true (OBSERVE_ONLY is already 'suspended' by the effectsSuspended()!=ENFORCE definition; resume returns to that same safe default, never ENFORCE); 'papea2ac recording Steve on' and 'papea2ac checkpoint Steve' both correctly reported 'Player is not online.' with no crash (no real client connected in this run, matching the exact fail-safe behavior the FaultInjectionAndFairnessTest suite verifies under test); the new monitoring/budget diagnostic lines ('monitoring activeSessions=... writerHealth=RUNNING ...', 'budget rollingBytes=0/50331648 ... writerQueueCapacity=2') printed correctly with all-zero baseline values (no sessions ever connected). Server stopped cleanly (exit code 0). No real client connected during this run; that remains external qualification.",
+  "earlyTransportWorkThisSession": "Implemented the early Paper attachment mechanism identified in docs/PHASE_1_EARLY_TRANSPORT_INVESTIGATION.md, closing all 11 previously hook-timing-blocked mandatory entries (1 HANDSHAKING + 9 LOGIN + 1 PLAY join-game). New: TransportSessionId/TransportPhase (anticheat-model, locally-minted, never client-derived); package-private PreLoginTransport (anticheat-platform-paper only) journaling captured packets pre-player under a bounded (256-entry/256KiB) journal; PaperCapture.registerEarlyHook() reflectively registers with the real io.papermc.paper.network.ChannelInitializeListenerHolder (confirmed absent from the compile-time paper-api artifact; present only in the running server jar) via a java.lang.reflect.Proxy, the same pattern PaperPacketInventory already uses for PacketVisitor. Outbound observation anchors on the stable 'hackfix' handler instead of the investigation's tentative 'outbound_config' placeholder name, eliminating the single highest version-coupling risk the investigation had flagged and needing no encoder name-swap detection. bind() (still called from the existing PlayerJoinEvent site) replays the pre-player journal through the same ingress.capture() call the live path uses, giving continuous sequencing with zero changes to PacketEngine/SessionKey/ConnectionIngress/TruthActor. Client-claimed identity (ServerboundHelloPacket) is never trusted: bind()'s UUID argument (from Bukkit's authoritative Player.getUniqueId()) is what keys the session, verified directly by test with a deliberately different claimed-vs-bound UUID pair. Verified dynamically against the real pinned ChannelInitializeListenerHolder (not a mock) via NativeEarlyTransportHookTest (5 tests: real-anchor positions, handshake+login capture and continuous replay, distinct-connection isolation, 300-packet journal-bound truncation, disconnect-before-bind cleanup with zero engine failures) plus NativeEarlyTransportSemanticTest (8 tests, native-object normalization for all 11 entries) plus TransportPhaseTest (4 tests, plain state-machine legality) plus a real Paper server startup/shutdown smoke run. Mandatory semantic gaps: 35 -> 24. Not done: moving the identity-binding point earlier to AsyncPlayerPreLoginEvent (current bind point at PlayerJoinEvent is still correct, just later than the earliest possible point; documented as a future improvement, not a defect). Production transport remains CAPTURE-ONLY; this is observation-timing only, not outcome correlation.",
+  "syntheticLoad": "50 and 100 ordinary sessions plus one flooding session each; 15000 fixture outcomes; PASS; not native server load",
+  "paperSmokeHardeningPass": "RERUN 2026-09-16 after the hardening pass, since it materially changed platform code (PaperCapture global admission/audit-topology/closing-flag, PaperSemanticNormalizer caching, the anticheat-platform-paper directory rename). Startup 4.786s, clean '[Papea2AC] Enabling'/'Disabling', no exceptions, no early-hook fallback warning. Every /papea2ac subcommand exercised from console without error, including the two new PRELOGIN_ADMISSION_REJECTED/PRELOGIN_TRUNCATED_GLOBAL metrics now visible in status output (both 0, as expected with zero connections). No real client connected; that remains external qualification.",
+  "paperSmoke": {
+    "server": "26.2-124",
+    "startup": "PASS",
+    "startupSeconds": 4.786,
+    "earlyHookRegistration": "PASS (silent success; no fallback warning logged)",
+    "inventoryProbe": "PASS",
+    "statusCommand": "PASS",
+    "captureToggleCommand": "PASS",
+    "effectsSuspendResumeCommand": "PASS",
+    "recordingToggleCommand": "PASS (graceful 'Player is not online.', no crash - no real client connected)",
+    "checkpointCommand": "PASS (graceful 'Player is not online.', no crash - no real client connected)",
+    "monitoringExportCommand": "PASS",
+    "budgetExportCommand": "PASS",
+    "preLoginAdmissionMetricsVisible": true,
+    "sessions": 0,
+    "reservedBytes": 268435456,
+    "captured": 0,
+    "certified": 0,
+    "nativeClientJoin": "NOT_VERIFIED",
+    "normalShutdown": "PASS",
+    "packageCaseBugFoundAndFixedThisSession": true
+  },
+  "mandatoryCoverageGate": {
+    "task": ":anticheat-testing:verifyMandatoryCoverage",
+    "result": "PASS",
+    "mandatoryTotal": 127,
+    "fullyNormalized": 127,
+    "missingMandatoryEntries": 0,
+    "deferredBySpecification": 0,
+    "missingMandatoryEntriesBeforeThisSession": 24,
+    "missingMandatoryEntriesBeforeEarlyTransportSession": 35,
+    "priorMissingMandatoryEntries": 87,
+    "reverifiedDate": "2026-09-16"
+  },
+  "semanticModelingWorkThisSession": "Closed all 24 remaining mandatory gaps (block_entity_data, chunk_batch_start/finished, chunks_biomes, container_set_content/data/slot, damage_event, entity_event, explode(enhanced), level_chunk_with_light, light_update, move_minecart_along_track, player_look_at, respawn, section_blocks_update, set_cursor_item/entity_data/equipment/player_inventory, and serverbound container_button_click/container_click/container_slot_state_changed, plus bundle_delimiter which was previously METADATA-ONLY). Built a modern data-component item model (SemanticPayload.Item: empty flag, registry-key type, count, explicitly typed damage/maxDamage/unbreakable/enchantments fields, and a bounded/sorted/deduplicated otherComponents registry-key disclosure list for every other component, so ordering never depends on native map iteration order) rather than wrapping legacy NBT/ItemMeta. ServerboundContainerClickPacket's changed-slot/carried-item semantics are represented as index+empty/non-empty only (ContainerClickClaim/ChangedSlot), because the native HashedStack type genuinely exposes no content accessor (verified by inspecting its pinned bytecode: only a matches(ItemStack,HashGenerator) equality check exists) - the model deliberately does not fabricate item identity that was never on the wire. Chunk/light data stays compact: ChunkBaseline and LightUpdate carry chunk identity, bounded encoded byte lengths, and block-entity/heightmap/section counts, never per-block or per-light-value objects. Registry identity is modeled as a normalized String key (via BuiltInRegistries/Holder.unwrapKey(), which fails closed with IllegalArgumentException on an unregistered holder) - no ResourceKey/Holder/NMS type crosses the platform boundary. Unknown-but-relevant data (extra components, opaque entity-data serializer values) is disclosed as bounded identity/kind-only facts, never silently dropped and never leaked as raw native objects. All new records are bounded against pathological input (component/enchantment/changed-slot/entity-data-field counts capped, text tagged and length-checked) and have symmetric SemanticCodec round-trip support exercised by ReplayTest's fixture list. Native verification used real pinned bytecode throughout, including two techniques not previously needed in this codebase: VanillaRegistries.createLookup() + Holder.Reference.bindComponents(DataComponentMap.EMPTY) to legally construct real registered ItemStack/enchantment/damage-type holders in a test-only bootstrap (extensive javap-based research found no reachable caller of bindComponents from a minimal Bootstrap.bootStrap() harness; this calls the real public API directly rather than reproducing an untraced full dedicated-server startup sequence), and sun.misc.Unsafe.allocateInstance() field-injection for ClientboundLevelChunkPacketData/ClientboundLightUpdatePacketData/ClientboundLevelChunkWithLightPacket, whose only public constructors require a real LevelChunk/LevelLightEngine - the allocated objects are still the real native classes the normalizer reflects into, just constructed without running world-dependent business logic. Found and fixed two real bugs via this process: an inverted boolean in SemanticCodec's Item read helper (write side encodes true=empty, read side originally treated true=non-empty, causing every item-carrying payload to desynchronize on round-trip), and a nonexistent getBuffer() accessor assumed on ClientboundLevelChunkPacketData (the real class only exposes a private write buffer and a getReadBuffer() FriendlyByteBuf; the raw buffer field must be read directly, matching the pattern already used for blockEntitiesData). Also fixed an architecture-test violation introduced by an explanatory Javadoc comment that spelled out a net.minecraft.* fully-qualified name outside anticheat-platform-paper (the automated platform-isolation gate correctly does not distinguish comments from code) and updated one now-stale SemanticCoverageTest assertion that had hard-coded level_chunk_with_light as a permanently-missing example gap. Mandatory semantic gaps: 24 -> 0. Tests: 139 -> 162 (4 new native test classes: NativeInventoryTest 9, NativeEntityMiscTest 6, NativeWorldMiscTest 6, NativeChunkTest 2). No new inter-module dependency was added and no approved Phase 0 Markdown was modified. Production transport remains CAPTURE-ONLY; this session is semantic-representation work only, not outcome correlation, and does not touch P1-H2/H3/M1.",
+  "p1H2ReplayCheckpointWorkThisSession": "Finished mid-session replay/checkpoint coverage. Schema: TransportCapsule gained a Checkpoint frame (startSequence/startGeneration/recordingEpoch/protocolState/captureEnabled/effectsMode/lastIngressOrdinal/certifiedIngressOrdinal/lastProcessingOrdinal/lastServerRevision) that must open a capsule if present, and an incompleteReason string field (empty when complete) so PREFIX INCOMPLETE always explains why (SEQUENCE_GAP/FRAME_COUNT_LIMIT/ROLLING_BUDGET_EXCEEDED/ROLLING_BUDGET_UNAVAILABLE_AT_START/EXPORT_ENCODE_FAILURE/DEGRADED), never just a bare boolean. TruthActor gained a package-private seed(...) method and HealthLatch a HealthLatch(long initialGeneration) constructor so TransportReplayDriver can resume validation exactly from a checkpoint's declared baseline instead of assuming every capsule starts at sequence 1 - proven by a negative-control test where a deliberately wrong checkpoint baseline produces a different (degraded) replay outcome. SessionRecording (already existing, now materially extended) supports pause()/resume() any number of times: pause() finalizes the current prefix as genuinely COMPLETE (a deliberate stop is not data loss) and exports it if a writer exists; resume() opens a fresh capsule seeded with a Checkpoint built from the session's real TruthActor.Snapshot/HealthLatch.State at that exact instant, never fabricating history before it. PacketEngine.enableRecording() no longer requires zero active sessions (relaxed precondition) and now broadcasts a RECORDING=true control to every already-active session, so capture can begin during an existing PLAY session, not only at connect time. Adaptive retention: LiveCapture's fair per-session rolling-budget share is now computed from the actual current active-session count (PacketEngine.activeSessionCount, a volatile field updated on every connect/remove) rather than the engine's static worst-case capacity, so light load gets more retained history while heavy load still respects the fixed 48MiB global cap (both directions verified by test); the existing per-owner ReplayQuota.reserve() accounting (unchanged) already prevented one noisy session from starving another's own fair share. Writer watchdog: CaptureWriter gained a Health enum (RUNNING/SLOW/HUNG/FENCED/TERMINATED) computed from an in-flight-job start timestamp against two fixed thresholds (2s/10s), plus fence() (stop admitting new jobs, touch nothing in-flight) - PacketEngine.supervise() now reports (once, not per-tick) when the writer is HUNG without ever releasing its leases, preserving the existing safety invariant that a resource charge is only released once termination is actually proven. Two real bugs were found and fixed via test failures during this work: SessionRecording.resume() computed a brand-new recording's Checkpoint elapsedNanos as (now - origin) where origin is captured a few nanoseconds AFTER the shard loop's own 'now' snapshot for a just-idle()'d recording, producing a spurious negative value that tripped Checkpoint's own clock-regression validation (fixed with Math.max(0, ...), documented as measurement-order noise, not a real regression); and SessionRecording.capture was a plain (non-volatile) field mutated by the shard thread but read via armed()/complete()/recordingEpoch() from other threads for diagnostics, with no visibility guarantee once the field's OWN value changed post-construction (the outer SessionRecording object reference stays the same across pause/resume, so Session.recording being volatile didn't help) - fixed by making SessionRecording.capture and recordingEpoch volatile.",
+  "p1H3RuntimeControlsWorkThisSession": "Finished ordered runtime-control application. Two new Observation.Event/TransportCapsule.Event sealed variants (ControlChange(kind,value), CheckpointMarker(requestId)) flow through the exact same per-session ordering primitive packets already use: ConnectionIngress.bridge() (already existed, previously used only for server-authoritative Observation events) assigns them a real monotonic sequence number on the owning event-loop thread, so a control command submitted from a Bukkit command/operator thread is deterministically ordered relative to concurrently-arriving packets - not thread-timing luck. TruthActor requires zero changes: these events fall through process()'s existing preamble exactly like the pre-existing Tick event (advance processed/history/metrics, no packet-truth branch), so the packet-truth actor never gained any administrative-control awareness. PacketEngine.Shard.run() classifies each dequeued observation as administrative or not immediately after actor.process() runs for it (guaranteeing the checkpoint/control side effect reflects one coherent ordered instant, per the session-ownership requirement) and dispatches RECORDING toggles to SessionRecording.resume()/pause() and CheckpointMarker to an immediate export - proven end-to-end by a literal 'Packet A / Capture OFF / Packet B / Capture ON / Packet C / Checkpoint request / Packet D' test asserting the resulting sequence stays gap-free and healthy, plus a concurrent-submission variant. setCaptureEnabled() (the pre-existing engine-wide admission gate, deliberately left semantically unchanged - it is a blunt kill-switch, not a per-packet-stream toggle) is kept conceptually distinct from the new per-session RECORDING control to avoid conflating two different kinds of 'capture'; this distinction is documented so a reviewer does not read them as duplicates. suspendEffects()/new resumeEffects() now broadcast an EFFECTS_MODE marker into every active session's own ordered stream (a control epoch: replay/diagnostics can determine exactly which control state applied to which observation) and RuntimeControl gained a narrow resumeObservation() method that can only return to the safe OBSERVE_ONLY default from a stricter suspension - it structurally cannot reach ENFORCE, which remains reachable only through the untouched, still-unused RuntimeControl.enable(authorized, allGuardsQualified). Budget/guard records: new GuardStatus (capture/certification capability, effectsSuspended, overloaded, replayArmed, replayDurable, plus a productionQualified() that is a hardcoded false method, not a stored field, so it can never be anything else by construction), BudgetStatus (configured/effective capacity, active sessions, global/rolling/promotion/IO byte usage and limits, writer queue capacity/counters), and MonitoringSnapshot (bounded, aggregate-only engine-wide diagnostic - capture/effects mode, session/queue/journal aggregates, writer health, checkpoint/pause counters; no per-player field of any kind) exposed via new PacketEngine.guardStatus(UUID)/budgetStatus()/monitoringSnapshot() methods and surfaced in the /papea2ac status command output. Configuration validation (EngineConfiguration's existing strict parse/floor checks) was already in place and required no changes.",
+  "p1M1LocalWorkThisSession": "Finished local callback-timing, monitoring, and fairness/backpressure qualification. PacketMetrics gained a Timer enum (CAPTURE_TO_PROCESS - the pre-existing capture-to-actor-process handoff latency, now named; CHECKPOINT_REQUEST_TO_EXPORT - new, isolates ordering/queueing delay specifically for operator checkpoint requests) with per-timer histograms, backward-compatible with every existing no-arg latency()/delayPercentileUpperBound() call site. CaptureWriter gained a small self-contained submit-to-start queue-delay histogram (queueDelayPercentileUpperBound/queueDelaySamples) rather than depending on anticheat-core's PacketMetrics, which would have been the wrong dependency direction (anticheat-replay does not and must not depend on anticheat-core) - this covers 'replay writer delay' from section 18 without a cross-module dependency change. No UUID/player-name label was added to any metric; every new measurement is a fixed, aggregate channel. Fairness/backpressure: new tests cover one flooded session's own control commands still being accepted and applied (they travel the small bridge mailbox, not the bounded packet ingress queue), many quiet sibling sessions making independent bounded progress under one noisy neighbor, queue saturation degrading health without ever falsely reporting certification available, and (from the P1-H2 section above) adaptive retention/no-starvation. Long-run/resource-accounting: a new LongRunRetentionTest runs 300 connect/toggle-recording-off/on/checkpoint/disconnect cycles and asserts PacketEngine.reservedBytes() returns to the exact same baseline after every single cycle (not just at the end), catching any per-cycle leak immediately rather than only in aggregate; a companion test runs 200 repeated writer-failure cycles and asserts zero IO/PROMOTION lease accumulation. Failure injection: disconnect racing an in-flight checkpoint request, one session's writer failure never touching a sibling's health, and shutdown during an in-flight export are all covered, each asserting zero engine-reported failures and full resource reclamation. All local M1 obligations are LOCAL-only, consistent with the task's own framing: real client and second-host qualification remain external.",
+  "hardeningPassThisSession": "Focused hardening pass against three concrete risks an independent Senior Reviewer identified before running out of usage: (1) pre-login transport had per-connection bounds but no global admission bound; (2) the periodic pipeline audit might still check the pre-early-hook handler arrangement; (3) the PreLoginTransport->identity->Session binding lifecycle, buffer flush order, and shutdown ordering needed edge-case tracing. Full detail in docs/PHASE_1_HARDENING.md. Global pre-login admission: PaperCapture now tracks a global connection count (default cap 4096, non-static-final so tests can override) and aggregate journal-byte total (default cap 64MiB) across all not-yet-bound connections; a connection beyond the cap gets zero early-hook handlers installed and still becomes fully functional via the pre-existing attachFresh fallback, only missing pre-login-phase observations (new PRELOGIN_ADMISSION_REJECTED metric); the aggregate byte cap degrades individual journals the same way local overflow already did (new PRELOGIN_TRUNCATED_GLOBAL metric); both counters release on close or bind, guarded against double-release; bind() now also surfaces any truncation into session health (OVERLOADED), closing an adjacent pre-existing gap where truncation was never visible in coverage. Pipeline audit: found and fixed a real, previously undetected bug - audit()'s topology check compared pipeline.get(\"encoder\")/pipeline.get(\"packet_handler\") against Audit.encoder/Audit.dispatch fields that are populated ONLY by the attachFresh fallback path, never by bind() (the common early-hook path), meaning the periodic audit (every 20 ticks) would have unconditionally invalidated every early-hook-bound session's health as PIPELINE_UNCOVERED the first time it ran; never caught because no test exercised the periodic audit against a real, early-hook-bound session over time and the local smoke test never had a real player connected for it to audit. Fixed by re-deriving and recording which real topology attached each session (earlyHook/inboundAnchor/outboundAnchor) and auditing each against its own correct invariants. Binding races/buffer-flush/duplicate-login: traced and proven safe by test against the real PaperCapture with zero code changes needed, following from PreLoginTransport being channel-keyed, SessionKey being epoch-scoped, and Netty's single-threaded-per-channel event loop guarantee. Shutdown: one real gap found (a connection accepted right as unregisterEarlyHook() runs could still install permanent state referencing a discarded plugin instance), fixed with a closing flag checked before the reflective listener-removal completes. Stale control/replay events: proven safe by test, no code change needed. Resource accounting: audited every release path this pass touches; found and fixed one real bug (CaptureWriter incremented its failure counter before invoking the failure callback, a narrow real test race). Broad catch review: zero catch(Throwable)/catch(Exception) anywhere in production code, verified not changed. Package case: the on-disk anticheat-platform-paper source directory was still lowercase papea2ac while every package declaration inside was uppercase papea2AC (not a functional bug, but a latent confusion risk); renamed to match. Heavy normalizer performance: built HeavyNormalizerBenchmarkMain (descriptive, not JMH, since real native construction for these families only exists in nativeTest which is wired to the pinned Paper runtime jar) with pool-isolated timing (packets pre-built before the timed loop, so only the normalizer itself is measured); no pathological allocation found in item/container/chunk/entity-metadata normalization, all scaling linearly as expected; one real hot-path allocation problem found and fixed - entitySyncedData() rebuilt a 7-entry reflective lookup map on every call, memoizing it cut the 30-field case from 11679ns/19084 bytes per op to 4718ns/3357 bytes per op (60%/82% reduction) with no semantic change. Tests: 191 -> 210 (11 new PreLoginAdmissionAndAuditTest, 4 new BindingRaceTest, 4 new StaleControlAndResourceAccountingTest). No new inter-module dependency added, no approved Phase 0 Markdown modified.",
+  "heavyNormalizerBenchmark": {
+    "kind": "descriptive-not-jmh",
+    "methodology": "Packets pre-built into a pool before timing starts; only PaperPacketNormalizer.normalize(...) itself is timed, isolating normalizer cost from native-object test-fixture construction. Allocation sampled via Runtime heap-used before/after a batch (imprecise under concurrent GC, sufficient to catch a gross regression).",
+    "results": [
+      {"name":"itemDataComponent","nsPerOp":63.2,"approxBytesPerOp":68.3},
+      {"name":"largeContainer200Items","nsPerOp":461591.2,"approxBytesPerOp":16264.9},
+      {"name":"chunkBaseline4096Bytes","nsPerOp":1070.4,"approxBytesPerOp":1048.6},
+      {"name":"entityMetadata30Fields","nsPerOp":4718.1,"approxBytesPerOp":3356.7,"beforeCachingFixNsPerOp":11679.33,"beforeCachingFixApproxBytesPerOp":19084.1}
+    ],
+    "findings": "No per-block heavyweight object, per-state string, or unbounded copy chain found in any family; costs scale linearly with item/field count as expected. entitySyncedData()'s reflective scalar-kind lookup was rebuilt on every call (fixed: memoized, 60% latency / 82% allocation reduction on the 30-field case)."
+  },
+  "phase0SpecificationDrift": "NONE",
+  "todoFixmeHackMatches": 0,
+  "gitDiffCheck": "PASS",
+  "knownBlockersResolvedThisSessionOrEarlier": {
+    "P1-H1": "PASS (semantic normalization, closed in an earlier session this pass continuation follows)",
+    "P1-H2": "PASS (replay/checkpoint, this session)",
+    "P1-H3": "PASS (runtime controls, this session)",
+    "P1-M1": "PASS LOCAL (callback timing/monitoring/fairness, this session)"
+  },
+  "knownBlockersNote": "P1-H4/P1-H5 appeared in earlier snapshots of this file with no corresponding definition found in any current Phase 0/Phase 1 document; they are treated as stale bookkeeping from before the exact P1-H1..M1 obligation set (as given by this task) was fixed, not as outstanding architecture obligations.",
+  "knownBlockers": [],
+  "externalQualificationRemaining": [
+    "real Minecraft client join/qualification",
+    "second OS/architecture conformance run",
+    "native fault/load qualification requiring another environment"
+  ],
+  "warnings": [
+    "Native libraries use deprecated Unsafe/restricted JNI APIs on Java 25",
+    "Paper OSHI reported unavailable Windows Perflib counters; no native server performance claim"
+  ],
+  "committed": false,
+  "pushed": false,
+  "approved": false
+}

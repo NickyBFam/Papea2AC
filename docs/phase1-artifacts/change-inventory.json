@@ -1,0 +1,474 @@
+{
+  "headBefore": "43d8988862be0823e78d023a9d75854bab69a6cc",
+  "counts": {
+    "added": 113,
+    "modified": 1,
+    "deleted": 3
+  },
+  "added": [
+    {
+      "path": "anticheat-api/build.gradle.kts",
+      "sha256": "494fed4867386246920010802f3a432d2429d18beb58bff4ed999a341f5ba9d0"
+    },
+    {
+      "path": "anticheat-api/gradle.lockfile",
+      "sha256": "8b62ac46e3650516cb70242228c031b5abe02e7dbb13cf3cab7840f1e6cf2ce9"
+    },
+    {
+      "path": "anticheat-api/src/main/java/me/nicolas/papea2ac/api/CoverageSummary.java",
+      "sha256": "5e999dc2c177db727877608a25cf0beb18694f2e761d09bc8d37a6998ec3fd13"
+    },
+    {
+      "path": "anticheat-api/src/main/java/me/nicolas/papea2ac/api/PapeaService.java",
+      "sha256": "dd06eb18972c2bdc747bd5a37ae8f8520e74b13baafd5273c9a25314291e9a3b"
+    },
+    {
+      "path": "anticheat-api/src/main/java/me/nicolas/papea2ac/api/PublicPlayerId.java",
+      "sha256": "12b2009aa38307d67ab634102495519ef587b29fafa0a80393ca6b08336f75e8"
+    },
+    {
+      "path": "anticheat-checks/build.gradle.kts",
+      "sha256": "ca63fad0fb7c0296a8d31edead6ba64dda74fb7e419e40a7f2f4e303fa406371"
+    },
+    {
+      "path": "anticheat-checks/gradle.lockfile",
+      "sha256": "f9f308d60c3eb2cebdcfbba958d391368a7fe597c4abfdcd9f608de00d3003c9"
+    },
+    {
+      "path": "anticheat-collision/build.gradle.kts",
+      "sha256": "4ecc954f0e22000483025b67823d385b3cf193508fbb472b70419f388e8d569b"
+    },
+    {
+      "path": "anticheat-collision/gradle.lockfile",
+      "sha256": "d93f170aefa5fc284ba5b9e4ca51a8e8f11f4613b55a3765bc17dd7f46941bba"
+    },
+    {
+      "path": "anticheat-combat/build.gradle.kts",
+      "sha256": "c9a7a2e1d5286e9c9be1c24cc5b7824ecd7268ac89a6f9c48a0c3d59ebd3f913"
+    },
+    {
+      "path": "anticheat-combat/gradle.lockfile",
+      "sha256": "0e54a1f1582e25c225f54593593bb7da3a8b4e09badb66b75e004cdb39f16ae1"
+    },
+    {
+      "path": "anticheat-core/build.gradle.kts",
+      "sha256": "d30eafd2610ad7ee58b08dc81b633ba917e8b049c78e50cff7007f7ee1e21d07"
+    },
+    {
+      "path": "anticheat-core/gradle.lockfile",
+      "sha256": "86d372db27052f85ddaa5346b7be89e67ba112c4399a216c9d1fe8fb1d28325f"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/CoverageService.java",
+      "sha256": "8f78a25555491dfc2b309fa3c550b70c1499b86f273b0d3d997a44164c9a5008"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/EngineConfiguration.java",
+      "sha256": "d7367152881d46ac825d9bf5a2e8ec89ec96599b9228056d6a4b1bd0138a6383"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java",
+      "sha256": "d1fe2b6a759878053abdba68eb3478f2a579b8d36d77b09fce58466caee5de0c"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketMetrics.java",
+      "sha256": "fb346bf13d0f83344135dcc5b9ba3172d3d1f821b6d4d2e0cc60f5a385b05d32"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/RuntimeControl.java",
+      "sha256": "1274c0f0e219449cbecc3a8af5faa6e0465f0c0e33ddfdea0e6f03f6da90c677"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TransportReplayDriver.java",
+      "sha256": "ee1e6db9db17176a5f0a406806e0cd01ce33f5ee6992e573050d56ae713730ac"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TruthActor.java",
+      "sha256": "e446d850552496ddb90620f6ab9bf54bb240f775db8c1fd5840649e13e0c4bdd"
+    },
+    {
+      "path": "anticheat-core/src/main/java/me/nicolas/papea2ac/core/WorkQuota.java",
+      "sha256": "8e61028afd81a67413c80be967af383009a0b8ae887b84c993aa5ee9b23339c0"
+    },
+    {
+      "path": "anticheat-evidence/build.gradle.kts",
+      "sha256": "141242ddecf5b5cbec916628b9267b793ccb1ddb60f28401cb3539419cfb1c25"
+    },
+    {
+      "path": "anticheat-evidence/gradle.lockfile",
+      "sha256": "d2b1cb8b46ad5aba04128b7a2eb4e6685f4bee0fa982f14d0b2e691e6bf9b3d3"
+    },
+    {
+      "path": "anticheat-interaction/build.gradle.kts",
+      "sha256": "c9a7a2e1d5286e9c9be1c24cc5b7824ecd7268ac89a6f9c48a0c3d59ebd3f913"
+    },
+    {
+      "path": "anticheat-interaction/gradle.lockfile",
+      "sha256": "0f80a35e164f1c01d1a7c5b65e4911142637a17428e96cdf442b840d1fa1bd65"
+    },
+    {
+      "path": "anticheat-mitigation/build.gradle.kts",
+      "sha256": "cd770627577b8c8aa3034f210dbcd635fe8231f63514689dfe536703e62a63fa"
+    },
+    {
+      "path": "anticheat-mitigation/gradle.lockfile",
+      "sha256": "da6a4ba4aa4e8cf30c9a7b42ac5e2b57e32b32033e94e5f2a427214fde1d8f87"
+    },
+    {
+      "path": "anticheat-model/build.gradle.kts",
+      "sha256": "494fed4867386246920010802f3a432d2429d18beb58bff4ed999a341f5ba9d0"
+    },
+    {
+      "path": "anticheat-model/gradle.lockfile",
+      "sha256": "504d4b95e2570a540467f6ccb0d4773d164aa603a10804e2431b47a892c458eb"
+    },
+    {
+      "path": "anticheat-model/src/main/java/me/nicolas/papea2ac/model/DestinationRegion.java",
+      "sha256": "c73ae7872fc82f6378fef4b16864b0a0bcb2fcc5ceaf0e020cadd97b5801071f"
+    },
+    {
+      "path": "anticheat-model/src/main/java/me/nicolas/papea2ac/model/HealthLatch.java",
+      "sha256": "7b412c348faa46b453faaf485e4991669cfcfaf02ce827d4abceb06ae9b15348"
+    },
+    {
+      "path": "anticheat-model/src/main/java/me/nicolas/papea2ac/model/SafeAnchorValidationPort.java",
+      "sha256": "785e5b39eca0581e6326d1af27890490ab5c123d7c03435d3c25e7250093c464"
+    },
+    {
+      "path": "anticheat-model/src/main/java/me/nicolas/papea2ac/model/SessionKey.java",
+      "sha256": "eb85fc98381a6c8b566fd1d820554089fcc0afd6c03354be0faadfdf28faf0e9"
+    },
+    {
+      "path": "anticheat-packet/build.gradle.kts",
+      "sha256": "22bd3dc029bf4be504b702e4b05f048b8a99ba9612edaa8087e45f945f92cb79"
+    },
+    {
+      "path": "anticheat-packet/gradle.lockfile",
+      "sha256": "fb6bc17b84b35b3e26b2c636c5ceef118764adaac08da0d93f76909722756d4e"
+    },
+    {
+      "path": "anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/BoundaryProbe.java",
+      "sha256": "b2670320f7a34ce977b9f259b3f5d0ea29cf9a9eda988f7c73f87641f5f5f9ac"
+    },
+    {
+      "path": "anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/BoundedMailbox.java",
+      "sha256": "50d0bf5876afd0e2ec288506557a24f07b9f8274a73c5e3967928b86ff5b2b05"
+    },
+    {
+      "path": "anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/ConnectionIngress.java",
+      "sha256": "851ffefc1cd3ecb389b1fa41685125577af85a547ec9b1aabac552338e62d106"
+    },
+    {
+      "path": "anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/TransportCapability.java",
+      "sha256": "4c3c174f33a81a40115a1132f31498d99ae56def70801ffe89d8c085c60ed561"
+    },
+    {
+      "path": "anticheat-physics/build.gradle.kts",
+      "sha256": "70728605d3c219bdd97d86872ff1df7de312e69b6cf943fee01d9d9f3c08f962"
+    },
+    {
+      "path": "anticheat-physics/gradle.lockfile",
+      "sha256": "2e15e309c277c8d4c48072e5bf8ec7fbf6820f0cc2a6e5a1ef0538ff66819e61"
+    },
+    {
+      "path": "anticheat-platform-paper/build.gradle.kts",
+      "sha256": "913b465761adda6059fa4beda440b7c68cc60856044b617b7f70255b69f27f1d"
+    },
+    {
+      "path": "anticheat-platform-paper/gradle.lockfile",
+      "sha256": "1ce847903928f30ac38f85d076198b568a9d698ee754f68462429801a6edce4e"
+    },
+    {
+      "path": "anticheat-platform-paper/src/main/java/me/nicolas/papea2ac/Papea2AC.java",
+      "sha256": "fc3a498ed0053cafcb558f36cb1c51108f6be2aff2237a9e6027cab679e6535a"
+    },
+    {
+      "path": "anticheat-platform-paper/src/main/java/me/nicolas/papea2ac/platform/PaperCapture.java",
+      "sha256": "7d2293b3da6f14f916b409a2f71806c03076d32a3c3d3776416282138e32ba06"
+    },
+    {
+      "path": "anticheat-platform-paper/src/main/java/me/nicolas/papea2ac/platform/PaperPacketInventory.java",
+      "sha256": "ad89d907d4e2843d1e6adb362d9c69f75885dbf48e2e42637af9761f222bbb62"
+    },
+    {
+      "path": "anticheat-platform-paper/src/main/java/me/nicolas/papea2ac/platform/PaperPacketNormalizer.java",
+      "sha256": "8a6d9c10c93dd35552dd02c948dd6400f5f3355460bb636d1b690f090c9d5d53"
+    },
+    {
+      "path": "anticheat-platform-paper/src/main/resources/plugin.yml",
+      "sha256": "b49887710a6fd39f1e19b0ec6a96bf79257acafb5c355cd711f4564978c88c25"
+    },
+    {
+      "path": "anticheat-player/build.gradle.kts",
+      "sha256": "141242ddecf5b5cbec916628b9267b793ccb1ddb60f28401cb3539419cfb1c25"
+    },
+    {
+      "path": "anticheat-player/gradle.lockfile",
+      "sha256": "f143d142816b2591cbd0036acc5a75ad207c97215d9a22faed7bada4b6ae2d1c"
+    },
+    {
+      "path": "anticheat-player/src/main/java/me/nicolas/papea2ac/player/ObservationRing.java",
+      "sha256": "27114fca6e30cdaa18f7e21a81b97d062e2fbd9ee78bada8891dc750bb1161ce"
+    },
+    {
+      "path": "anticheat-player/src/main/java/me/nicolas/papea2ac/player/ProvisionalJournal.java",
+      "sha256": "ea128c3a0c60b4750c4c4d33bcfdd395504b081182ffa13625463130a6e4e74d"
+    },
+    {
+      "path": "anticheat-protocol/build.gradle.kts",
+      "sha256": "a80c7511a465aae2649fad64a2c8f79c37347d721f9045c227ee11d8bb25457c"
+    },
+    {
+      "path": "anticheat-protocol/gradle.lockfile",
+      "sha256": "e2cdea2204edc0e09f932568d23b8c597cd5e72c323abacb4ebb36220a38ac2e"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/Normalizer.java",
+      "sha256": "d1f1fedf33688004e9b2184e8ae8e47246b655e2c738fedc40ebea0ffc845180"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/Observation.java",
+      "sha256": "78a02d90701a4afc7f46a620b67074d26a970965ecd688ff3c034720a9bcdb57"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PacketPayload.java",
+      "sha256": "da6f154ffa8674f4769d052b63743bd023ce141641b70d42254f7a98790cc90a"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PayloadCodec.java",
+      "sha256": "338e6f4b2651f0e89188a83634c3144cb2b4f41ee33aaf5d1310257e17673190"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PayloadDigest.java",
+      "sha256": "3aca77f49abf9a6deb4f32fb35aae52beefbfa16ba96fa0def3712b3bd49d6bb"
+    },
+    {
+      "path": "anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/TransportReplayMapper.java",
+      "sha256": "0669169a038f28121404ccce2665e1120ebaabf861137fba628c9c29e1d9ea28"
+    },
+    {
+      "path": "anticheat-replay-schema/build.gradle.kts",
+      "sha256": "494fed4867386246920010802f3a432d2429d18beb58bff4ed999a341f5ba9d0"
+    },
+    {
+      "path": "anticheat-replay-schema/gradle.lockfile",
+      "sha256": "f693b69ee82df627c39b2a60928b9f38358ac3fe1eb695e5e44a93ffee670f62"
+    },
+    {
+      "path": "anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/ReplayDriverPort.java",
+      "sha256": "28ab6ee9f9af671b3710d3139cfae4a83540127578da943140da6faaafacc38f"
+    },
+    {
+      "path": "anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/TransportCapsule.java",
+      "sha256": "e5eb42bdfda3427365fe7f9831227524f2b7008d05d58b56a46a851e0e5ed6e9"
+    },
+    {
+      "path": "anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/TransportSnapshot.java",
+      "sha256": "dc9d9b9653838bb4ee6ab1b1436846ebce38c49c470286d4d1d4e008cb6e727b"
+    },
+    {
+      "path": "anticheat-replay/build.gradle.kts",
+      "sha256": "915f38e906548d839bf8a35c2e8bb3b0d18c71455381f675ece7612181839048"
+    },
+    {
+      "path": "anticheat-replay/gradle.lockfile",
+      "sha256": "5ee6a1a9639414ed323699fa5566ccdd97d7d75a4384f2355239f464f0028d47"
+    },
+    {
+      "path": "anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/CapsuleCodec.java",
+      "sha256": "85d8076ea24cfe9a54504c3c793c74079e30958a0c04edc6b45cc26f4f639dd0"
+    },
+    {
+      "path": "anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/ReplayQuota.java",
+      "sha256": "846751fa7cf97e4f1c63ba3c22eefc1e8387dbf39152dcf1d7345d138f075e93"
+    },
+    {
+      "path": "anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/TransportCodec.java",
+      "sha256": "eefd3346190674ea8626b3ec3a81b94305dc8d666dbfc23ec1e8d7a75f6bb72d"
+    },
+    {
+      "path": "anticheat-simulation/build.gradle.kts",
+      "sha256": "75d9bda0a63ef57ae767c72403784a4bf463716aeb62a63895056e3c68a97878"
+    },
+    {
+      "path": "anticheat-simulation/gradle.lockfile",
+      "sha256": "13cdaef26d94daf21bdb4f376a07540b4a380936cf4de58164feb8cb1e6fb4ba"
+    },
+    {
+      "path": "anticheat-testing/build.gradle.kts",
+      "sha256": "9bb38de31db8f19ed857ea77acafab17bf9307642daf3b8be76ed389b11675b0"
+    },
+    {
+      "path": "anticheat-testing/gradle.lockfile",
+      "sha256": "7ba20a078f921948cbdc130b75b20b8bcc8976fb4fc4e3790c1c166d89329e3e"
+    },
+    {
+      "path": "anticheat-testing/native-scenario/Prepare-Server.ps1",
+      "sha256": "38f6805656d2d06e8a80720d75b8b70bf10b8f460255b607053e5196422f73a4"
+    },
+    {
+      "path": "anticheat-testing/native-scenario/README.md",
+      "sha256": "24abe0c69dd83f2f56568e126288524ba69658688dcce75fcb9347ef102e68be"
+    },
+    {
+      "path": "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/PacketBenchmarks.java",
+      "sha256": "55802665ec827aaa680b45b4df64423ae03b84df88bc7964ebb122458a529349"
+    },
+    {
+      "path": "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/InventoryMain.java",
+      "sha256": "92fa02da9759dc54e93cedab97312ac5f7fdc451876f96bebb0233f551bec130"
+    },
+    {
+      "path": "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativePacketTest.java",
+      "sha256": "d706fcb81bb9d2903277e5b9a8256ac7f54b8028832c0ceb158fc691072c6cf4"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java",
+      "sha256": "01edc0e39280674402ea95d1a1e444f176346f2fb5b242f229a4e3dcce8d1cb6"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/LoadProfileMain.java",
+      "sha256": "12921cbaef46645d93fee598dd02a56034a9582218ff3792ffcce838d6571296"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PacketTruthTest.java",
+      "sha256": "a3de51361f4bd72e70d6058587761f3f94dd7b610974d4aa99350ab7da2a87c3"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReplayConformanceMain.java",
+      "sha256": "b8ef81a3ae73b77c27933b07f8e147b5fc18a54b91efbee720de46bec107a26a"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReplayTest.java",
+      "sha256": "43d03be37955382a3ed0913f4ef5c525d7fcb22fbbb068c6dcda8041907c1471"
+    },
+    {
+      "path": "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ResourceSafetyTest.java",
+      "sha256": "2c64581e4490f19b86bb2449ae222c05befb2af60e4bc37180af22296f05fabb"
+    },
+    {
+      "path": "anticheat-version/build.gradle.kts",
+      "sha256": "7367690ded8500c27f648613e08bb2e74a2a0d8e106dd411cfe913062a37ee54"
+    },
+    {
+      "path": "anticheat-version/gradle.lockfile",
+      "sha256": "4db99cf334d8ed2890705dfad23c5ff594287678cb25a19962f428869550526e"
+    },
+    {
+      "path": "anticheat-version/src/main/java/me/nicolas/papea2ac/version/ProtocolProfile.java",
+      "sha256": "16088942c235e661e622ef2557aa57d6bd0d4ef8e3a2e479d14c3127783616ad"
+    },
+    {
+      "path": "anticheat-world/build.gradle.kts",
+      "sha256": "a80c7511a465aae2649fad64a2c8f79c37347d721f9045c227ee11d8bb25457c"
+    },
+    {
+      "path": "anticheat-world/gradle.lockfile",
+      "sha256": "ed18db7044ef5d414fd33a00efdc136218f22899955cfc7bafdad7ae6db95542"
+    },
+    {
+      "path": "build.gradle.kts",
+      "sha256": "ac31e079805bcd8497b028bd39c140119416d59bef06aac70bf6814cb7db5a89"
+    },
+    {
+      "path": "docs/PHASE_1_IMPLEMENTATION.md",
+      "sha256": "8760913dd60e04f374c31ae728c40fa0d6f83710c2e8271900e77858b309040c"
+    },
+    {
+      "path": "docs/phase1-artifacts/README.md",
+      "sha256": "67fc5f9ada602bc78b3ba84fe0f61181dd40ed98706c73c735fbb1bd57cd8538"
+    },
+    {
+      "path": "docs/phase1-artifacts/benchmark-summary.md",
+      "sha256": "d1e3f3f17ceb798de974240f01bfab299020d17cbc24f6efb22ea9f46feeb83b"
+    },
+    {
+      "path": "docs/phase1-artifacts/benchmarks-initial.json",
+      "sha256": "037ec7d54f2089a9ddc457e4433275365549d797159e452a43148ecd54206c71"
+    },
+    {
+      "path": "docs/phase1-artifacts/benchmarks.json",
+      "sha256": "a8aec6764d505510c47565c464631377df0cb7d9645f57a41554ca1e2f02c05c"
+    },
+    {
+      "path": "docs/phase1-artifacts/change-inventory.json",
+      "sha256": null
+    },
+    {
+      "path": "docs/phase1-artifacts/conformance.md",
+      "sha256": "849adb5a6ce63d0f008941bca850121d2e2b5b8dda35a2461483ea050a98106e"
+    },
+    {
+      "path": "docs/phase1-artifacts/packet-coverage.tsv",
+      "sha256": "6c5540a3cafc7036850f0b6af1b399580d738f2d91986d5779ecbfb3d6cd79a5"
+    },
+    {
+      "path": "docs/phase1-artifacts/paper-26.2-124-packet-inventory.tsv",
+      "sha256": "6078740cadcfa6c271425af2975ce94a88f989a81309c1af21690a6c17e1d7a8"
+    },
+    {
+      "path": "docs/phase1-artifacts/synthetic-load.json",
+      "sha256": "6699ded00670463dfcd61fd9b98e9404b903162ce599f035dfbe567b3e6c6465"
+    },
+    {
+      "path": "docs/phase1-artifacts/transport-conformance.capsule.b64",
+      "sha256": "36de8a87bcb717d5a58accd6a32fe90b4882abd69a1a219afd01fa3c3beda50b"
+    },
+    {
+      "path": "docs/phase1-artifacts/transport-conformance.expected.txt",
+      "sha256": "96407b733a6d6d0809ec75e4d0e5bac36ab19ec86863be608956bebc5798b490"
+    },
+    {
+      "path": "docs/phase1-artifacts/verification.json",
+      "sha256": "3b641d579561c914d7f6ddc6e93c31fd96be401aa0f2d9253e2a65e94f419600"
+    },
+    {
+      "path": "gradle.properties",
+      "sha256": "e4066a81a3dd7854211e48de1428b369f55203e07aea362f435747bb4785dcf7"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "sha256": "49123e5e2e78cb07b7d87242d5dadfb4480479023dd74d44d78733a41edcbffb"
+    },
+    {
+      "path": "gradle/verification-metadata.xml",
+      "sha256": "4d75ee373f3f766899739dc0603b44eed32042cedd78df371e9c36e90e5b2cee"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.jar",
+      "sha256": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907"
+    },
+    {
+      "path": "gradlew",
+      "sha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+    },
+    {
+      "path": "gradlew.bat",
+      "sha256": "d539676c48b596afda64c963ec8f7ee56c7b3fe7e3b81d1dbe2d1a1e3dd9e9f8"
+    },
+    {
+      "path": "settings-gradle.lockfile",
+      "sha256": "5e2d075903b5cd264613e7538c7c51b1484fe2ed489d4ead3e6b4ba0cf3911c4"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "sha256": "711e788050e279c1182624ff59702c799e0a80ebd170b94ce9b8a9d36ae0e93a"
+    }
+  ],
+  "modified": [
+    {
+      "path": ".gitignore",
+      "sha256": "c7bf691949237b51510170e8e785543c2d74b99c47f04ca80837adeeaf64bff8"
+    }
+  ],
+  "deleted": [
+    "pom.xml",
+    "src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+    "src/main/resources/plugin.yml"
+  ],
+  "note": "Manifest excludes its own hash. All implementation changes remain unstaged/uncommitted; deleted files are the retired Maven scaffold and relocated platform entry point/resource."
+}

@@ -1,0 +1,13 @@
+name: Papea2AC
+version: 1.0-SNAPSHOT
+main: me.nicolas.papea2AC.Papea2AC
+api-version: '26.2'
+authors: [Emojiado]
+description: Phase 1 observe-only packet infrastructure development build
+commands:
+  papea2ac:
+    description: Read Phase 1 packet health counters
+    permission: papea2ac.admin
+permissions:
+  papea2ac.admin:
+    default: op

@@ -111,3 +111,15 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+# Phase 1 local toolchain and build caches
+.phase1-tools/
+.gradle/
+.gradle-home/
+**/build/
+.phase1-runtime/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Rotated/compressed local test-run logs (the plain *.log rule above does not match *.log.gz)
+*.log.gz
+anticheat-testing/logs/

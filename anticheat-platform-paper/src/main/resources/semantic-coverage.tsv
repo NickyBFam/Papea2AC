@@ -1,0 +1,257 @@
+# state	flow	wireId	type	mandatory	status	representation_or_limitation
+CONFIGURATION	CLIENTBOUND	0	minecraft:cookie_request	false	INTENTIONALLY UNSUPPORTED	shares ClientboundCookieRequestPacket with PLAY clientbound cookie_request (line 65); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	1	minecraft:custom_payload	false	INTENTIONALLY UNSUPPORTED	shares ClientboundCustomPayloadPacket with PLAY clientbound custom_payload (line 68); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	2	minecraft:disconnect	true	FULLY NORMALIZED	Disconnect
+CONFIGURATION	CLIENTBOUND	3	minecraft:finish_configuration	true	FULLY NORMALIZED	Lifecycle
+CONFIGURATION	CLIENTBOUND	4	minecraft:keep_alive	true	FULLY NORMALIZED	Control
+CONFIGURATION	CLIENTBOUND	5	minecraft:ping	true	FULLY NORMALIZED	Control
+CONFIGURATION	CLIENTBOUND	6	minecraft:reset_chat	true	FULLY NORMALIZED	Lifecycle
+CONFIGURATION	CLIENTBOUND	7	minecraft:registry_data	true	FULLY NORMALIZED	RegistrySync
+CONFIGURATION	CLIENTBOUND	8	minecraft:resource_pack_pop	false	INTENTIONALLY UNSUPPORTED	shares ClientboundResourcePackPopPacket with PLAY clientbound resource_pack_pop (line 124); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	9	minecraft:resource_pack_push	false	INTENTIONALLY UNSUPPORTED	shares ClientboundResourcePackPushPacket with PLAY clientbound resource_pack_push (line 125); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	10	minecraft:store_cookie	false	INTENTIONALLY UNSUPPORTED	shares ClientboundStoreCookiePacket with PLAY clientbound store_cookie (line 164); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	11	minecraft:transfer	true	FULLY NORMALIZED	Transfer
+CONFIGURATION	CLIENTBOUND	12	minecraft:update_enabled_features	true	FULLY NORMALIZED	EnabledFeatures
+CONFIGURATION	CLIENTBOUND	13	minecraft:update_tags	true	FULLY NORMALIZED	TagSync
+CONFIGURATION	CLIENTBOUND	14	minecraft:select_known_packs	true	FULLY NORMALIZED	KnownPacks
+CONFIGURATION	CLIENTBOUND	15	minecraft:custom_report_details	false	INTENTIONALLY UNSUPPORTED	shares ClientboundCustomReportDetailsPacket with PLAY clientbound custom_report_details (line 180); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	16	minecraft:server_links	false	INTENTIONALLY UNSUPPORTED	shares ClientboundServerLinksPacket with PLAY clientbound server_links (line 181); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	17	minecraft:clear_dialog	false	INTENTIONALLY UNSUPPORTED	shares ClientboundClearDialogPacket with PLAY clientbound clear_dialog (line 183); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	18	minecraft:show_dialog	false	INTENTIONALLY UNSUPPORTED	shares ClientboundShowDialogPacket with PLAY clientbound show_dialog (line 184); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	CLIENTBOUND	19	minecraft:code_of_conduct	true	FULLY NORMALIZED	CodeOfConduct
+CONFIGURATION	SERVERBOUND	0	minecraft:client_information	true	FULLY NORMALIZED	ClientSettings
+CONFIGURATION	SERVERBOUND	1	minecraft:cookie_response	false	INTENTIONALLY UNSUPPORTED	shares ServerboundCookieResponsePacket with PLAY serverbound cookie_response (line 206); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	SERVERBOUND	2	minecraft:custom_payload	false	INTENTIONALLY UNSUPPORTED	shares ServerboundCustomPayloadPacket with PLAY serverbound custom_payload (line 207); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	SERVERBOUND	3	minecraft:finish_configuration	true	FULLY NORMALIZED	Lifecycle
+CONFIGURATION	SERVERBOUND	4	minecraft:keep_alive	true	FULLY NORMALIZED	Control
+CONFIGURATION	SERVERBOUND	5	minecraft:pong	true	FULLY NORMALIZED	Control
+CONFIGURATION	SERVERBOUND	6	minecraft:resource_pack	false	INTENTIONALLY UNSUPPORTED	shares ServerboundResourcePackPacket with PLAY serverbound resource_pack (line 234); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	SERVERBOUND	7	minecraft:select_known_packs	true	FULLY NORMALIZED	KnownPacks
+CONFIGURATION	SERVERBOUND	8	minecraft:custom_click_action	false	INTENTIONALLY UNSUPPORTED	shares ServerboundCustomClickActionPacket with PLAY serverbound custom_click_action (line 253); already ruled outside Phase 1 selected semantics there
+CONFIGURATION	SERVERBOUND	9	minecraft:accept_code_of_conduct	true	FULLY NORMALIZED	Lifecycle
+HANDSHAKING	SERVERBOUND	0	minecraft:intention	true	FULLY NORMALIZED	Handshake; observed via the ChannelInitializeListenerHolder early hook, before PlayerJoinEvent
+LOGIN	CLIENTBOUND	0	minecraft:login_disconnect	true	FULLY NORMALIZED	Disconnect; observed via the early hook
+LOGIN	CLIENTBOUND	1	minecraft:hello	true	FULLY NORMALIZED	Lifecycle(LOGIN_ENCRYPTION_REQUEST); key material intentionally not captured, observed via the early hook
+LOGIN	CLIENTBOUND	2	minecraft:login_finished	true	FULLY NORMALIZED	LoginFinished; server-committed profile, observed via the early hook
+LOGIN	CLIENTBOUND	3	minecraft:login_compression	true	FULLY NORMALIZED	LoginCompression; observed via the early hook
+LOGIN	CLIENTBOUND	4	minecraft:custom_query	true	FULLY NORMALIZED	LoginPluginQuery; channel identity only, not payload bytes, observed via the early hook
+LOGIN	CLIENTBOUND	5	minecraft:cookie_request	false	INTENTIONALLY UNSUPPORTED	shares ClientboundCookieRequestPacket with PLAY clientbound cookie_request (line 65); already ruled outside Phase 1 selected semantics there
+LOGIN	SERVERBOUND	0	minecraft:hello	true	FULLY NORMALIZED	LoginHello; client-CLAIMED identity only, never trusted as session identity, observed via the early hook
+LOGIN	SERVERBOUND	1	minecraft:key	true	FULLY NORMALIZED	Lifecycle(LOGIN_KEY_RESPONSE); key material intentionally not captured, observed via the early hook
+LOGIN	SERVERBOUND	2	minecraft:custom_query_answer	true	FULLY NORMALIZED	LoginPluginQueryResponse; observed via the early hook
+LOGIN	SERVERBOUND	3	minecraft:login_acknowledged	true	FULLY NORMALIZED	Lifecycle(LOGIN_ACKNOWLEDGED); LOGIN-to-CONFIGURATION transition marker, observed via the early hook
+LOGIN	SERVERBOUND	4	minecraft:cookie_response	false	INTENTIONALLY UNSUPPORTED	shares ServerboundCookieResponsePacket with PLAY serverbound cookie_response (line 206); already ruled outside Phase 1 selected semantics there
+PLAY	CLIENTBOUND	0	minecraft:bundle_delimiter	true	FULLY NORMALIZED	Lifecycle(BUNDLE_DELIMITER); protocol grouping marker only, no payload content
+PLAY	CLIENTBOUND	1	minecraft:add_entity	true	FULLY NORMALIZED	EntitySpawn
+PLAY	CLIENTBOUND	2	minecraft:animate	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	3	minecraft:award_stats	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	4	minecraft:block_changed_ack	true	FULLY NORMALIZED	SequenceAck
+PLAY	CLIENTBOUND	5	minecraft:block_destruction	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	6	minecraft:block_entity_data	true	FULLY NORMALIZED	BlockEntityObservation; block position and block-entity type identity, bounded NBT byte-size disclosure not tree content
+PLAY	CLIENTBOUND	7	minecraft:block_event	true	FULLY NORMALIZED	BlockEvent
+PLAY	CLIENTBOUND	8	minecraft:block_update	true	FULLY NORMALIZED	BlockChange
+PLAY	CLIENTBOUND	9	minecraft:boss_event	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	10	minecraft:change_difficulty	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	11	minecraft:chunk_batch_finished	true	FULLY NORMALIZED	ChunkBatchAck
+PLAY	CLIENTBOUND	12	minecraft:chunk_batch_start	true	FULLY NORMALIZED	Lifecycle(CHUNK_BATCH_START)
+PLAY	CLIENTBOUND	13	minecraft:chunks_biomes	true	FULLY NORMALIZED	ChunksBiomes; per-chunk identity and bounded encoded byte length, not palette content
+PLAY	CLIENTBOUND	14	minecraft:clear_titles	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	15	minecraft:command_suggestions	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	16	minecraft:commands	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	17	minecraft:container_close	true	FULLY NORMALIZED	ContainerClose
+PLAY	CLIENTBOUND	18	minecraft:container_set_content	true	FULLY NORMALIZED	ContainerContent; container id, state id, canonical Item list and carried item
+PLAY	CLIENTBOUND	19	minecraft:container_set_data	true	FULLY NORMALIZED	ContainerDataProperty
+PLAY	CLIENTBOUND	20	minecraft:container_set_slot	true	FULLY NORMALIZED	ContainerSlot; container id, state id, slot index, canonical Item
+PLAY	CLIENTBOUND	21	minecraft:cookie_request	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	22	minecraft:cooldown	true	FULLY NORMALIZED	Cooldown
+PLAY	CLIENTBOUND	23	minecraft:custom_chat_completions	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	24	minecraft:custom_payload	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	25	minecraft:damage_event	true	FULLY NORMALIZED	DamageEvent; source identity and optional source position, no cause inference
+PLAY	CLIENTBOUND	26	minecraft:debug/block_value	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	27	minecraft:debug/chunk_value	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	28	minecraft:debug/entity_value	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	29	minecraft:debug/event	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	30	minecraft:debug_sample	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	31	minecraft:delete_chat	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	32	minecraft:disconnect	true	FULLY NORMALIZED	Disconnect
+PLAY	CLIENTBOUND	33	minecraft:disguised_chat	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	34	minecraft:entity_event	true	FULLY NORMALIZED	EntitySimpleEvent
+PLAY	CLIENTBOUND	35	minecraft:entity_position_sync	true	FULLY NORMALIZED	EntityPosition
+PLAY	CLIENTBOUND	36	minecraft:explode	true	FULLY NORMALIZED	Explosion; center, radius, blockCount, optional playerKnockback vector; cosmetic particle/sound fields intentionally excluded per PACKET_PIPELINE.md ExternalMotionInfluence scoping
+PLAY	CLIENTBOUND	37	minecraft:forget_level_chunk	true	FULLY NORMALIZED	ChunkUnload
+PLAY	CLIENTBOUND	38	minecraft:game_event	true	FULLY NORMALIZED	GameEvent
+PLAY	CLIENTBOUND	39	minecraft:game_rule_values	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	40	minecraft:game_test_highlight_pos	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	41	minecraft:mount_screen_open	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	42	minecraft:hurt_animation	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	43	minecraft:initialize_border	true	FULLY NORMALIZED	BorderInitialize
+PLAY	CLIENTBOUND	44	minecraft:keep_alive	true	FULLY NORMALIZED	Control
+PLAY	CLIENTBOUND	45	minecraft:level_chunk_with_light	true	FULLY NORMALIZED	ChunkBaseline; chunk identity, bounded encoded block byte length, block-entity/heightmap counts - never exploded into per-block objects
+PLAY	CLIENTBOUND	46	minecraft:level_event	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	47	minecraft:level_particles	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	48	minecraft:light_update	true	FULLY NORMALIZED	LightUpdate; chunk identity, sky/block section counts, bounded encoded byte length
+PLAY	CLIENTBOUND	49	minecraft:login	true	FULLY NORMALIZED	JoinGame; identity and coarse world facts, dimensionType Holder content intentionally not read; observed via the early hook
+PLAY	CLIENTBOUND	50	minecraft:low_disk_space_warning	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	51	minecraft:map_item_data	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	52	minecraft:merchant_offers	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	53	minecraft:move_entity_pos	true	FULLY NORMALIZED	EntityDelta
+PLAY	CLIENTBOUND	54	minecraft:move_entity_pos_rot	true	FULLY NORMALIZED	EntityDelta
+PLAY	CLIENTBOUND	55	minecraft:move_minecart_along_track	true	FULLY NORMALIZED	MinecartMove; bounded list of position/rotation step facts
+PLAY	CLIENTBOUND	56	minecraft:move_entity_rot	true	FULLY NORMALIZED	EntityDelta
+PLAY	CLIENTBOUND	57	minecraft:move_vehicle	true	FULLY NORMALIZED	VehicleCorrection
+PLAY	CLIENTBOUND	58	minecraft:open_book	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	59	minecraft:open_screen	true	FULLY NORMALIZED	OpenScreen
+PLAY	CLIENTBOUND	60	minecraft:open_sign_editor	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	61	minecraft:ping	true	FULLY NORMALIZED	Control
+PLAY	CLIENTBOUND	62	minecraft:pong_response	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	63	minecraft:place_ghost_recipe	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	64	minecraft:player_abilities	true	FULLY NORMALIZED	Abilities
+PLAY	CLIENTBOUND	65	minecraft:player_chat	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	66	minecraft:player_combat_end	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	67	minecraft:player_combat_enter	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	68	minecraft:player_combat_kill	true	FULLY NORMALIZED	CombatKill
+PLAY	CLIENTBOUND	69	minecraft:player_info_remove	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	70	minecraft:player_info_update	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	71	minecraft:player_look_at	true	FULLY NORMALIZED	LookAt; NONE sentinel used for the position-only constructor variant's absent target anchor
+PLAY	CLIENTBOUND	72	minecraft:player_position	true	FULLY NORMALIZED	Correction
+PLAY	CLIENTBOUND	73	minecraft:player_rotation	true	FULLY NORMALIZED	RotationCorrection
+PLAY	CLIENTBOUND	74	minecraft:recipe_book_add	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	75	minecraft:recipe_book_remove	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	76	minecraft:recipe_book_settings	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	77	minecraft:remove_entities	true	FULLY NORMALIZED	RemoveEntities
+PLAY	CLIENTBOUND	78	minecraft:remove_mob_effect	true	FULLY NORMALIZED	RemoveEffect
+PLAY	CLIENTBOUND	79	minecraft:reset_score	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	80	minecraft:resource_pack_pop	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	81	minecraft:resource_pack_push	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	82	minecraft:respawn	true	FULLY NORMALIZED	Respawn
+PLAY	CLIENTBOUND	83	minecraft:rotate_head	true	FULLY NORMALIZED	HeadRotation
+PLAY	CLIENTBOUND	84	minecraft:section_blocks_update	true	FULLY NORMALIZED	SectionBlocksUpdate; each changed block as a canonical BlockState, not a raw native id
+PLAY	CLIENTBOUND	85	minecraft:select_advancements_tab	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	86	minecraft:server_data	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	87	minecraft:set_action_bar_text	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	88	minecraft:set_border_center	true	FULLY NORMALIZED	BorderCenter
+PLAY	CLIENTBOUND	89	minecraft:set_border_lerp_size	true	FULLY NORMALIZED	BorderLerp
+PLAY	CLIENTBOUND	90	minecraft:set_border_size	true	FULLY NORMALIZED	BorderSize
+PLAY	CLIENTBOUND	91	minecraft:set_border_warning_delay	true	FULLY NORMALIZED	BorderWarning
+PLAY	CLIENTBOUND	92	minecraft:set_border_warning_distance	true	FULLY NORMALIZED	BorderWarning
+PLAY	CLIENTBOUND	93	minecraft:set_camera	true	FULLY NORMALIZED	Control
+PLAY	CLIENTBOUND	94	minecraft:set_chunk_cache_center	true	FULLY NORMALIZED	ChunkCacheCenter
+PLAY	CLIENTBOUND	95	minecraft:set_chunk_cache_radius	true	FULLY NORMALIZED	ChunkCacheRadius
+PLAY	CLIENTBOUND	96	minecraft:set_cursor_item	true	FULLY NORMALIZED	CursorItem
+PLAY	CLIENTBOUND	97	minecraft:set_default_spawn_position	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	98	minecraft:set_display_objective	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	99	minecraft:set_entity_data	true	FULLY NORMALIZED	EntitySyncedData; scalar serializer kinds typed and valued, heavy/opaque serializer kinds presence-only
+PLAY	CLIENTBOUND	100	minecraft:set_entity_link	true	FULLY NORMALIZED	EntityLink
+PLAY	CLIENTBOUND	101	minecraft:set_entity_motion	true	FULLY NORMALIZED	Velocity
+PLAY	CLIENTBOUND	102	minecraft:set_equipment	true	FULLY NORMALIZED	Equipment; entity id and bounded slot/Item entries
+PLAY	CLIENTBOUND	103	minecraft:set_experience	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	104	minecraft:set_health	true	FULLY NORMALIZED	Health
+PLAY	CLIENTBOUND	105	minecraft:set_held_slot	true	FULLY NORMALIZED	HeldSlot
+PLAY	CLIENTBOUND	106	minecraft:set_objective	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	107	minecraft:set_passengers	true	FULLY NORMALIZED	Passengers
+PLAY	CLIENTBOUND	108	minecraft:set_player_inventory	true	FULLY NORMALIZED	PlayerInventorySlot
+PLAY	CLIENTBOUND	109	minecraft:set_player_team	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	110	minecraft:set_score	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	111	minecraft:set_simulation_distance	true	FULLY NORMALIZED	SimulationDistance
+PLAY	CLIENTBOUND	112	minecraft:set_subtitle_text	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	113	minecraft:set_time	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	114	minecraft:set_title_text	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	115	minecraft:set_titles_animation	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	116	minecraft:sound_entity	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	117	minecraft:sound	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	118	minecraft:start_configuration	true	FULLY NORMALIZED	Lifecycle
+PLAY	CLIENTBOUND	119	minecraft:stop_sound	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	120	minecraft:store_cookie	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	121	minecraft:system_chat	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	122	minecraft:tab_list	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	123	minecraft:tag_query	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	124	minecraft:take_item_entity	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	125	minecraft:teleport_entity	true	FULLY NORMALIZED	EntityPosition
+PLAY	CLIENTBOUND	126	minecraft:test_instance_block_status	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	127	minecraft:ticking_state	true	FULLY NORMALIZED	TickRate
+PLAY	CLIENTBOUND	128	minecraft:ticking_step	true	FULLY NORMALIZED	Control
+PLAY	CLIENTBOUND	129	minecraft:transfer	true	FULLY NORMALIZED	Transfer
+PLAY	CLIENTBOUND	130	minecraft:update_advancements	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	131	minecraft:update_attributes	true	FULLY NORMALIZED	Attributes
+PLAY	CLIENTBOUND	132	minecraft:update_mob_effect	true	FULLY NORMALIZED	Effect
+PLAY	CLIENTBOUND	133	minecraft:update_recipes	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	134	minecraft:update_tags	true	FULLY NORMALIZED	TagSync
+PLAY	CLIENTBOUND	135	minecraft:projectile_power	true	FULLY NORMALIZED	ProjectilePower
+PLAY	CLIENTBOUND	136	minecraft:custom_report_details	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	137	minecraft:server_links	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	138	minecraft:waypoint	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	139	minecraft:clear_dialog	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	CLIENTBOUND	140	minecraft:show_dialog	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	0	minecraft:accept_teleportation	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	1	minecraft:attack	true	FULLY NORMALIZED	Attack
+PLAY	SERVERBOUND	2	minecraft:block_entity_tag_query	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	3	minecraft:bundle_item_selected	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	4	minecraft:change_difficulty	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	5	minecraft:change_game_mode	true	FULLY NORMALIZED	GameModeChange
+PLAY	SERVERBOUND	6	minecraft:chat_ack	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	7	minecraft:chat_command	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	8	minecraft:chat_command_signed	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	9	minecraft:chat	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	10	minecraft:chat_session_update	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	11	minecraft:chunk_batch_received	true	FULLY NORMALIZED	ChunkBatchAck
+PLAY	SERVERBOUND	12	minecraft:client_command	true	FULLY NORMALIZED	ClientCommand
+PLAY	SERVERBOUND	13	minecraft:client_tick_end	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	14	minecraft:client_information	true	FULLY NORMALIZED	ClientSettings
+PLAY	SERVERBOUND	15	minecraft:command_suggestion	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	16	minecraft:configuration_acknowledged	true	FULLY NORMALIZED	Lifecycle
+PLAY	SERVERBOUND	17	minecraft:container_button_click	true	FULLY NORMALIZED	ContainerButtonClick
+PLAY	SERVERBOUND	18	minecraft:container_click	true	FULLY NORMALIZED	ContainerClickClaim; changed slots as index+empty/non-empty only, HashedStack never fabricates item content
+PLAY	SERVERBOUND	19	minecraft:container_close	true	FULLY NORMALIZED	ContainerClose
+PLAY	SERVERBOUND	20	minecraft:container_slot_state_changed	true	FULLY NORMALIZED	ContainerSlotStateChanged
+PLAY	SERVERBOUND	21	minecraft:cookie_response	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	22	minecraft:custom_payload	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	23	minecraft:debug_subscription_request	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	24	minecraft:edit_book	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	25	minecraft:entity_tag_query	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	26	minecraft:interact	true	FULLY NORMALIZED	Interact
+PLAY	SERVERBOUND	27	minecraft:jigsaw_generate	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	28	minecraft:keep_alive	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	29	minecraft:lock_difficulty	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	30	minecraft:move_player_pos	true	FULLY NORMALIZED	Movement
+PLAY	SERVERBOUND	31	minecraft:move_player_pos_rot	true	FULLY NORMALIZED	Movement
+PLAY	SERVERBOUND	32	minecraft:move_player_rot	true	FULLY NORMALIZED	Movement
+PLAY	SERVERBOUND	33	minecraft:move_player_status_only	true	FULLY NORMALIZED	Movement
+PLAY	SERVERBOUND	34	minecraft:move_vehicle	true	FULLY NORMALIZED	Vehicle
+PLAY	SERVERBOUND	35	minecraft:paddle_boat	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	36	minecraft:pick_item_from_block	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	37	minecraft:pick_item_from_entity	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	38	minecraft:ping_request	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	39	minecraft:place_recipe	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	40	minecraft:player_abilities	true	FULLY NORMALIZED	FlightRequest
+PLAY	SERVERBOUND	41	minecraft:player_action	true	FULLY NORMALIZED	Dig
+PLAY	SERVERBOUND	42	minecraft:player_command	true	FULLY NORMALIZED	PlayerCommand
+PLAY	SERVERBOUND	43	minecraft:player_input	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	44	minecraft:player_loaded	true	FULLY NORMALIZED	Lifecycle
+PLAY	SERVERBOUND	45	minecraft:pong	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	46	minecraft:recipe_book_change_settings	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	47	minecraft:recipe_book_seen_recipe	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	48	minecraft:rename_item	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	49	minecraft:resource_pack	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	50	minecraft:seen_advancements	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	51	minecraft:select_trade	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	52	minecraft:set_beacon	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	53	minecraft:set_carried_item	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	54	minecraft:set_command_block	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	55	minecraft:set_command_minecart	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	56	minecraft:set_creative_mode_slot	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	57	minecraft:set_game_rule	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	58	minecraft:set_jigsaw_block	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	59	minecraft:set_structure_block	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	60	minecraft:set_test_block	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	61	minecraft:sign_update	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	62	minecraft:spectator_action	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	63	minecraft:swing	true	FULLY NORMALIZED	Control
+PLAY	SERVERBOUND	64	minecraft:teleport_to_entity	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	65	minecraft:test_instance_block_action	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+PLAY	SERVERBOUND	66	minecraft:use_item_on	true	FULLY NORMALIZED	UseOn
+PLAY	SERVERBOUND	67	minecraft:use_item	true	FULLY NORMALIZED	UseItem
+PLAY	SERVERBOUND	68	minecraft:custom_click_action	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+STATUS	CLIENTBOUND	0	minecraft:status_response	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+STATUS	CLIENTBOUND	1	minecraft:pong_response	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+STATUS	SERVERBOUND	0	minecraft:status_request	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
+STATUS	SERVERBOUND	1	minecraft:ping_request	false	INTENTIONALLY UNSUPPORTED	outside Phase 1 selected semantics; unknown callback still invalidates coverage
