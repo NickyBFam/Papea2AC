@@ -1,0 +1,14 @@
+{
+  "canonicalization": "SHA-256 over one line per replayed record: captureSequence|kind|worldEpoch|uncertaintyReasons|transportDegradeReason|resultingState (record toString)",
+  "fixtures": {
+    "basicMovement": {"steps": 3, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "47be3b9cd99eb913339cde752806b2707aaa1acb4a5a37ea27505db5a0d24f3e"},
+    "positionOnly": {"steps": 2, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "c4f2788a6a62571b49122749e71b996d0388566be8e5adeaf92d95c0392e77f0"},
+    "rotationOnly": {"steps": 2, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "cc90b96d06971a3d27866daa334b0ffef4fd33679bcff5eae7e4a7b1fd2c5c3f"},
+    "positionAndRotation": {"steps": 2, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "d56cd718c67f3753dcaf2afc3f49085af09aba4ee5a382be0be428078e11acbc"},
+    "teleportObservation": {"steps": 4, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "2bbe098a476b5f574291c6a229ad81929549ca50d8f866df114a324086512b75"},
+    "velocityObservation": {"steps": 4, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "e1c2bdce3c286225988dd0e0f76f29f7f2c051563961f5e6d756a66c81bdbaba"},
+    "captureBoundary": {"steps": 3, "sessionEpoch": 1, "finalWorldEpoch": 0, "digest": "6679da23f1e2b4af056d0698d64e515f01d5a6fbed12c24fde6d52ebf671ebe8"},
+    "worldDiscontinuity": {"steps": 5, "sessionEpoch": 1, "finalWorldEpoch": 2, "digest": "169bb934facd3ceaceb28b3bf61442bc7c96e6b8223816d22494500cefbcd34f"},
+    "reconnectNewSession": {"steps": 2, "sessionEpoch": 2, "finalWorldEpoch": 0, "digest": "79331fecb0f5cb2e35fefb7128ede9ed9004c2efb06d1e7dcf735155fe83a3d6"}
+  }
+}

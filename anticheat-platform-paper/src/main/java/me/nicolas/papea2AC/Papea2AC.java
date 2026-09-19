@@ -102,8 +102,24 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         }else if(args.length==2&&args[0].equalsIgnoreCase("player")){
             Player player=getServer().getPlayerExact(args[1]);
             sender.sendMessage(player==null?"Player is not online.":engine.coverage(player.getUniqueId()).toString());return true;
+        }else if(args.length==2&&args[0].equalsIgnoreCase("timeline")){
+            // Bounded summary of the published Timeline snapshot only - never a history dump. Every value is an
+            // OBSERVED fact (claimed position, sent teleport, confirm packet), not validated truth.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var status=engine.timelineStatus(player.getUniqueId());
+            if(status.isEmpty()){sender.sendMessage("No admitted session for that player.");return true;}
+            var t=status.get();
+            sender.sendMessage("timeline sessionEpoch="+t.sessionEpoch()+" lastSequence="+t.lastCommittedSequence()+" retained="+t.retainedRecords()
+                +" chargedBytes="+t.retainedChargedBytes()+" evictions="+t.evictions()+" worldEpoch="+t.worldEpoch()+" revision="+t.revision()
+                +" coverageIssue="+t.lastAppendHadCoverageIssue());
+            sender.sendMessage("observed position="+(t.hasPosition()?t.x()+","+t.y()+","+t.z():"none")+" rotation="+(t.hasRotation()?t.yaw()+"/"+t.pitch():"none")
+                +" onGround="+t.onGround()+" serverTick="+(t.hasServerTick()?t.lastServerTick():"none"));
+            sender.sendMessage("teleportSent="+t.teleportSent()+(t.teleportSent()?" id="+t.teleportId()+" confirmPacketSeen="+t.teleportAcknowledged():"")
+                +" activeExternalMotion="+t.activeExternalMotionInfluences()+" externalMotionOverflow="+t.externalMotionOverflow());
+            return true;
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());

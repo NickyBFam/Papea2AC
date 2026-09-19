@@ -1,0 +1,47 @@
+{
+  "phase": "2",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "date": "2026-09-18",
+  "head": "769100fec8477a5958050c376a86781842df0229",
+  "phase1Baseline": "35c44f9bf7694363d284c646e881351d887cf0bf",
+  "committed": false,
+  "selfApproved": false,
+  "phase3Started": false,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "testCountReconciliation": {
+    "convention": "Always report test and nativeTest separately plus their sum; never 'full suite' alone.",
+    "phase1Baseline": {"test": 105, "nativeTest": 105, "sum": 210},
+    "current": {"test": 215, "nativeTest": 105, "sum": 320},
+    "added": 110, "removed": 0, "skipped": 0,
+    "phase1TestClassesStillPresent": ["ArchitectureTest 6", "CheckpointReplayTest 7", "FaultInjectionAndFairnessTest 6", "LiveRecordingTest 8", "LongRunRetentionTest 3", "PacketTruthTest 33", "ReplayTest 8", "ResourceSafetyTest 13", "RuntimeControlOrderingTest 6", "StaleControlAndResourceAccountingTest 4", "TransportPhaseTest 4", "WriterWatchdogTest 7"]
+  },
+  "phase1Regression": {"mandatoryCoverage": "127/127", "mandatoryGaps": 0, "nativeTest": "105/105 PASS", "architectureTest": "6/6 PASS", "frozenSpecDrift": "NONE"},
+  "phase1DefectsFoundAndFixed": [
+    {"id": "P2-F1", "where": "anticheat-core PacketEngine.Shard.run()", "what": "Session.close() invalidates health to CLOSED on the caller's thread (ConnectionIngress.close()); landing between the shard's pre-process boundary read and its post-process check marked a deliberate close as an INCOMPLETE recording. Latent in Phase 1 (nanosecond window), made deterministic by Phase 2's added work in that gap.", "fix": "A CLOSED bump while session.closing is already set is a deliberate close, not a degrade; all other CLOSED/SHARD_FAILED sources still degrade.", "regression": "DeliberateCloseRaceTest (40 amplified cycles) + LiveRecordingTest.actualEngineConsumptionAndCloseProduceReplayableDiagnostic 3/3 reruns"},
+    {"id": "P2-F2", "where": "anticheat-core PlayerObservationMapper (checkpoint pass)", "what": "null position/rotation on PacketPayload.Movement (wire field-presence) dereferenced", "fix": "independent Optionals in PlayerObservation.MovementClaim", "regression": "PlayerObservationMapperTest.movementWithNull{Rotation,Position}Maps...WithoutThrowing"}
+  ],
+  "ownership": {
+    "timelineOwnerModule": "anticheat-player",
+    "domainTypesModule": "anticheat-model (Vector3, Rotation)",
+    "translationModule": "anticheat-core (PlayerObservationMapper, TimelineStatus)",
+    "replayDtoModule": "anticheat-replay-schema (TimelineCapsule)",
+    "replayMapperModule": "anticheat-player (TimelineReplayMapper)",
+    "newDependencyEdges": 0,
+    "notOwnedByPhase2WithSpecEvidence": ["Effects/Attributes (no PLAYER_STATE.md component row; matrix routes to physics/interaction)", "Vehicle (no row; 'vehicle relationships' live in EntityTracker = world module)", "Inventory (InventoryState row is window/state-id reconciliation = interaction module)"]
+  },
+  "bounds": {"records": 4096, "byteTiers": [524288, 1048576], "horizonNanos": 3000000000, "entryChargeModel": "112 + 24*reasons + source.chargedBytes() (32..96)", "measuredRealToChargedRatio": "~1.3x"},
+  "memoryResults": {"file": "memory-results.json", "bytesPerTimeline": {"idleMinimal": 446, "movementHeavy512": 121276, "rotationHeavy512": 117180, "mixed512": 119228, "teleportVelocityHeavy512": 245860, "atRetentionMaximum": 697221}, "approxBytesPerRetainedRecord": {"movement": 237, "rotation": 229, "mixed": 233, "atRetentionMaximum": 277}},
+  "scalingEstimatesTimelineMemoryOnly": {"note": "SCALING ESTIMATES, not supported player counts; excludes Phase 1 session reservation, world/replay partitions and server heap",
+    "worstCaseRetentionMaxMB": {"100": 69.7, "250": 174.3, "500": 348.6, "1000": 697.2},
+    "typicalMixed512MB": {"100": 11.9, "250": 29.8, "500": 59.6, "1000": 119.2}},
+  "jmh": {"file": "benchmarks.json", "config": "JMH 1.37, 3 forks, 5x1s warmup, 10x1s measurement, -Xms512m -Xmx512m, -prof gc, avgt ns/op, Windows 11 amd64, Temurin JDK 25", "resultsNsPerOp": {"movementAppend": 46.8, "rotationAppend": 56.3, "positionAndRotationAppend": 58.5, "snapshotPublication": 0.62, "exactHistoricalLookup": 4733, "previousStateLookup": 6759, "rangeLookup": 5750, "evictionAtFullCapacity": 49.0},
+    "allocBytesPerOp": {"movementAppend": 312, "rotationAppend": 304, "positionAndRotationAppend": 352, "snapshotPublication": 0, "exactHistoricalLookup": 8408, "previousStateLookup": 8432, "rangeLookup": 8440, "evictionAtFullCapacity": 296},
+    "note": "clean run with no concurrent load; an earlier final-code run overlapping the memory harness was discarded"},
+  "queryComplexity": {"append": "O(1) amortized + reducer", "snapshotPublication": "O(1)", "exactLookup": "O(n) window copy + O(log n) search", "previousLookup": "O(n)", "rangeLookup": "O(n) copy + O(range)", "eviction": "O(1)/record", "note": "corrected from the checkpoint's 'non-full-scan' wording; adequate for non-hot paths at n<=4096; no second index added"},
+  "fixtures": {"file": "timeline-fixtures.json", "count": 9, "regeneratedTwiceByteIdentical": true},
+  "paperSmoke": {"log": ".phase1-runtime/smoke-run-phase2.log", "java": "Temurin 25.0.4.1 (.phase1-tools)", "paper": "26.2 build 124", "startupSeconds": 7.447, "exceptions": 0, "earlyHookFallbackWarnings": 0, "timelineCommandExercised": true, "exitCode": 0, "clientConnected": false},
+  "diagnosticCommand": "IMPLEMENTED: /papea2ac timeline <player> (bounded summary via core TimelineStatus)",
+  "realClientTimelineQualification": "PENDING (prior native client launch probe only; no in-game session driven)",
+  "knownLimitations": ["O(n) lookups via ObservationRing.snapshot() copy", "TimelineCapsule not yet co-recorded into CaptureWriter files", "ExternalMotionInfluence never consumed until Phase 7 (overflow after 8 unresolved)", "REJECTED/FAILED/UNKNOWN movement outcomes not family-classifiable from bare Outcome", "charged bytes underestimate real heap ~1.3x"]
+}

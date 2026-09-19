@@ -63,6 +63,23 @@ tasks.register<JavaExec>("captureInventory") {
     mainClass.set("me.nicolas.papea2ac.testing.InventoryMain")
     args(rootProject.file("docs/phase1-artifacts/paper-26.2-124-packet-inventory.tsv").absolutePath)
 }
+tasks.register<JavaExec>("playerTimelineMemoryHarness") {
+    description = "Empirical (forced-GC heap diff) Phase 2 Timeline memory estimate across representative workloads. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.PlayerTimelineMemoryMain")
+    minHeapSize = "512m"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase2-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase2-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("timelineFixtures") {
+    description = "Regenerates the pinned Phase 2 timeline fixture digests (docs/phase2-artifacts/timeline-fixtures.json). A changed digest is a reviewed event."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.TimelineFixtureMain")
+    args(rootProject.file("docs/phase2-artifacts/timeline-fixtures.json").absolutePath)
+    doFirst { rootProject.file("docs/phase2-artifacts").mkdirs() }
+}
 tasks.register<JavaExec>("heavyNormalizerBenchmark") {
     description = "Descriptive (not JMH) hot-path timing for item/container/chunk/entity-metadata normalization."
     dependsOn(tasks.named(nativeTest.classesTaskName))
@@ -83,4 +100,12 @@ tasks.register<JavaExec>("benchmark") {
     mainClass.set("org.openjdk.jmh.Main")
     args("PacketBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase1-artifacts/benchmarks.json").absolutePath)
     doFirst { rootProject.file("docs/phase1-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkPlayerTimeline") {
+    description = "Phase 2 JMH kernels: Timeline append/lookup/eviction hot paths. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    args("PlayerTimelineBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase2-artifacts/benchmarks.json").absolutePath)
+    doFirst { rootProject.file("docs/phase2-artifacts").mkdirs() }
 }

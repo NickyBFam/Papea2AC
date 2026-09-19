@@ -6,11 +6,13 @@ import me.nicolas.papea2ac.model.*;
 import me.nicolas.papea2ac.packet.*;
 import me.nicolas.papea2ac.protocol.Observation;
 import me.nicolas.papea2ac.api.CoverageSummary;
+import me.nicolas.papea2ac.player.PlayerObservation;
+import me.nicolas.papea2ac.player.PlayerTimeline;
 /** Fixed shards. Lifecycle lock is admission-only, never used by packet callbacks. */
 public final class PacketEngine implements AutoCloseable {
     public final class Session {
         public final SessionKey key;public final HealthLatch health=new HealthLatch();
-        public final ConnectionIngress ingress;public final TruthActor actor;
+        public final ConnectionIngress ingress;public final TruthActor actor;public final PlayerTimeline timeline;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
         private final AtomicBoolean cleanupAlerted=new AtomicBoolean();
@@ -29,6 +31,7 @@ public final class PacketEngine implements AutoCloseable {
                 });
             });
             actor=new TruthActor(key,health,capability,metrics,256);
+            timeline=new PlayerTimeline(key);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** Diagnostic-only: current recording arm state, for tests/monitoring. Not for control decisions (racy against the shard). */
@@ -49,6 +52,7 @@ public final class PacketEngine implements AutoCloseable {
                             if(!s.actorClosed){
                                 if(s.recording!=null){s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);s.recording.close();}
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
+                                s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
                             continue;
@@ -71,7 +75,22 @@ public final class PacketEngine implements AutoCloseable {
                                 boolean administrative=o.event() instanceof Observation.ControlChange||o.event() instanceof Observation.CheckpointMarker;
                                 if(s.recording!=null&&!administrative){s.recording.before(boundary,now);s.recording.input(o,now);}
                                 s.actor.process(o,now);
-                                if(s.recording!=null&&boundary.generation()!=s.health.get().generation())s.recording.incomplete();
+                                // Session.close() (any thread) sets closing=true and then invalidates health to CLOSED via
+                                // ConnectionIngress.close(). If that lands between the boundary read above and this check, the
+                                // generation bump is a deliberate close, not data loss: the closing branch will finish() the
+                                // recording as complete. Only a bump that is NOT that deliberate close is a real degrade.
+                                var after=s.health.get();
+                                boolean deliberateClose=after.reason()==HealthLatch.Reason.CLOSED&&s.closing.get();
+                                boolean degraded=boundary.generation()!=after.generation()&&!deliberateClose;
+                                // Sticky Phase 1 health travels with every record (null = healthy), so a session already
+                                // degraded before this observation still yields uncertain records, not just the one that bumped.
+                                String transport=after.healthy()||deliberateClose?null:after.reason().name();
+                                if(degraded){
+                                    s.timeline.append(s.key,new PlayerObservation.CoverageGap(after.reason().name()),o.sequence(),now,transport);
+                                }else{
+                                    PlayerObservationMapper.map(o).ifPresent(po->s.timeline.append(s.key,po,o.sequence(),now,transport));
+                                }
+                                if(s.recording!=null&&degraded)s.recording.incomplete();
                                 if(administrative)applyControl(s,o,now);
                             }
                         }catch(RuntimeException ex){
@@ -254,6 +273,22 @@ public final class PacketEngine implements AutoCloseable {
         return new CoverageSummary(true,!s.ingress.closed(),state.certificationAvailable(),
             state.certificationAvailable()?"CERTIFIED_PACKET_OUTCOME":state.reason().name()+"_OBSERVE_ONLY",
             state.processedSequence(),state.certifiedIngressOrdinal(),state.pending(),s.ingress.queueDepth(),s.ingress.queueCapacity());
+    }
+    /** Bounded, thread-safe: reads the Timeline's published Snapshot, never its owner-thread-only history. Empty for an unknown/not-admitted player, never a fabricated default state. */
+    public synchronized java.util.Optional<PlayerTimeline.Snapshot> timelineSnapshot(UUID player){
+        Session s=active.get(player);
+        return s==null?java.util.Optional.empty():java.util.Optional.of(s.timeline.snapshot());
+    }
+    /** Primitive-only diagnostic projection of the published Timeline Snapshot (for platform-paper, which may not depend on anticheat-player). Empty for an unknown player - never a fabricated default. */
+    public synchronized java.util.Optional<TimelineStatus> timelineStatus(UUID player){
+        Session s=active.get(player);
+        if(s==null)return java.util.Optional.empty();
+        var snap=s.timeline.snapshot();var st=snap.state();var m=st.movement();var r=st.rotation();var t=st.teleport().active();
+        boolean hasPosition=m.observedAtSequence()>0,hasRotation=r.observedAtSequence()>0;
+        return java.util.Optional.of(new TimelineStatus(s.key.epoch(),snap.lastCommittedSequence(),snap.recordCount(),snap.recordBytes(),snap.evictions(),snap.lastAppendHadCoverageIssue(),
+            st.worldEpoch(),st.revision(),hasPosition,m.position().x(),m.position().y(),m.position().z(),hasRotation,r.rotation().yaw(),r.rotation().pitch(),m.onGround(),
+            t.isPresent(),t.map(p->p.teleportId()).orElse(-1L),t.map(p->p.acknowledged()).orElse(false),
+            st.velocity().active().size(),st.velocity().overflow(),st.tick().hasServerTick(),st.tick().lastServerTick()));
     }
     public synchronized void close(){stopping.set(true);finishReplayShutdown();for(Shard shard:shards){for(Session s:shard.sessions.get())s.close();LockSupport.unpark(shard.thread);}}
     public boolean terminated(){return shards.stream().noneMatch(s->s.thread.isAlive());}

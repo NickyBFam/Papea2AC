@@ -1,0 +1,12 @@
+{
+  "methodology": "forced-GC heap diff (Runtime totalMemory-freeMemory), 3 trials per workload, median reported, per-timeline average over 200 instances - an empirical estimate, not exact heap truth or a capacity claim",
+  "recordsPerTimeline": 512,
+  "workloads": {
+    "idleMinimal": {"trialsBytesPerTimeline": [1117, 446, 445], "medianBytesPerTimeline": 446.0},
+    "movementHeavy": {"trialsBytesPerTimeline": [121346, 121276, 121276], "medianBytesPerTimeline": 121276.0},
+    "rotationHeavy": {"trialsBytesPerTimeline": [117180, 117180, 117180], "medianBytesPerTimeline": 117180.0},
+    "mixedMovementRotation": {"trialsBytesPerTimeline": [119228, 119228, 119228], "medianBytesPerTimeline": 119228.0},
+    "teleportVelocityHeavy": {"trialsBytesPerTimeline": [245999, 245860, 245860], "medianBytesPerTimeline": 245860.0},
+    "timelineAtRetentionMaximum": {"trialsBytesPerTimeline": [697444, 697195, 697221], "medianBytesPerTimeline": 697221.0}
+  }
+}

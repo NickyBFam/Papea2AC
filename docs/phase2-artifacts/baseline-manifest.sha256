@@ -1,0 +1,63 @@
+# Phase 2 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes, covering the complete Phase 2
+# implementation baseline set: Phase 2 production source (player, model, core, replay-schema), tests,
+# benchmark source, Gradle modifications, plugin wiring, docs, verification artifacts, fixtures,
+# PHASE_2_HUMAN_APPROVAL.md, and the Phase 1 forward-fix file (PacketEngine.java, P2-F1).
+# Parent commit: 769100fec8477a5958050c376a86781842df0229
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Generated: 2026-09-18
+# File count: 41
+# Format: <sha256>  <path>
+# Normalization: each hash is SHA-256 over the COMMITTED GIT BLOB CONTENT of the staged file
+# (`git cat-file blob :<path>`), i.e. after .gitattributes normalization (LF for all of these files).
+# This is deliberately not the working-tree checkout bytes, so the same hashes must be reproducible
+# from `git cat-file blob <baseline-commit>:<path>` on any platform; the gradlew.bat-style
+# CRLF/LF ambiguity of the Phase 1 manifest cannot recur. This manifest excludes itself.
+# Verified twice via two independent enumerations (git diff --cached vs. index-minus-HEAD-tree comparison)
+# and two independent SHA-256 implementations (coreutils sha256sum vs. openssl dgst).
+#
+f8913b80f2b011cf468dd9cfe00c1654430b6f72ce85ba244baf48c199e558fc  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+0f7a6db7d8125c1ff72e1e9629815de3a130ae48c8c2f605959eac6a48dfb7d3  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PlayerObservationMapper.java
+250c0bed2419925d448cf77743ad40ed00b1cedbbdff7596672f38c5fecd6e9d  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimelineStatus.java
+60310744c5d1f79f63bc7341dc19060f2cff6eb377d90b42a8e9caaaf937fd32  anticheat-model/src/main/java/me/nicolas/papea2ac/model/Rotation.java
+501e5258c403ccd0010f0a55007fadaddd02af2527dfd7ff2a61d92de3e4429e  anticheat-model/src/main/java/me/nicolas/papea2ac/model/Vector3.java
+944c7382dfe9b00dd4c36465fef935cd4644d33ce1c99f26d22240b4429295ce  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+f091a051a993f788b8586b5306236ccba32553c052faae10e144e359c80ac5f3  anticheat-player/src/main/java/me/nicolas/papea2ac/player/ExternalMotionInfluence.java
+5fdc9f6c7454b30c88068e891af644bd4405621c7cca9288929b91c4765f772c  anticheat-player/src/main/java/me/nicolas/papea2ac/player/MovementState.java
+b012cd7a78761276ef02ff64623952e6eeb5ca03f6805463e991e57923564747  anticheat-player/src/main/java/me/nicolas/papea2ac/player/PlayerObservation.java
+ab3ad239b113bcb225f38ea62d7ea60790e92b5e5eadc107b1ae18debecfb5a9  anticheat-player/src/main/java/me/nicolas/papea2ac/player/PlayerState.java
+a0ceb6cce7e27389c355b02a1e0c8222e8ab4981c313e10bb88b6ff0c5a34a1c  anticheat-player/src/main/java/me/nicolas/papea2ac/player/PlayerStateReducer.java
+3a5a9ff9a2992552ea08e196255aac3c54dfb1a2c3b94cceda267e1bd4f136c2  anticheat-player/src/main/java/me/nicolas/papea2ac/player/PlayerTimeline.java
+abdec7a6659a40cdcecffe2f628420bb66be92cb951c0f8763b39a8a894520b6  anticheat-player/src/main/java/me/nicolas/papea2ac/player/RotationState.java
+7ff99df54759dabc765cf14f32e14c7125ff1407adaabc8ba6505346b3750375  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TeleportState.java
+0e891683f759eb36ed7e7caabbfb4234a0a6c96e33d6997264e1d5809ecf1b9c  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TickState.java
+917f21e23ac1daa1d10cbbd6a7562d44682eb1f75bfc20c9acffd26fa7d8cead  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimelineLookup.java
+34385ceca44954944449dbeabe5bdfb9d00b457bf5987919fbe816030b723d8a  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimelineRecord.java
+f61b80a4b3d54c262c25210545824f0260ef1cefd5cd64fc14956442206b4ce8  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimelineReplayMapper.java
+c3196972ddaa0936085f36a9c8a25b50f8818e9716a369792f0e4900d8c25d9c  anticheat-player/src/main/java/me/nicolas/papea2ac/player/VelocityState.java
+2202b92b3cb347ab0dc3142f33dc76cf79fdf86a78e9d6a7ea0db3ae7bc72391  anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/TimelineCapsule.java
+4fdf5ecb619260ba7369e6dd8bba0e0ed11f63b3e920db833671846cc3a4fe89  anticheat-testing/build.gradle.kts
+73ccfb60dbbebac1bf014f482a5210b38f713ea517c2abebb3d52659f4edd599  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/PlayerTimelineBenchmarks.java
+8387aa05d19fb61e7c2690a100e676e1a2c2f0ca3fb7e8c396d3251d9d82e670  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CoveragePropagationTest.java
+f8dbf6d7870d90af594eb199ad31e742f7f0337c9ecc8f87e0d84aab0cf79e46  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/DeliberateCloseRaceTest.java
+63e9bbec7035c3f6aa9beba39a81de687cbdca5c54468f4c5a50e933d106db42  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerObservationMapperTest.java
+0c9b4e9bf0ebe5506c5b29b23ec2411a8b55aa3012fa94d4db2a238d717658c5  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerStateReducerTest.java
+cdc0ab50256676f829ff4735121edfeda8d1dbeaec41782d802bdcff390cbecb  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerTimelineAdditionalTest.java
+44666fa0a3f6ffd59df92afe179f5613d0e5778fed8de2f0ef9e5f11911a87fb  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerTimelineIntegrationTest.java
+aee4dfb06c54a459279354557e5707c6ff38323349068420d362193acec6c7d8  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerTimelineMemoryMain.java
+18a1f3064e408e70276ea01ce0453ead1c5d46abfd7a3397938ef31fc15fc51c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerTimelinePropertyTest.java
+0e3bf38b3b99d0921c14e2917d1bd63f60827924fb24a4c30b5656edd5d0d4ed  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerTimelineTest.java
+1390c65374b38e9a937505f2975ffb15223d4d2e52bd27230b1bb82ca6ca582c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimelineFixtureDeterminismTest.java
+b9e57823618a1298f76f57e66f103cfdb8e41c33b06cd227dea83fca512f3dd3  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimelineFixtureMain.java
+89c6c0a7518888da91183a470da9bab52b2362b01338820b16e5f7917e75dccd  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimelineFixtures.java
+34d00871f1fc7d746f66e1e5475018e6ae8afbe9830c2298780bf90ce9a00209  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimelineReplayMapperTest.java
+f74da579de79c9c51a9a1f73986caadf0239903637e9415e4bff28dcaaccafb0  docs/PHASE_2_HUMAN_APPROVAL.md
+5cc1f4255faf4b35cda28e6c463f306c30d8d27ce64a38f2dd30ccaf871c7535  docs/PHASE_2_IMPLEMENTATION.md
+7335421e8d1c38844aae794170e5faf45c714c08f8b50c9a4a38109bad56d2aa  docs/phase2-artifacts/benchmarks.json
+7210858f3a47d2e70c8663c468a96347f39471897be9b5974633bd30a97bd785  docs/phase2-artifacts/memory-results.json
+02a9aeee611b915b956125c410e40b3b1e56fbc534b63d7025b3e29df245adae  docs/phase2-artifacts/timeline-fixtures.json
+4c4370df6c171ea20e1834b3a2c8ccc2dde9b48f0b6e75246dfed71b4d689f29  docs/phase2-artifacts/verification.json
+#
+# Composite SHA-256 (computed over the exact byte content of the 41 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# 087d7e2305c82ee613b164f852626e7beea925c8564e7021c111a068cbcd23e3
