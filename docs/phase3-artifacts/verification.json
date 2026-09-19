@@ -1,0 +1,505 @@
+{
+  "phase": "3",
+  "status": "HUMAN_APPROVED_FOR_BASELINE",
+  "date": "2026-09-19",
+  "head": "a95169e861a843e868f58c7b3a87ed050f14004a",
+  "phase1Baseline": "35c44f9bf7694363d284c646e881351d887cf0bf",
+  "phase2Baseline": "f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24",
+  "committed": false,
+  "baselineCreated": false,
+  "selfApproved": false,
+  "phase4Started": false,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "testCounts": {
+    "convention": "test and nativeTest reported separately plus their sum; architecture lives inside test and is not double counted",
+    "phase2Baseline": {
+      "test": 215,
+      "nativeTest": 105,
+      "uniqueTotal": 320
+    },
+    "current": {
+      "test": 353,
+      "nativeTest": 115,
+      "architecture": 7,
+      "uniqueTotal": 468
+    },
+    "added": {
+      "test": 138,
+      "nativeTest": 10
+    },
+    "failed": 0,
+    "skipped": 0,
+    "phase3TestClasses": {
+      "WorldCoordinateTest": 20,
+      "SectionSnapshotTest": 9,
+      "ObserverWorldTest": 32,
+      "ObserverWorldPropertyTest": 32,
+      "WorldReplayMapperTest": 6,
+      "WorldFixtureDeterminismTest": 3,
+      "ObserverWorldIntegrationTest": 13,
+      "PlayerWorldCoherenceTest": 2,
+      "BlockStateIdentityTest": 4,
+      "ArchitectureTest(+1)": 1,
+      "NativeChunkSectionTest(nativeTest)": 8,
+      "CapsuleSchemaCompatibilityTest": 6,
+      "LegacyCodecCompatibilityTest": 4,
+      "LiveRecordingTest(+2)": 2,
+      "NativePipelineControlObjectTest(nativeTest)": 2,
+      "InfrastructurePoolTest": 3,
+      "CheckpointReplayTest(+1)": 1
+    },
+    "otherVerificationTasks": [
+      "verifyMandatoryCoverage",
+      "replayConformance",
+      "worldFixtures",
+      "observerWorldMemoryHarness",
+      "benchmarkObserverWorld",
+      "inspectCapsule"
+    ]
+  },
+  "phase1Regression": {
+    "mandatoryCoverage": "127/127",
+    "mandatoryGaps": 0,
+    "nativeTest": "115/115 PASS (105 Phase 1 + 8 Phase 3 + 2 real-client regressions)",
+    "conformanceCapsule": "4 pinned digests reproduced from the schema-1 artifact under the schema-2 decoder, and again after re-sealing the same frames as a schema-2 container",
+    "frozenSpecDrift": "NONE",
+    "phase1ForwardCodeFixesFromRealClient": [
+      "P3-F4 ingress charge of bulk content",
+      "P3-F5 shard drain/wake",
+      "P3-F6 work-quota deferral",
+      "P3-F7 ingress sizing + engine-wide pool (CONFORMANT)",
+      "P3-F9 block-state charges",
+      "P3-F10 recording origin",
+      "P3-F11 non-packet pipeline objects",
+      "P3-F12 platform captureCompromised",
+      "P3-F13 disable drain"
+    ],
+    "testAdaptations": [
+      "FaultInjectionAndFairnessTest flood 2000->12000 (bound moved)",
+      "NativeFaultTest uses a real uncovered packet (chat_command) instead of a bare Object",
+      "ReplayTest schema byte symbolic"
+    ],
+    "historicalBaseline": "UNCHANGED (35c44f9b..., 769100fe...)"
+  },
+  "phase2Regression": {
+    "phase2Tests": "215/215 present and passing",
+    "sourceEdits": "test-only constructor-shape adaptations for Respawn (two new int fields)"
+  },
+  "phase3DefectsFoundAndFixed": [
+    {
+      "id": "P3-F1",
+      "where": "anticheat-world ObserverWorld.releaseChunk",
+      "what": "shared refs released before the private charge was settled; a section dropping to zero refs was subtracted as private, driving privateBytes negative under eviction/close",
+      "foundBy": "ObserverWorldPropertyTest.unloadRemovesCurrentAvailabilityAndEvictionFreesChargedMemory",
+      "regression": "evictingTheSoleHolderOfASharedSectionNeverDrivesThePrivateChargeNegative (verified failing on the old ordering)",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F2",
+      "where": "anticheat-world SectionSnapshot.unknown / WorldReplayMapper",
+      "what": "placeholder palette slot (dictionary id 0) leaked a dictionary-order-dependent key into projections of partial sections",
+      "foundBy": "WorldFixtureDeterminismTest.everyFixtureProducesTheSameWorldOnRepeatedRuns (perturbed dictionary)",
+      "fix": "empty palette for unknown sections; single-slot seed on first observed cell; fromParts round-trips the empty form",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-P1",
+      "where": "anticheat-world SectionSnapshot / ObserverWorld.sectionChange",
+      "what": "multi-block update copied the section once per cell (33.9 KB/op for 16 cells; ~8 MiB for a 4096-cell packet)",
+      "foundBy": "JMH -prof gc",
+      "fix": "withAll copies once per batch: 5930 -> 841 ns/op, 33872 -> 2576 B/op; equivalence test batchedUpdateEqualsSequentialUpdatesFromEveryStartingShape",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F3",
+      "where": "core PacketEngine/WorldObservationMapper, world ObserverWorld",
+      "what": "EXPIRED (and every latch reason) treated as a world break; repeated breaks inflated revision; first-reason latch could never report later losses",
+      "fix": "loss-class reasons only; idempotent breaks; world detects dropped captures via SEQUENCE_GAP",
+      "foundBy": "real client: first join TRANSPORT_BROKEN:EXPIRED, complete=0",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F4",
+      "where": "packet ConnectionIngress, protocol PacketPayload/ChunkBaseline",
+      "what": "chunk section content charged to the 192 KiB ingress arena",
+      "fix": "bulk exposure pool 4 MiB/session, shed never dropped (CONTENT_NOT_RETAINED:BULK_EXPOSURE_CEILING)",
+      "foundBy": "real client: INGRESS_DROPPED=8 on join",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F5",
+      "where": "core PacketEngine shard loop, packet ConnectionIngress",
+      "what": "unconditional 100us park (>=1 ms on Windows) capped drain at ~32 obs/ms; no wake on enqueue",
+      "fix": "park only when idle; onEnqueue wake",
+      "foundBy": "real client: INGRESS_DROPPED=974 then 18 on join",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F6",
+      "where": "core PacketEngine shard loop",
+      "what": "oversize (>2048-unit) or over-quota observation silently dropped",
+      "fix": "oversize runs alone; quota exhaustion defers; metric WORK_QUOTA_DEFERRED",
+      "foundBy": "real client: SEQUENCE_GAP with INGRESS_DROPPED=0",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F7",
+      "where": "packet ConnectionIngress",
+      "what": "192 KiB arena / 1024 records cannot absorb one real tick flush",
+      "fix": "4 MiB arena / 4096 records per session composed into an engine-wide 32 MiB InfrastructurePool with a 192 KiB guaranteed slice per session - CONFORMANT with the PERFORMANCE.md floor and G partition (pre-baseline decision)",
+      "foundBy": "real client: drops in fast flight with p99 delay <= 2 ms",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F8",
+      "where": "world ObserverWorld",
+      "what": "sticky session-wide transport break refused qualifying post-gap baselines",
+      "fix": "per-chunk coverage: held chunks incomplete until re-baselined; post-break baselines COMPLETE; fixture captureCoverageBreak regenerated (reviewed)",
+      "foundBy": "real client: world never recovered although chunks were re-sent",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F9",
+      "where": "protocol SemanticPayload BlockState/Property charges",
+      "what": "worst-case 640+1152/property charge made a multi-block update weigh ~344 KiB",
+      "fix": "charges from actual strings",
+      "foundBy": "real client: 664 drops / 48 breaks in max-speed flight after F7",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F10",
+      "where": "core SessionRecording",
+      "what": "recording origin after the pre-login journal capture times -> every real recording EXPORT_ENCODE_FAILURE at frame 1",
+      "fix": "origin = earliest referenced capture time",
+      "foundBy": "real client: empty capsule",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F11",
+      "where": "platform PaperCapture",
+      "what": "non-packet pipeline control objects (UnconfiguredPipelineHandler$OutboundConfigurationTask) captured as uncovered packets",
+      "fix": "only net.minecraft.network.protocol.* objects are observations",
+      "foundBy": "real client: PIPELINE_UNCOVERED at every protocol switch",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F12",
+      "where": "core PacketEngine/WorldObservationMapper, platform PaperCapture",
+      "what": "PIPELINE_UNCOVERED from uncovered packets (client brand payload) broke the world; capture-position compromise indistinguishable",
+      "fix": "PIPELINE_UNCOVERED not a world break; Session.captureCompromised -> CAPTURE_COMPROMISED:<reason> break",
+      "foundBy": "real client: BREAKS=1 PIPELINE_UNCOVERED@6 on reconnect",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    },
+    {
+      "id": "P3-F13",
+      "where": "platform Papea2AC.onDisable, core shard closing branch",
+      "what": "engine.close() returned before shards drained; final export failed after Bukkit closed the jar and skipped world/actor release",
+      "fix": "robust closing branch + awaitTermination(2 s)",
+      "foundBy": "real client: zip file closed exception at every stop",
+      "historicalBaselineModified": "NO",
+      "forwardCodeFixed": "YES"
+    }
+  ],
+  "ownership": {
+    "worldOwnerModule": "anticheat-world",
+    "identityTypesModule": "anticheat-model (ChunkKey, BlockPos, BlockStateKey)",
+    "inputModules": [
+      "anticheat-protocol",
+      "anticheat-platform-paper (PaperSemanticNormalizer wire decode)",
+      "anticheat-core (WorldObservationMapper)"
+    ],
+    "consumers": [
+      "anticheat-core (Session.world, WorldStatus, worldBudgetSnapshot)",
+      "anticheat-platform-paper (/papea2ac world via WorldStatus only)",
+      "anticheat-replay-schema (WorldCapsule)"
+    ],
+    "newModules": 0,
+    "newDependencyEdges": 0,
+    "paperOrNmsInWorldModule": false
+  },
+  "bounds": {
+    "historyEntries": 4096,
+    "historyHorizonNanos": 3000000000,
+    "tombstones": 4096,
+    "blockEvents": 256,
+    "blockEntitiesPerChunk": 256,
+    "privateTierBytes": [
+      786432,
+      2097152
+    ],
+    "sharedPartitionBytes": 100663296,
+    "inlineContentCapBytes": 40960,
+    "dictionaryCapacity": 65536,
+    "sectionPaletteMax": 4096,
+    "sectionBitsMax": 12
+  },
+  "memoryModel": "hybrid: content-addressed shared immutable section store (reference-counted, charged once globally, 96 MiB) + per-observer private tier (update-created sections, history, chunk overhead)",
+  "memoryResults": {
+    "file": "memory-results.json",
+    "medianHeapBytesPerObserver": {
+      "emptyWorld": 2414,
+      "oneChunk": 2890,
+      "oneChunkUnique": 26255,
+      "view25Shared": 23983,
+      "view25Unique": 587608,
+      "view121Shared": 92382,
+      "view121Unique": 2736780,
+      "view289Shared": 407942,
+      "view289Unique": 6508568,
+      "view441Shared": 1117983,
+      "view441Unique": 9950528,
+      "view1089Shared": 4871620,
+      "view1089Unique": 23042816,
+      "mixedUpdatesHistory121": 906136,
+      "worstRetentionTier289": 2602147
+    },
+    "constants": {
+      "uniqueChunkChargedBytes": 21456,
+      "uniqueChunkHeapBytes": 25919,
+      "sharedMarginalPerChunkPerObserverBytes": 350,
+      "realToChargedRatio": "1.05-1.25x"
+    },
+    "sharedPartitionDiversityBound": "~4700 distinct realistic chunks server-wide (~15 fully spread-out observers at 289 chunks, ~10 at 441); beyond that baselines are CONTENT_NOT_RETAINED",
+    "note": "final harness run at baseline creation (2026-09-19); values within noise of the earlier runs"
+  },
+  "scalingEstimatesObserverWorldOnly": {
+    "note": "SCALING ESTIMATES, not supported player counts; excludes Phase 1 reservations, timelines, replay and server heap",
+    "coLocated289ChunksMB": {
+      "1": 7.6,
+      "10": 8.5,
+      "50": 12.5,
+      "100": 17.6,
+      "250": 32.7
+    },
+    "coLocated441ChunksMB": {
+      "1": 11.6,
+      "10": 13,
+      "50": 19.1,
+      "100": 26.8,
+      "250": 49.8
+    },
+    "spreadOut289ChunksMB": {
+      "1": 6.5,
+      "10": 65,
+      "15+": "shared partition cap (96 MiB) - explicit coverage loss beyond"
+    },
+    "worstPrivateDeltaMB": {
+      "floorTier": {
+        "100": 75,
+        "250": 188
+      },
+      "targetTier": {
+        "100": 200,
+        "250": 500
+      }
+    }
+  },
+  "jmh": {
+    "file": "benchmarks.json",
+    "config": "JMH 1.37, 3 forks, 5x1s warmup, 10x1s measurement, -Xms512m -Xmx512m, -prof gc, avgt ns/op, Windows 11 amd64, Temurin JDK 25.0.4.1+1, no concurrent load",
+    "resultsNsPerOp": {
+      "fullChunkBaselineIngestSharedHit": 12186,
+      "fullChunkBaselineIngestUniqueContent": 12965,
+      "singleBlockUpdate": 312,
+      "multiBlockSectionUpdate16": 484,
+      "currentBlockLookup": 11,
+      "currentBlockLookupViaSnapshot": 13,
+      "historicalBlockLookup": 1361,
+      "sectionCopyOnWrite": 150,
+      "chunkUnloadAndRebaseline": 12546,
+      "historyEvictionAtCapacity": 314,
+      "publishSnapshot121Chunks": 1330
+    },
+    "allocBytesPerOp": {
+      "fullChunkBaselineIngestSharedHit": 8720,
+      "fullChunkBaselineIngestUniqueContent": 10536,
+      "singleBlockUpdate": 2376,
+      "multiBlockSectionUpdate16": 2576,
+      "currentBlockLookup": 40,
+      "currentBlockLookupViaSnapshot": 40,
+      "historicalBlockLookup": 64,
+      "sectionCopyOnWrite": 2096,
+      "chunkUnloadAndRebaseline": 9016,
+      "historyEvictionAtCapacity": 2376,
+      "publishSnapshot121Chunks": 3624
+    },
+    "note": "final re-run 2026-09-19 after the real-client fixes; all kernels 35-54% faster than the implementation-pass run with allocation unchanged to within 64 B = host-state drift, not code; implementation-pass values: ingest 19173/20780, single 535, multi16 841, lookup 17.4/19.5, historical 2598, cow 328, unload 19247, eviction 537, publish 2629 ns/op"
+  },
+  "fixtures": {
+    "file": "world-fixtures.json",
+    "count": 12,
+    "regeneratedByteIdentical": true,
+    "fileSha256": "d4095e0854a5ceea5042fa634e6575b223d3374d5a43c21e8a36de90549ac95f",
+    "regeneratedReviewedEvent": "captureCoverageBreak digest changed with P3-F8 (per-chunk transport coverage): post-break baseline is COMPLETE"
+  },
+  "paperSmoke": {
+    "log": ".phase1-runtime/smoke-run-phase3-final.log",
+    "java": "Temurin 25.0.4.1 (.phase1-tools)",
+    "paper": "26.2 build 124",
+    "startupSeconds": 7.157,
+    "exceptions": 0,
+    "earlyHookFallbackWarnings": 0,
+    "worldCommandExercised": true,
+    "statusShowsInfrastructurePool": "0/33554432",
+    "cleanDisable": true,
+    "clientConnected": false,
+    "realClientStopCycleVerifiedEarlier": ".phase1-runtime/qualification-run-2.log"
+  },
+  "diagnosticCommand": "IMPLEMENTED: /papea2ac world <player> (session/world epoch, dimension, revision, chunk coverage counts, private/history bytes, breaks, blockUpdates + last 8 updates) + world budget line in /papea2ac status",
+  "realClientWorldQualification": {
+    "status": "PASS",
+    "date": "2026-09-19",
+    "client": "Minecraft Java 26.2 (owner account, in-game name Emojiado, offline-mode UUID d15aa978-aee9-3e55-a98a-cfca4a1c40f9)",
+    "server": "Paper 26.2 build 124, Temurin 25.0.4.1, 127.0.0.1:25576, view distance 6",
+    "evidence": "docs/phase3-artifacts/real-client-evidence.log (91 RCON samples, 14 builds); .phase1-runtime/qualification-run*.log (git-ignored)",
+    "scenarios": {
+      "join": "PASS",
+      "normalMovement": "PASS",
+      "chunkBoundary15to16": "PASS",
+      "negativeCoordinateBoundary": "PASS",
+      "blockPlace": "PASS",
+      "blockBreak": "PASS",
+      "chunkUnload": "PASS",
+      "chunkReload": "PASS",
+      "teleport": "PASS",
+      "dimensionChange": "PASS",
+      "disconnectReconnect": "PASS",
+      "sessionIsolation": "PASS",
+      "unknownPartialSemantics": "PASS",
+      "resourceAccounting": "PASS",
+      "p3f1Regression": "PASS",
+      "performanceSanity": "PASS after P3-F3..F9"
+    },
+    "keyObservations": {
+      "joinFinal": "sessionEpoch=1 worldEpoch=0 overworld y[-64..319] 213/213 COMPLETE revision=214 HEALTHY INGRESS_DROPPED=0",
+      "stress": "30 s max-speed flight: 5023 unloads, ~1700 obs/s, 0 drops, 0 breaks, 0 quota deferrals, p99 capture-to-process <= 1 ms",
+      "blockPlace": "minecraft:dirt @ 1,67,9 / 1,67,8 / 1,67,7",
+      "blockBreak": "minecraft:air @ 1,67,7 / 1,67,8 / 1,67,9",
+      "unloadReload": "unloaded 0->213 (evicted=0) then 213/213 COMPLETE again via baselines",
+      "dimension": "worldEpoch 0->1 (the_nether y[0..255]) ->2 (overworld), 213/213 each",
+      "disconnect": "sessions=0 reservedBytes=256MiB observers=0 chunks=0 sharedBytes=0 privateBytes=0",
+      "reconnect": "sessionEpoch 2 (then 3), fresh worldEpoch=0 world",
+      "shutdownWithPlayer": "clean Disabling, no exception"
+    },
+    "findingsNotFixed": [
+      "Phase 1 session health is EXPIRED/PIPELINE_UNCOVERED_OBSERVE_ONLY within a second on every real session - EXPECTED SAFE STATUS (pre-baseline decision 3)",
+      "Phase 1 session-start recordings stop at frame 2 with DEGRADED on real sessions - EXPECTED SAFE LIMITATION; operator re-arm path verified (pre-baseline decision 2)"
+    ]
+  },
+  "knownLimitations": [
+    "shared partition bounds distinct chunk content server-wide (~4700 realistic chunks at 96 MiB); explicit CONTENT_NOT_RETAINED beyond",
+    "historical lookup O(h) ring scan",
+    "chunk payloads above the 40 KiB inline cap are CONTENT_NOT_RETAINED",
+    "block entities summaries only; light/fluid/piston semantics not modelled (Phase 4+)",
+    "charged bytes underestimate real heap 1.05-1.25x",
+    "WorldCapsule not yet co-recorded into CaptureWriter files",
+    "legacy (schema-1) recordings reconstruct no world: no dimension range was recorded (DIMENSION_UNKNOWN by construction)",
+    "extreme creative flight at the floor tier evicts far chunks (explicit EVICTED)",
+    "ingress in-flight exposure per session 192 KiB guaranteed + up to 8 MiB from the shared 32 MiB pool; pool exhaustion sheds/drops that session's own overflow explicitly (P3-F7, conformant)"
+  ],
+  "finalQualificationPass": {
+    "date": "2026-09-19",
+    "p3c1": "RESOLVED - SCHEMA BUMPED TO 2",
+    "realClientSession": "PERFORMED - PASS (15/15 scenarios on the final build) after fixing P3-F3..F13"
+  },
+  "transportCapsuleSchema": {
+    "current": 2,
+    "legacyDecodable": [
+      1
+    ],
+    "payloadSchema": {
+      "current": 2,
+      "legacyDecodable": [
+        1
+      ]
+    },
+    "decision": "BUMPED: the Phase 3 in-place extension of payload tags 59/74/79 under schema 1 was not wire-compatible in either direction (old decoder: trailing bytes; new decoder: EOF), i.e. two incompatible formats labelled 1",
+    "contractAnswers": {
+      "A_oldDecoderReadsNewCapsule": "NO (rejected clearly at the schema byte / header now; before the bump it would have read a partially-different format)",
+      "B_newDecoderReadsEveryOldCapsule": "YES (legacy layouts for 59/74/79, everything else byte-identical)",
+      "C_layoutChanged": "YES: 59, 74, 79 and the payload limit",
+      "D_optionalSelfDelimitingAppend": "NO",
+      "E_oldDecoderCanSkip": "NO",
+      "F_oneStableSchema1": "NO before the bump - hence schema 2",
+      "G_userGeneratedOldFilesPossible": "YES (CaptureWriter promotions on any Phase 1/2 build)"
+    },
+    "legacySemantics": {
+      "joinGameRespawn": "dimension range (0,0) = NOT OBSERVED; hasDimensionRange()=false; observer world DIMENSION_UNKNOWN, respawn still an epoch discontinuity",
+      "chunkBaseline": "summary-only, contentRetained=false, note NOT_DECODED"
+    },
+    "hashPreservation": "PayloadDigest digests the semantic body after the schema byte (digest-form byte 1 constant): layout-unchanged payloads digest identically to Phase 2 (verified against the real Phase 2 PayloadDigest); recorded originalDigest values carried verbatim",
+    "limits": {
+      "payloadMaxBytes": 131072,
+      "equalsPayloadCodecLimit": true,
+      "frameLengthMax": 135168
+    },
+    "tests": {
+      "oldFormatToNewDecoder": "PASS (real Phase 2 encoder bytes via git+javac; pinned hex fixtures proven identical)",
+      "newFormatToOldDecoder": "PASS (real Phase 2 decoder rejects: payload schema / capsule schema)",
+      "futureSchemaFailsClearly": "PASS (schema 3 at container, constructor and payload byte)",
+      "digestPreservation": "PASS"
+    },
+    "phase1JmhAfterDigestChange": {
+      "normalize": 14.9,
+      "enqueueDequeue": 37.9,
+      "journal": 35.6,
+      "sequence": 53,
+      "correlate": 1116.6,
+      "note": "all kernels use Movement payloads (untouched branch); uniform 7-20% host drift incl. untouched kernels; frozen phase1 artifact restored byte-identical"
+    }
+  },
+  "preBaselineDecisions": {
+    "date": "2026-09-19",
+    "p3_f7_spec_decision": "CONFORMANT - FLOOR EXCEEDED FOR REAL-TRAFFIC SAFETY",
+    "p3_f7_spec_classification": "FLOOR (PERFORMANCE.md: 'combined tier arena 256 KiB floor'; 'design estimates ... not measured minima'; 'never silently lowers a floor'); bulk figures are the spec's own '4 MiB/session exposure ceiling; total within 32 MiB infrastructure pool'",
+    "p3_f7_memory_model": "per session: 192 KiB guaranteed arena slice (inside the 2 MiB tier reservation), arena <= 4 MiB / 4096 records, bulk <= 4 MiB; globally: one 32 MiB InfrastructurePool (PERFORMANCE.md G partition 'other queues/bulk/worker scratch/control 32 MiB') from which every session's arena bytes above its slice and all bulk are reserved before being held; exhaustion sheds bulk / drops the record as an accounted INGRESS_FULL, never blocks",
+    "p3_f7_worst_case_bound": "sessions x 192 KiB (inside admitted tier reservations) + 32 MiB pool; at the engine maximum of 1024 sessions: 192 MiB + 32 MiB = 224 MiB (was unbounded: sessions x 8 MiB)",
+    "p3_f7_code_change": "InfrastructurePool (anticheat-packet), ConnectionIngress pool accounting, PacketEngine engine-wide pool, /papea2ac status infrastructurePool line; tests InfrastructurePoolTest (3)",
+    "recording_degraded_decision": "EXPECTED SAFE LIMITATION",
+    "recording_root_cause": "Shard.run marks the session-start rolling capture incomplete (terminal reason DEGRADED) at the first HealthLatch generation bump; on a real client that is EXPIRED - the provisional-outcome journal's 500 ms timeout on the first inbound attempt, guaranteed under CAPTURE-ONLY/UNSUPPORTED correlation because no outcome source exists; the pre-login handshake is already older than 500 ms at bind, so the barrier is at frame 2. REPLAY_SYSTEM.md: 'complete/incomplete flag, terminal reason'; 'default action policy requires a complete capsule'",
+    "recording_action": "DOCUMENTED; operator re-arm path proven by CheckpointReplayTest.aRecordingReArmedAfterTheFirstBarrierRecordsNormally (initial capsule DEGRADED, re-armed capsule complete from its checkpoint)",
+    "real_client_health_decision": "EXPECTED SAFE STATUS",
+    "health_first_reason": "EXPIRED (provisional-outcome journal 500 ms timeout on the first inbound attempt; PIPELINE_UNCOVERED from the client's minecraft:brand custom payload when processed first)",
+    "health_meaning": "certified continuity unavailable (mode/qualification fact), not transport loss; world coverage is independent (P3-F3) and detects real loss itself (SEQUENCE_GAP, CAPTURE_COMPROMISED)",
+    "health_action": "DOCUMENTED (forward refinement noted: split certification frontier from operational transport health when supported correlation arrives)",
+    "human_exception_required": false,
+    "phase0_specifications_modified": false
+  },
+  "evidenceLog": {
+    "file": "docs/phase3-artifacts/real-client-evidence.log",
+    "samples": 91,
+    "secretsScan": "no password/token/credential/secret/rcon matches",
+    "containsLocalAddressAndOwnerUsername": true
+  },
+  "phase1JmhAfterIngressPool": {
+    "sequence": 69.4,
+    "enqueueDequeue": 38.4,
+    "journal": 28.6,
+    "normalize": 11.3,
+    "correlate": 1010.6,
+    "note": "sequence kernel +16 ns/op = pool accounting (two uncontended monitor sections per observation); frozen Phase 1 artifact restored byte-identical"
+  },
+  "baseline": {
+    "parent": "a95169e861a843e868f58c7b3a87ed050f14004a",
+    "phase2ImplementationBaseline": "f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24",
+    "phase1ImplementationBaseline": "35c44f9bf7694363d284c646e881351d887cf0bf",
+    "phase1HistoricalBaseline": "UNCHANGED",
+    "phase2HistoricalBaseline": "UNCHANGED",
+    "humanApproval": "docs/PHASE_3_HUMAN_APPROVAL.md",
+    "manifest": "docs/phase3-artifacts/baseline-manifest.sha256"
+  }
+}

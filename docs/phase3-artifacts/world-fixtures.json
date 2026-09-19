@@ -1,0 +1,17 @@
+{
+  "canonicalization": "SHA-256 over WorldReplayMapper.export(world).toString() (chunks and tombstones sorted by (x,z); canonical block-state keys, never run-local ids)",
+  "fixtures": {
+    "fullChunkBaseline": {"steps": 2, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "13ca583ecb462dc79c78500cbfd8e0bf6552adc483456dd076b80431e0ad1e4c"},
+    "negativeCoordinateChunk": {"steps": 3, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "72bbcb4a8f65326415f53f4c077be3f94b8cedc6fe2754de1dbb404bc5ab5b61"},
+    "singleBlockUpdate": {"steps": 3, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "93cb610b45f417f8683cad6d5bc99be1e1b8129e6afe40c0794d654260f0c8ed"},
+    "multiBlockUpdate": {"steps": 3, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "19542f1c7a00c127bf218c41c83288151e21871e714d2208f29f6700612c3816"},
+    "unload": {"steps": 4, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 1, "worldEpoch": 0, "transportBroken": false, "digest": "2774b48bebe7090bc8acd08c682938617e14625cbfede8c0c386afc0e99b6cf8"},
+    "reloadFullResend": {"steps": 5, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 1, "worldEpoch": 0, "transportBroken": false, "digest": "3719cea30a1a933e8921d38157b3df66af6c6db8c1d87f39dd9b21cca29764aa"},
+    "partialBaseline": {"steps": 3, "privateTier": 786432, "chunks": 1, "complete": 0, "partial": 1, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "88309986135830f5d599cec9ccc0ec781e0d6b539115354fa22ca614325bc106"},
+    "evictedThenPartialUpdate": {"steps": 16, "privateTier": 2600, "chunks": 7, "complete": 6, "partial": 1, "evicted": 6, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "3ae12682914cebb7d01edc171c69eb2bc1843861bfe459c020ec18443831eb0c"},
+    "dimensionTransition": {"steps": 5, "privateTier": 786432, "chunks": 1, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 1, "transportBroken": false, "digest": "acf960582e6b28d83675f90c123b53267dbc2f03f0ed7ec8a48d046318307dea"},
+    "captureCoverageBreak": {"steps": 5, "privateTier": 786432, "chunks": 2, "complete": 1, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": true, "digest": "50bd0f503b6c5c0fca10efd74842ace8ff56b3b3aa8ba5dfd103b6b4a06a5ca1"},
+    "contentNotRetainedBaseline": {"steps": 3, "privateTier": 786432, "chunks": 1, "complete": 0, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "6d968bfc39f486e2aef5f6fbba1c0475224ebf2b95d6b7aa30af11a727f68ded"},
+    "reconnectNewSession": {"steps": 3, "privateTier": 786432, "chunks": 0, "complete": 0, "partial": 0, "evicted": 0, "unloaded": 0, "worldEpoch": 0, "transportBroken": false, "digest": "3925af76c5109ba6d9d2d512adfe7d4a8deb5edb2f30f215b645d12ea36f49be"}
+  }
+}

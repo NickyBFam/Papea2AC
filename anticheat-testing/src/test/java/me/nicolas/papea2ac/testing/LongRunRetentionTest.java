@@ -59,7 +59,7 @@ class LongRunRetentionTest {
         try{
             int accepted=0;
             for(int i=1;i<=200;i++){
-                boolean submitted=writer.submit(i,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
+                boolean submitted=writer.submit(i,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(me.nicolas.papea2ac.schema.TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
                     java.util.List.of(new me.nicolas.papea2ac.schema.TransportCapsule.Close(1)),true));
                 if(submitted){accepted++;final int expected=accepted;await(()->writer.failed()>=expected);}
             }

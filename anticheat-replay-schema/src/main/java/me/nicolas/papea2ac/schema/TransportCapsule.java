@@ -7,6 +7,9 @@ public record TransportCapsule(int schema, String profile, String configurationD
         String sourceRevision, long epoch, boolean qualifiedFixture, List<Frame> frames, boolean complete,
         String incompleteReason) {
     public static final int MAX_BYTES = 8 * 1024 * 1024;
+    /** Container schema written by every encoder; {@link #LEGACY_SCHEMA} (Phase 1/2) is still decodable. Schema 2 (P3-C1): payload blobs use payload-schema 2
+     *  (extended semantic tags 59/74/79) and the per-payload bound rose to {@link Payload#MAX_BYTES}; the container layout itself is unchanged. */
+    public static final int CURRENT_SCHEMA = 2, LEGACY_SCHEMA = 1;
     /** Convenience for session-start (checkpoint-free) capsules; equivalent to the explicit-reason constructor with an empty reason. */
     public TransportCapsule(int schema, String profile, String configurationDigest, String sourceRevision,
             long epoch, boolean qualifiedFixture, List<Frame> frames, boolean complete) {
@@ -14,7 +17,7 @@ public record TransportCapsule(int schema, String profile, String configurationD
     }
     public TransportCapsule {
         Objects.requireNonNull(frames);
-        if (schema != 1 || profile == null || profile.isEmpty() || profile.length() > 128
+        if (schema < LEGACY_SCHEMA || schema > CURRENT_SCHEMA || profile == null || profile.isEmpty() || profile.length() > 128
                 || configurationDigest == null || !configurationDigest.matches("[0-9a-f]{64}")
                 || sourceRevision == null || sourceRevision.length() > 128 || epoch < 1 || frames.size() > 4096)
             throw new IllegalArgumentException("capsule header/limit");
@@ -85,7 +88,9 @@ public record TransportCapsule(int schema, String profile, String configurationD
     public sealed interface Event permits Attempt, Outcome, Outbound, WriteOutcome, Tick, ControlChange, CheckpointMarker { int chargedBytes(); }
     /** Schema-1 PayloadCodec bytes, never arbitrary native or Java-serialized objects. */
     public record Payload(byte[] bytes) {
-        public Payload { if (bytes == null || bytes.length < 2 || bytes.length > 65536) throw new IllegalArgumentException("payload bytes"); bytes = bytes.clone(); }
+        /** Equals PayloadCodec.LIMIT (asserted by CapsuleSchemaCompatibilityTest), so any payload the codec can produce fits a frame (schema 2 raised it from 64 KiB). */
+        public static final int MAX_BYTES = 128 * 1024;
+        public Payload { if (bytes == null || bytes.length < 2 || bytes.length > MAX_BYTES) throw new IllegalArgumentException("payload bytes"); bytes = bytes.clone(); }
         @Override public byte[] bytes() { return bytes.clone(); }
         public int length() { return bytes.length; }
     }

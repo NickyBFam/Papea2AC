@@ -24,8 +24,8 @@ class FaultInjectionAndFairnessTest {
         try{
             // Flood well beyond one shard tick's 2048-cost-unit budget; the ingress queue itself is bounded so
             // this also exercises explicit backpressure, not unbounded growth.
-            int accepted=0;for(int i=1;i<=2000;i++)if(session.ingress.capture(new Observation.Attempt(i,i,PacketTruthTest.MOVE),System.nanoTime()))accepted++;
-            assertTrue(accepted<2000,"a bounded ingress queue must eventually saturate rather than growing without limit");
+            int accepted=0;for(int i=1;i<=12000;i++)if(session.ingress.capture(new Observation.Attempt(i,i,PacketTruthTest.MOVE),System.nanoTime()))accepted++;// 12000 > the 4096-record ingress (P3-F7 raised it from 1024: one real tick's flush)
+            assertTrue(accepted<12000,"a bounded ingress queue must eventually saturate rather than growing without limit");
             // Control commands travel their own small bridge mailbox, so a saturated packet queue must not
             // block a control command from being accepted and, eventually, applied.
             assertTrue(engine.setRecordingEnabled(id,true));loop.drain();
@@ -78,7 +78,7 @@ class FaultInjectionAndFairnessTest {
         var quota=new me.nicolas.papea2ac.replay.ReplayQuota();
         var writer=new me.nicolas.papea2ac.replay.CaptureWriter(quota,c->{throw new java.io.IOException("injected export failure");},errors::add);
         try{
-            assertTrue(writer.submit(1,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
+            assertTrue(writer.submit(1,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(me.nicolas.papea2ac.schema.TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
                 java.util.List.of(new me.nicolas.papea2ac.schema.TransportCapsule.Close(1)),true)));
             await(()->writer.failed()==1);
             // A second, unrelated actor/session must be completely unaffected by the first export's failure.

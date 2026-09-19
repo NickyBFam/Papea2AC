@@ -14,7 +14,7 @@ class WriterWatchdogTest {
         assertTrue(condition.getAsBoolean());
     }
     static me.nicolas.papea2ac.schema.TransportCapsule capsule(){
-        return new me.nicolas.papea2ac.schema.TransportCapsule(1,me.nicolas.papea2ac.core.TransportReplayDriver.PROFILE,"0".repeat(64),"test",1,false,
+        return new me.nicolas.papea2ac.schema.TransportCapsule(me.nicolas.papea2ac.schema.TransportCapsule.CURRENT_SCHEMA,me.nicolas.papea2ac.core.TransportReplayDriver.PROFILE,"0".repeat(64),"test",1,false,
             java.util.List.of(new me.nicolas.papea2ac.schema.TransportCapsule.Close(1)),true);
     }
     @Test void idleWriterReportsRunningNeverSlowOrHung(){

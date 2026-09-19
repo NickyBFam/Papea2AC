@@ -32,7 +32,10 @@ class NativeFaultTest {
     }
     @Test void unexpectedSemanticDegradesAfterActuallyReachingActor()throws Exception{
         try(var f=new Fixture(new ChannelInboundHandlerAdapter())){
-            f.channel.writeInbound(new Object());NativePacketTest.awaitSequence(f.session,1);
+            // an intentionally-unsupported PROTOCOL packet (chat_command): a real packet the normalizer does not cover. (A bare non-packet Object is
+            // no longer an observation at all - pipeline control objects pass through, see NativePipelineControlObjectTest / P3-F11.)
+            f.channel.writeInbound(NativePacketTest.create("net.minecraft.network.protocol.game.ServerboundChatCommandPacket",new Class<?>[]{String.class},"papea2ac qualification"));
+            NativePacketTest.awaitSequence(f.session,1);
             long end=System.nanoTime()+2_000_000_000L;while(f.session.health.get().healthy()&&System.nanoTime()<end)Thread.sleep(1);
             assertEquals(HealthLatch.Reason.PIPELINE_UNCOVERED,f.session.health.get().reason());assertEquals(0,f.session.actor.snapshot().certifiedIngressOrdinal());
         }

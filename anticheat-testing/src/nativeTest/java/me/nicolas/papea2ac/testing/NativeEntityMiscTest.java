@@ -78,6 +78,6 @@ class NativeEntityMiscTest {
             false,false,Optional.empty(),0,63);
         Object keepAll=type(GAME+"ClientboundRespawnPacket").getField("KEEP_ALL_DATA").get(null);
         var respawn=(Respawn)check(create(GAME+"ClientboundRespawnPacket",new Class<?>[]{type(GAME+"CommonPlayerSpawnInfo"),byte.class},spawnInfo,keepAll));
-        assertEquals("minecraft:the_nether",respawn.dimension());
+        assertEquals("minecraft:the_nether",respawn.dimension());assertEquals(-64,respawn.dimensionMinY());assertEquals(384,respawn.dimensionHeight());
     }
 }

@@ -118,8 +118,25 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             sender.sendMessage("teleportSent="+t.teleportSent()+(t.teleportSent()?" id="+t.teleportId()+" confirmPacketSeen="+t.teleportAcknowledged():"")
                 +" activeExternalMotion="+t.activeExternalMotionInfluences()+" externalMotionOverflow="+t.externalMotionOverflow());
             return true;
+        }else if(args.length==2&&args[0].equalsIgnoreCase("world")){
+            // Bounded summary of the published observer-world snapshot - never a chunk/block dump. Everything shown is
+            // what was OBSERVED as sent to this client, not server world truth.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var status=engine.worldStatus(player.getUniqueId());
+            if(status.isEmpty()){sender.sendMessage("No admitted session for that player.");return true;}
+            var w=status.get();
+            sender.sendMessage("world sessionEpoch="+w.sessionEpoch()+" worldEpoch="+w.worldEpoch()+" dimension="+(w.hasDimension()?w.dimensionId()+" y["+w.minY()+".."+(w.minY()+w.height()-1)+"]":"UNKNOWN")
+                +" revision="+w.revision()+" lastSequence="+w.lastSequence());
+            sender.sendMessage("chunks="+w.chunkCount()+" complete="+w.completeChunks()+" partial="+w.partialChunks()+" contentNotRetained="+w.contentNotRetainedChunks()
+                +" transportIncomplete="+w.transportIncompleteChunks()+" evicted="+w.evictedChunks()+" unloaded="+w.unloadedChunks());
+            sender.sendMessage("privateBytes="+w.privateBytes()+" historyBytes="+w.historyBytes()+" historyEntries="+w.historyEntries()+" historyEvictions="+w.historyEvictions()
+                +" coverage="+(w.transportBroken()?"BREAKS="+w.transportBreaks()+" last="+w.transportBreakReason()+"@"+w.lastBreakSequence()+" (held chunks incomplete until re-baselined)":"HEALTHY"));
+            sender.sendMessage("blockUpdates="+w.blockUpdates()+" last="+(w.lastBlockUpdate().isEmpty()?"none":w.lastBlockUpdate()));
+            for(int i=0;i<w.recentBlockUpdates().size();i++)sender.sendMessage("  recent["+i+"] "+w.recentBlockUpdates().get(i));// bounded: at most 8 lines
+            return true;
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());
@@ -133,7 +150,12 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             +" writerHealth="+monitoring.writerHealth()+" checkpointsCreated="+monitoring.checkpointsCreated()+" recordingPauses="+monitoring.recordingPauses());
         var budget=engine.budgetStatus();
         sender.sendMessage("budget rollingBytes="+budget.replayRollingBytesUsed()+"/"+budget.replayRollingBytesLimit()
-            +" promotionBytes="+budget.replayPromotionBytesUsed()+" ioBytes="+budget.replayIoBytesUsed()+" writerQueueCapacity="+budget.writerQueueCapacity());
+            +" promotionBytes="+budget.replayPromotionBytesUsed()+" ioBytes="+budget.replayIoBytesUsed()+" writerQueueCapacity="+budget.writerQueueCapacity()
+            +" infrastructurePool="+engine.infrastructurePool.used()+"/"+engine.infrastructurePool.limit());
+        var world=engine.worldBudgetSnapshot();
+        sender.sendMessage("world observers="+world.observerWorlds()+" chunks="+world.chunks()+" complete="+world.completeChunks()+" partial="+world.partialChunks()+" sections="+world.sections()
+            +" sharedBytes="+world.sharedBytes()+"/"+world.sharedLimit()+" sharedSections="+world.sharedSections()+" sharedHits="+world.sharedHits()+" privateTier="+world.privateLimit()
+            +" revisions="+world.revisions()+" historyEvictions="+world.historyEvictions()+" evicted="+world.evictedChunks()+" unloaded="+world.unloadedChunks()+" coverageBreaks="+world.coverageBreaks()+" budgetRejections="+world.budgetRejections());
         return true;
     }
     @EventHandler public void join(PlayerJoinEvent event){attach(event.getPlayer());}
@@ -142,6 +164,7 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         HandlerList.unregisterAll((Listener)this);
         getServer().getServicesManager().unregisterAll(this);
         if(capture!=null){capture.unregisterEarlyHook();for(Binding b:bindings.values())capture.detach(b.channel(),b.session());}
-        bindings.clear();if(engine!=null)engine.close();
+        bindings.clear();
+        if(engine!=null){engine.close();if(!engine.awaitTermination(2000))getLogger().warning("Papea2AC shards did not drain within 2 s of disable; sessions were force-fenced.");}// drain before Bukkit closes the plugin jar (P3-F13)
     }
 }

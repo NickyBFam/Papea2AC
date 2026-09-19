@@ -180,9 +180,10 @@ final class PaperSemanticNormalizer {
     }
     private static JoinGame joinGame(Object p)throws ReflectiveOperationException{
         Object spawnInfo=call(p,"commonPlayerSpawnInfo");Object dimensionKey=call(spawnInfo,"dimension");
+        Object dimensionType=call(call(spawnInfo,"dimensionType"),"value");
         return new JoinGame(integer(p,"playerId"),bool(p,"hardcore"),call(dimensionKey,"identifier").toString(),
             integer(p,"maxPlayers"),integer(p,"chunkRadius"),integer(p,"simulationDistance"),
-            enumeration(call(spawnInfo,"gameType")),bool(p,"onlineMode"),bool(p,"enforcesSecureChat"));
+            enumeration(call(spawnInfo,"gameType")),bool(p,"onlineMode"),bool(p,"enforcesSecureChat"),integer(dimensionType,"minY"),integer(dimensionType,"height"));
     }
     /**
      * Known-relevant fields are typed (durability, unbreakable, enchantments); every other present
@@ -222,7 +223,8 @@ final class PaperSemanticNormalizer {
     }
     private static Respawn respawn(Object p)throws ReflectiveOperationException{
         Object spawnInfo=call(p,"commonPlayerSpawnInfo");Object dimensionKey=call(spawnInfo,"dimension");
-        return new Respawn(call(dimensionKey,"identifier").toString(),(byte)call(p,"dataToKeep"));
+        Object dimensionType=call(call(spawnInfo,"dimensionType"),"value");
+        return new Respawn(call(dimensionKey,"identifier").toString(),(byte)call(p,"dataToKeep"),integer(dimensionType,"minY"),integer(dimensionType,"height"));
     }
     private static DamageEvent damageEvent(Object p)throws ReflectiveOperationException{
         int entityId=integer(p,"entityId");String type=holderKey(call(p,"sourceType"));
@@ -286,7 +288,86 @@ final class PaperSemanticNormalizer {
         byte[] buffer=(byte[])field(chunkData,"buffer");
         List<?> blockEntities=(List<?>)field(chunkData,"blockEntitiesData");
         Map<?,?> heightmaps=(Map<?,?>)call(chunkData,"getHeightmaps");
-        return new ChunkBaseline(x,z,buffer.length,blockEntities.size(),heightmaps.size(),true);
+        List<ChunkSection> sections;String note;
+        try{
+            sections=decodeSections(buffer);
+            int bytes=0;for(var s:sections)bytes+=s.chargedBytes();
+            if(bytes>ChunkBaseline.INLINE_CONTENT_CAP){note="OVER_INLINE_CAP:"+bytes;sections=List.of();}else note="";
+        }catch(SectionDecodeFault e){sections=List.of();note="DECODE_FAULT:"+e.getMessage();}
+        return new ChunkBaseline(x,z,buffer.length,blockEntities.size(),heightmaps.size(),true,note.isEmpty(),sections,note);
+    }
+    /** Typed decode rejection: the chunk's summary is still normalized; only its section content is marked not retained. */
+    static final class SectionDecodeFault extends Exception{private static final long serialVersionUID=1L;SectionDecodeFault(String kind){super(kind);}}
+    private static final class Cursor{final byte[] b;int i;Cursor(byte[] b){this.b=b;}
+        int u8()throws SectionDecodeFault{if(i>=b.length)throw new SectionDecodeFault("TRUNCATED");return b[i++]&0xFF;}
+        int u16()throws SectionDecodeFault{return (u8()<<8)|u8();}
+        long i64()throws SectionDecodeFault{long v=0;for(int k=0;k<8;k++)v=(v<<8)|u8();return v;}
+        int varint()throws SectionDecodeFault{int v=0;for(int shift=0;shift<35;shift+=7){int c=u8();v|=(c&0x7F)<<shift;if((c&0x80)==0)return v;}throw new SectionDecodeFault("VARINT");}
+    }
+    /**
+     * Decodes the chunk-data buffer with the exact layout the pinned 26.2 server writes and the client reads
+     * (bytecode-verified: LevelChunkSection.write = short nonEmpty, short fluid, states, biomes;
+     * PalettedContainer.write = byte bits, palette, fixed-size long[] with no length prefix; block-state
+     * configurations 0=single, 1..4=linear stored at 4 bits, 5..8=hashmap, >8=global; biome configurations
+     * 0=single, 1..3=linear, >3=global; SimpleBitStorage values never straddle a long). Sections are read until
+     * the buffer is exhausted, exactly like the client, which is how the section count is known without
+     * consulting server world state. Global (direct) palettes are re-palettized here - the only place the native
+     * id->state registry legitimately exists - so no numeric wire id ever leaves the platform module.
+     */
+    static List<ChunkSection> decodeSections(byte[] buffer)throws ReflectiveOperationException,SectionDecodeFault{
+        var cursor=new Cursor(buffer);var sections=new ArrayList<ChunkSection>();
+        while(cursor.i<buffer.length){
+            if(sections.size()>=ChunkBaseline.MAX_SECTIONS)throw new SectionDecodeFault("SECTION_COUNT");
+            int nonEmpty=cursor.u16(),fluid=cursor.u16();
+            sections.add(readStates(cursor,nonEmpty,fluid));
+            skipBiomes(cursor);
+        }
+        return sections;
+    }
+    private static ChunkSection readStates(Cursor c,int nonEmpty,int fluid)throws ReflectiveOperationException,SectionDecodeFault{
+        int wireBits=c.u8();
+        if(wireBits==0){return new ChunkSection(nonEmpty,fluid,List.of(globalState(c.varint())),0,new long[0]);}
+        if(wireBits<=8){
+            int bits=Math.max(4,wireBits);int n=c.varint();if(n<1||n>(1<<bits))throw new SectionDecodeFault("PALETTE_SIZE");
+            var palette=new ArrayList<BlockState>(n);for(int a=0;a<n;a++)palette.add(globalState(c.varint()));
+            long[] packed=readLongs(c,ChunkSection.packedLongs(bits));
+            int max=n-1,perLong=64/bits,mask=(1<<bits)-1;
+            for(int index=0;index<ChunkSection.BLOCKS;index++)if(((int)(packed[index/perLong]>>>((index%perLong)*bits))&mask)>max)throw new SectionDecodeFault("PALETTE_INDEX");
+            return new ChunkSection(nonEmpty,fluid,palette,bits,packed);
+        }
+        if(wireBits>32)throw new SectionDecodeFault("BITS");
+        // Global palette: entries are registry ids. Re-palettize to a bounded indirect palette of canonical states.
+        int perLong=64/wireBits;long[] raw=readLongs(c,(ChunkSection.BLOCKS+perLong-1)/perLong);long mask=(1L<<wireBits)-1;
+        var ids=new LinkedHashMap<Integer,Integer>();int[] local=new int[ChunkSection.BLOCKS];
+        for(int index=0;index<ChunkSection.BLOCKS;index++){
+            int id=(int)((raw[index/perLong]>>>((index%perLong)*wireBits))&mask);
+            Integer slot=ids.get(id);if(slot==null){if(ids.size()>=ChunkSection.MAX_PALETTE)throw new SectionDecodeFault("PALETTE_SIZE");slot=ids.size();ids.put(id,slot);}
+            local[index]=slot;
+        }
+        var palette=new ArrayList<BlockState>(ids.size());for(int id:ids.keySet())palette.add(globalState(id));
+        int n=palette.size();if(n==1)return new ChunkSection(nonEmpty,fluid,palette,0,new long[0]);
+        int bits=Math.max(4,32-Integer.numberOfLeadingZeros(n-1));int outPerLong=64/bits;long[] packed=new long[ChunkSection.packedLongs(bits)];
+        for(int index=0;index<ChunkSection.BLOCKS;index++)packed[index/outPerLong]|=((long)local[index])<<((index%outPerLong)*bits);
+        return new ChunkSection(nonEmpty,fluid,palette,bits,packed);
+    }
+    private static long[] readLongs(Cursor c,int count)throws SectionDecodeFault{long[] out=new long[count];for(int a=0;a<count;a++)out[a]=c.i64();return out;}
+    private static void skipBiomes(Cursor c)throws SectionDecodeFault{
+        int bits=c.u8();
+        if(bits==0){c.varint();return;}
+        if(bits<=3){int n=c.varint();if(n<1||n>(1<<bits))throw new SectionDecodeFault("BIOME_PALETTE");for(int a=0;a<n;a++)c.varint();}
+        else if(bits>32)throw new SectionDecodeFault("BIOME_BITS");
+        int perLong=64/bits;int longs=(64+perLong-1)/perLong;for(int a=0;a<longs;a++)c.i64();
+    }
+    /** Memoized global id -> canonical BlockState (identical on every call for the pinned server; bounded by the registry size). */
+    private static final Map<Integer,BlockState> globalStates=new java.util.concurrent.ConcurrentHashMap<>();
+    private static BlockState globalState(int id)throws ReflectiveOperationException,SectionDecodeFault{
+        BlockState cached=globalStates.get(id);if(cached!=null)return cached;
+        Object registry=Class.forName("net.minecraft.world.level.block.Block").getField("BLOCK_STATE_REGISTRY").get(null);
+        Object nativeState=call(registry,"byId",id);
+        if(nativeState==null)throw new SectionDecodeFault("UNKNOWN_STATE_ID");
+        BlockState state=blockState(nativeState);
+        if(globalStates.size()<65536)globalStates.put(id,state);
+        return state;
     }
     /** Lazily memoized: this reflective lookup is identical on every call (the pinned server's serializer
      * singletons never change at runtime), so resolving it once instead of on every packet materially

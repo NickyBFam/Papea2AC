@@ -6,6 +6,10 @@ public sealed interface PacketPayload permits PacketPayload.Movement,PacketPaylo
         PacketPayload.Explosion,PacketPayload.Vehicle,PacketPayload.Passengers,PacketPayload.Health,PacketPayload.TickRate,
         PacketPayload.Uncovered,PacketPayload.Bundle,SemanticPayload {
     int chargedBytes();
+    /** Bytes of BULK content (PERFORMANCE.md "bulk/scratch" pool: charged against the per-session exposure ceiling, not the ingress record arena). 0 for ordinary records. */
+    default int bulkBytes() { return 0; }
+    /** The same observation with its bulk content deliberately not retained (explicit, never fabricated); identity when there is none. */
+    default PacketPayload shedBulk(String reason) { return this; }
     record Movement(Position position, Rotation rotation, boolean onGround, boolean horizontalCollision) implements PacketPayload {
         public int chargedBytes() { return 160; }
     }
@@ -62,6 +66,8 @@ public sealed interface PacketPayload permits PacketPayload.Movement,PacketPaylo
         public int chargedBytes() { return 384; }
     }
     record Bundle(List<PacketPayload> children) implements PacketPayload {
+        @Override public int bulkBytes() { int b = 0; for (var c : children) b += c.bulkBytes(); return b; }
+        @Override public PacketPayload shedBulk(String reason) { if (bulkBytes() == 0) return this; var out = new java.util.ArrayList<PacketPayload>(children.size()); for (var c : children) out.add(c.shedBulk(reason)); return new Bundle(out); }
         public Bundle {
             Objects.requireNonNull(children);
             if(children.size()>256 || children.stream().anyMatch(p -> p instanceof Bundle)) throw new IllegalArgumentException("bundle");

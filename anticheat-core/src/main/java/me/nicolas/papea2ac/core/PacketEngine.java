@@ -8,11 +8,12 @@ import me.nicolas.papea2ac.protocol.Observation;
 import me.nicolas.papea2ac.api.CoverageSummary;
 import me.nicolas.papea2ac.player.PlayerObservation;
 import me.nicolas.papea2ac.player.PlayerTimeline;
+import me.nicolas.papea2ac.world.*;
 /** Fixed shards. Lifecycle lock is admission-only, never used by packet callbacks. */
 public final class PacketEngine implements AutoCloseable {
     public final class Session {
         public final SessionKey key;public final HealthLatch health=new HealthLatch();
-        public final ConnectionIngress ingress;public final TruthActor actor;public final PlayerTimeline timeline;
+        public final ConnectionIngress ingress;public final TruthActor actor;public final PlayerTimeline timeline;public final ObserverWorld world;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
         private final AtomicBoolean cleanupAlerted=new AtomicBoolean();
@@ -23,20 +24,36 @@ public final class PacketEngine implements AutoCloseable {
         private volatile SessionRecording recording;
         private Session(SessionKey key,int activeSessions,ConnectionIngress.EventLoop loop,TransportCapability capability,
                 java.util.function.Function<me.nicolas.papea2ac.protocol.Observation.Event,me.nicolas.papea2ac.protocol.Observation.Context> context){
-            this.key=key;recording=writer==null?null:new SessionRecording(replayQuota,key.epoch(),activeSessions);ingress=new ConnectionIngress(key,loop,health,1024,context,loss->{
+            this.key=key;recording=writer==null?null:new SessionRecording(replayQuota,key.epoch(),activeSessions);ingress=new ConnectionIngress(key,loop,health,4096,context,loss->{// 4096 records: one real tick's flush (P3-F7); arena bytes above the guaranteed slice and all bulk come from the engine-wide infrastructure pool
                 metrics.increment(switch(loss){
                     case INGRESS_FULL -> PacketMetrics.Kind.INGRESS_DROPPED;
                     case BRIDGE_FULL -> PacketMetrics.Kind.BRIDGE_DROPPED;
                     case DISPATCH_REJECTED -> PacketMetrics.Kind.DISPATCH_REJECTED;
+                    case BULK_SHED -> PacketMetrics.Kind.BULK_SHED;
                 });
-            });
+            },infrastructurePool);
             actor=new TruthActor(key,health,capability,metrics,256);
             timeline=new PlayerTimeline(key);
+            world=new ObserverWorld(key,worldBudget,blockStates);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
+        /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
+         *  The platform reports it here (in addition to the Phase 1 latch); the shard turns the first report into a world CoverageBreak on the next ordered
+         *  observation (bridged server ticks keep arriving even when the channel handlers are gone). The latch reason PIPELINE_UNCOVERED itself is NOT a
+         *  world break: on a real session it is raised by uncovered inbound/outbound packets that carry no world state (P3-F12). */
+        public void captureCompromised(String reason){captureCompromised.compareAndSet(null,reason==null||reason.isEmpty()?"UNSPECIFIED":reason);}
+        final AtomicReference<String> captureCompromised=new AtomicReference<>();
         /** Diagnostic-only: current recording arm state, for tests/monitoring. Not for control decisions (racy against the shard). */
         public boolean recordingArmed(){var r=recording;return r!=null&&r.armed();}
         public boolean recordingComplete(){var r=recording;return r==null||r.complete();}
+    }
+    /** Ordered world ingestion for one observation: bundle children keep wire order via subIndex; a world-silent observation still advances the "observed through" bound (player/world coherence). */
+    private static void applyWorld(Session s,Observation o,long now,String worldTransport){
+        int base=0;String compromised=s.captureCompromised.getAndSet(null);
+        if(compromised!=null){String reason="CAPTURE_COMPROMISED:"+compromised;s.world.apply(s.key,new WorldObservation.CoverageBreak(reason.length()>64?reason.substring(0,64):reason),o.sequence(),0,now,worldTransport);base=1;}
+        var worldObservations=WorldObservationMapper.map(o);
+        for(int w=0;w<worldObservations.size();w++)s.world.apply(s.key,worldObservations.get(w),o.sequence(),base+w,now,worldTransport);
+        if(worldObservations.isEmpty()&&base==0)s.world.observeSequence(s.key,o.sequence(),now);
     }
     private final class Shard implements Runnable {
         final Thread thread;final AtomicReference<List<Session>> sessions=new AtomicReference<>(List.of());
@@ -46,13 +63,16 @@ public final class PacketEngine implements AutoCloseable {
         public void run(){
             try{
                 while(!fenced.get()&&(!stopping.get()||!sessions.get().isEmpty())){
-                    heartbeat=System.nanoTime();
+                    heartbeat=System.nanoTime();boolean busy=false;
                     for(Session s:sessions.get()){
                         if(s.closing.get()||stopping.get()){
                             if(!s.actorClosed){
-                                if(s.recording!=null){s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);s.recording.close();}
+                                // The final export must never prevent the session's own release: at server stop Bukkit may already have closed the plugin jar
+                                // (lazy class loading then throws), and the actor/world below still have to release their shared charge (P3-F13, real-client run).
+                                if(s.recording!=null){try{s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);}catch(RuntimeException|LinkageError e){errors.accept(e);}finally{try{s.recording.close();}catch(RuntimeException e){errors.accept(e);}}}
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
                                 s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
+                                s.world.close();
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
                             continue;
@@ -66,10 +86,15 @@ public final class PacketEngine implements AutoCloseable {
                             for(int i=0;i<32;i++){
                                 var o=s.deferred!=null?s.deferred:s.ingress.poll();if(o==null)break;
                                 int cost=1+(o.chargedBytes()+31)/32;
-                                if(cost<=2048&&work+cost>2048){s.deferred=o;break;}
-                                if(cost>2048||!s.quota.take(cost,System.nanoTime())){
-                                    s.health.invalidate(HealthLatch.Reason.WORK_QUOTA,o.sequence());s.deferred=null;break;
+                                // The 2048-unit slice is a fairness bound, never a size limit: an oversize observation (a near-maximal Bundle) runs alone in
+                                // its own pass. Quota exhaustion DEFERS (backpressure through the bounded ingress, whose overflow is an accounted drop) -
+                                // the previous "deferred=null" silently dropped the observation, which the world exposed as a SEQUENCE_GAP without any
+                                // INGRESS_DROPPED during ordinary play (P3-F6, real-client qualification).
+                                if(work>0&&work+cost>2048){s.deferred=o;break;}
+                                if(!s.quota.take(Math.min(cost,200_000),System.nanoTime())){
+                                    s.health.invalidate(HealthLatch.Reason.WORK_QUOTA,o.sequence());metrics.increment(PacketMetrics.Kind.WORK_QUOTA_DEFERRED);s.deferred=o;break;
                                 }
+                                busy=true;
                                 s.deferred=null;work+=cost;long now=System.nanoTime();
                                 var boundary=s.health.get();
                                 boolean administrative=o.event() instanceof Observation.ControlChange||o.event() instanceof Observation.CheckpointMarker;
@@ -85,10 +110,15 @@ public final class PacketEngine implements AutoCloseable {
                                 // Sticky Phase 1 health travels with every record (null = healthy), so a session already
                                 // degraded before this observation still yields uncertain records, not just the one that bumped.
                                 String transport=after.healthy()||deliberateClose?null:after.reason().name();
+                                // The world only breaks on reasons that can mean lost/undecoded CLIENTBOUND observation (P3-F3); outcome-correlation reasons keep it healthy.
+                                String worldTransport=WorldObservationMapper.coverageBreakReason(after,deliberateClose);
                                 if(degraded){
                                     s.timeline.append(s.key,new PlayerObservation.CoverageGap(after.reason().name()),o.sequence(),now,transport);
+                                    if(worldTransport!=null)s.world.apply(s.key,new WorldObservation.CoverageBreak(worldTransport),o.sequence(),0,now,worldTransport);
+                                    else applyWorld(s,o,now,null);// the bump does not concern clientbound observation: the world still consumes this observation
                                 }else{
                                     PlayerObservationMapper.map(o).ifPresent(po->s.timeline.append(s.key,po,o.sequence(),now,transport));
+                                    applyWorld(s,o,now,worldTransport);
                                 }
                                 if(s.recording!=null&&degraded)s.recording.incomplete();
                                 if(administrative)applyControl(s,o,now);
@@ -98,7 +128,10 @@ public final class PacketEngine implements AutoCloseable {
                             errors.accept(ex);
                         }
                     }
-                    LockSupport.parkNanos(100_000);
+                    // Park only when the pass found nothing to do. The 32-per-session slice stays (fairness across sessions), but a busy
+                    // pass loops straight into the next one: a park is >= 1 ms on Windows (timer granularity), which capped drain at
+                    // ~32 observations/ms and let a real join flood (thousands of packets in one tick) overflow the ingress (P3-F5).
+                    if(busy)Thread.onSpinWait();else LockSupport.parkNanos(100_000);
                 }
             }finally{fenced.set(true);for(Session s:sessions.get()){s.health.invalidate(HealthLatch.Reason.SHARD_FAILED,0);s.ingress.close();}}
         }
@@ -146,6 +179,11 @@ public final class PacketEngine implements AutoCloseable {
     private volatile int activeSessionCount;
     private final AtomicBoolean writerHungAlerted=new AtomicBoolean();
     private final RuntimeControl controls=new RuntimeControl(1024);
+    /** Engine-wide observer-world accounting (PERFORMANCE.md shared-world partition + per-session private tier) and the run-local block-state dictionary; both thread-safe, shared by every session's ObserverWorld. */
+    public final WorldBudget worldBudget=new WorldBudget();
+    public final BlockStateDictionary blockStates=new BlockStateDictionary();
+    /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
+    public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
     private volatile me.nicolas.papea2ac.replay.CaptureWriter writer;
     private volatile String replayConfiguration;
@@ -202,7 +240,9 @@ public final class PacketEngine implements AutoCloseable {
         Session session=new Session(new SessionKey(player,epoch),active.size()+1,loop,capability,context);
         if(old!=null)old.close();
         reservedBytes+=SESSION_BYTES;active.put(player,session);activeSessionCount=active.size();
+        session.ingress.onEnqueue(()->LockSupport.unpark(shard.thread));// a parked (idle) shard wakes on the first observation instead of finishing its park (P3-F5)
         shard.sessions.updateAndGet(list->{var copy=new ArrayList<>(list);copy.add(session);return List.copyOf(copy);});
+        LockSupport.unpark(shard.thread);
         return session;
     }
     /** Reap only proven-dead writers; hung writers stay fenced, rooted and charged. */
@@ -232,7 +272,7 @@ public final class PacketEngine implements AutoCloseable {
             for(Session s:shard.sessions.get()){
                 s.ingress.close();
                 if(s.ingress.releaseAfterClose()){
-                    s.actor.retireAfterWriterTermination();s.deferred=null;
+                    s.actor.retireAfterWriterTermination();s.world.retireAfterOwnerTermination();s.deferred=null;
                     if(s.recording!=null&&!s.actorClosed){s.recording.incomplete();s.recording.export(writer,replayConfiguration);s.recording.close();s.actorClosed=true;}
                     shard.remove(s);
                 }
@@ -279,6 +319,17 @@ public final class PacketEngine implements AutoCloseable {
         Session s=active.get(player);
         return s==null?java.util.Optional.empty():java.util.Optional.of(s.timeline.snapshot());
     }
+    /** Primitive-only diagnostic projection of the published observer-world snapshot. Empty for an unknown player - never a fabricated default. */
+    public synchronized java.util.Optional<WorldStatus> worldStatus(UUID player){
+        Session s=active.get(player);
+        if(s==null)return java.util.Optional.empty();
+        var w=s.world.snapshot();var d=w.dimension();
+        return java.util.Optional.of(new WorldStatus(s.key.epoch(),w.worldEpoch(),d!=null,d==null?"":d.dimensionId(),d==null?0:d.minY(),d==null?0:d.height(),
+            w.revision(),w.lastSequence(),w.chunkCount(),w.completeChunks(),w.partialChunks(),w.contentNotRetainedChunks(),w.transportIncompleteChunks(),
+            w.evictedChunks(),w.unloadedChunks(),w.privateBytes(),w.historyBytes(),w.historyEntries(),w.historyEvictions(),w.transportBroken(),w.transportBreakReason(),w.transportBreaks(),w.lastBreakSequence(),w.blockUpdates(),w.lastBlockUpdate(),w.recentBlockUpdates()));
+    }
+    /** Engine-wide observer-world accounting (fixed shape, no per-player labels). */
+    public WorldBudget.Snapshot worldBudgetSnapshot(){return worldBudget.snapshot();}
     /** Primitive-only diagnostic projection of the published Timeline Snapshot (for platform-paper, which may not depend on anticheat-player). Empty for an unknown player - never a fabricated default. */
     public synchronized java.util.Optional<TimelineStatus> timelineStatus(UUID player){
         Session s=active.get(player);
@@ -292,6 +343,16 @@ public final class PacketEngine implements AutoCloseable {
     }
     public synchronized void close(){stopping.set(true);finishReplayShutdown();for(Shard shard:shards){for(Session s:shard.sessions.get())s.close();LockSupport.unpark(shard.thread);}}
     public boolean terminated(){return shards.stream().noneMatch(s->s.thread.isAlive());}
+    /** Bounded wait for the shards to drain their closing sessions after close(); the platform calls this from onDisable BEFORE Bukkit closes the plugin classloader (P3-F13). Never blocks past the deadline; returns whether every shard terminated. */
+    public boolean awaitTermination(long timeoutMillis){
+        long deadline=System.nanoTime()+java.util.concurrent.TimeUnit.MILLISECONDS.toNanos(Math.max(0,timeoutMillis));
+        for(Shard shard:shards){
+            LockSupport.unpark(shard.thread);
+            long remaining=deadline-System.nanoTime();
+            if(remaining>0){try{shard.thread.join(Math.max(1,remaining/1_000_000L));}catch(InterruptedException e){Thread.currentThread().interrupt();return false;}}
+        }
+        return terminated();
+    }
     /** Fail-closed per-session guard states; NOT_ADMITTED sessions report every guard false rather than an unknown/guessed state. */
     public synchronized GuardStatus guardStatus(UUID player){
         Session s=active.get(player);

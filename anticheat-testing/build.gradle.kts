@@ -80,6 +80,14 @@ tasks.register<JavaExec>("timelineFixtures") {
     args(rootProject.file("docs/phase2-artifacts/timeline-fixtures.json").absolutePath)
     doFirst { rootProject.file("docs/phase2-artifacts").mkdirs() }
 }
+tasks.register<JavaExec>("worldFixtures") {
+    description = "Regenerates the pinned Phase 3 world fixture digests (docs/phase3-artifacts/world-fixtures.json). A changed digest is a reviewed event."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.WorldFixtureMain")
+    args(rootProject.file("docs/phase3-artifacts/world-fixtures.json").absolutePath)
+    doFirst { rootProject.file("docs/phase3-artifacts").mkdirs() }
+}
 tasks.register<JavaExec>("heavyNormalizerBenchmark") {
     description = "Descriptive (not JMH) hot-path timing for item/container/chunk/entity-metadata normalization."
     dependsOn(tasks.named(nativeTest.classesTaskName))
@@ -108,4 +116,30 @@ tasks.register<JavaExec>("benchmarkPlayerTimeline") {
     mainClass.set("org.openjdk.jmh.Main")
     args("PlayerTimelineBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase2-artifacts/benchmarks.json").absolutePath)
     doFirst { rootProject.file("docs/phase2-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkObserverWorld") {
+    description = "Phase 3 JMH kernels: observer-world baseline ingest, block updates, lookups, copy-on-write, unload, history eviction. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    args("ObserverWorldBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase3-artifacts/benchmarks.json").absolutePath)
+    doFirst { rootProject.file("docs/phase3-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("observerWorldMemoryHarness") {
+    description = "Empirical (forced-GC heap diff) Phase 3 observer-world memory estimate across view-size scenarios, shared vs unique content. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ObserverWorldMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase3-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase3-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("inspectCapsule") {
+    description = "Read-only inspection of a recorded transport capsule (qualification evidence): -Pcapsule=<file> [-Pfilter=BlockChange,SectionBlocksUpdate]"
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CapsuleInspectMain")
+    val capsule = project.findProperty("capsule")?.toString() ?: ""
+    val filter = project.findProperty("filter")?.toString() ?: ""
+    args(listOf(capsule) + filter.split(",").filter { it.isNotBlank() })
 }

@@ -34,6 +34,20 @@ final class SemanticCodec {
         for(int a=0;a<n;a++)properties.add(new Property(text(i),text(i)));
         return new BlockState(key,properties);
     }
+    private static void section(DataOutputStream o,ChunkSection s)throws IOException{
+        o.writeShort(s.nonEmptyBlockCount());o.writeShort(s.fluidCount());o.writeByte(s.bitsPerEntry());
+        o.writeInt(s.palette().size());for(var state:s.palette())blockState(o,state);
+        for(int a=0;a<s.packedLength();a++)o.writeLong(s.packedWord(a));
+    }
+    /** Every bound (bits, palette size, derived long count) is validated BEFORE the packed array is allocated, so a malformed capsule cannot force a large allocation. */
+    private static ChunkSection section(DataInputStream i)throws IOException{
+        int nonEmpty=i.readUnsignedShort(),fluid=i.readUnsignedShort(),bits=i.readUnsignedByte();
+        if(bits>ChunkSection.MAX_BITS)throw new IOException("section bits");
+        int n=count(i,bits==0?1:Math.min(ChunkSection.MAX_PALETTE,1<<bits));if(n<1)throw new IOException("section palette");
+        var palette=new ArrayList<BlockState>(n);for(int a=0;a<n;a++)palette.add(blockState(i));
+        long[] packed=new long[ChunkSection.packedLongs(bits)];for(int a=0;a<packed.length;a++)packed[a]=i.readLong();
+        try{return new ChunkSection(nonEmpty,fluid,palette,bits,packed);}catch(IllegalArgumentException e){throw new IOException("invalid section",e);}
+    }
     private static Item item(DataInputStream i)throws IOException{
         if(bool(i))return Item.EMPTY;
         String type=text(i);int count=i.readInt(),damage=i.readInt(),maxDamage=i.readInt();boolean unbreakable=bool(i);
@@ -105,7 +119,7 @@ final class SemanticCodec {
             case LoginPluginQueryResponse v->{o.writeByte(56);o.writeInt(v.transactionId());o.writeBoolean(v.understood());}
             case LoginCompression v->{o.writeByte(57);o.writeInt(v.threshold());}
             case LoginFinished v->{o.writeByte(58);o.writeLong(v.profileId().getMostSignificantBits());o.writeLong(v.profileId().getLeastSignificantBits());o.writeUTF(v.profileName());}
-            case JoinGame v->{o.writeByte(59);o.writeInt(v.playerId());o.writeBoolean(v.hardcore());o.writeUTF(v.dimension());o.writeInt(v.maxPlayers());o.writeInt(v.chunkRadius());o.writeInt(v.simulationDistance());o.writeUTF(v.gameType());o.writeBoolean(v.onlineMode());o.writeBoolean(v.enforcesSecureChat());}
+            case JoinGame v->{o.writeByte(59);o.writeInt(v.playerId());o.writeBoolean(v.hardcore());o.writeUTF(v.dimension());o.writeInt(v.maxPlayers());o.writeInt(v.chunkRadius());o.writeInt(v.simulationDistance());o.writeUTF(v.gameType());o.writeBoolean(v.onlineMode());o.writeBoolean(v.enforcesSecureChat());o.writeInt(v.dimensionMinY());o.writeInt(v.dimensionHeight());}
             case ContainerContent v->{o.writeByte(60);o.writeInt(v.containerId());o.writeInt(v.stateId());o.writeInt(v.items().size());for(var it:v.items())item(o,it);item(o,v.carried());}
             case ContainerSlot v->{o.writeByte(61);o.writeInt(v.containerId());o.writeInt(v.stateId());o.writeInt(v.slot());item(o,v.item());}
             case CursorItem v->{o.writeByte(62);item(o,v.item());}
@@ -122,16 +136,17 @@ final class SemanticCodec {
             case EntitySyncedData v->{o.writeByte(71);o.writeInt(v.entityId());o.writeInt(v.fields().size());for(var f:v.fields()){o.writeInt(f.id());o.writeUTF(f.kind());o.writeUTF(f.value());}}
             case LookAt v->{o.writeByte(72);o.writeUTF(v.fromAnchor());o.writeDouble(v.x());o.writeDouble(v.y());o.writeDouble(v.z());o.writeInt(v.entityId());o.writeUTF(v.toAnchor());o.writeBoolean(v.atEntity());}
             case MinecartMove v->{o.writeByte(73);o.writeInt(v.entityId());o.writeInt(v.steps().size());for(var s:v.steps()){o.writeDouble(s.x());o.writeDouble(s.y());o.writeDouble(s.z());o.writeFloat(s.yaw());o.writeFloat(s.pitch());}}
-            case Respawn v->{o.writeByte(74);o.writeUTF(v.dimension());o.writeByte(v.keepFlags());}
+            case Respawn v->{o.writeByte(74);o.writeUTF(v.dimension());o.writeByte(v.keepFlags());o.writeInt(v.dimensionMinY());o.writeInt(v.dimensionHeight());}
             case BlockEntityObservation v->{o.writeByte(75);block(o,v.position());o.writeUTF(v.type());o.writeInt(v.encodedTagBytes());}
             case ChunksBiomes v->{o.writeByte(76);o.writeInt(v.chunks().size());for(var c:v.chunks()){o.writeInt(c.chunkX());o.writeInt(c.chunkZ());o.writeInt(c.encodedBytes());}}
             case SectionBlocksUpdate v->{o.writeByte(77);o.writeInt(v.sectionX());o.writeInt(v.sectionY());o.writeInt(v.sectionZ());
                 o.writeInt(v.updates().size());for(var u:v.updates()){block(o,u.position());blockState(o,u.state());}}
             case LightUpdate v->{o.writeByte(78);o.writeInt(v.chunkX());o.writeInt(v.chunkZ());o.writeInt(v.skySectionCount());o.writeInt(v.blockSectionCount());o.writeInt(v.encodedBytes());}
-            case ChunkBaseline v->{o.writeByte(79);o.writeInt(v.chunkX());o.writeInt(v.chunkZ());o.writeInt(v.encodedBlockBytes());o.writeInt(v.blockEntityCount());o.writeInt(v.heightmapCount());o.writeBoolean(v.hasLight());}
+            case ChunkBaseline v->{o.writeByte(79);o.writeInt(v.chunkX());o.writeInt(v.chunkZ());o.writeInt(v.encodedBlockBytes());o.writeInt(v.blockEntityCount());o.writeInt(v.heightmapCount());o.writeBoolean(v.hasLight());o.writeBoolean(v.contentRetained());o.writeUTF(v.contentNote());o.writeInt(v.sections().size());for(var s:v.sections())section(o,s);}
         }
     }
-    static SemanticPayload read(DataInputStream i)throws IOException{
+    /** {@code legacySchema1}: decode tags 59/74/79 in their payload-schema-1 layout (no dimension range; summary-only chunk baseline) - every other tag is byte-identical across schemas 1 and 2 (P3-C1). */
+    static SemanticPayload read(DataInputStream i,boolean legacySchema1)throws IOException{
         return switch(i.readUnsignedByte()){
             case 1->new Attack(i.readInt());
             case 2->new Interact(i.readInt(),Hand.valueOf(text(i)),pos(i),bool(i));
@@ -194,7 +209,8 @@ final class SemanticCodec {
             case 56->new LoginPluginQueryResponse(i.readInt(),bool(i));
             case 57->new LoginCompression(i.readInt());
             case 58->new LoginFinished(new UUID(i.readLong(),i.readLong()),text(i));
-            case 59->new JoinGame(i.readInt(),bool(i),text(i),i.readInt(),i.readInt(),i.readInt(),text(i),bool(i),bool(i));
+            case 59->legacySchema1?new JoinGame(i.readInt(),bool(i),text(i),i.readInt(),i.readInt(),i.readInt(),text(i),bool(i),bool(i),0,0)
+                :new JoinGame(i.readInt(),bool(i),text(i),i.readInt(),i.readInt(),i.readInt(),text(i),bool(i),bool(i),i.readInt(),i.readInt());
             case 60->{int cid=i.readInt(),sid=i.readInt(),n=count(i,256);var items=new ArrayList<Item>(n);for(int a=0;a<n;a++)items.add(item(i));yield new ContainerContent(cid,sid,items,item(i));}
             case 61->new ContainerSlot(i.readInt(),i.readInt(),i.readInt(),item(i));
             case 62->new CursorItem(item(i));
@@ -212,12 +228,14 @@ final class SemanticCodec {
             case 71->{int id=i.readInt(),n=count(i,64);var fields=new ArrayList<EntityDataField>(n);for(int a=0;a<n;a++)fields.add(new EntityDataField(i.readInt(),text(i),text(i,256)));yield new EntitySyncedData(id,fields);}
             case 72->new LookAt(text(i),i.readDouble(),i.readDouble(),i.readDouble(),i.readInt(),text(i),bool(i));
             case 73->{int id=i.readInt(),n=count(i,256);var steps=new ArrayList<MinecartStepFact>(n);for(int a=0;a<n;a++)steps.add(new MinecartStepFact(i.readDouble(),i.readDouble(),i.readDouble(),i.readFloat(),i.readFloat()));yield new MinecartMove(id,steps);}
-            case 74->new Respawn(text(i),i.readByte());
+            case 74->legacySchema1?new Respawn(text(i),i.readByte(),0,0):new Respawn(text(i),i.readByte(),i.readInt(),i.readInt());
             case 75->new BlockEntityObservation(block(i),text(i),i.readInt());
             case 76->{int n=count(i,256);var chunks=new ArrayList<ChunkBiomeObservation>(n);for(int a=0;a<n;a++)chunks.add(new ChunkBiomeObservation(i.readInt(),i.readInt(),i.readInt()));yield new ChunksBiomes(chunks);}
             case 77->{int sx=i.readInt(),sy=i.readInt(),sz=i.readInt(),n=count(i,4096);var updates=new ArrayList<BlockUpdate>(n);for(int a=0;a<n;a++)updates.add(new BlockUpdate(block(i),blockState(i)));yield new SectionBlocksUpdate(sx,sy,sz,updates);}
             case 78->new LightUpdate(i.readInt(),i.readInt(),i.readInt(),i.readInt(),i.readInt());
-            case 79->new ChunkBaseline(i.readInt(),i.readInt(),i.readInt(),i.readInt(),i.readInt(),bool(i));
+            case 79->{int cx=i.readInt(),cz=i.readInt(),bytes=i.readInt(),be=i.readInt(),hm=i.readInt();boolean light=bool(i);
+                if(legacySchema1)yield new ChunkBaseline(cx,cz,bytes,be,hm,light);
+                boolean retained=bool(i);String note=text(i,64);int n=count(i,ChunkBaseline.MAX_SECTIONS);var sections=new ArrayList<ChunkSection>(n);for(int a=0;a<n;a++)sections.add(section(i));yield new ChunkBaseline(cx,cz,bytes,be,hm,light,retained,sections,note);}
             default->throw new IOException("unknown semantic tag");
         };
     }

@@ -209,6 +209,7 @@ public final class PaperCapture {
         private final PreLoginTransport pre;private long ordinal;
         EarlyInbound(PreLoginTransport pre){this.pre=pre;}
         @Override public void channelRead(ChannelHandlerContext ctx,Object message)throws Exception{
+            if(!isPacket(message)){ctx.fireChannelRead(message);return;}
             PacketEngine.Session bound=pre.boundSession;
             try{
                 PacketPayload payload=normalize(message);
@@ -225,13 +226,14 @@ public final class PaperCapture {
         @Override public void channelInactive(ChannelHandlerContext ctx)throws Exception{closeTransport(pre);ctx.fireChannelInactive();}
         @Override public void handlerRemoved(ChannelHandlerContext ctx){
             PacketEngine.Session bound=pre.boundSession;
-            if(bound!=null&&!bound.ingress.closed())bound.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+            if(bound!=null&&!bound.ingress.closed()){bound.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);bound.captureCompromised("EARLY_HANDLER_REMOVED");}
         }
     }
     private final class EarlyOutbound extends ChannelOutboundHandlerAdapter {
         private final PreLoginTransport pre;private long ordinal;
         EarlyOutbound(PreLoginTransport pre){this.pre=pre;}
         @Override public void write(ChannelHandlerContext ctx,Object message,ChannelPromise promise)throws Exception{
+            if(!isPacket(message)){ctx.write(message,promise);return;}
             PacketEngine.Session bound=pre.boundSession;
             ChannelPromise completion=promise.unvoid();
             try{
@@ -250,7 +252,7 @@ public final class PaperCapture {
         }
         @Override public void handlerRemoved(ChannelHandlerContext ctx){
             PacketEngine.Session bound=pre.boundSession;
-            if(bound!=null&&!bound.ingress.closed())bound.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+            if(bound!=null&&!bound.ingress.closed()){bound.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);bound.captureCompromised("EARLY_HANDLER_REMOVED");}
         }
     }
     /** Best-effort phase/identity tracking from already-normalized facts; never trusts claimed identity. */
@@ -334,9 +336,10 @@ public final class PaperCapture {
             pipeline.addBefore("packet_handler",inbound,new ChannelInboundHandlerAdapter(){
                 long ordinal;
                 @Override public void channelRead(ChannelHandlerContext ctx,Object message) throws Exception{
+                    if(!isPacket(message)){ctx.fireChannelRead(message);return;}
                     try{
                         if(pipeline.get("packet_handler")!=dispatch||pipeline.get("encoder")!=encoder
-                            ||!adjacent(pipeline,inbound,"packet_handler"))session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+                            ||!adjacent(pipeline,inbound,"packet_handler")){session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);session.captureCompromised("INBOUND_DISPLACED");}
                         PacketPayload payload=normalize(message);
                         session.ingress.capture(new Observation.Attempt(++ordinal,ordinal,payload),System.nanoTime());
                     }catch(ReflectiveOperationException|RuntimeException e){
@@ -347,20 +350,21 @@ public final class PaperCapture {
                 }
                 @Override public void channelInactive(ChannelHandlerContext ctx)throws Exception{audits.remove(session.key.epoch());session.close();ctx.fireChannelInactive();}
                 @Override public void handlerRemoved(ChannelHandlerContext ctx){
-                    if(!session.ingress.closed())session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+                    if(!session.ingress.closed()){session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);session.captureCompromised("INBOUND_HANDLER_REMOVED");}
                 }
             });
             pipeline.addAfter("encoder",outbound,new ChannelOutboundHandlerAdapter(){
                 long ordinal;
                 @Override public void handlerRemoved(ChannelHandlerContext ctx){
-                    if(!session.ingress.closed())session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+                    if(!session.ingress.closed()){session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);session.captureCompromised("OUTBOUND_HANDLER_REMOVED");}
                 }
                 @Override public void write(ChannelHandlerContext ctx,Object message,ChannelPromise promise)throws Exception{
+                    if(!isPacket(message)){ctx.write(message,promise);return;}
                     long wire=++ordinal;
                     ChannelPromise completion=promise.unvoid();
                     try{
-                        if(pipeline.get("encoder")!=encoder||!adjacent(pipeline,"encoder",outbound))
-                            session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+                        if(pipeline.get("encoder")!=encoder||!adjacent(pipeline,"encoder",outbound)){
+                            session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);session.captureCompromised("OUTBOUND_DISPLACED");}
                         session.ingress.capture(new Observation.Outbound(wire,normalize(message)),System.nanoTime());
                         completion.addListener(future->session.ingress.capture(new Observation.WriteOutcome(wire,future.isSuccess()),System.nanoTime()));
                     }catch(ReflectiveOperationException|RuntimeException e){
@@ -411,7 +415,7 @@ public final class PaperCapture {
                     &&(audit.earlyHook
                         ?pipeline.get(audit.inboundAnchor)!=null&&pipeline.get(audit.outboundAnchor)!=null
                         :pipeline.get(audit.inboundAnchor)==audit.dispatch&&pipeline.get(audit.outboundAnchor)==audit.encoder);
-                if(!topologyIntact)session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);
+                if(!topologyIntact){session.health.invalidate(HealthLatch.Reason.PIPELINE_UNCOVERED,0);session.captureCompromised("TOPOLOGY_AUDIT");}
             }finally{audit.queued.set(false);}
         });}catch(RuntimeException failure){audit.queued.set(false);session.close();engine.reportFailure(failure);}
     }
@@ -433,6 +437,11 @@ public final class PaperCapture {
         for(String name:List.of(inbound,outbound))
             if(pipeline.get(name)!=null)pipeline.remove(name);
     }
+    /** Only protocol packets are observations. The pipeline also carries control objects that are not packets - e.g. the vanilla
+     *  UnconfiguredPipelineHandler$OutboundConfigurationTask written at every protocol-state switch (login -> configuration -> play), or a
+     *  pre-encoded ByteBuf. Capturing those as "uncovered packets" degraded every real session at its first protocol switch and ended
+     *  its recording at frame 2 (P3-F11, real-client qualification). They pass through untouched and un-numbered. */
+    static boolean isPacket(Object message){return message!=null&&message.getClass().getName().startsWith("net.minecraft.network.protocol.");}
     public static PacketPayload normalize(Object packet)throws ReflectiveOperationException{
         return PaperPacketNormalizer.normalize(packet);
     }

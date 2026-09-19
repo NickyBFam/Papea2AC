@@ -1,0 +1,91 @@
+# Phase 3 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes, covering the complete Phase 3
+# implementation baseline set: Phase 3 production source (world, model, core, packet, protocol,
+# replay-schema, replay, platform-paper), tests (test, nativeTest), benchmark source, Gradle
+# modifications, docs, verification artifacts, fixtures, the real-client evidence log,
+# PHASE_3_HUMAN_APPROVAL.md, and the Phase 1/2 forward-fix files (P3-F3..P3-F13, P3-C1 schema 2).
+# Parent commit: a95169e861a843e868f58c7b3a87ed050f14004a
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Generated: 2026-09-19
+# File count: 73
+# Format: <sha256>  <path>
+# Normalization: each hash is SHA-256 over the COMMITTED GIT BLOB CONTENT of the staged file
+# (`git cat-file blob :<path>`), i.e. after .gitattributes normalization (LF for all of these files).
+# This manifest file is excluded from its own list.
+1169c4c32d13aa0a594c289e5771b5778688f2bf760be162d093472746c80e34  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+3f20d9d0c71cc16417af1c195d73dd899df0a0fd9a86671097588fa284f881d6  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketMetrics.java
+a6b8018c5394866141c4c762806e15ce1dbd31a2d84c61d2f871768f17af027a  anticheat-core/src/main/java/me/nicolas/papea2ac/core/SessionRecording.java
+6c50287f95e50003b4320db6912df42198824e9afa5d9bcc44fe248177fe8a4b  anticheat-core/src/main/java/me/nicolas/papea2ac/core/WorldObservationMapper.java
+a5f75f206d8291b60f51057cf6b21d8c7f8a658300afef6d679e8d3704928159  anticheat-core/src/main/java/me/nicolas/papea2ac/core/WorldStatus.java
+0bed05a35ffeb244a9efe45958267c4a46c0b023f66ad03e1b856067a93be0ac  anticheat-model/src/main/java/me/nicolas/papea2ac/model/BlockPos.java
+18ff2d07a321feb699a2b005a83b06d3837c30473f099200fbf652cb55e491b2  anticheat-model/src/main/java/me/nicolas/papea2ac/model/BlockStateKey.java
+3d0faca149a44c2031c23cddb8c98278e8f705507363023fa0ce0fc83c22b85f  anticheat-model/src/main/java/me/nicolas/papea2ac/model/ChunkKey.java
+e598964af2d3e21e064777815d163557cf0b6eaace38555784d9b50734c0f1f3  anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/ConnectionIngress.java
+0ddf85323a9fc9b1c06641c51fe3a14d82a61e4cf2e1ce688594c69100e98da3  anticheat-packet/src/main/java/me/nicolas/papea2ac/packet/InfrastructurePool.java
+ddff9da62cd84ea6beed58fd030ed832c36d694e5659c6ce90a157a35b2b2c5e  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+4f4a571517d8287e9b0a8dea8ec80cf962677974fcb1c65c5806bbe4f4b83479  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperCapture.java
+36261ff6d7259576615b604038a6cafec461aab13ca6944aa5d418a75a4f849e  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperPacketNormalizer.java
+0329ed7b3fc559f65e24ad6cae33b94662f6b872c343c7007a7b842054d434f7  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperSemanticNormalizer.java
+7f3a321b9e9328aec76b1e239965a1b62b89a7f4746d64b34bc912835aa2b0de  anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PacketPayload.java
+a354a9ed4c77bb481fdae53897f643540f055142baa299fef54cfbe3132093b6  anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PayloadCodec.java
+d5ca54466547eb49eb5ff9fab3bfc4b1da1c29de05eef06df2bd474d62b778e5  anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/PayloadDigest.java
+1f5192115c9fb5eb99d56586c32e428541c0a331cb5de9e8b2ff9afae5995bbb  anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/SemanticCodec.java
+48c9544367af61f8ed435bcc10d4b97cd6358660a21ae87ca039791058e76acf  anticheat-protocol/src/main/java/me/nicolas/papea2ac/protocol/SemanticPayload.java
+aeef303912e3701157407fce554c400a0197f96d6ef8af9cdadd2db6ab9f83d0  anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/TransportCapsule.java
+cad3167c3a0809d2f1c81494db8f64f927b45bbc371659e00a2a45dee3e1e12d  anticheat-replay-schema/src/main/java/me/nicolas/papea2ac/schema/WorldCapsule.java
+ab60d6cfa310d3fa00be05d74b4261a7327b77c512192f917786302528154d41  anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/CapsuleCodec.java
+0609b8600eb63edad1e9bc5e60faacf25a8024d0982e431598546bb58fbb4170  anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/LiveCapture.java
+c297c93889e37a397002d298211b9a09c0e2df966a69db700ece4e99b98cfdc9  anticheat-testing/build.gradle.kts
+c0b054962d783e856b65e032f993ec25f5e10d060befec7f2f8bee8ad4543993  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ObserverWorldBenchmarks.java
+a47b36783ab722be6a4b6dad5869cf797279baaf4818096a2f99feb1a4beb613  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeChunkSectionTest.java
+403a3c499ee87579186fa77d02ea5f48399153ad39da5ff4a0efe2135ccaf467  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeEarlyTransportSemanticTest.java
+bdb92e9bc27e25b3e80e3aa8e1918f2e892b292089f7ca35324fe4f67af6151c  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeEntityMiscTest.java
+40021771228627351eb4f0e9d3c6eee2c813be49ce2008893eea472eabbc83f1  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeFaultTest.java
+628dcd1c2a7c4ce4d5e239ebf6623ed9ae143f56a9bbd7720c68f1676e970b70  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativePipelineControlObjectTest.java
+e4ab39e681c7ccad5d2a2ed5625c039a25e629f2d07d9da7bf71e7b8263f2b29  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+58956d211aa643ff1b49a6a0461d85b3b1907e3a5cc0490722d34e8fe2c25ff4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/BlockStateIdentityTest.java
+5af5980ac0065a813515d25c141872ea10fff26df78f214e576637f74aebcc84  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CapsuleInspectMain.java
+f1509ed1007325fe642bca04ad22a83a7d7d988943b219023a509aa574101a2a  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CapsuleSchemaCompatibilityTest.java
+d4b6650ba21a58a519c4d0e6207bdd63df8674d65821d89993c049b8f3d2545f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CheckpointReplayTest.java
+2f1b4e1b16e5ce4c1903fdce0125b3cb2342a57197e9eba2583fb089195bfc6d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/FaultInjectionAndFairnessTest.java
+b7c0818eecc853c743a0093ecbefa04d00145523da4ad841542e838f0300410e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/InfrastructurePoolTest.java
+c80076539941a76d790f04259d7bf5ec95895d36ea97231122006beb27a0653b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/LegacyCodecCompatibilityTest.java
+93fd98265b1212b62e93d1769255ca52758c319d4582c1837683fe297402a8f6  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/LiveRecordingTest.java
+8e0527f7ed39846b1748684b786840c392c1f9d7161a2f77aa3566c22ab441b8  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/LongRunRetentionTest.java
+4e305783aa4ad8e12a61aaea03c036f783c2cc1c24a4e1e35a443b90ca573fd5  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ObserverWorldIntegrationTest.java
+5b9da10ba559a1e3394a2bebc0ed36a79a4e3481380788cb33eebe6eee49aa34  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ObserverWorldMemoryMain.java
+3e754c6d2cbd953ca0ea62f722e5cec53bc71e84395639aa79dc5449a4d0517f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ObserverWorldPropertyTest.java
+37dfa781f374ab7bbf16303c08dfd6055f8e814db7cf62cd8e00ded064ff2042  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ObserverWorldTest.java
+bf0b0eaa5027e5b47c16ce9582065a5a52f47ad39d64b38fc30db89e299d1790  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerObservationMapperTest.java
+c9ef46b3d18e36dc08e9167bbc13b9a58e0fdd1099bbcdca1fec9683e14c1302  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PlayerWorldCoherenceTest.java
+fe32e2ee51c47b0eddbcfb773e0b6691603abc1d890c8f86812b2da5c89713e4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReplayTest.java
+fc95470fee10e1e71a9dfa49cf22681a361c52fa421b09cd438639be367753cf  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/SectionSnapshotTest.java
+06d343dc5c35ae5952b57281b8e48170b789ddd97738e3f1fb740b0cc52165fb  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/StaleControlAndResourceAccountingTest.java
+27051512dafc30cc9f802fbb31276ed74f99bd6952cb91dd39cb2e0051f598e3  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldCoordinateTest.java
+df4830efe95bbf8c7b533db972cdf97967a257a5d05a854f81f7fe61c62c4665  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldFixtureDeterminismTest.java
+0dc33486b952141890e76346c6ccd85cff0f8071a0d773e5fb4387de1155a906  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldFixtureMain.java
+67581ba5c56b161fffd6fb37e6f0b14313c200f53f3084063616c612b51600ef  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldFixtures.java
+01858fcbbd73d2af753ca11c62cddab0d5d7ee0f96db480b49c9275b967af624  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldReplayMapperTest.java
+15306577a3bb07031b54d860a1acc5acc9277e74619372cb16eb2fad9d0fa0e4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldTestSupport.java
+2747ab1d22033f3b92bc7b163c45a05bc0bf50ea01cfd396058ae36532866dcf  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WriterWatchdogTest.java
+a09e1829a8abfd901e5fd9f48004c85fd0c043191e3f5ed92eb803241e99c2de  anticheat-world/src/main/java/me/nicolas/papea2ac/world/BlockLookup.java
+8bf771b37ff1e28ad54e4d0cc1fbad116415d40ce0e2fcf931c6cd4664502ca3  anticheat-world/src/main/java/me/nicolas/papea2ac/world/BlockStateDictionary.java
+1a57b326b4f810e02ac9767c985cf49141769b4f8d6cac8c9399d70d9cc02298  anticheat-world/src/main/java/me/nicolas/papea2ac/world/ChunkSnapshot.java
+3f879b8c600270eeda5447aac504e7f6b4e2efd4ada090161d4ea92c2ac036f9  anticheat-world/src/main/java/me/nicolas/papea2ac/world/DimensionProfile.java
+46d0251ba0ee0538450b5696d133e5cc9752564ed6f297563827a620388e3fb6  anticheat-world/src/main/java/me/nicolas/papea2ac/world/ObserverWorld.java
+ce5657ac34755c05a10ccefbcb3df72ac3015a85737dd05871172910bb5253f8  anticheat-world/src/main/java/me/nicolas/papea2ac/world/SectionSnapshot.java
+21cf395398ba9ddfb61d96551d9fdee92b30f322a544df1683530308e89d97de  anticheat-world/src/main/java/me/nicolas/papea2ac/world/WorldBudget.java
+b7b7441e69a957a58bbff68bcffc497d0ce4a70e5e70105c0a129c1e27dad603  anticheat-world/src/main/java/me/nicolas/papea2ac/world/WorldCoverage.java
+d6e6a703c8ff85f0633ad46e86d83094377cdfd32dac129032aae28e2385acd2  anticheat-world/src/main/java/me/nicolas/papea2ac/world/WorldObservation.java
+949792bc03d14d65d303e107194bf0dad9a32a51136291389ba0fd993d306401  anticheat-world/src/main/java/me/nicolas/papea2ac/world/WorldReplayMapper.java
+41b77d3f55605a078e66666f1642eefe8279157657ebce6dc5bb0684e5f035d1  docs/PHASE_3_HUMAN_APPROVAL.md
+2ecd478f7753c75fdf602d83103e11021ce88d6fbe09e635aad4b9e1e88747d6  docs/PHASE_3_IMPLEMENTATION.md
+1a31534ecb5d8a89c3b7d205ebf494c99fb0d7480006d04070855c4c09c62e58  docs/phase3-artifacts/benchmarks.json
+f116e961d22c266e457bba0bbef42e3c20126f82ace737d18647b8fd52306342  docs/phase3-artifacts/memory-results.json
+493311a1ad9ea79b2a418af8f39dde61162e42e15ac223623897c600fdb03e02  docs/phase3-artifacts/real-client-evidence.log
+c0c0e6359b2cd89e8b85f76e8b25a53ee3d951768027917392a301e76c1d1fb9  docs/phase3-artifacts/verification.json
+d4095e0854a5ceea5042fa634e6575b223d3374d5a43c21e8a36de90549ac95f  docs/phase3-artifacts/world-fixtures.json
+# Composite SHA-256 (computed over the exact byte content of the 73 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# 437de69d8e4be2deb5d98552677658c95d190032e60c95e37eb1ef66e871ab6a

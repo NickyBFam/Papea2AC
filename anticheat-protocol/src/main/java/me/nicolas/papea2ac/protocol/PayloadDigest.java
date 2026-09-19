@@ -3,7 +3,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
-/** Schema v1 canonical bit encoding, independent of record names, locale and toString(). */
+/** Canonical bit encoding (digest form 1), independent of record names, locale and toString(). For semantic payloads the
+ *  digested bytes are the canonical semantic body AFTER the transport payload-schema byte, prefixed with the constant
+ *  digest-form byte 1: a payload whose layout did not change between payload schema 1 and 2 therefore digests to exactly
+ *  the value a Phase 1/2 build computed (migrations preserve original hashes); only the three tags whose content grew
+ *  (59/74/79) digest differently, because they carry different content. */
 public final class PayloadDigest {
     private PayloadDigest() {}
     public static String of(PacketPayload payload) {
@@ -24,8 +28,8 @@ public final class PayloadDigest {
     private static void append(MessageDigest d,PacketPayload p){
         switch(p){
             case SemanticPayload semantic -> {
-                d.update((byte)11);
-                try{d.update(PayloadCodec.encode(semantic));}catch(java.io.IOException e){throw new IllegalArgumentException("semantic encoding",e);}
+                d.update((byte)11);d.update((byte)1); // digest-form marker, NOT the transport schema byte (which is skipped below)
+                try{byte[] encoded=PayloadCodec.encode(semantic);d.update(encoded,1,encoded.length-1);}catch(java.io.IOException e){throw new IllegalArgumentException("semantic encoding",e);}
             }
             case PacketPayload.Movement m -> {
                 d.update((byte)1);d.update((byte)(m.position()!=null?1:0));if(m.position()!=null)vector(d,m.position());

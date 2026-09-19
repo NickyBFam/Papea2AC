@@ -14,7 +14,7 @@ public final class PaperPacketNormalizer {
     }
     public static PacketPayload normalize(Object p)throws ReflectiveOperationException{
         String name=p.getClass().getName();
-        if(!name.startsWith("net.minecraft.network.protocol."))return unsupported(PacketPayload.Family.UNKNOWN);
+        if(!name.startsWith("net.minecraft.network.protocol."))return unsupported(PacketPayload.Family.UNKNOWN,name);// class name: bounded diagnosability for non-protocol pipeline objects (P3-F3 qualification)
         PacketPayload semantic=PaperSemanticNormalizer.normalize(p);if(semantic!=null)return semantic;
         if(name.startsWith("net.minecraft.network.protocol.game.ServerboundMovePlayerPacket")){
             Class<?> c=p.getClass();boolean pos=(boolean)call(p,"hasPosition"),rot=(boolean)call(p,"hasRotation");
@@ -75,4 +75,5 @@ public final class PaperPacketNormalizer {
         return PacketPayload.Family.PROTOCOL;
     }
     private static PacketPayload unsupported(PacketPayload.Family family){return new PacketPayload.Uncovered(family,"MissingObservationFamily");}
+    private static PacketPayload unsupported(PacketPayload.Family family,String className){String r="MissingObservationFamily:"+className;return new PacketPayload.Uncovered(family,r.length()>128?r.substring(0,128):r);}
 }

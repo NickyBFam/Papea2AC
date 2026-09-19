@@ -19,7 +19,7 @@ class LiveRecordingTest {
         while(!condition.getAsBoolean()&&System.nanoTime()<until)Thread.sleep(1);
         assertTrue(condition.getAsBoolean());
     }
-    static TransportCapsule capsule(){return new TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"test",1,false,List.of(new TransportCapsule.Close(1)),true);}
+    static TransportCapsule capsule(){return new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"test",1,false,List.of(new TransportCapsule.Close(1)),true);}
     @Test void actualEngineConsumptionAndCloseProduceReplayableDiagnostic()throws Exception{
         var errors=new CopyOnWriteArrayList<Throwable>();var engine=new PacketEngine(1,1L<<30,errors::add);var loop=new PacketTruthTest.Loop();
         engine.enableRecording(directory,"0".repeat(64));
@@ -108,5 +108,42 @@ class LiveRecordingTest {
         assertTrue(guard.admitSynthetic(new UUID(0,1),100,0));
         assertTrue(guard.admitSynthetic(new UUID(0,2),1,2_000_000_000L));
         assertTrue(guard.admitSynthetic(new UUID(0,3),1,4_000_000_000L));
+    }
+    /** P3-F10 (real-client finding): a real session starts with the pre-login journal, whose observations were captured seconds BEFORE the Session (and its recording) existed. The recording's origin must precede them, or frame 1 fails Input validation and the whole capsule is EXPORT_ENCODE_FAILURE. */
+    @Test void observationsCapturedBeforeTheSessionExistedStillRecord()throws Exception{
+        var errors=new CopyOnWriteArrayList<Throwable>();var engine=new PacketEngine(1,1L<<30,errors::add);var loop=new PacketTruthTest.Loop();
+        engine.enableRecording(directory,"0".repeat(64));
+        var session=engine.connect(new UUID(8,10),loop,TransportCapability.observeOnly());
+        try{
+            long journaled=System.nanoTime()-TimeUnit.SECONDS.toNanos(5);// the early-transport journal's capture time
+            session.ingress.capture(new Observation.Tick(1),journaled);// journal-shaped: captured long before this recording's construction
+            session.ingress.capture(new Observation.Outbound(1,new PacketPayload.Velocity(7,new PacketPayload.Position(0,1,0))),journaled+1000);
+            session.ingress.capture(new Observation.Attempt(1,1,PacketTruthTest.MOVE),System.nanoTime());
+            await(()->session.actor.snapshot().processedSequence()==3);
+            session.close();loop.drain();
+            await(()->engine.replayStatus().contains("written=1"));
+            Path file;try(var files=Files.list(directory)){file=files.findFirst().orElseThrow();}
+            var recorded=CapsuleCodec.decode(Files.readAllBytes(file));
+            assertFalse(recorded.incompleteReason().startsWith("EXPORT_ENCODE_FAILURE"),"recording must not be voided by pre-session capture times: "+recorded.incompleteReason());
+            var first=assertInstanceOf(TransportCapsule.Input.class,recorded.frames().getFirst());
+            assertEquals(1,first.sequence());assertTrue(first.capturedNanos()>=0&&first.capturedNanos()<=first.elapsedNanos());
+            assertEquals(3,recorded.frames().stream().filter(x->x instanceof TransportCapsule.Input).count());
+            assertTrue(errors.isEmpty(),errors.toString());
+        }finally{engine.close();loop.drain();}
+    }
+    /** P3-F13: the platform must be able to drain the shards (final exports, actor/world release) BEFORE the plugin classloader is closed; awaitTermination is that bounded barrier and the session's world charge is released by the time it returns. */
+    @Test void awaitTerminationDrainsClosingSessionsAndReleasesTheirWorlds()throws Exception{
+        var errors=new CopyOnWriteArrayList<Throwable>();var engine=new PacketEngine(1,1L<<30,errors::add);var loop=new PacketTruthTest.Loop();
+        engine.enableRecording(directory,"0".repeat(64));
+        var session=engine.connect(new UUID(8,11),loop,TransportCapability.observeOnly());
+        session.ingress.capture(new Observation.Outbound(1,ObserverWorldIntegrationTest.JOIN),System.nanoTime());
+        session.ingress.capture(new Observation.Outbound(2,ObserverWorldIntegrationTest.wireBaseline(0,0)),System.nanoTime());
+        ObserverWorldIntegrationTest.await(()->session.world.snapshot().chunkCount()==1);
+        assertTrue(engine.worldBudgetSnapshot().sharedBytes()>0);
+        engine.close();loop.drain();
+        long t0=System.nanoTime();assertTrue(engine.awaitTermination(2000),"shards drain within the bound");assertTrue(System.nanoTime()-t0<TimeUnit.SECONDS.toNanos(2));
+        assertTrue(engine.terminated());
+        assertEquals(0,engine.worldBudgetSnapshot().observerWorlds());assertEquals(0,engine.worldBudgetSnapshot().sharedBytes(),"the session's world was released during the drain, not left to the classloader");
+        assertTrue(errors.isEmpty(),errors.toString());
     }
 }

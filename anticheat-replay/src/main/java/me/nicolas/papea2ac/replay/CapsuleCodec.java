@@ -40,13 +40,13 @@ public final class CapsuleCodec {
         try (var in = new DataInputStream(new ByteArrayInputStream(bytes, 0, bodyLength))) {
             if (in.readInt() != 0x50414332) throw new IOException("capsule magic");
             int schema = in.readInt();
-            if (schema != 1) throw new IOException("capsule schema");
+            if (schema < TransportCapsule.LEGACY_SCHEMA || schema > TransportCapsule.CURRENT_SCHEMA) throw new IOException("unsupported capsule schema " + schema);
             String profile = text(in, 128), configuration = text(in, 64), source = text(in, 128);
             long epoch = in.readLong(); boolean qualified = bool(in), complete = bool(in);
             String incompleteReason = text(in, 64);
             int count = size(in, 4096); var frames = new ArrayList<Frame>(count); long charged = 512;
             for (int i = 0; i < count; i++) {
-                int length = size(in, 70000);
+                int length = size(in, Payload.MAX_BYTES + 4096);
                 if (length > in.available() - 32) throw new IOException("truncated frame");
                 byte[] record = in.readNBytes(length), digest = in.readNBytes(32);
                 if (!MessageDigest.isEqual(hash(record), digest)) throw new IOException("frame checksum");
@@ -74,7 +74,7 @@ public final class CapsuleCodec {
         out.writeInt(p.length()); out.write(p.bytes());
     }
     private static Payload payload(DataInputStream in) throws IOException {
-        int n = size(in, 65536); if (n > in.available()) throw new IOException("truncated payload");
+        int n = size(in, Payload.MAX_BYTES); if (n > in.available()) throw new IOException("truncated payload");
         return new Payload(in.readNBytes(n));
     }
     private static void write(DataOutputStream out, Frame frame) throws IOException {

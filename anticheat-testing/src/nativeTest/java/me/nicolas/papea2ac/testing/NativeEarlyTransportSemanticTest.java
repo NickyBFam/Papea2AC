@@ -90,6 +90,6 @@ class NativeEarlyTransportSemanticTest {
         Object p=create(GAME+"ClientboundLoginPacket",new Class<?>[]{int.class,boolean.class,Set.class,int.class,int.class,int.class,boolean.class,boolean.class,boolean.class,type(GAME+"CommonPlayerSpawnInfo"),boolean.class,boolean.class},
             5,false,Set.of(value("net.minecraft.world.level.Level","OVERWORLD")),20,10,10,false,false,false,spawnInfo,true,false);
         var join=(JoinGame)check(p);
-        assertEquals(5,join.playerId());assertEquals("minecraft:overworld",join.dimension());assertEquals("SURVIVAL",join.gameType());assertEquals(20,join.maxPlayers());assertTrue(join.onlineMode());
+        assertEquals(5,join.playerId());assertEquals("minecraft:overworld",join.dimension());assertEquals("SURVIVAL",join.gameType());assertEquals(20,join.maxPlayers());assertTrue(join.onlineMode());assertEquals(-64,join.dimensionMinY());assertEquals(384,join.dimensionHeight());
     }
 }

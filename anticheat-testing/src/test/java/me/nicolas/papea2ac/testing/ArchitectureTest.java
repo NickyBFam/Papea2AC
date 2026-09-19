@@ -63,10 +63,26 @@ class ArchitectureTest {
         }
         assertEquals(27,count);
     }
+    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3 (its approved phase); it is now held to the Phase 3 boundary below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("collision","physics","simulation","combat","checks","evidence","mitigation","interaction","world")){
+        for(String name:List.of("collision","physics","simulation","combat","checks","evidence","mitigation","interaction")){
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
+        }
+    }
+    /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
+    @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{
+        Path dir=ROOT.resolve("anticheat-world/src/main/java");
+        var forbidden=Pattern.compile("\\b(AABB|boundingBox|BoundingBox|isOnGround|onGround|gravity|friction|velocity|Velocity|raytrace|RayQuery|MovementQuery|ShapeQuery|collide|Collision|violation|Violation|setback|punish|Speed|Fly|Timer|Reach|KillAura)\\b");
+        var transcendental=Pattern.compile("Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|sqrt|cbrt|hypot|sinh|cosh|tanh)\\(");
+        try(var files=Files.walk(dir)){
+            var sources=files.filter(p->p.toString().endsWith(".java")).toList();
+            assertTrue(sources.size()>0,"Phase 3 world module must exist");
+            for(Path file:sources){
+                String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+                assertFalse(forbidden.matcher(code).find(),file+" contains a Phase 4+ concept");
+                assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            }
         }
     }
 }

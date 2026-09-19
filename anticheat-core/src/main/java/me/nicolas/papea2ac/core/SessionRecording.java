@@ -15,7 +15,11 @@ import me.nicolas.papea2ac.schema.TransportCapsule;
  * session's single owning shard thread, so a checkpoint always reflects one coherent ordered instant.
  */
 final class SessionRecording implements AutoCloseable {
-    private final long epoch,origin=System.nanoTime();
+    private final long epoch;
+    /** Time zero of the capsule's relative clocks. Fixed at the first frame: for a session-start recording that is the first observation's capture time when it
+     *  is EARLIER than construction - a real session begins with the pre-login journal (handshake/login/configuration packets captured by the early-transport hook
+     *  seconds before the Session exists), which otherwise fails Input's capturedNanos >= 0 check at frame 1 and voided every real recording (P3-F10). */
+    private long origin=System.nanoTime();private boolean originFixed;
     /** Owner-shard-written; volatile so other threads' diagnostic reads (armed/complete/recordingEpoch) observe pause/resume promptly - the enclosing SessionRecording reference on Session never changes, only this field does. */
     private volatile LiveCapture capture;
     private volatile long recordingEpoch;
@@ -38,8 +42,13 @@ final class SessionRecording implements AutoCloseable {
     }
     void input(Observation observation,long now){
         if(capture==null||!capture.complete())return;
+        if(!originFixed){if(capture.frameCount()==0)origin=Math.min(origin,observation.capturedNanos());originFixed=true;}
         try{capture.append(TransportReplayMapper.export(observation,origin,now));}
-        catch(IOException|IllegalArgumentException e){capture.incomplete("EXPORT_ENCODE_FAILURE");}
+        catch(IOException|IllegalArgumentException e){capture.incomplete("EXPORT_ENCODE_FAILURE:"+describe(observation)+":"+e.getMessage());}// bounded to 64 chars by LiveCapture; names the payload so a real-traffic encode failure is diagnosable (real-client qualification)
+    }
+    private static String describe(Observation o){
+        Object payload=switch(o.event()){case Observation.Outbound x->x.payload();case Observation.Attempt x->x.payload();case Observation.Outcome x->x.finalPayload();default->null;};
+        return o.event().getClass().getSimpleName()+(payload==null?"":"/"+payload.getClass().getSimpleName());
     }
     void clock(long now){if(capture!=null)capture.append(new TransportCapsule.Clock(now-origin));}
     void finish(long now){if(capture!=null)capture.append(new TransportCapsule.Close(now-origin));}
@@ -66,7 +75,7 @@ final class SessionRecording implements AutoCloseable {
         var checkpoint=new TransportCapsule.Checkpoint(Math.max(0,now-origin),nextSequence,health.generation(),recordingEpoch,
             protocolState,captureEnabled,effectsMode,snapshot.lastIngressOrdinal(),snapshot.certifiedIngressOrdinal(),
             snapshot.lastProcessingOrdinal(),snapshot.lastServerRevision());
-        capture=new LiveCapture(quota,epoch,activeSessions,checkpoint);
+        capture=new LiveCapture(quota,epoch,activeSessions,checkpoint);originFixed=true;// the checkpoint frame already used this origin
         generation=health.generation();
     }
     @Override public void close(){if(closed)return;closed=true;if(capture!=null)capture.close();}

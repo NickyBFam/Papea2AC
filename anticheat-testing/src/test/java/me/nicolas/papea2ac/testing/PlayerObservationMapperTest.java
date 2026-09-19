@@ -75,7 +75,7 @@ class PlayerObservationMapperTest {
     }
 
     @Test void respawnMapsToDiscontinuity() {
-        var mapped = (PlayerObservation.Discontinuity) PlayerObservationMapper.map(outbound(new SemanticPayload.Respawn("minecraft:overworld", (byte) 0))).orElseThrow();
+        var mapped = (PlayerObservation.Discontinuity) PlayerObservationMapper.map(outbound(new SemanticPayload.Respawn("minecraft:overworld", (byte) 0, -64, 384))).orElseThrow();
         assertEquals(PlayerObservation.DiscontinuityKind.RESPAWN, mapped.kind());
     }
 

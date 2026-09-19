@@ -101,13 +101,13 @@ class CheckpointReplayTest {
         var outcome=new TransportCapsule.Input(20,15,6,0,context,
             new TransportCapsule.Outcome(5,5,5,"APPLIED",new TransportCapsule.Payload(PayloadCodec.encode(PacketTruthTest.MOVE)),digest));
         // qualifiedFixture=true: only a correctly-seeded actor (lastIngress=4 from the checkpoint) accepts ingressOrdinal=5 and can certify it.
-        var capsule=new TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"checkpoint-fixture",1,true,List.of(checkpoint,attempt,outcome),true);
+        var capsule=new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"checkpoint-fixture",1,true,List.of(checkpoint,attempt,outcome),true);
         var outputs=new TransportReplayDriver().replay(capsule);
         assertEquals(3,outputs.size(),"one digest per frame, including the checkpoint's own seeded starting state");
         // Negative control: an intentionally wrong lastIngressOrdinal (0 instead of 4) must degrade instead of certifying,
         // proving the checkpoint's seeded value is actually load-bearing for continuity, not ignored.
         var wrongCheckpoint=new TransportCapsule.Checkpoint(0,5,0,1,"PLAY",true,"OBSERVE_ONLY",0,0,0,0);
-        var wrongCapsule=new TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"checkpoint-fixture",2,true,List.of(wrongCheckpoint,attempt,outcome),true);
+        var wrongCapsule=new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"checkpoint-fixture",2,true,List.of(wrongCheckpoint,attempt,outcome),true);
         var wrongOutputs=new TransportReplayDriver().replay(wrongCapsule);
         assertNotEquals(outputs.get(2),wrongOutputs.get(2),"a mismatched checkpoint baseline must produce a different (degraded) outcome, not the same certified result");
     }
@@ -120,7 +120,7 @@ class CheckpointReplayTest {
         capture.close();
     }
     @Test void completeCapsuleCarriesNoReasonAndAnIncompleteOneCannotClaimComplete(){
-        assertThrows(IllegalArgumentException.class,()->new TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,List.of(),true,"SOME_REASON"));
+        assertThrows(IllegalArgumentException.class,()->new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,List.of(),true,"SOME_REASON"));
     }
     @Test void adaptiveRetentionGrantsMoreShareAtLowLoadThanAtWorstCaseCapacity(){
         var quota=new ReplayQuota();
@@ -143,5 +143,35 @@ class CheckpointReplayTest {
             for(int i=0;i<10;i++)quiet.append(new TransportCapsule.Clock(i));
             assertTrue(quiet.complete(),"a quiet session is never starved by a noisy sibling's rolling-budget pressure");
         }finally{noisy.close();quiet.close();}
+    }
+    /** Pre-baseline decision (real-client finding): on a real session the session-start rolling capture ends at its first health barrier (EXPIRED within 0.5 s under UNSUPPORTED correlation) with an explicit terminal reason - the fail-closed prefix contract. The operator path stays available: disabling and re-enabling AFTER the barrier opens a checkpoint-seeded capsule that records normally, because the sticky latch never bumps its generation again. */
+    @Test void aRecordingReArmedAfterTheFirstBarrierRecordsNormally()throws Exception{
+        var engine=new PacketEngine(1,1L<<30,e->fail(e));var loop=new PacketTruthTest.Loop();
+        engine.enableRecording(directory,"0".repeat(64));UUID id=new UUID(3,3);
+        var session=engine.connect(id,loop,TransportCapability.observeOnly());
+        try{
+            // a journal-shaped stale attempt: never certified under UNSUPPORTED correlation -> EXPIRED at the next tick (the real-client first barrier)
+            session.ingress.capture(new Observation.Attempt(1,1,PacketTruthTest.MOVE),System.nanoTime()-java.util.concurrent.TimeUnit.SECONDS.toNanos(5));
+            session.ingress.capture(new Observation.Tick(1),System.nanoTime());
+            await(()->session.actor.snapshot().reason()==me.nicolas.papea2ac.model.HealthLatch.Reason.EXPIRED);
+            await(()->!session.recordingComplete());// the session-start capture is terminal at the barrier
+            assertTrue(engine.setRecordingEnabled(id,false));loop.drain();await(()->!session.recordingArmed());
+            assertTrue(engine.setRecordingEnabled(id,true));loop.drain();await(session::recordingArmed);
+            assertTrue(session.recordingComplete(),"a capsule re-armed after the barrier starts complete from its checkpoint");
+            for(int i=2;i<=6;i++){session.ingress.capture(new Observation.Outbound(i,new PacketPayload.Velocity(i,new PacketPayload.Position(0,1,0))),System.nanoTime());}
+            await(()->session.actor.snapshot().processedSequence()>=9);
+            assertTrue(session.recordingComplete(),"EXPIRED re-degrades every tick but never bumps the generation again: no new barrier");
+            assertTrue(engine.requestReplay(id));loop.drain();
+            // two files: the paused session-start capsule (terminal at the barrier, DEGRADED) and the re-armed one
+            await(()->{try(var files=Files.list(directory)){return files.count()==2;}catch(Exception e){throw new RuntimeException(e);}});
+            TransportCapsule capsule=null,initial=null;
+            try(var files=Files.list(directory)){for(Path f:files.toList()){var c=me.nicolas.papea2ac.replay.CapsuleCodec.decode(Files.readAllBytes(f));if(c.frames().getFirst() instanceof TransportCapsule.Checkpoint)capsule=c;else initial=c;}}
+            assertNotNull(initial);assertFalse(initial.prefixComplete());assertEquals("DEGRADED",initial.incompleteReason(),"the session-start capture is terminal at the first barrier - explicit, never silently continued");
+            assertNotNull(capsule);
+            assertTrue(capsule.prefixComplete(),"complete from its own checkpoint boundary: "+capsule.incompleteReason());
+            var checkpoint=assertInstanceOf(TransportCapsule.Checkpoint.class,capsule.frames().getFirst());
+            assertEquals(2,checkpoint.recordingEpoch()); assertTrue(checkpoint.startGeneration()>0,"the checkpoint records that it opened in the degraded generation");
+            assertTrue(capsule.frames().stream().filter(f->f instanceof TransportCapsule.Input).count()>=5,"the observations after re-arming are in the capsule");
+        }finally{engine.close();loop.drain();awaitWriterDrained(engine);}
     }
 }

@@ -3,23 +3,34 @@ package me.nicolas.papea2ac.protocol;
 import java.io.*;
 import java.util.*;
 
-/** Bounded schema-1 semantic encoding. This never accepts native packet bytes. */
+/**
+ * Bounded semantic payload encoding. This never accepts native packet bytes.
+ * <p>Payload schema byte: {@link #SCHEMA} = 2 is written; 1 and 2 are decoded; anything else fails clearly.
+ * Schema 2 (P3-C1) differs from schema 1 ONLY in three semantic tags - 59 JoinGame and 74 Respawn gained the
+ * dimension vertical range, 79 ChunkBaseline gained inline section content - plus the per-payload limit
+ * (64 KiB -> 128 KiB so a baseline carrying up to 40 KiB of packed section data still encodes). Every other tag is
+ * byte-identical in both schemas. Schema-1 bytes of the three changed tags decode through their legacy layout
+ * (see SemanticCodec.read); a schema-1 decoder cannot read schema-2 bytes and rejects them at the schema byte.
+ */
 public final class PayloadCodec {
+    public static final int LIMIT = 128 * 1024;
+    public static final int SCHEMA = 2, LEGACY_SCHEMA = 1;
     private PayloadCodec() {}
     public static byte[] encode(PacketPayload payload) throws IOException {
         var bytes = new ByteArrayOutputStream();
         try (var out = new DataOutputStream(bytes)) {
-            out.writeByte(1);
+            out.writeByte(SCHEMA);
             write(out, payload);
         }
-        if (bytes.size() > 65536) throw new IOException("payload limit");
+        if (bytes.size() > LIMIT) throw new IOException("payload limit");
         return bytes.toByteArray();
     }
     public static PacketPayload decode(byte[] bytes) throws IOException {
-        if (bytes.length > 65536) throw new IOException("payload limit");
+        if (bytes.length > LIMIT) throw new IOException("payload limit");
         try (var in = new DataInputStream(new ByteArrayInputStream(bytes))) {
-            if (in.readUnsignedByte() != 1) throw new IOException("payload schema");
-            PacketPayload payload = read(in, false);
+            int schema = in.readUnsignedByte();
+            if (schema != SCHEMA && schema != LEGACY_SCHEMA) throw new IOException("unsupported payload schema " + schema);
+            PacketPayload payload = read(in, false, schema == LEGACY_SCHEMA);
             if (in.available() != 0) throw new IOException("trailing payload bytes");
             return payload;
         } catch (IllegalArgumentException e) {
@@ -84,9 +95,9 @@ public final class PayloadCodec {
             case PacketPayload.TickRate p -> { out.writeByte(10); out.writeFloat(p.rate()); out.writeBoolean(p.frozen()); }
         }
     }
-    private static PacketPayload read(DataInputStream in, boolean insideBundle) throws IOException {
+    private static PacketPayload read(DataInputStream in, boolean insideBundle, boolean legacySchema1) throws IOException {
         return switch (in.readUnsignedByte()) {
-            case 11 -> SemanticCodec.read(in);
+            case 11 -> SemanticCodec.read(in, legacySchema1);
             case 1 -> new PacketPayload.Movement(bool(in) ? vector(in) : null, bool(in) ? rotation(in) : null, bool(in), bool(in));
             case 2 -> new PacketPayload.Control(PacketPayload.ControlKind.valueOf(text(in, 32)), in.readLong());
             case 3 -> new PacketPayload.Uncovered(PacketPayload.Family.valueOf(text(in, 32)), text(in, 128));
@@ -94,7 +105,7 @@ public final class PayloadCodec {
                 if (insideBundle) throw new IOException("nested bundle");
                 int n = count(in, 256); var children = new ArrayList<PacketPayload>(n); int charged = 0;
                 for (int i = 0; i < n; i++) {
-                    PacketPayload child = read(in, true); charged += child.chargedBytes();
+                    PacketPayload child = read(in, true, legacySchema1); charged += child.chargedBytes();
                     if (charged > 65536) throw new IOException("bundle retained-byte limit");
                     children.add(child);
                 }

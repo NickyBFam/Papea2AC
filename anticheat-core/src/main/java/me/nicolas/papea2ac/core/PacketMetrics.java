@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.LongAdder;
 public final class PacketMetrics {
     public enum Kind {CAPTURED,NORMALIZED,PROVISIONAL,CERTIFIED,CANCELLED,MUTATED,UNKNOWN,
         EXPIRED,OVERLOAD,MALFORMED,STALE,FAILURE,CLOSED,WRITE_FAILED,INGRESS_DROPPED,BRIDGE_DROPPED,DISPATCH_REJECTED,CLEANUP_STALLED,
-        WRITER_HUNG,CHECKPOINT_CREATED,RECORDING_PAUSED,CONTROL_APPLIED,PRELOGIN_ADMISSION_REJECTED,PRELOGIN_TRUNCATED_GLOBAL}
+        WRITER_HUNG,CHECKPOINT_CREATED,RECORDING_PAUSED,CONTROL_APPLIED,PRELOGIN_ADMISSION_REJECTED,PRELOGIN_TRUNCATED_GLOBAL,BULK_SHED,WORK_QUOTA_DEFERRED}
     /** Named hot-path timing channels. CAPTURE_TO_PROCESS is the network-callback-to-ordered-processing handoff (the only channel with production call sites prior to this pass). CHECKPOINT_REQUEST_TO_EXPORT isolates the ordering/queueing delay specifically for operator checkpoint requests, so it can be distinguished from ordinary packet latency under load. */
     public enum Timer {CAPTURE_TO_PROCESS,CHECKPOINT_REQUEST_TO_EXPORT}
     private final LongAdder[] counts=new LongAdder[Kind.values().length];

@@ -13,6 +13,7 @@ import me.nicolas.papea2ac.schema.TransportCapsule;
 public final class LiveCapture implements AutoCloseable {
     private final ReplayQuota.Lease rolling;
     private final List<TransportCapsule.Frame> frames=new ArrayList<>();
+    public int frameCount(){return frames.size();}
     private final long epoch;
     private long bytes=512,lastSequence;
     private boolean complete=true,closed;
@@ -47,7 +48,7 @@ public final class LiveCapture implements AutoCloseable {
     public String incompleteReason(){return incompleteReason;}
     public TransportCapsule snapshot(String profile,String configuration,String revision,boolean qualified){
         if(closed)throw new IllegalStateException("recorder closed");
-        return new TransportCapsule(1,profile,configuration,revision,epoch,qualified,frames,complete,incompleteReason);
+        return new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,profile,configuration,revision,epoch,qualified,frames,complete,incompleteReason);
     }
     @Override public void close(){if(closed)return;closed=true;frames.clear();if(rolling!=null)rolling.close();}
 }

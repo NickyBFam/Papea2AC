@@ -78,7 +78,7 @@ class StaleControlAndResourceAccountingTest {
         var quota=new ReplayQuota();
         var writer=new CaptureWriter(quota,c->{},e->fail(e));
         try{
-            assertTrue(writer.submit(1,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(1,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
+            assertTrue(writer.submit(1,1024,()->new me.nicolas.papea2ac.schema.TransportCapsule(me.nicolas.papea2ac.schema.TransportCapsule.CURRENT_SCHEMA,TransportReplayDriver.PROFILE,"0".repeat(64),"x",1,false,
                 List.of(new me.nicolas.papea2ac.schema.TransportCapsule.Close(1)),true)));
             await(()->writer.written()==1);
             writer.fence(); // fence races an already-completed job's own release; must not double-account

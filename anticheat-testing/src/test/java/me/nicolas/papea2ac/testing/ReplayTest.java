@@ -23,7 +23,7 @@ class ReplayTest {
     private static final SessionKey KEY = new SessionKey(new UUID(123, 456), 1);
     private static final PacketPayload.Movement MOVEMENT = new PacketPayload.Movement(new PacketPayload.Position(-0.0, 64, Double.MIN_VALUE), new PacketPayload.Rotation(-0.0f, 90), true, false);
     private static TransportCapsule capsule(List<TransportCapsule.Frame> frames) {
-        return new TransportCapsule(1, TransportReplayDriver.PROFILE, "0".repeat(64), "synthetic-fixture-v1", 1, true, frames, true);
+        return new TransportCapsule(TransportCapsule.CURRENT_SCHEMA, TransportReplayDriver.PROFILE, "0".repeat(64), "synthetic-fixture-v1", 1, true, frames, true);
     }
     static TransportCapsule fixture() throws IOException {
         var a = new Observation.Attempt(1, 1, MOVEMENT);
@@ -79,12 +79,12 @@ class ReplayTest {
         assertThrows(IOException.class,()->CapsuleCodec.decode(bytes));
         var c=fixture();var incomplete=new TransportCapsule(c.schema(),c.profile(),c.configurationDigest(),c.sourceRevision(),c.epoch(),true,c.frames(),false);
         assertThrows(IOException.class,()->new TransportReplayDriver().replay(incomplete));
-        var mismatch=new TransportCapsule(1,"other-profile","0".repeat(64),"fixture",1,true,c.frames(),true);
+        var mismatch=new TransportCapsule(TransportCapsule.CURRENT_SCHEMA,"other-profile","0".repeat(64),"fixture",1,true,c.frames(),true);
         assertThrows(IOException.class,()->new TransportReplayDriver().replay(mismatch));
     }
     @Test void payloadBytesAreDefensiveAndPendingDigestIncludesPayload() throws Exception {
         byte[] bytes=PayloadCodec.encode(MOVEMENT);var payload=new TransportCapsule.Payload(bytes);bytes[0]=99;
-        assertEquals(1,payload.bytes()[0]);byte[] copy=payload.bytes();copy[0]=99;assertEquals(1,payload.bytes()[0]);
+        assertEquals(PayloadCodec.SCHEMA,payload.bytes()[0]);byte[] copy=payload.bytes();copy[0]=99;assertEquals(PayloadCodec.SCHEMA,payload.bytes()[0]);
         var a=new TruthActor(KEY,new HealthLatch(),TransportCapability.observeOnly(),new PacketMetrics(),256);
         var b=new TruthActor(KEY,new HealthLatch(),TransportCapability.observeOnly(),new PacketMetrics(),256);
         a.process(new Observation(KEY,1,0,0,new Observation.Attempt(1,1,MOVEMENT)),0);

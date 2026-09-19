@@ -1,0 +1,2670 @@
+
+=== 2026-09-19T03:53:48.111Z T0 pre-join baseline (no client)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+> list
+There are 0 of a max of 100 players online: 
+
+=== 2026-09-19T04:01:32.832Z T0b pre-join baseline after restart (server ready for the human session)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+> list
+There are 0 of a max of 100 players online: 
+
+=== 2026-09-19T04:31:58.643Z A JOIN - Emojiado connected; granting op
+> list
+There are 1 of a max of 100 players online: Emojiado
+> op Emojiado
+Made Emojiado a server operator
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=2295 lastSequence=160089
+chunks=189 complete=0 partial=0 contentNotRetained=0 transportIncomplete=189 evicted=0 unloaded=174
+privateBytes=300808 historyBytes=21460 historyEntries=12 historyEvictions=4608 coverage=TRANSPORT_BROKEN:EXPIRED
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=160330, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=158143
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=2388
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=158143 totalDelayNanos=2933166205900
+delayP95UpperNanos=134217727 delayP99UpperNanos=268435455
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=61/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=189 complete=0 partial=0 sections=4047 sharedBytes=3019804/100663296 sharedSections=1378 sharedHits=4599 privateTier=786432 revisions=2297 historyEvictions=4611 evicted=0 unloaded=174 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T04:42:25.815Z T0c pre-join baseline after P3-F3 fix restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+> list
+There are 0 of a max of 100 players online: 
+
+=== 2026-09-19T04:46:23.847Z A JOIN (fixed build) - Emojiado connected
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=223 lastSequence=26216
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=0
+privateBytes=73464 historyBytes=2860 historyEntries=1 historyEvictions=7 coverage=TRANSPORT_BROKEN:PIPELINE_UNCOVERED:UNKNOWN
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=26462, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=26624 retained=437 chargedBytes=106432 evictions=2821 worldEpoch=0 revision=3257 coverageIssue=true
+observed position=-45.807167941838394,73.0,100.47278389105684 rotation=158.3702/7.2734113 onGround=true serverTick=5124
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=26832
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=26832 totalDelayNanos=83883947900
+delayP95UpperNanos=8388607 delayP99UpperNanos=8388607
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=4015276/100663296 sharedSections=1835 sharedHits=3272 privateTier=786432 revisions=223 historyEvictions=7 evicted=0 unloaded=0 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T04:49:33.150Z A JOIN (diagnostic build) - identify the uncovered clientbound object
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=308 lastSequence=46770
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=45
+privateBytes=67712 historyBytes=0 historyEntries=360 historyEvictions=723 coverage=TRANSPORT_BROKEN:PIPELINE_UNCOVERED:UNKNOWN:UnconfiguredPipelineHandler$OutboundC
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=47298, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+
+=== 2026-09-19T04:52:53.004Z T0d pre-join baseline after P3-F3 final fix restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T04:53:21.039Z A JOIN (final fix build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=479 lastSequence=16904
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=148708 historyBytes=222408 historyEntries=106 historyEvictions=159 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=17298, certified=0, pending=0, queueDepth=1, queueCapacity=1024]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=17636 retained=786 chargedBytes=194808 evictions=1131 worldEpoch=0 revision=1916 coverageIssue=true
+observed position=394.05197477809577,69.41999998688698,-177.79522360531314 rotation=-144.83452/10.424951 onGround=false serverTick=956
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=18005
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=18005 totalDelayNanos=55173576800
+delayP95UpperNanos=8388607 delayP99UpperNanos=8388607
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=198 complete=0 partial=0 sections=4752 sharedBytes=4141044/100663296 sharedSections=1903 sharedHits=3179 privateTier=786432 revisions=530 historyEvictions=181 evicted=0 unloaded=15 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T04:53:39.560Z A2 JOIN follow-up: a coverage break appeared right after the first query
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=1287 lastSequence=49155
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=129
+privateBytes=311144 historyBytes=97308 historyEntries=406 historyEvictions=3504 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:17218
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=49387, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+
+=== 2026-09-19T04:58:57.228Z T0e pre-join baseline after P3-F4 (bulk pool) restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:00:33.713Z A JOIN (P3-F4 build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=216 lastSequence=22095
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=0
+privateBytes=63480 historyBytes=0 historyEntries=0 historyEvictions=1 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:11653
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=22286, certified=0, pending=0, queueDepth=43, queueCapacity=1024]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=22434 retained=588 chargedBytes=144824 evictions=2121 worldEpoch=0 revision=2708 coverageIssue=true
+observed position=808.2714949503592,65.0,-270.0945847090984 rotation=-121.72919/2.3015027 onGround=true serverTick=2301
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=21599
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=974
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=21599 totalDelayNanos=2165074707400
+delayP95UpperNanos=268435455 delayP99UpperNanos=268435455
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=9/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=4052996/100663296 sharedSections=1859 sharedHits=3252 privateTier=786432 revisions=216 historyEvictions=1 evicted=0 unloaded=0 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:00:49.178Z A2 JOIN +15s settle
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=249 lastSequence=37480
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=15
+privateBytes=69912 historyBytes=0 historyEntries=360 historyEvictions=4 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:11653
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=36681
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=974
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=36681 totalDelayNanos=2458220196700
+delayP95UpperNanos=268435455 delayP99UpperNanos=268435455
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=4323096/100663296 sharedSections=1979 sharedHits=3489 privateTier=786432 revisions=249 historyEvictions=4 evicted=0 unloaded=15 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:04:32.658Z T0f pre-join baseline after P3-F5 (shard drain) restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:05:24.526Z A JOIN (P3-F5 build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=599 lastSequence=21200
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=72
+privateBytes=177044 historyBytes=272748 historyEntries=1216 historyEvictions=752 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:12735
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=21594, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=21788
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=18
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=21788 totalDelayNanos=133107706700
+delayP95UpperNanos=16777215 delayP99UpperNanos=16777215
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=4956764/100663296 sharedSections=2267 sharedHits=4329 privateTier=786432 revisions=613 historyEvictions=766 evicted=0 unloaded=72 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:05:44.977Z A2 JOIN +20s settle
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=1029 lastSequence=43552
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=147
+privateBytes=240176 historyBytes=12868 historyEntries=6 historyEvictions=4042 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:12735
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=43674
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=18
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=43674 totalDelayNanos=303457382400
+delayP95UpperNanos=16777215 delayP99UpperNanos=16777215
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=4238648/100663296 sharedSections=1942 sharedHits=5480 privateTier=786432 revisions=1029 historyEvictions=4042 evicted=0 unloaded=147 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:08:28.604Z T0g pre-join baseline after P3-F5b (wake) restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:09:59.138Z A JOIN (P3-F5b build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=503 lastSequence=23864
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=30
+privateBytes=140744 historyBytes=192868 historyEntries=395 historyEvictions=458 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=24234, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=24501
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=24501 totalDelayNanos=34488114900
+delayP95UpperNanos=524287 delayP99UpperNanos=16777215
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4728472/100663296 sharedSections=2129 sharedHits=3446 privateTier=786432 revisions=511 historyEvictions=467 evicted=0 unloaded=30 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:10:19.744Z A2 JOIN +20s settle
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=1996 lastSequence=67772
+chunks=187 complete=0 partial=0 contentNotRetained=0 transportIncomplete=187 evicted=0 unloaded=192
+privateBytes=380060 historyBytes=405688 historyEntries=833 historyEvictions=5102 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:27695
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=68150
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=68150 totalDelayNanos=38974882100
+delayP95UpperNanos=524287 delayP99UpperNanos=2097151
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=202 complete=0 partial=0 sections=4848 sharedBytes=4276408/100663296 sharedSections=1961 sharedHits=5843 privateTier=786432 revisions=2021 historyEvictions=5114 evicted=0 unloaded=192 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:13:56.316Z T0h pre-join baseline after P3-F6 (work quota) restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:16:28.298Z A JOIN (P3-F6 build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=1900 lastSequence=57007
+chunks=183 complete=0 partial=0 contentNotRetained=0 transportIncomplete=183 evicted=0 unloaded=466
+privateBytes=179388 historyBytes=606180 historyEntries=3090 historyEvictions=8877 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:17082
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=57644, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=58002
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=21
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=58002 totalDelayNanos=66205365000
+delayP95UpperNanos=524287 delayP99UpperNanos=8388607
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=176 complete=0 partial=0 sections=4224 sharedBytes=4406188/100663296 sharedSections=1995 sharedHits=10966 privateTier=786432 revisions=1985 historyEvictions=9265 evicted=0 unloaded=492 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:16:59.004Z B MOVEMENT +30s (player moving)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=7239 lastSequence=124520
+chunks=213 complete=0 partial=0 contentNotRetained=0 transportIncomplete=213 evicted=0 unloaded=2121
+privateBytes=160144 historyBytes=224544 historyEntries=105 historyEvictions=53568 coverage=TRANSPORT_BROKEN:SEQUENCE_GAP:17082
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=124935, certified=0, pending=0, queueDepth=0, queueCapacity=1024]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=125287
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=30
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=125287 totalDelayNanos=72500565400
+delayP95UpperNanos=524287 delayP99UpperNanos=2097151
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/1024 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=0 partial=0 sections=5112 sharedBytes=3493204/100663296 sharedSections=1557 sharedHits=36866 privateTier=786432 revisions=7249 historyEvictions=53587 evicted=0 unloaded=2121 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T05:23:46.826Z T0i pre-join baseline after P3-F7/F8 restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:24:28.434Z A JOIN (P3-F7/F8 build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=2298 lastSequence=19011
+chunks=153 complete=153 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=390
+privateBytes=373672 historyBytes=407212 historyEntries=2020 historyEvictions=8704 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=19171, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=19403
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=19403 totalDelayNanos=31526453300
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=161 complete=161 partial=0 sections=3864 sharedBytes=4477552/100663296 sharedSections=2003 sharedHits=8442 privateTier=786432 revisions=2347 historyEvictions=9024 evicted=0 unloaded=404 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:25:04.057Z B MOVEMENT +35s (player flying fast)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=18142 lastSequence=90573
+chunks=161 complete=161 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=36 unloaded=2897
+privateBytes=186496 historyBytes=596072 historyEntries=2965 historyEvictions=76225 coverage=BREAKS=2 last=SEQUENCE_GAP:32584@32585 (held chunks incomplete until re-baselined)
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=90804, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=91000
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=2
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=138
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=91000 totalDelayNanos=44479523800
+delayP95UpperNanos=65535 delayP99UpperNanos=2097151
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=153 complete=153 partial=0 sections=3672 sharedBytes=5901240/100663296 sharedSections=2663 sharedHits=43775 privateTier=786432 revisions=18245 historyEvictions=76518 evicted=36 unloaded=2925 coverageBreaks=2 budgetRejections=0
+
+
+=== 2026-09-19T05:27:36.896Z T0j pre-join baseline after arena=4MiB restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:28:47.965Z A JOIN (arena 4MiB build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=2120 lastSequence=18992
+chunks=172 complete=168 partial=0 contentNotRetained=4 transportIncomplete=0 evicted=0 unloaded=377
+privateBytes=361540 historyBytes=423804 historyEntries=1707 historyEvictions=8513 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=19535, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=19924 retained=418 chargedBytes=100288 evictions=1075 worldEpoch=0 revision=1492 coverageIssue=true
+observed position=-13323.030700883539,145.11260379580852,-2676.779259185693 rotation=-96.572495/16.272425 onGround=false serverTick=1809
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=20602
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=20626 totalDelayNanos=30245471900
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=13/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=167 complete=165 partial=0 sections=3963 sharedBytes=5678536/100663296 sharedSections=2600 sharedHits=7634 privateTier=786432 revisions=2310 historyEvictions=9431 evicted=0 unloaded=419 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:29:09.911Z B MOVEMENT sample (+~60s after join)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=8592 lastSequence=62643
+chunks=175 complete=175 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=2001
+privateBytes=412012 historyBytes=371784 historyEntries=732 historyEvictions=51596 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=63031, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=63449
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=63449 totalDelayNanos=30853561000
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=164 complete=164 partial=0 sections=3936 sharedBytes=3671628/100663296 sharedSections=1625 sharedHits=32039 privateTier=786432 revisions=8790 historyEvictions=52357 evicted=0 unloaded=2028 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:29:10.189Z C1 teleport to x=15.5 (chunk 0), y=120 z=8.5
+> tp Emojiado 15.5 120 8.5
+Teleported Emojiado to 15.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:29:28.019Z C2 world+timeline at x=15.5 (chunk 0)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=13502 lastSequence=111530
+chunks=170 complete=170 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=3239
+privateBytes=262756 historyBytes=523552 historyEntries=1786 historyEvictions=82693 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=111882 retained=421 chargedBytes=101056 evictions=7969 worldEpoch=0 revision=8389 coverageIssue=true
+observed position=181.4613351094704,103.96187190299806,-938.7061577604195 rotation=180.46321/25.1066 onGround=false serverTick=2614
+teleportSent=true id=2 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:29:28.293Z C3 teleport to x=16.5 (chunk 1)
+> tp Emojiado 16.5 120 8.5
+Teleported Emojiado to 16.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:29:36.769Z C4 world+timeline at x=16.5 (chunk 1)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=15568 lastSequence=129635
+chunks=169 complete=169 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=3815
+privateBytes=330296 historyBytes=455844 historyEntries=1732 historyEvictions=97486 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=130028 retained=463 chargedBytes=111808 evictions=9078 worldEpoch=0 revision=9540 coverageIssue=true
+observed position=-55.996542277418655,87.36927836646791,-441.29038787551343 rotation=141.10872/17.319542 onGround=false serverTick=2789
+teleportSent=true id=3 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:30:39.218Z C1 teleport to x=15.5 (chunk 0) y=120 z=8.5
+> tp Emojiado 15.5 120 8.5
+Teleported Emojiado to 15.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:30:49.828Z C2 at x=15.5 (block x=15, chunk 0)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=29410 lastSequence=287137
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=3 unloaded=6395
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=165677 coverage=BREAKS=48 last=SEQUENCE_GAP:164966@164967 (held chunks incomplete until re-baselined)
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=287348 retained=535 chargedBytes=131536 evictions=24012 worldEpoch=0 revision=24546 coverageIssue=true
+observed position=15.5,47.0,8.5 rotation=91.99849/-2.189248 onGround=true serverTick=4247
+teleportSent=true id=4 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=286935
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=664
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=1352
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=286935 totalDelayNanos=344062881500
+delayP95UpperNanos=131071 delayP99UpperNanos=67108863
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4091820/100663296 sharedSections=1887 sharedHits=97495 privateTier=786432 revisions=29410 historyEvictions=165677 evicted=3 unloaded=6395 coverageBreaks=48 budgetRejections=0
+
+
+=== 2026-09-19T05:30:50.095Z C3 teleport to x=16.5 (chunk 1)
+> tp Emojiado 16.5 120 8.5
+Teleported Emojiado to 16.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:31:00.573Z C4 at x=16.5 (block x=16, chunk 1)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=29443 lastSequence=299781
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=3 unloaded=6410
+privateBytes=64256 historyBytes=5824 historyEntries=2 historyEvictions=166038 coverage=BREAKS=48 last=SEQUENCE_GAP:164966@164967 (held chunks incomplete until re-baselined)
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=299943 retained=245 chargedBytes=57280 evictions=25667 worldEpoch=0 revision=25911 coverageIssue=true
+observed position=16.5,47.0,8.5 rotation=87.6023/8.319255 onGround=true serverTick=4465
+teleportSent=true id=5 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:31:00.828Z D1 teleport to x=-0.5 (block x=-1, chunk -1)
+> tp Emojiado -0.5 120 8.5
+Teleported Emojiado to -0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:31:11.286Z D2 at x=-0.5 (chunk -1)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=29503 lastSequence=309711
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=3 unloaded=6440
+privateBytes=64256 historyBytes=0 historyEntries=0 historyEvictions=166760 coverage=BREAKS=48 last=SEQUENCE_GAP:164966@164967 (held chunks incomplete until re-baselined)
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=309879 retained=199 chargedBytes=45592 evictions=26556 worldEpoch=0 revision=26754 coverageIssue=true
+observed position=-0.5,67.0,8.5 rotation=87.6023/8.319255 onGround=true serverTick=4679
+teleportSent=true id=6 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:31:11.548Z D3 teleport to x=0.5 (block x=0, chunk 0)
+> tp Emojiado 0.5 120 8.5
+Teleported Emojiado to 0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:31:22.159Z D4 at x=0.5 (chunk 0)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=29533 lastSequence=319136
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=3 unloaded=6455
+privateBytes=64256 historyBytes=0 historyEntries=0 historyEvictions=167120 coverage=BREAKS=48 last=SEQUENCE_GAP:164966@164967 (held chunks incomplete until re-baselined)
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=319331 retained=264 chargedBytes=62232 evictions=27249 worldEpoch=0 revision=27512 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=87.6023/8.319255 onGround=true serverTick=4894
+teleportSent=true id=7 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=318847
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=664
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=1352
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=318847 totalDelayNanos=344568980000
+delayP95UpperNanos=131071 delayP99UpperNanos=67108863
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4088912/100663296 sharedSections=1886 sharedHits=98407 privateTier=786432 revisions=29533 historyEvictions=167120 evicted=3 unloaded=6455 coverageBreaks=48 budgetRejections=0
+
+
+=== 2026-09-19T05:34:14.977Z post-C/D diagnostics: drops happened during the fast-flight interval between B and C
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=488745
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=664
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=1352
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=488745 totalDelayNanos=346079073500
+delayP95UpperNanos=65535 delayP99UpperNanos=67108863
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4084636/100663296 sharedSections=1884 sharedHits=98407 privateTier=786432 revisions=29539 historyEvictions=167126 evicted=3 unloaded=6455 coverageBreaks=48 budgetRejections=0
+
+
+=== 2026-09-19T05:38:12.348Z T0k pre-join baseline after P3-F9 restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:41:59.663Z A JOIN (P3-F9 build)
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=214 lastSequence=17019
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=17339, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=17576
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=17576 totalDelayNanos=30467888200
+delayP95UpperNanos=262143 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4091828/100663296 sharedSections=1887 sharedHits=3225 privateTier=786432 revisions=214 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:46:13.890Z B MOVEMENT - after ~30s max-speed flight (P3-F9 build)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=20940 lastSequence=413076
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5023
+privateBytes=414976 historyBytes=50740 historyEntries=24 historyEvictions=128462 coverage=HEALTHY
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=413239, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=413343 retained=221 chargedBytes=51136 evictions=40321 worldEpoch=0 revision=40541 coverageIssue=true
+observed position=-210.12659238342275,69.0,-208.4079076914951 rotation=92.043785/16.817844 onGround=true serverTick=10029
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=413555
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=413555 totalDelayNanos=63672806600
+delayP95UpperNanos=131071 delayP99UpperNanos=1048575
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=3844744/100663296 sharedSections=1741 sharedHits=76356 privateTier=786432 revisions=20945 historyEvictions=128467 evicted=0 unloaded=5023 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:46:42.016Z C1 tp x=15.5 (block 15, chunk 0)
+> tp Emojiado 15.5 120 8.5
+Teleported Emojiado to 15.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:46:50.472Z C2 at x=15.5
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21504 lastSequence=458881
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5236
+privateBytes=63476 historyBytes=0 historyEntries=0 historyEvictions=133736 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=459133 retained=457 chargedBytes=111184 evictions=44404 worldEpoch=0 revision=44860 coverageIssue=true
+observed position=15.5,47.0,8.5 rotation=91.4576/14.640766 onGround=true serverTick=10764
+teleportSent=true id=2 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:46:50.733Z C3 tp x=16.5 (block 16, chunk 1)
+> tp Emojiado 16.5 120 8.5
+Teleported Emojiado to 16.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:46:59.178Z C4 at x=16.5
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21537 lastSequence=468851
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5251
+privateBytes=66376 historyBytes=0 historyEntries=0 historyEvictions=134099 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=469067 retained=474 chargedBytes=115560 evictions=45616 worldEpoch=0 revision=46089 coverageIssue=true
+observed position=16.5,47.0,8.5 rotation=91.4576/14.640766 onGround=true serverTick=10939
+teleportSent=true id=3 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:46:59.441Z D1 tp x=-0.5 (block -1, chunk -1)
+> tp Emojiado -0.5 120 8.5
+Teleported Emojiado to -0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:47:07.895Z D2 at x=-0.5
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21597 lastSequence=479356
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5281
+privateBytes=66376 historyBytes=0 historyEntries=0 historyEvictions=134819 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=479527 retained=375 chargedBytes=90648 evictions=46671 worldEpoch=0 revision=47045 coverageIssue=true
+observed position=-0.5,67.0,8.5 rotation=91.4576/14.640766 onGround=true serverTick=11113
+teleportSent=true id=4 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:47:08.161Z D3 tp x=0.5 (block 0, chunk 0)
+> tp Emojiado 0.5 120 8.5
+Teleported Emojiado to 0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T05:47:16.776Z D4 at x=0.5
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21628 lastSequence=486707
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5296
+privateBytes=68512 historyBytes=0 historyEntries=0 historyEvictions=135180 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=486833 retained=230 chargedBytes=53528 evictions=47466 worldEpoch=0 revision=47695 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=91.4576/14.640766 onGround=true serverTick=11287
+teleportSent=true id=5 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=486998
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=486998 totalDelayNanos=64241020900
+delayP95UpperNanos=131071 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4084676/100663296 sharedSections=1884 sharedHits=80495 privateTier=786432 revisions=21628 historyEvictions=135180 evicted=0 unloaded=5296 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:47:27.059Z E0 revision stability while still (10 s later)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21629 lastSequence=494600
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5296
+privateBytes=68512 historyBytes=0 historyEntries=0 historyEvictions=135181 coverage=HEALTHY
+
+
+=== 2026-09-19T05:48:37.839Z E1 after placing 3 blocks (baseline before: revision=21629 @05:47:27)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=21641 lastSequence=566774
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=5296
+privateBytes=77008 historyBytes=0 historyEntries=0 historyEvictions=135193 coverage=HEALTHY
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=567001 retained=210 chargedBytes=48408 evictions=55252 worldEpoch=0 revision=55461 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=90.45283/6.6860094 onGround=true serverTick=12909
+teleportSent=true id=5 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=567188
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=567188 totalDelayNanos=66178605100
+delayP95UpperNanos=131071 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4076188/100663296 sharedSections=1880 sharedHits=80495 privateTier=786432 revisions=21641 historyEvictions=135193 evicted=0 unloaded=5296 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:51:34.114Z A JOIN (diagnostic build) + E0 pre-placement baseline
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=216 lastSequence=20954
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=65608 historyBytes=0 historyEntries=0 historyEvictions=2 coverage=HEALTHY
+blockUpdates=2 last=minecraft:cactus[age=0] @ 36,69,64 seq 10064
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=21227 retained=767 chargedBytes=191000 evictions=1807 worldEpoch=0 revision=2573 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=90.11787/6.4766755 onGround=true serverTick=676
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=21569
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=21569 totalDelayNanos=53820308800
+delayP95UpperNanos=131071 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4087548/100663296 sharedSections=1885 sharedHits=3225 privateTier=786432 revisions=216 historyEvictions=2 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:52:00.618Z E1 after placing 3 dirt (baseline blockUpdates=2, last=cactus @ 36,69,64)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=231 lastSequence=53274
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=74112 historyBytes=0 historyEntries=1 historyEvictions=16 coverage=HEALTHY
+blockUpdates=17 last=minecraft:cactus[age=0] @ 28,72,34 seq 51499
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=53505 retained=224 chargedBytes=51992 evictions=5777 worldEpoch=0 revision=6000 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=-9.19037/23.348942 onGround=true serverTick=1211
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T05:53:32.334Z E2 arm recording + GO (place 3 dirt within 5 s)
+> papea2ac recording Emojiado on
+Recording control accepted; applies at this session's next ordered position.
+
+> say GO - place 3 dirt now (within 5 seconds), then stay still
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=265 lastSequence=151978
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=15
+privateBytes=81228 historyBytes=0 historyEntries=0 historyEvictions=381 coverage=HEALTHY
+blockUpdates=21 last=minecraft:sugar_cane[age=0] @ 7,65,15 seq 147482
+
+
+=== 2026-09-19T05:53:47.026Z E3 checkpoint after placement window
+> papea2ac checkpoint Emojiado
+Checkpoint/export requested; applies at this session's next ordered position.
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=265 lastSequence=169607
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=15
+privateBytes=81228 historyBytes=0 historyEntries=0 historyEvictions=381 coverage=HEALTHY
+blockUpdates=21 last=minecraft:sugar_cane[age=0] @ 7,65,15 seq 147482
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=169917
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=169917 totalDelayNanos=61486854000
+delayP95UpperNanos=131071 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4052772/100663296 sharedSections=1869 sharedHits=3457 privateTier=786432 revisions=265 historyEvictions=381 evicted=0 unloaded=15 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T05:57:59.053Z A JOIN (recording-diag build) + E baseline
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=215 lastSequence=17375
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=63452 historyBytes=0 historyEntries=0 historyEvictions=1 coverage=HEALTHY
+blockUpdates=1 last=minecraft:sugar_cane[age=0] @ 59,65,-21 seq 8029
+
+
+=== 2026-09-19T05:57:59.514Z E2 arm recording + GO
+> papea2ac recording Emojiado on
+Recording control accepted; applies at this session's next ordered position.
+
+> say GO - place 3 dirt now (within 5 seconds), then stay still
+
+
+=== 2026-09-19T05:58:15.622Z E3 checkpoint + world after placement window
+> papea2ac checkpoint Emojiado
+Checkpoint/export requested; applies at this session's next ordered position.
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=225 lastSequence=36327
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=68456 historyBytes=0 historyEntries=0 historyEvictions=11 coverage=HEALTHY
+blockUpdates=11 last=minecraft:amethyst_cluster[facing=down,waterlogged=false] @ -71,12,2 seq 31369
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=36611
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=36611 totalDelayNanos=92932018000
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4065548/100663296 sharedSections=1875 sharedHits=3234 privateTier=786432 revisions=225 historyEvictions=11 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:03:06.802Z A JOIN (P3-F10 build) + E baseline
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=214 lastSequence=25706
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+
+=== 2026-09-19T06:03:07.266Z E2 arm recording + GO
+> papea2ac recording Emojiado on
+Recording control accepted; applies at this session's next ordered position.
+
+> say GO - place 3 dirt now (within 5 seconds), then stay still
+
+
+=== 2026-09-19T06:03:22.964Z E3 checkpoint + world after placement window
+> papea2ac checkpoint Emojiado
+Checkpoint/export requested; applies at this session's next ordered position.
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=223 lastSequence=46835
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=65580 historyBytes=0 historyEntries=0 historyEvictions=9 coverage=HEALTHY
+blockUpdates=10 last=minecraft:cactus[age=0] @ -13,67,-42 seq 32251
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=47056
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=47056 totalDelayNanos=91677299300
+delayP95UpperNanos=131071 delayP99UpperNanos=1048575
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4068424/100663296 sharedSections=1876 sharedHits=3234 privateTier=786432 revisions=223 historyEvictions=9 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:09:20.887Z A JOIN (P3-F11 build) + E baseline
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=220 lastSequence=25337
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=65600 historyBytes=2136 historyEntries=1 historyEvictions=5 coverage=HEALTHY
+blockUpdates=8 last=minecraft:deepslate_redstone_ore[lit=false] @ 36,-34,64 seq 24457
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=25685, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+
+=== 2026-09-19T06:09:21.318Z E2 arm recording + GO
+> papea2ac recording Emojiado on
+Recording control accepted; applies at this session's next ordered position.
+
+> say GO - place 3 dirt now (within 5 seconds), then stay still
+
+
+=== 2026-09-19T06:09:36.986Z E3 checkpoint + world after placement window
+> papea2ac checkpoint Emojiado
+Checkpoint/export requested; applies at this session's next ordered position.
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=230 lastSequence=46170
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=65600 historyBytes=0 historyEntries=0 historyEvictions=16 coverage=HEALTHY
+blockUpdates=18 last=minecraft:dirt @ 1,67,9 seq 28864
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=46493
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=46493 totalDelayNanos=48214078100
+delayP95UpperNanos=65535 delayP99UpperNanos=1048575
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4068408/100663296 sharedSections=1876 sharedHits=3234 privateTier=786432 revisions=230 historyEvictions=16 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:10:42.509Z F1 after breaking the 3 dirt (before: blockUpdates=18 last=minecraft:dirt @ 1,67,9)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=246 lastSequence=134474
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=72752 historyBytes=0 historyEntries=0 historyEvictions=32 coverage=HEALTHY
+blockUpdates=34 last=minecraft:deepslate_redstone_ore[lit=true] @ 36,-34,64 seq 128432
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=134845
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=134845 totalDelayNanos=49097535600
+delayP95UpperNanos=32767 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4061256/100663296 sharedSections=1873 sharedHits=3234 privateTier=786432 revisions=246 historyEvictions=32 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:57:40.076Z A JOIN (recent-updates build) + E0 baseline
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=214 lastSequence=20353
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=20683 retained=871 chargedBytes=217624 evictions=1610 worldEpoch=0 revision=2480 coverageIssue=true
+observed position=-0.6393673480606787,67.0,8.300000011920929 rotation=-68.38947/19.95782 onGround=true serverTick=54402
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T06:57:57.601Z E1 after placing 3 dirt
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=223 lastSequence=49827
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=63464 historyBytes=0 historyEntries=0 historyEvictions=9 coverage=HEALTHY
+blockUpdates=9 last=minecraft:dirt @ 1,67,7 seq 35222
+  recent[0] minecraft:dirt @ 1,67,9 seq 33620
+  recent[1] minecraft:dirt @ 1,67,9 seq 33623
+  recent[2] minecraft:sand @ 1,66,8 seq 34241
+  recent[3] minecraft:dirt @ 1,67,8 seq 34243
+  recent[4] minecraft:dirt @ 1,67,8 seq 34247
+  recent[5] minecraft:sand @ 1,66,7 seq 35217
+  recent[6] minecraft:dirt @ 1,67,7 seq 35219
+  recent[7] minecraft:dirt @ 1,67,7 seq 35222
+
+
+=== 2026-09-19T06:58:25.142Z F1 after breaking the 3 dirt
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=228 lastSequence=87426
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=66356 historyBytes=0 historyEntries=0 historyEvictions=14 coverage=HEALTHY
+blockUpdates=14 last=minecraft:small_amethyst_bud[facing=up,waterlogged=false] @ -74,6,3 seq 81068
+  recent[0] minecraft:sand @ 1,66,7 seq 35217
+  recent[1] minecraft:dirt @ 1,67,7 seq 35219
+  recent[2] minecraft:dirt @ 1,67,7 seq 35222
+  recent[3] minecraft:small_amethyst_bud[facing=south,waterlogged=false] @ -78,9,1 seq 52061
+  recent[4] minecraft:air @ 1,67,7 seq 73808
+  recent[5] minecraft:air @ 1,67,8 seq 74190
+  recent[6] minecraft:air @ 1,67,9 seq 74759
+  recent[7] minecraft:small_amethyst_bud[facing=up,waterlogged=false] @ -74,6,3 seq 81068
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=87740
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=87740 totalDelayNanos=40572899500
+delayP95UpperNanos=65535 delayP99UpperNanos=131071
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4067664/100663296 sharedSections=1876 sharedHits=3234 privateTier=786432 revisions=228 historyEvictions=14 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:58:48.548Z G0 before unload (at spawn)
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=230 lastSequence=112511
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=68512 historyBytes=0 historyEntries=0 historyEvictions=16 coverage=HEALTHY
+blockUpdates=16 last=minecraft:small_amethyst_bud[facing=north,waterlogged=false] @ -71,13,1 seq 96744
+  recent[0] minecraft:dirt @ 1,67,7 seq 35222
+  recent[1] minecraft:small_amethyst_bud[facing=south,waterlogged=false] @ -78,9,1 seq 52061
+  recent[2] minecraft:air @ 1,67,7 seq 73808
+  recent[3] minecraft:air @ 1,67,8 seq 74190
+  recent[4] minecraft:air @ 1,67,9 seq 74759
+  recent[5] minecraft:small_amethyst_bud[facing=up,waterlogged=false] @ -74,6,3 seq 81068
+  recent[6] minecraft:medium_amethyst_bud[facing=up,waterlogged=false] @ 33,-44,25 seq 87768
+  recent[7] minecraft:small_amethyst_bud[facing=north,waterlogged=false] @ -71,13,1 seq 96744
+
+
+=== 2026-09-19T06:58:48.809Z G1 teleport 400,120,400 (beyond view distance: spawn chunks must unload)
+> tp Emojiado 400 120 400
+Teleported Emojiado to 400.500000, 120.000000, 400.500000
+
+=== 2026-09-19T06:59:04.258Z G2 after leaving spawn area
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=844 lastSequence=132890
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=213
+privateBytes=117880 historyBytes=14964 historyEntries=8 historyEvictions=5308 coverage=HEALTHY
+blockUpdates=388 last=minecraft:lava[level=8] @ 425,-41,377 seq 132833
+  recent[0] minecraft:lava[level=4] @ 401,-39,467 seq 130475
+  recent[1] minecraft:lava[level=4] @ 492,-34,380 seq 130582 (batch of 3)
+  recent[2] minecraft:lava[level=8] @ 465,-33,492 seq 130872
+  recent[3] minecraft:lava[level=8] @ 425,-40,377 seq 131710
+  recent[4] minecraft:lava[level=8] @ 401,-40,467 seq 131828
+  recent[5] minecraft:lava[level=6] @ 491,-34,380 seq 131933 (batch of 2)
+  recent[6] minecraft:lava[level=2] @ 466,-33,492 seq 132157
+  recent[7] minecraft:lava[level=8] @ 425,-41,377 seq 132833
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=133023 retained=221 chargedBytes=51136 evictions=14644 worldEpoch=0 revision=14864 coverageIssue=true
+observed position=400.5,75.0,400.5 rotation=-80.44775/15.771141 onGround=true serverTick=56086
+teleportSent=true id=2 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T06:59:04.521Z G3 teleport back to spawn 0.5,120,8.5 (baseline recovery)
+> tp Emojiado 0.5 120 8.5
+Teleported Emojiado to 0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T06:59:19.969Z G4 after returning to spawn
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=1273 lastSequence=157046
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=426
+privateBytes=63472 historyBytes=0 historyEntries=0 historyEvictions=10431 coverage=HEALTHY
+blockUpdates=392 last=minecraft:deepslate_redstone_ore[lit=true] @ -20,-53,-22 seq 147039
+  recent[0] minecraft:lava[level=8] @ 425,-40,377 seq 131710
+  recent[1] minecraft:lava[level=8] @ 401,-40,467 seq 131828
+  recent[2] minecraft:lava[level=6] @ 491,-34,380 seq 131933 (batch of 2)
+  recent[3] minecraft:lava[level=2] @ 466,-33,492 seq 132157
+  recent[4] minecraft:lava[level=8] @ 425,-41,377 seq 132833
+  recent[5] minecraft:lava[level=2] @ 400,-40,467 seq 132975
+  recent[6] minecraft:lava[level=8] @ 491,-35,380 seq 133057 (batch of 2)
+  recent[7] minecraft:deepslate_redstone_ore[lit=true] @ -20,-53,-22 seq 147039
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=157402 retained=560 chargedBytes=138008 evictions=17093 worldEpoch=0 revision=17652 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=-80.44775/15.771141 onGround=true serverTick=56401
+teleportSent=true id=3 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T06:59:20.221Z H1 long-distance teleport 20000,120,20000
+> tp Emojiado 20000 120 20000
+Teleported Emojiado to 20000.500000, 120.000000, 20000.500000
+
+=== 2026-09-19T06:59:40.815Z H2 after long teleport
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=2521 lastSequence=190071
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=639
+privateBytes=382444 historyBytes=91572 historyEntries=41 historyEvictions=16324 coverage=HEALTHY
+blockUpdates=2665 last=minecraft:water[level=1] @ 19956,-40,20068 seq 189968
+  recent[0] minecraft:water[level=1] @ 19956,-39,20067 seq 189595
+  recent[1] minecraft:lava[level=8] @ 19950,8,20039 seq 189596 (batch of 2)
+  recent[2] minecraft:lava[level=4] @ 20072,-3,19974 seq 189648
+  recent[3] minecraft:lava[level=8] @ 19932,-21,19975 seq 189730
+  recent[4] minecraft:water[level=1] @ 20061,38,19956 seq 189731
+  recent[5] minecraft:water[level=8] @ 19956,-40,20067 seq 189794
+  recent[6] minecraft:water[level=2] @ 20060,38,19956 seq 189900 (batch of 2)
+  recent[7] minecraft:water[level=1] @ 19956,-40,20068 seq 189968
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=190185 retained=259 chargedBytes=60952 evictions=21203 worldEpoch=0 revision=21461 coverageIssue=true
+observed position=20000.5,46.0,20000.5 rotation=-80.44775/15.771141 onGround=true serverTick=56794
+teleportSent=true id=5 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=190416
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=190416 totalDelayNanos=43665306500
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=3920100/100663296 sharedSections=1776 sharedHits=12796 privateTier=786432 revisions=2526 historyEvictions=16331 evicted=0 unloaded=639 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T06:59:41.077Z I1 dimension change: nether 0,70,0
+> execute in minecraft:the_nether run tp Emojiado 0 70 0
+Teleported Emojiado to 0.500000, 70.000000, 0.500000
+
+=== 2026-09-19T06:59:56.529Z I2 in the nether
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=1 dimension=minecraft:the_nether y[0..255] revision=3194 lastSequence=204725
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=852
+privateBytes=111724 historyBytes=70344 historyEntries=36 historyEvictions=16575 coverage=HEALTHY
+blockUpdates=3010 last=minecraft:lava[level=2] @ 89,46,-12 seq 204686
+  recent[0] minecraft:lava[level=8] @ 27,32,87 seq 204386
+  recent[1] minecraft:lava[level=1] @ 89,46,-11 seq 204387
+  recent[2] minecraft:lava[level=8] @ 86,50,90 seq 204560
+  recent[3] minecraft:lava[level=8] @ 78,47,92 seq 204647
+  recent[4] minecraft:lava[level=1] @ 79,48,92 seq 204648
+  recent[5] minecraft:lava[level=1] @ 80,48,93 seq 204649
+  recent[6] minecraft:lava[level=8] @ 34,99,-51 seq 204684 (batch of 2)
+  recent[7] minecraft:lava[level=2] @ 89,46,-12 seq 204686
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=204809 retained=315 chargedBytes=75288 evictions=23177 worldEpoch=1 revision=23491 coverageIssue=true
+observed position=0.5,70.0,0.5 rotation=-80.44775/15.771141 onGround=true serverTick=57112
+teleportSent=true id=6 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+
+=== 2026-09-19T06:59:56.789Z I3 back to overworld spawn
+> execute in minecraft:overworld run tp Emojiado 0.5 120 8.5
+Teleported Emojiado to 0.500000, 120.000000, 8.500000
+
+=== 2026-09-19T07:00:12.403Z I4 back in the overworld
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=2 dimension=minecraft:overworld y[-64..319] revision=3627 lastSequence=228933
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=1065
+privateBytes=64204 historyBytes=0 historyEntries=0 historyEvictions=16617 coverage=HEALTHY
+blockUpdates=3018 last=minecraft:air @ 38,-13,77 seq 218067
+  recent[0] minecraft:lava[level=8] @ 34,99,-51 seq 204684 (batch of 2)
+  recent[1] minecraft:lava[level=2] @ 89,46,-12 seq 204686
+  recent[2] minecraft:lava[level=8] @ 86,49,90 seq 204804
+  recent[3] minecraft:lava[level=8] @ 79,47,92 seq 204881 (batch of 2)
+  recent[4] minecraft:lava[level=8] @ 80,47,93 seq 204882
+  recent[5] minecraft:lava[level=8] @ 34,97,-50 seq 204910 (batch of 2)
+  recent[6] minecraft:lava[level=3] @ 89,46,-13 seq 204912
+  recent[7] minecraft:air @ 38,-13,77 seq 218067
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=229189 retained=612 chargedBytes=151320 evictions=25848 worldEpoch=2 revision=26459 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=-80.44775/15.771141 onGround=true serverTick=57426
+teleportSent=true id=7 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=229421
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=229421 totalDelayNanos=44757382700
+delayP95UpperNanos=131071 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4089668/100663296 sharedSections=1886 sharedHits=17730 privateTier=786432 revisions=3627 historyEvictions=16617 evicted=0 unloaded=1065 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T07:00:48.581Z J0 pre-disconnect accounting
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=270800
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=270800 totalDelayNanos=45265855600
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4078980/100663296 sharedSections=1881 sharedHits=17730 privateTier=786432 revisions=3635 historyEvictions=16625 evicted=0 unloaded=1065 coverageBreaks=0 budgetRejections=0
+
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=2 dimension=minecraft:overworld y[-64..319] revision=3635 lastSequence=270897
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=1065
+privateBytes=74904 historyBytes=0 historyEntries=0 historyEvictions=16625 coverage=HEALTHY
+blockUpdates=3026 last=minecraft:large_amethyst_bud[facing=west,waterlogged=false] @ 33,-38,28 seq 258285
+  recent[0] minecraft:dirt @ 35,17,50 seq 232865
+  recent[1] minecraft:gravel @ -5,23,40 seq 236009
+  recent[2] minecraft:air @ 35,17,50 seq 247346
+  recent[3] minecraft:deepslate_redstone_ore[lit=false] @ -20,-53,-22 seq 248736
+  recent[4] minecraft:cactus_flower @ -21,67,-36 seq 249580
+  recent[5] minecraft:air @ -5,23,40 seq 249948
+  recent[6] minecraft:gravel @ -6,23,40 seq 250824
+  recent[7] minecraft:large_amethyst_bud[facing=west,waterlogged=false] @ 33,-38,28 seq 258285
+
+
+=== 2026-09-19T07:01:17.797Z J1 after disconnect (resource release, P3-F1 check)
+> list
+There are 0 of a max of 100 players online: 
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=285702
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=1
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=0
+delaySamples=285702 totalDelayNanos=45456391900
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=17730 privateTier=786432 revisions=3637 historyEvictions=16627 evicted=0 unloaded=1065 coverageBreaks=0 budgetRejections=0
+
+> papea2ac world Emojiado
+Player is not online.
+
+
+=== 2026-09-19T07:02:07.459Z J2 after reconnect (same UUID): new session, new observer world
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=2 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=215 lastSequence=26881
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=63476 historyBytes=0 historyEntries=0 historyEvictions=1 coverage=BREAKS=1 last=PIPELINE_UNCOVERED@6 (held chunks incomplete until re-baselined)
+blockUpdates=1 last=minecraft:deepslate_redstone_ore[lit=true] @ 35,-44,57 seq 8225
+  recent[0] minecraft:deepslate_redstone_ore[lit=true] @ 35,-44,57 seq 8225
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=PIPELINE_UNCOVERED_OBSERVE_ONLY, captured=27181, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=2 lastSequence=27345 retained=553 chargedBytes=136216 evictions=2996 worldEpoch=0 revision=3548 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=-80.364006/15.603672 onGround=true serverTick=59727
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=313273
+NORMALIZED=5
+PROVISIONAL=4
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=1
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=313273 totalDelayNanos=53373625300
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4090404/100663296 sharedSections=1886 sharedHits=20955 privateTier=786432 revisions=3852 historyEvictions=16628 evicted=0 unloaded=1065 coverageBreaks=1 budgetRejections=0
+
+
+=== 2026-09-19T07:06:58.345Z T0l pre-join baseline after P3-F12 restart
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T07:08:23.137Z A JOIN (final build, P3-F12)
+> papea2ac world Emojiado
+world sessionEpoch=2 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=214 lastSequence=13021
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=PIPELINE_UNCOVERED_OBSERVE_ONLY, captured=13224, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=27710
+NORMALIZED=5
+PROVISIONAL=4
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=1
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=27710 totalDelayNanos=32477733800
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4092544/100663296 sharedSections=1887 sharedHits=6450 privateTier=786432 revisions=429 historyEvictions=1 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T07:09:18.286Z J1 (final build) after disconnect
+> list
+There are 0 of a max of 100 players online: 
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=73726
+NORMALIZED=5
+PROVISIONAL=4
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=2
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=2 rejected=0 failed=0 rollingBytes=0
+delaySamples=73726 totalDelayNanos=33114556000
+delayP95UpperNanos=65535 delayP99UpperNanos=131071
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=6450 privateTier=786432 revisions=432 historyEvictions=4 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T07:10:35.560Z J2 (final build) after reconnect
+> papea2ac world Emojiado
+world sessionEpoch=3 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=214 lastSequence=22841
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+> papea2ac timeline Emojiado
+timeline sessionEpoch=3 lastSequence=23008 retained=458 chargedBytes=111896 evictions=2306 worldEpoch=0 revision=2763 coverageIssue=true
+observed position=0.5,67.0,8.5 rotation=-83.964836/20.125246 onGround=true serverTick=4747
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=96895
+NORMALIZED=9
+PROVISIONAL=7
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=2
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=2 rejected=0 failed=0 rollingBytes=262144
+delaySamples=96895 totalDelayNanos=38161974000
+delayP95UpperNanos=65535 delayP99UpperNanos=131071
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4092540/100663296 sharedSections=1887 sharedHits=9675 privateTier=786432 revisions=646 historyEvictions=4 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T14:51:03.960Z T0m pre-join baseline (detached restart, shutdown-fix build)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+> list
+There are 0 of a max of 100 players online: 
+
+=== 2026-09-19T14:51:34.356Z K1 JOIN on the shutdown-fix build
+> list
+There are 1 of a max of 100 players online: Emojiado
+> papea2ac world Emojiado
+world sessionEpoch=1 worldEpoch=0 dimension=minecraft:overworld y[-64..319] revision=215 lastSequence=22197
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=63472 historyBytes=0 historyEntries=0 historyEvictions=1 coverage=HEALTHY
+blockUpdates=1 last=minecraft:deepslate_redstone_ore[lit=true] @ 38,-46,45 seq 10451
+  recent[0] minecraft:deepslate_redstone_ore[lit=true] @ 38,-46,45 seq 10451
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=22556
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=22556 totalDelayNanos=29703699000
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4090408/100663296 sharedSections=1886 sharedHits=3225 privateTier=786432 revisions=215 historyEvictions=1 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+
+
+=== 2026-09-19T14:51:43.785Z K2 server stop with the player connected (P3-F13 shutdown path)
+> say [Papea2AC qualification] stopping the server now - thank you, the real-client session is complete
+
+> stop
+Stopping the server

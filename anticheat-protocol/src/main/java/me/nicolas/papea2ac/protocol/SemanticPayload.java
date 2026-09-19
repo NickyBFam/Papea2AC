@@ -12,6 +12,12 @@ public sealed interface SemanticPayload extends PacketPayload {
     static void entity(int id){if(id<0)throw new IllegalArgumentException("entity id");}
     static void finite(double value){if(!Double.isFinite(value))throw new IllegalArgumentException("nonfinite semantic number");}
     static <T> List<T> bounded(List<T> values,int count){if(values.size()>count)throw new IllegalArgumentException("semantic count");return List.copyOf(values);}
+    /** Vertical range must be section-aligned and inside the protocol's representable world height (DimensionType codec: minY multiple of 16 >= -2032, height multiple of 16 in 16..4064, minY+height <= 2032).
+     *  (0,0) is the explicit NOT-OBSERVED sentinel: payload-schema-1 (Phase 1/2) JoinGame/Respawn records carried no range and decode to it (P3-C1 migration); the live normalizer always supplies the real range. */
+    static void dimensionRange(int minY,int height){
+        if(minY==0&&height==0)return;
+        if(minY%16!=0||height%16!=0||height<16||height>4064||minY< -2032||minY+height>2032)throw new IllegalArgumentException("dimension range");
+    }
     enum Hand { MAIN_HAND, OFF_HAND }
     enum Face { DOWN, UP, NORTH, SOUTH, WEST, EAST }
     enum Relative { X,Y,Z,Y_ROT,X_ROT,DELTA_X,DELTA_Y,DELTA_Z,ROTATE_DELTA }
@@ -69,11 +75,16 @@ public sealed interface SemanticPayload extends PacketPayload {
     record RemoveEntities(List<Integer> ids) implements SemanticPayload {
         public RemoveEntities{ids=bounded(ids,1024);ids.forEach(SemanticPayload::entity);}public int chargedBytes(){return 128+32*ids.size();}
     }
-    record Property(String name,String value){public Property{tag(name);tag(value);}}
+    record Property(String name,String value){public Property{tag(name);tag(value);}
+        /** Retained estimate from the actual strings (record + two String objects with their char arrays), not the 256-char worst case. */
+        public int chargedBytes(){return 48+2*(name.length()+value.length());}}
     record BlockState(String block,List<Property> properties){
         public BlockState{tag(block);properties=bounded(properties,32);properties=properties.stream().sorted(Comparator.comparing(Property::name)).toList();
             if(properties.stream().map(Property::name).distinct().count()!=properties.size())throw new IllegalArgumentException("duplicate block property");}
-        public int chargedBytes(){return 640+1152*properties.size();}
+        /** P3-F9 (real-client qualification): the former worst-case charge (640 + 1152 per property, i.e. 256-char names/values) made a multi-block update with a
+         *  few dozen stair/fence states weigh hundreds of KiB, saturating the ingress arena and the work quota under ordinary terrain traffic. The charge is now
+         *  the retained estimate from the actual strings: record + block String + property list, still a bound on what is really retained. */
+        public int chargedBytes(){int b=96+2*block.length();for(var p:properties)b+=16+p.chargedBytes();return b;}
     }
     record BlockChange(BlockPosition position,BlockState state) implements SemanticPayload {
         public BlockChange{Objects.requireNonNull(position);Objects.requireNonNull(state);}public int chargedBytes(){return 128+state.chargedBytes();}
@@ -201,9 +212,12 @@ public sealed interface SemanticPayload extends PacketPayload {
     record LoginFinished(UUID profileId,String profileName) implements SemanticPayload {
         public LoginFinished{Objects.requireNonNull(profileId);tag(profileName);}public int chargedBytes(){return 128;}
     }
-    /** Join-game baseline. dimensionType Holder content is intentionally not read; identity/coarse world facts only. */
-    record JoinGame(int playerId,boolean hardcore,String dimension,int maxPlayers,int chunkRadius,int simulationDistance,String gameType,boolean onlineMode,boolean enforcesSecureChat) implements SemanticPayload {
-        public JoinGame{entity(playerId);tag(dimension);tag(gameType);}public int chargedBytes(){return 256;}
+    /** Join-game baseline: identity/coarse world facts. Of the DimensionType holder only the vertical range is read (P3-E1: dimensionMinY/dimensionHeight place chunk sections at absolute Y without hard-coding legacy 0..255); no other dimension-type content crosses. */
+    record JoinGame(int playerId,boolean hardcore,String dimension,int maxPlayers,int chunkRadius,int simulationDistance,String gameType,boolean onlineMode,boolean enforcesSecureChat,
+                    int dimensionMinY,int dimensionHeight) implements SemanticPayload {
+        public JoinGame{entity(playerId);tag(dimension);tag(gameType);dimensionRange(dimensionMinY,dimensionHeight);}public int chargedBytes(){return 256;}
+        /** False only for payload-schema-1 legacy records: the world model then reports DIMENSION_UNKNOWN instead of guessing a range. */
+        public boolean hasDimensionRange(){return dimensionHeight!=0;}
     }
 
     // ---- Item / inventory model ----
@@ -289,8 +303,9 @@ public sealed interface SemanticPayload extends PacketPayload {
         public MinecartMove{entity(entityId);steps=bounded(steps,256);}
         public int chargedBytes(){return 64+48*steps.size();}
     }
-    record Respawn(String dimension,byte keepFlags) implements SemanticPayload {
-        public Respawn{tag(dimension);}public int chargedBytes(){return 96;}
+    record Respawn(String dimension,byte keepFlags,int dimensionMinY,int dimensionHeight) implements SemanticPayload {
+        public Respawn{tag(dimension);dimensionRange(dimensionMinY,dimensionHeight);}public int chargedBytes(){return 96;}
+        public boolean hasDimensionRange(){return dimensionHeight!=0;}
     }
 
     // ---- Chunk / world (compact projections; never a per-block explosion) ----
@@ -310,9 +325,77 @@ public sealed interface SemanticPayload extends PacketPayload {
     record LightUpdate(int chunkX,int chunkZ,int skySectionCount,int blockSectionCount,int encodedBytes) implements SemanticPayload {
         public int chargedBytes(){return 96;}
     }
-    /** Compact chunk-baseline observation: identity + bounded byte-size facts, never per-block objects. */
-    record ChunkBaseline(int chunkX,int chunkZ,int encodedBlockBytes,int blockEntityCount,int heightmapCount,boolean hasLight) implements SemanticPayload {
-        public ChunkBaseline{if(encodedBlockBytes<0||blockEntityCount<0||heightmapCount<0)throw new IllegalArgumentException("chunk baseline");}
-        public int chargedBytes(){return 128;}
+    /**
+     * One chunk section's block-state content exactly as the client's own parser would recover it (Phase 3
+     * forward extension P3-E1 of the Phase 1 normalizer; wire format pinned from the 26.2 server bytecode:
+     * {@code short nonEmpty, short fluid, byte bits, palette, fixed long[]}). Always re-palettized to an
+     * INDIRECT palette of canonical BlockStates (a global/direct wire palette is converted by the normalizer,
+     * which is the only place the native id->state registry exists), so no wire/native numeric id ever
+     * crosses this boundary. Storage stays packed: {@code bitsPerEntry} bits per block, 4096 blocks
+     * (index = y<<8 | z<<4 | x), values never span a long (SimpleBitStorage layout). Not a record: the packed
+     * array must never be handed out for mutation, so equality/hash are explicit and the only accessors are
+     * read-only.
+     */
+    final class ChunkSection {
+        public static final int BLOCKS=4096,MAX_PALETTE=4096,MAX_BITS=12;
+        private final int nonEmptyBlockCount,fluidCount,bitsPerEntry;private final List<BlockState> palette;private final long[] packed;
+        public ChunkSection(int nonEmptyBlockCount,int fluidCount,List<BlockState> palette,int bitsPerEntry,long[] packed){
+            Objects.requireNonNull(palette);Objects.requireNonNull(packed);
+            if(nonEmptyBlockCount<0||nonEmptyBlockCount>BLOCKS||fluidCount<0||fluidCount>BLOCKS)throw new IllegalArgumentException("section counts");
+            if(palette.isEmpty()||palette.size()>MAX_PALETTE)throw new IllegalArgumentException("section palette");
+            if(bitsPerEntry<0||bitsPerEntry>MAX_BITS)throw new IllegalArgumentException("section bits");
+            if(bitsPerEntry==0){if(palette.size()!=1||packed.length!=0)throw new IllegalArgumentException("single-value section");}
+            else{if(palette.size()>(1<<bitsPerEntry)||packed.length!=packedLongs(bitsPerEntry))throw new IllegalArgumentException("section storage");}
+            this.nonEmptyBlockCount=nonEmptyBlockCount;this.fluidCount=fluidCount;this.palette=List.copyOf(palette);this.bitsPerEntry=bitsPerEntry;this.packed=packed.clone();
+        }
+        public static int packedLongs(int bits){if(bits==0)return 0;int perLong=64/bits;return (BLOCKS+perLong-1)/perLong;}
+        public int nonEmptyBlockCount(){return nonEmptyBlockCount;}
+        public int fluidCount(){return fluidCount;}
+        public int bitsPerEntry(){return bitsPerEntry;}
+        public List<BlockState> palette(){return palette;}
+        public int packedLength(){return packed.length;}
+        public long packedWord(int index){return packed[index];}
+        /** Palette index of block (x,y,z) in 0..15 each; validated against the palette so a malformed word can never index out of range. */
+        public int paletteIndex(int x,int y,int z){
+            if(bitsPerEntry==0)return 0;
+            int index=(y<<8)|(z<<4)|x,perLong=64/bitsPerEntry;long word=packed[index/perLong];
+            int value=(int)(word>>>((index%perLong)*bitsPerEntry))&((1<<bitsPerEntry)-1);
+            if(value>=palette.size())throw new IllegalStateException("palette index out of range");return value;
+        }
+        public BlockState stateAt(int x,int y,int z){return palette.get(paletteIndex(x,y,z));}
+        /** Compact accounting: real retained bytes of this representation, not the per-BlockState diagnostic estimate used elsewhere. */
+        public int chargedBytes(){int bytes=64+8*packed.length;for(var s:palette)bytes+=48+16*s.properties().size();return bytes;}
+        @Override public boolean equals(Object o){
+            return o instanceof ChunkSection s&&s.nonEmptyBlockCount==nonEmptyBlockCount&&s.fluidCount==fluidCount&&s.bitsPerEntry==bitsPerEntry&&s.palette.equals(palette)&&Arrays.equals(s.packed,packed);
+        }
+        @Override public int hashCode(){return Objects.hash(nonEmptyBlockCount,fluidCount,bitsPerEntry,palette)*31+Arrays.hashCode(packed);}
+        @Override public String toString(){return "ChunkSection[nonEmpty="+nonEmptyBlockCount+",fluid="+fluidCount+",bits="+bitsPerEntry+",palette="+palette.size()+"]";}
+    }
+    /**
+     * Chunk-baseline observation: identity + bounded byte-size facts, plus (P3-E1) the section content when it
+     * fit the inline retention cap. {@code contentRetained=false} means the sections were observed but their
+     * content was deliberately not carried (over cap, or a decode fault) - an explicit, never-fabricated gap that
+     * the world model reports as coverage, never as air. Sections are ordered bottom-up as on the wire; absolute
+     * section Y needs the dimension's minY (JoinGame/Respawn), which the world model owns.
+     */
+    record ChunkBaseline(int chunkX,int chunkZ,int encodedBlockBytes,int blockEntityCount,int heightmapCount,boolean hasLight,
+                         boolean contentRetained,List<ChunkSection> sections,String contentNote) implements SemanticPayload {
+        public static final int MAX_SECTIONS=256,INLINE_CONTENT_CAP=40*1024;
+        public ChunkBaseline{
+            Objects.requireNonNull(sections);Objects.requireNonNull(contentNote);
+            if(encodedBlockBytes<0||blockEntityCount<0||heightmapCount<0)throw new IllegalArgumentException("chunk baseline");
+            if(sections.size()>MAX_SECTIONS||contentNote.length()>64)throw new IllegalArgumentException("chunk baseline content");
+            if(!contentRetained&&!sections.isEmpty())throw new IllegalArgumentException("unretained content cannot carry sections");
+            sections=List.copyOf(sections);
+        }
+        /** Compact (pre-P3) form: summary facts only. */
+        public ChunkBaseline(int chunkX,int chunkZ,int encodedBlockBytes,int blockEntityCount,int heightmapCount,boolean hasLight){
+            this(chunkX,chunkZ,encodedBlockBytes,blockEntityCount,heightmapCount,hasLight,false,List.of(),"NOT_DECODED");
+        }
+        public int sectionBytes(){int b=0;for(var s:sections)b+=s.chargedBytes();return b;}
+        public int chargedBytes(){return 128+sectionBytes();}
+        @Override public int bulkBytes(){return sectionBytes();}
+        /** Shedding keeps the observation (no sequence gap) and makes the content loss explicit: the world reports the chunk CONTENT_NOT_RETAINED with this note. */
+        @Override public PacketPayload shedBulk(String reason){return contentRetained?new ChunkBaseline(chunkX,chunkZ,encodedBlockBytes,blockEntityCount,heightmapCount,hasLight,false,List.of(),reason):this;}
     }
 }
