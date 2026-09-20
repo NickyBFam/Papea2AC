@@ -184,6 +184,12 @@ public final class PacketEngine implements AutoCloseable {
     public final BlockStateDictionary blockStates=new BlockStateDictionary();
     /** Phase 4: one pure geometry engine per PacketEngine (its shape cache is keyed by the engine-wide dictionary). Constructed here - core is the composition root (ARCHITECTURE path 1); it never reads the live server world. */
     public final me.nicolas.papea2ac.collision.CollisionEngine collision=new me.nicolas.papea2ac.collision.CollisionEngine(me.nicolas.papea2ac.version.CollisionProfile.PAPER_26_2,blockStates);
+    /** Phase 5: the pinned movement profile, the world-owned block behaviour resolver over the engine-wide dictionary, and the stateless forward simulator (ARCHITECTURE path 1: core constructs physics; platform-paper only displays primitives). */
+    public final me.nicolas.papea2ac.version.MovementProfile movementProfile=me.nicolas.papea2ac.version.MovementProfile.paper26_2();
+    public final me.nicolas.papea2ac.world.BlockBehaviorQuery blockBehaviors=new me.nicolas.papea2ac.world.BlockBehaviorQuery(movementProfile.blocks(),collision.profile().table(),blockStates);
+    public final me.nicolas.papea2ac.physics.PhysicsSimulator physics=new me.nicolas.papea2ac.physics.PhysicsSimulator(movementProfile);
+    /** Bounded real-client qualification tracer (declared-input scenarios replayed against observed samples); reads published snapshots only. */
+    public final PhysicsQualification physicsQualification=new PhysicsQualification(physics,collision,blockBehaviors,this::timelineStatus);
     /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
@@ -362,6 +368,28 @@ public final class PacketEngine implements AutoCloseable {
         }
         return java.util.Optional.of(new CollisionStatus(s.key.epoch(),w.worldEpoch(),w.revision(),w.lastSequence(),hasPosition,m.position().x(),m.position().y(),m.position().z(),collision.profile().id(),poses));
     }
+    /** Engine-wide physics identity and diagnostic counters, projected to primitives for platform-paper. */
+    public PhysicsEngineStatus physicsEngineStatus(){
+        var b=movementProfile.blocks();
+        return new PhysicsEngineStatus(movementProfile.id(),movementProfile.digest(),movementProfile.sineDigest(),b.digest(),b.blockCount(),b.fluidStateCount(),movementProfile.effects().size(),movementProfile.attributes().size(),
+            physicsQualification.steps.sum(),physicsQualification.exact.sum(),physicsQualification.activeTraces());
+    }
+    /** Arms a controlled-input physics qualification trace for a session against its PUBLISHED world snapshot (see PhysicsQualification). */
+    public synchronized String physicsArm(UUID player,PhysicsQualification.Scenario scenario,PhysicsQualification.ArmFacts facts){
+        Session s=active.get(player);
+        if(s==null)return "REFUSED: no admitted session";
+        var w=s.world.snapshot();
+        return physicsQualification.arm(player,scenario,w.view(blockStates),w.worldEpoch(),s.key.epoch(),facts);
+    }
+    public java.util.List<String> physicsReport(UUID player){return physicsQualification.report(player);}
+    public String physicsCancel(UUID player){return physicsQualification.cancel(player);}
+    /** One explicit-hypothesis physics step from the published position (never infers input). */
+    public synchronized java.util.List<String> physicsOneStep(UUID player,PhysicsQualification.Scenario scenario,PhysicsQualification.ArmFacts facts){
+        Session s=active.get(player);
+        if(s==null)return java.util.List.of("no admitted session");
+        var w=s.world.snapshot();
+        return physicsQualification.oneStep(player,scenario,w.view(blockStates),w.worldEpoch(),facts);
+    }
     /** Primitive-only diagnostic projection of the published Timeline Snapshot (for platform-paper, which may not depend on anticheat-player). Empty for an unknown player - never a fabricated default. */
     public synchronized java.util.Optional<TimelineStatus> timelineStatus(UUID player){
         Session s=active.get(player);
@@ -369,7 +397,7 @@ public final class PacketEngine implements AutoCloseable {
         var snap=s.timeline.snapshot();var st=snap.state();var m=st.movement();var r=st.rotation();var t=st.teleport().active();
         boolean hasPosition=m.observedAtSequence()>0,hasRotation=r.observedAtSequence()>0;
         return java.util.Optional.of(new TimelineStatus(s.key.epoch(),snap.lastCommittedSequence(),snap.recordCount(),snap.recordBytes(),snap.evictions(),snap.lastAppendHadCoverageIssue(),
-            st.worldEpoch(),st.revision(),hasPosition,m.position().x(),m.position().y(),m.position().z(),hasRotation,r.rotation().yaw(),r.rotation().pitch(),m.onGround(),
+            st.worldEpoch(),st.revision(),hasPosition,m.position().x(),m.position().y(),m.position().z(),m.observedAtSequence(),hasRotation,r.rotation().yaw(),r.rotation().pitch(),m.onGround(),
             t.isPresent(),t.map(p->p.teleportId()).orElse(-1L),t.map(p->p.acknowledged()).orElse(false),
             st.velocity().active().size(),st.velocity().overflow(),st.tick().hasServerTick(),st.tick().lastServerTick()));
     }

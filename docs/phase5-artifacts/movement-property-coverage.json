@@ -1,0 +1,40 @@
+{
+  "profile": "paper-26.2-124",
+  "blockTableSha256": "de9ab636d80e6abb0b4287168bd01abcd097084b93a80e608c6ceaf3b6a1fd3f",
+  "blocks": 1196,
+  "primaryCounts": {
+    "UNSUPPORTED": 0,
+    "TRANSPORT_UNSUPPORTED": 3,
+    "FLUID_DEFERRED": 3,
+    "INSIDE_EFFECT": 4,
+    "BOUNCE": 17,
+    "STEP_ON_MOTION": 0,
+    "FRICTION_SPECIAL": 4,
+    "SPEED_FACTOR": 1,
+    "JUMP_FACTOR": 0,
+    "CLIMBABLE": 9,
+    "CONTEXT_DEPENDENT": 0,
+    "NON_MOTION_OVERRIDE": 63,
+    "DEFAULT": 1092
+  },
+  "flagCounts": {
+    "BOUNCE": 17,
+    "CLIMBABLE": 9,
+    "CONTEXT_DEPENDENT": 2,
+    "DEFAULT": 1092,
+    "FLUID_DEFERRED": 3,
+    "FRICTION_SPECIAL": 5,
+    "INSIDE_EFFECT": 4,
+    "JUMP_FACTOR": 1,
+    "NON_MOTION_OVERRIDE": 82,
+    "SPEED_FACTOR": 2,
+    "STEP_ON_MOTION": 1,
+    "TRANSPORT_UNSUPPORTED": 3,
+    "WATERLOGGABLE": 433
+  },
+  "unexplainedGaps": 0,
+  "explicitDeferrals": {
+    "FLUID_DEFERRED": "water, lava and bubble columns: fluid contact is detected from observed fluid states (waterlogged states included) and reported UNSUPPORTED_FLUID; fluid locomotion, flow pushing and bubble drag are Phase 5 deferrals (PHASE_5_IMPLEMENTATION.md FLUIDS)",
+    "TRANSPORT_UNSUPPORTED": "nether portal, end portal, end gateway: contact is reported UNSUPPORTED_BLOCK_BEHAVIOUR; a dimension change is a world-epoch discontinuity, never simulated"
+  }
+}

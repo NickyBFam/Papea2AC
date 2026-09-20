@@ -185,3 +185,66 @@ tasks.register<JavaExec>("collisionMemoryHarness") {
     args(rootProject.file("docs/phase4-artifacts/memory-results.json").absolutePath)
     doFirst { rootProject.file("docs/phase4-artifacts").mkdirs() }
 }
+tasks.register<JavaExec>("extractMovementProperties") {
+    description = "Phase 5 controlled extraction: regenerates the version-pinned vanilla movement property tables (block friction/speed/jump/bounce/tags/override classes/fluid states, player attributes, effect templates, Mth.SIN bits) from the pinned Paper jar. Never runs in production; a changed table is a reviewed event."
+    dependsOn(tasks.named(nativeTest.classesTaskName))
+    classpath = nativeTest.runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.MovementPropertyExtractMain")
+    args(rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/block-movement-paper-26.2-124.tsv").absolutePath,
+         rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/movement-profile-paper-26.2-124.tsv").absolutePath,
+         rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/mth-sin-paper-26.2-124.bin").absolutePath,
+         rootProject.file("docs/phase5-artifacts/movement-table-summary.json").absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" } }
+}
+
+// Phase 5 native oracle: a test-only Paper plugin compiled directly against the pinned Mojang-mapped server jar.
+val oracle by sourceSets.creating
+dependencies {
+    add(oracle.compileOnlyConfigurationName, files(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar")))
+    add(oracle.compileOnlyConfigurationName, fileTree(rootProject.file(".phase1-runtime/libraries")) { include("**/*.jar") })
+}
+tasks.named<JavaCompile>(oracle.compileJavaTaskName) {
+    doFirst { options.compilerArgs.removeAll(listOf("-Werror", "-Xlint:all")); options.compilerArgs.add("-Xlint:none") }
+}
+tasks.register<Jar>("physicsOracleJar") {
+    description = "Builds the Phase 5 test-only oracle plugin (never shipped)."
+    archiveBaseName.set("physics-oracle"); archiveVersion.set("")
+    from(oracle.output)
+    manifest { attributes("paperweight-mappings-namespace" to "mojang") }
+}
+tasks.register<JavaExec>("physicsNativeDifferential") {
+    description = "Phase 5 native differential: starts an isolated pinned Paper server with the oracle plugin, runs the scenario catalog through the server's own movement code, then compares every tick against the Papea2AC simulator. Writes docs/phase5-artifacts/native-differential-results.json and multi-tick-drift-results.json."
+    dependsOn(tasks.named(nativeTest.classesTaskName), tasks.named("physicsOracleJar"))
+    classpath = nativeTest.runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.PhysicsOracleMain")
+    args(rootProject.file(".phase1-runtime").absolutePath, layout.buildDirectory.dir("physics-oracle").get().asFile.absolutePath,
+         rootProject.file("docs/phase5-artifacts").absolutePath, tasks.named<Jar>("physicsOracleJar").get().archiveFile.get().asFile.absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; rootProject.file("docs/phase5-artifacts").mkdirs() }
+}
+// the nativeTest lane reuses the test lane's scenario catalog / world builders (same package, package-private access)
+dependencies { add(nativeTest.implementationConfigurationName, sourceSets.test.get().output) }
+tasks.register<JavaExec>("movementPropertyCoverage") {
+    description = "Phase 5 movement property coverage inventory (docs/phase5-artifacts/movement-property-coverage.tsv + .json): every block of the pinned profile classified; the MovementPropertyCoverageTest gate asserts zero unexplained gaps."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.MovementPropertyCoverageMain")
+    args(rootProject.file("docs/phase5-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase5-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkPhysics") {
+    description = "Phase 5 JMH kernels: one forward step per movement family, 20-tick chained walk, candidate scaling 1/8/32/64. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    args("PhysicsBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase5-artifacts/benchmarks.json").absolutePath)
+    doFirst { rootProject.file("docs/phase5-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("physicsMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 5 physics memory estimate: profile tables, behaviour cache, simulator, result retention, per-step allocation. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.PhysicsMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase5-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase5-artifacts").mkdirs() }
+}

@@ -9,6 +9,6 @@ package me.nicolas.papea2ac.core;
  */
 public record TimelineStatus(long sessionEpoch, long lastCommittedSequence, int retainedRecords, int retainedChargedBytes,
                              long evictions, boolean lastAppendHadCoverageIssue, long worldEpoch, long revision,
-                             boolean hasPosition, double x, double y, double z, boolean hasRotation, float yaw, float pitch, boolean onGround,
+                             boolean hasPosition, double x, double y, double z, long movementSequence, boolean hasRotation, float yaw, float pitch, boolean onGround,
                              boolean teleportSent, long teleportId, boolean teleportAcknowledged,
                              int activeExternalMotionInfluences, boolean externalMotionOverflow, boolean hasServerTick, long lastServerTick) {}

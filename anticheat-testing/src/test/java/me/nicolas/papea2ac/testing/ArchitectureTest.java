@@ -63,9 +63,9 @@ class ArchitectureTest {
         }
         assertEquals(27,count);
     }
-    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3 and "collision" in Phase 4 (their approved phases); each is held to its own boundary test below instead. */
+    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4 and "physics" in Phase 5 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("physics","simulation","combat","checks","evidence","mitigation","interaction")){
+        for(String name:List.of("simulation","combat","checks","evidence","mitigation","interaction")){
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -87,6 +87,24 @@ class ArchitectureTest {
         }
         // the shape table is data loaded from a resource, never NMS: the version module holds no platform import either (covered by importsRespectDirectEdgesAndPlatformIsolation)
         assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/collision-shapes-paper-26.2-124.tsv")),"pinned shape table resource");
+    }
+    /** Phase 5 boundary: the physics module is a pure forward model over explicit inputs and observer-world views - no input inference or candidate search (Phase 6), no verdicts/violations/setbacks (Phase 8+), no live-world reads, no NMS/Bukkit, no reflection, no wall-clock or randomness (determinism), and no engine-forbidden transcendental Math (NUMERICAL_POLICY: sqrt is IEEE-exact and permitted, sin/cos go through the profile table). */
+    @Test void physicsModuleStaysWithinThePhase5Boundary()throws Exception{
+        Path dir=ROOT.resolve("anticheat-physics/src/main/java");
+        var forbidden=Pattern.compile("\\b(VALID|INVALID|UNCERTAIN_SEARCH|violation|Violation|setback|punish|KillAura|Reach|Timer|cheat|Cheat|inferInput|reconstructInput|enumerateInputs|candidateInputs|witness|Witness|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random)\\b");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        try(var files=Files.walk(dir)){
+            var sources=files.filter(p->p.toString().endsWith(".java")).toList();
+            assertTrue(sources.size()>=8,"Phase 5 physics module must exist");
+            for(Path file:sources){
+                String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+                var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains a Phase 6+ concept, a live-world access or a non-deterministic source: "+(found?code.substring(Math.max(0,m.start()-20),Math.min(code.length(),m.end()+20)):""));
+                assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+                assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+            }
+        }
+        assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/mth-sin-paper-26.2-124.bin")),"pinned sine table resource");
+        assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/block-movement-paper-26.2-124.tsv")),"pinned block movement table resource");
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{

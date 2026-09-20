@@ -1,0 +1,896 @@
+{
+  "phase": "5 - Physics Simulator",
+  "method": "chained: the simulator follows its own predicted state from the scenario start; drift = max abs difference over position and velocity components against the oracle at the same tick",
+  "worst": {
+    "driftAt2": 0.0,
+    "driftAt2Scenario": "-",
+    "driftAt5": 0.0,
+    "driftAt5Scenario": "-",
+    "driftAt20": 0.0,
+    "driftAt20Scenario": "-",
+    "driftAt100": 0.0,
+    "driftAt100Scenario": "-"
+  },
+  "perScenario": [
+    {
+      "id": "idle_ground",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "walk_forward",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "walk_backward",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "strafe_left",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "strafe_right",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "diagonal_forward_left",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "diagonal_back_right",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "sprint_forward",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "walk_yaw_37",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "walk_yaw_neg123",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "walk_yaw_90",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "walk_yaw_180_strafe",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "use_item_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "sneak_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "sprint_stop_transition",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "jump_stationary",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "jump_forward",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "sprint_jump",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "sprint_jump_yaw",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "jump_tap_then_release",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "fall_20",
+      "ticks": 60,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 60
+    },
+    {
+      "id": "fall_100_ticks",
+      "ticks": 100,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": 0.0,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 100
+    },
+    {
+      "id": "air_strafe",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "air_sprint_forward",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "wall_forward",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "wall_diagonal_corner",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "ceiling_jump",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "ceiling_slab_jump",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "step_up_block",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "step_up_slab",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "step_up_stairs",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "step_fail_two_high",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "fence_blocks",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "wall_block_blocks",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "step_while_sprinting",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "step_height_attribute_two_blocks",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "crouch_under_slab_ceiling",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "crawl_gap",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "sneak_edge_backoff",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "sneak_edge_diagonal",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "walk_off_edge",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "ice_walk",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "blue_ice_sprint",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "packed_ice_strafe",
+      "ticks": 25,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 25
+    },
+    {
+      "id": "slime_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "slime_bounce",
+      "ticks": 60,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 60
+    },
+    {
+      "id": "slime_bounce_suppressed",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "bed_bounce",
+      "ticks": 50,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 50
+    },
+    {
+      "id": "honey_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "honey_jump",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "honey_wall_slide",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "soul_sand_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "soul_sand_sprint_jump",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "cobweb_walk_in",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "cobweb_fall_through",
+      "ticks": 80,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 80
+    },
+    {
+      "id": "berry_bush_walk",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "powder_snow_fall_in",
+      "ticks": 50,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 50
+    },
+    {
+      "id": "powder_snow_boots_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "powder_snow_boots_walk_in_climb",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "magma_walk",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "ladder_climb",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "ladder_hold_shift",
+      "ticks": 20,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 20
+    },
+    {
+      "id": "ladder_slide_down",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "ladder_jump_up",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "vine_climb",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "trapdoor_ladder",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "scaffolding_climb",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "scaffolding_descend",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "speed_2_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "speed_1_sprint",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "slowness_1_walk",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "jump_boost_2",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "slow_falling",
+      "ticks": 60,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 60
+    },
+    {
+      "id": "levitation",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "weaving_cobweb",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_speed_0_2",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_gravity_0_04_jump",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "attr_jump_strength_0_6",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "attr_sneaking_speed_0_5",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_scale_0_5_walk_gap",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_bounciness_0_5_wall",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_air_drag_modifier_0_5",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_friction_modifier_0_5_ice",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "attr_movement_efficiency_0_5_soul_sand",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "knockback_applied",
+      "ticks": 40,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 40
+    },
+    {
+      "id": "knockback_into_wall",
+      "ticks": 30,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 30
+    },
+    {
+      "id": "explosion_launch",
+      "ticks": 80,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": null,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 80
+    },
+    {
+      "id": "mixed_course_random_100",
+      "ticks": 100,
+      "driftAt2": 0.0,
+      "driftAt5": 0.0,
+      "driftAt20": 0.0,
+      "driftAt100": 0.0,
+      "maxDrift": 0.0,
+      "exactChainedTicks": 100
+    }
+  ]
+}

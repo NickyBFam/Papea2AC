@@ -1,0 +1,278 @@
+{
+  "profile": "paper-26.2-124",
+  "blocks": 1196,
+  "states": 32366,
+  "fluidStates": 11792,
+  "frictionValues": [
+    "0.6",
+    "0.8",
+    "0.98",
+    "0.989"
+  ],
+  "speedFactorValues": [
+    "0.4",
+    "1.0"
+  ],
+  "jumpFactorValues": [
+    "0.5",
+    "1.0"
+  ],
+  "bounceRestitutionValues": [
+    "0.0",
+    "0.75",
+    "1.0"
+  ],
+  "tagSizes": {
+    "climbable": 9,
+    "fences": 13,
+    "walls": 32,
+    "fence_gates": 12,
+    "suppresses_bounce": 1,
+    "can_glide_through": 7,
+    "fall_damage_resetting": 11
+  },
+  "overrideClasses": {
+    "entityInside:BaseFireBlock": 2,
+    "entityInside:BasePressurePlateBlock": 16,
+    "entityInside:BigDripleafBlock": 1,
+    "entityInside:BubbleColumnBlock": 1,
+    "entityInside:ButtonBlock": 14,
+    "entityInside:CactusBlock": 1,
+    "entityInside:CampfireBlock": 2,
+    "entityInside:CropBlock": 5,
+    "entityInside:DetectorRailBlock": 1,
+    "entityInside:EndGatewayBlock": 1,
+    "entityInside:EndPortalBlock": 1,
+    "entityInside:EyeblossomBlock": 2,
+    "entityInside:FrogspawnBlock": 1,
+    "entityInside:HoneyBlock": 1,
+    "entityInside:HopperBlock": 1,
+    "entityInside:LavaCauldronBlock": 1,
+    "entityInside:LayeredCauldronBlock": 2,
+    "entityInside:LilyPadBlock": 1,
+    "entityInside:NetherPortalBlock": 1,
+    "entityInside:PitcherCropBlock": 1,
+    "entityInside:PowderSnowBlock": 1,
+    "entityInside:SweetBerryBushBlock": 1,
+    "entityInside:TripWireBlock": 1,
+    "entityInside:WebBlock": 1,
+    "entityInside:WitherRoseBlock": 1,
+    "fallOn:BedBlock": 16,
+    "fallOn:FarmlandBlock": 1,
+    "fallOn:HayBlock": 1,
+    "fallOn:HoneyBlock": 1,
+    "fallOn:PointedDripstoneBlock": 1,
+    "fallOn:PowderSnowBlock": 1,
+    "fallOn:SlimeBlock": 1,
+    "fallOn:TurtleEggBlock": 1,
+    "getEntityInsideCollisionShape:EndPortalBlock": 1,
+    "getEntityInsideCollisionShape:LavaCauldronBlock": 1,
+    "getEntityInsideCollisionShape:LayeredCauldronBlock": 2,
+    "getEntityInsideCollisionShape:PowderSnowBlock": 1,
+    "getEntityInsideCollisionShape:TripWireBlock": 1,
+    "stepOn:MagmaBlock": 1,
+    "stepOn:RedStoneOreBlock": 2,
+    "stepOn:SculkSensorBlock": 2,
+    "stepOn:SculkShriekerBlock": 1,
+    "stepOn:SlimeBlock": 1,
+    "stepOn:TurtleEggBlock": 1
+  },
+  "overrideMembers": {
+    "entityInside:BaseFireBlock": [
+      "minecraft:fire",
+      "minecraft:soul_fire"
+    ],
+    "entityInside:BasePressurePlateBlock": [
+      "minecraft:stone_pressure_plate",
+      "minecraft:oak_pressure_plate",
+      "minecraft:spruce_pressure_plate",
+      "minecraft:birch_pressure_plate",
+      "minecraft:jungle_pressure_plate",
+      "minecraft:acacia_pressure_plate",
+      "minecraft:cherry_pressure_plate",
+      "minecraft:dark_oak_pressure_plate",
+      "minecraft:pale_oak_pressure_plate",
+      "minecraft:mangrove_pressure_plate",
+      "minecraft:bamboo_pressure_plate",
+      "minecraft:light_weighted_pressure_plate",
+      "minecraft:heavy_weighted_pressure_plate",
+      "minecraft:crimson_pressure_plate",
+      "minecraft:warped_pressure_plate",
+      "minecraft:polished_blackstone_pressure_plate"
+    ],
+    "entityInside:BigDripleafBlock": [
+      "minecraft:big_dripleaf"
+    ],
+    "entityInside:BubbleColumnBlock": [
+      "minecraft:bubble_column"
+    ],
+    "entityInside:ButtonBlock": [
+      "minecraft:stone_button",
+      "minecraft:oak_button",
+      "minecraft:spruce_button",
+      "minecraft:birch_button",
+      "minecraft:jungle_button",
+      "minecraft:acacia_button",
+      "minecraft:cherry_button",
+      "minecraft:dark_oak_button",
+      "minecraft:pale_oak_button",
+      "minecraft:mangrove_button",
+      "minecraft:bamboo_button",
+      "minecraft:crimson_button",
+      "minecraft:warped_button",
+      "minecraft:polished_blackstone_button"
+    ],
+    "entityInside:CactusBlock": [
+      "minecraft:cactus"
+    ],
+    "entityInside:CampfireBlock": [
+      "minecraft:campfire",
+      "minecraft:soul_campfire"
+    ],
+    "entityInside:CropBlock": [
+      "minecraft:wheat",
+      "minecraft:carrots",
+      "minecraft:potatoes",
+      "minecraft:torchflower_crop",
+      "minecraft:beetroots"
+    ],
+    "entityInside:DetectorRailBlock": [
+      "minecraft:detector_rail"
+    ],
+    "entityInside:EndGatewayBlock": [
+      "minecraft:end_gateway"
+    ],
+    "entityInside:EndPortalBlock": [
+      "minecraft:end_portal"
+    ],
+    "entityInside:EyeblossomBlock": [
+      "minecraft:open_eyeblossom",
+      "minecraft:closed_eyeblossom"
+    ],
+    "entityInside:FrogspawnBlock": [
+      "minecraft:frogspawn"
+    ],
+    "entityInside:HoneyBlock": [
+      "minecraft:honey_block"
+    ],
+    "entityInside:HopperBlock": [
+      "minecraft:hopper"
+    ],
+    "entityInside:LavaCauldronBlock": [
+      "minecraft:lava_cauldron"
+    ],
+    "entityInside:LayeredCauldronBlock": [
+      "minecraft:water_cauldron",
+      "minecraft:powder_snow_cauldron"
+    ],
+    "entityInside:LilyPadBlock": [
+      "minecraft:lily_pad"
+    ],
+    "entityInside:NetherPortalBlock": [
+      "minecraft:nether_portal"
+    ],
+    "entityInside:PitcherCropBlock": [
+      "minecraft:pitcher_crop"
+    ],
+    "entityInside:PowderSnowBlock": [
+      "minecraft:powder_snow"
+    ],
+    "entityInside:SweetBerryBushBlock": [
+      "minecraft:sweet_berry_bush"
+    ],
+    "entityInside:TripWireBlock": [
+      "minecraft:tripwire"
+    ],
+    "entityInside:WebBlock": [
+      "minecraft:cobweb"
+    ],
+    "entityInside:WitherRoseBlock": [
+      "minecraft:wither_rose"
+    ],
+    "fallOn:BedBlock": [
+      "minecraft:white_bed",
+      "minecraft:orange_bed",
+      "minecraft:magenta_bed",
+      "minecraft:light_blue_bed",
+      "minecraft:yellow_bed",
+      "minecraft:lime_bed",
+      "minecraft:pink_bed",
+      "minecraft:gray_bed",
+      "minecraft:light_gray_bed",
+      "minecraft:cyan_bed",
+      "minecraft:purple_bed",
+      "minecraft:blue_bed",
+      "minecraft:brown_bed",
+      "minecraft:green_bed",
+      "minecraft:red_bed",
+      "minecraft:black_bed"
+    ],
+    "fallOn:FarmlandBlock": [
+      "minecraft:farmland"
+    ],
+    "fallOn:HayBlock": [
+      "minecraft:hay_block"
+    ],
+    "fallOn:HoneyBlock": [
+      "minecraft:honey_block"
+    ],
+    "fallOn:PointedDripstoneBlock": [
+      "minecraft:pointed_dripstone"
+    ],
+    "fallOn:PowderSnowBlock": [
+      "minecraft:powder_snow"
+    ],
+    "fallOn:SlimeBlock": [
+      "minecraft:slime_block"
+    ],
+    "fallOn:TurtleEggBlock": [
+      "minecraft:turtle_egg"
+    ],
+    "getEntityInsideCollisionShape:EndPortalBlock": [
+      "minecraft:end_portal"
+    ],
+    "getEntityInsideCollisionShape:LavaCauldronBlock": [
+      "minecraft:lava_cauldron"
+    ],
+    "getEntityInsideCollisionShape:LayeredCauldronBlock": [
+      "minecraft:water_cauldron",
+      "minecraft:powder_snow_cauldron"
+    ],
+    "getEntityInsideCollisionShape:PowderSnowBlock": [
+      "minecraft:powder_snow"
+    ],
+    "getEntityInsideCollisionShape:TripWireBlock": [
+      "minecraft:tripwire"
+    ],
+    "stepOn:MagmaBlock": [
+      "minecraft:magma_block"
+    ],
+    "stepOn:RedStoneOreBlock": [
+      "minecraft:redstone_ore",
+      "minecraft:deepslate_redstone_ore"
+    ],
+    "stepOn:SculkSensorBlock": [
+      "minecraft:sculk_sensor",
+      "minecraft:calibrated_sculk_sensor"
+    ],
+    "stepOn:SculkShriekerBlock": [
+      "minecraft:sculk_shrieker"
+    ],
+    "stepOn:SlimeBlock": [
+      "minecraft:slime_block"
+    ],
+    "stepOn:TurtleEggBlock": [
+      "minecraft:turtle_egg"
+    ]
+  },
+  "attributes": 36,
+  "effects": 40,
+  "effectsWithAttributeModifiers": 12,
+  "sinTableLength": 65536,
+  "sinTableSha256": "87a67a39fff59636acb04edcda4ef622831037291f11fb61586c57596771dac2",
+  "sinFormulaMismatches": 0,
+  "blockTableSha256": "de9ab636d80e6abb0b4287168bd01abcd097084b93a80e608c6ceaf3b6a1fd3f",
+  "blockTableBytes": 924962,
+  "profileTableSha256": "4df7479291b0ab9c14857e3c4341ad35eee86cb3bfa140c90f89eea028f59511",
+  "profileTableBytes": 5294
+}

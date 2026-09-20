@@ -1,0 +1,26 @@
+{
+  "methodology": "forced GC + Runtime used-heap diff, 3 trials, median; per-step allocation = ThreadMXBean allocated bytes over 20 repetitions of the scenario after 3000 warm-up steps; estimates, not supported capacity",
+  "profile": "paper-26.2-124-movement",
+  "blockMovementTableBytes": 1661744,
+  "movementProfileBytes": 279096,
+  "sineTableResourceBytes": 262144,
+  "blockBehaviorCacheEveryStateBytes": 3698360,
+  "dictionaryOnlyEveryStateBytes": 2075944,
+  "behaviorCacheEstimateBytes": 1622416,
+  "simulatorBytes": 16,
+  "retainedBytesPer1000Results": 385672,
+  "perStepAllocationBytes": {
+    "idle_ground": 10192,
+    "walk_forward": 12130,
+    "sprint_forward": 12082,
+    "fall_20": 9130,
+    "jump_stationary": 8347,
+    "wall_forward": 13914,
+    "step_up_slab": 13099,
+    "ice_walk": 11789,
+    "cobweb_walk_in": 12030,
+    "ladder_climb": 14417,
+    "mixed_course_random_100": 11506
+  },
+  "perPlayerRetained": "nothing: the simulator is stateless, PhysicsState/PhysicsResult are values the caller owns; the behaviour cache is engine-wide and bounded by the dictionary (65536 states)"
+}

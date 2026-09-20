@@ -1,0 +1,648 @@
+
+=== 2026-09-20T03:10:48.804Z smoke: status on the final jar (Paper 26.2 build 124, plugin sha256 19c340ee0d7a3175...)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-20T04:19:24.645Z join: session admitted, observed timeline and physics one-step hypothesis (release all keys) at spawn
+> papea2ac timeline Emojiado
+timeline sessionEpoch=1 lastSequence=58372 retained=368 chargedBytes=88856 evictions=5140 worldEpoch=0 revision=5507 coverageIssue=true
+observed position=-37.5,67.0,20.5 rotation=-92.09346/-1.7165397 onGround=true serverTick=82829
+teleportSent=true id=1 confirmPacketSeen=true activeExternalMotion=8 externalMotionOverflow=true
+
+> papea2ac physics Emojiado step release_all
+physics one-step hypothesis=RELEASE_ALL (declared input, not inferred) from observed pos=-37.5,67.0,20.5 yaw=-92.09346 observedOnGround=true assumed velocity=rest, pose=STANDING
+result: EXACT pos=(-37.50000,67.00000,20.50000) vel=(0.00000,-0.07840,0.00000) ground=true pose=STANDING work=q6/c168/i2
+predicted next pos=Vec3d[x=-37.5, y=67.0, z=20.5] vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0] onGround=true pose=STANDING trace=Trace[inputVector=Vec3d[x=0.0, y=0.0, z=0.0], speed=0.1, friction=0.6, velocityBeforeMove=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0], movementRequested=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0], movementCollided=Vec3d[x=0.0, y=0.0, z=0.0], steppedUp=false, jumped=false, crouchingInput=false, inFluidBefore=false]
+
+
+=== 2026-09-20T04:20:12.893Z S1 arm: release all keys
+> papea2ac physics Emojiado arm release_all
+ARMED RELEASE_ALL at observed rest (-35.990793369088024,67.0,25.833301434130313) yaw=-91.13036 movementSequence=121971 worldEpoch=0 worldRevision=277 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:20:42.504Z S1 report: release all keys
+> papea2ac physics Emojiado report
+physics qualification RELEASE_ALL sessionEpoch=1 worldEpoch=0 worldRevision=277 throughSequence=122636 profile=paper-26.2-124-movement
+rest (observed) pos=-35.990793369088024,67.0,25.833301434130313 yaw=-91.13036 movementSequence=121971 samples=30
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=72 EXACT=28 EXACT_EMPTY=44 simulatedRest onGround=true support=-36,66,25 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+QUALIFYING: release-all-keys keeps the rest position - 30/30 samples identical to rest; prediction: no movement (idle ticks are a fixed point)
+
+
+=== 2026-09-20T04:20:42.933Z S2 arm: hold W
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm hold_w
+ARMED HOLD_W at observed rest (-35.990793369088024,67.0,25.833301434130313) yaw=-91.13036 movementSequence=158006 worldEpoch=0 worldRevision=277 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:21:10.540Z S2 report: hold W
+> papea2ac physics Emojiado report
+physics qualification HOLD_W sessionEpoch=1 worldEpoch=0 worldRevision=277 throughSequence=158008 profile=paper-26.2-124-movement
+rest (observed) pos=-35.990793369088024,67.0,25.833301434130313 yaw=-91.13036 movementSequence=158006 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=72 EXACT=28 EXACT_EMPTY=44 simulatedRest onGround=true support=-36,66,25 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+note: 15 idle samples before the first movement
+t=1 pred=(-35.892812,67.000000,25.831375) obs=(-35.863418,67.000000,25.830798) d=(2.94e-02,0.00e+00,-5.78e-04) diff ground pred=true obs=true
+t=2 pred=(-35.741334,67.000000,25.828398) obs=(-35.666496,67.000000,25.826927) d=(7.48e-02,0.00e+00,-1.47e-03) diff ground pred=true obs=true
+t=3 pred=(-35.560645,67.000000,25.824846) obs=(-35.431601,67.000000,25.822310) d=(1.29e-01,0.00e+00,-2.54e-03) diff ground pred=true obs=true
+t=4 pred=(-35.364008,67.000000,25.820981) obs=(-35.175972,67.000000,25.817285) d=(1.88e-01,0.00e+00,-3.70e-03) diff ground pred=true obs=true
+t=5 pred=(-35.158663,67.000000,25.816945) obs=(-34.909024,67.000000,25.812037) d=(2.50e-01,0.00e+00,-4.91e-03) diff ground pred=true obs=true
+t=6 pred=(-34.948564,67.000000,25.812815) obs=(-34.635895,67.000000,25.806669) d=(3.13e-01,0.00e+00,-6.15e-03) diff ground pred=true obs=true
+t=7 pred=(-34.735868,67.000000,25.808634) obs=(-34.359391,67.000000,25.801234) d=(3.76e-01,0.00e+00,-7.40e-03) diff ground pred=true obs=true
+t=8 pred=(-34.521756,67.000000,25.804425) obs=(-34.081044,67.000000,25.795762) d=(4.41e-01,0.00e+00,-8.66e-03) diff ground pred=true obs=true
+t=9 pred=(-34.306869,67.000000,25.800201) obs=(-33.801692,67.000000,25.790271) d=(5.05e-01,0.00e+00,-9.93e-03) diff ground pred=true obs=true
+t=10 pred=(-34.091560,67.000000,25.795969) obs=(-33.521790,67.000000,25.784769) d=(5.70e-01,0.00e+00,-1.12e-02) diff ground pred=true obs=true
+t=11 pred=(-33.876020,67.000000,25.791732) obs=(-33.241588,67.000000,25.779261) d=(6.34e-01,0.00e+00,-1.25e-02) diff ground pred=true obs=true
+t=12 pred=(-33.660354,67.000000,25.787493) obs=(-32.961222,67.000000,25.773750) d=(6.99e-01,0.00e+00,-1.37e-02) diff ground pred=true obs=true
+t=13 pred=(-33.444619,67.000000,25.783252) obs=(-32.680767,67.000000,25.768237) d=(7.64e-01,0.00e+00,-1.50e-02) diff ground pred=true obs=true
+t=14 pred=(-33.228847,67.000000,25.779011) obs=(-32.400263,67.000000,25.762724) d=(8.29e-01,0.00e+00,-1.63e-02) diff ground pred=true obs=true
+t=15 pred=(-33.013054,67.000000,25.774769) obs=(-32.119732,67.000000,25.757209) d=(8.93e-01,0.00e+00,-1.76e-02) diff ground pred=true obs=true
+t=16 pred=(-32.797250,67.000000,25.770527) obs=(-31.839187,67.000000,25.751695) d=(9.58e-01,0.00e+00,-1.88e-02) diff ground pred=true obs=true
+t=17 pred=(-32.581440,67.000000,25.766285) obs=(-31.558634,67.000000,25.746180) d=(1.02e+00,0.00e+00,-2.01e-02) diff ground pred=true obs=true
+t=18 pred=(-32.365627,67.000000,25.762043) obs=(-31.278077,67.000000,25.740665) d=(1.09e+00,0.00e+00,-2.14e-02) diff ground pred=true obs=true
+t=19 pred=(-32.149812,67.000000,25.757801) obs=(-30.997517,67.000000,25.735150) d=(1.15e+00,0.00e+00,-2.27e-02) diff ground pred=true obs=true
+t=20 pred=(-31.933996,67.000000,25.753558) obs=(-30.716956,67.000000,25.729635) d=(1.22e+00,0.00e+00,-2.39e-02) diff ground pred=true obs=true
+t=21 pred=(-31.718179,67.000000,25.749316) obs=(-30.436394,67.000000,25.724120) d=(1.28e+00,0.00e+00,-2.52e-02) diff ground pred=true obs=true
+t=22 pred=(-31.502362,67.000000,25.745074) obs=(-30.155832,67.000000,25.718606) d=(1.35e+00,0.00e+00,-2.65e-02) diff ground pred=true obs=true
+t=23 pred=(-31.286545,67.000000,25.740832) obs=(-29.875270,67.000000,25.713091) d=(1.41e+00,0.00e+00,-2.77e-02) diff ground pred=true obs=true
+t=24 pred=(-31
+.070727,67.000000,25.736589) obs=(-29.594707,67.000000,25.707576) d=(1.48e+00,0.00e+00,-2.90e-02) diff ground pred=true obs=true
+summary: compared=40 bitExact=0 maxAbsDiff=(2.5119438590218763,0.0,0.04937642647618645) simulatorStatuses=EXACT firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 40 of 40 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:21:54.731Z S2b arm: hold W (sprint off)
+> papea2ac physics Emojiado cancel
+no armed trace
+
+> papea2ac physics Emojiado arm hold_w
+ARMED HOLD_W at observed rest (-21.686981122183205,67.0,25.552136259517887) yaw=-91.13036 movementSequence=252055 worldEpoch=0 worldRevision=307 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:22:17.179Z S2b report: hold W (sprint off)
+> papea2ac physics Emojiado report
+physics qualification HOLD_W sessionEpoch=1 worldEpoch=0 worldRevision=307 throughSequence=252251 profile=paper-26.2-124-movement
+rest (observed) pos=-21.686981122183205,67.0,25.552136259517887 yaw=-91.13036 movementSequence=252055 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=37 EXACT=14 EXACT_EMPTY=23 simulatedRest onGround=true support=-22,66,25 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-21.589000,67.000000,25.550210) obs=(-21.589000,67.000000,25.550210) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=2 pred=(-21.437521,67.000000,25.547233) obs=(-21.437521,67.000000,25.547233) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=3 pred=(-21.256833,67.000000,25.543681) obs=(-21.256833,67.000000,25.543681) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=4 pred=(-21.060196,67.000000,25.539816) obs=(-21.060196,67.000000,25.539816) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=5 pred=(-20.854851,67.000000,25.535779) obs=(-20.854851,67.000000,25.535779) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=6 pred=(-20.644752,67.000000,25.531650) obs=(-20.644752,67.000000,25.531650) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=7 pred=(-20.432056,67.000000,25.527469) obs=(-20.432056,67.000000,25.527469) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=8 pred=(-20.217943,67.000000,25.523260) obs=(-20.217943,67.000000,25.523260) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=9 pred=(-20.003057,67.000000,25.519036) obs=(-20.003057,67.000000,25.519036) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=10 pred=(-19.787748,67.000000,25.514804) obs=(-19.787748,67.000000,25.514804) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=11 pred=(-19.572208,67.000000,25.510567) obs=(-19.572208,67.000000,25.510567) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=12 pred=(-19.356542,67.000000,25.506328) obs=(-19.356542,67.000000,25.506328) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=13 pred=(-19.140807,67.000000,25.502087) obs=(-19.140807,67.000000,25.502087) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=14 pred=(-18.925035,67.000000,25.497846) obs=(-18.925035,67.000000,25.497846) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=15 pred=(-18.709242,67.000000,25.493604) obs=(-18.709242,67.000000,25.493604) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=16 pred=(-18.493438,67.000000,25.489362) obs=(-18.493438,67.000000,25.489362) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=17 pred=(-18.277628,67.000000,25.485120) obs=(-18.277628,67.000000,25.485120) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=18 pred=(-18.061815,67.000000,25.480878) obs=(-18.061815,67.000000,25.480878) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=19 pred=(-17.846000,67.000000,25.476635) obs=(-17.846000,67.000000,25.476635) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=20 pred=(-17.630183,67.000000,25.472393) obs=(-17.630183,67.000000,25.472393) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=21 pred=(-17.414367,67.000000,25.468151) obs=(-17.414367,67.000000,25.468151) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=22 pred=(-17.198550,67.000000,25.463909) obs=(-17.198550,67.000000,25.463909) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=23 pred=(-16.982732,67.000000,25.459666) obs=(-16.982732,67.000000,25.459666) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EX
+ACT ground pred=true obs=true
+t=24 pred=(-16.766915,67.000000,25.455424) obs=(-16.766915,67.000000,25.455424) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=EXACT
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:22:26.166Z S3 arm: hold D
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm hold_d
+ARMED HOLD_D at observed rest (-9.604962408675402,67.0,25.314644125070355) yaw=-91.13036 movementSequence=296335 worldEpoch=0 worldRevision=337 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:22:56.677Z S3 report: hold D
+> papea2ac physics Emojiado report
+physics qualification HOLD_D sessionEpoch=1 worldEpoch=0 worldRevision=337 throughSequence=297656 profile=paper-26.2-124-movement
+rest (observed) pos=-9.604962408675402,67.0,25.314644125070355 yaw=-91.13036 movementSequence=296335 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=37 EXACT=14 EXACT_EMPTY=23 simulatedRest onGround=true support=-10,66,25 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+note: 17 idle samples before the first movement
+t=1 pred=(-9.603036,67.000000,25.412625) obs=(-9.603036,67.000000,25.412625) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=2 pred=(-9.600059,67.000000,25.564104) obs=(-9.600059,67.000000,25.564104) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=3 pred=(-9.596507,67.000000,25.744792) obs=(-9.596507,67.000000,25.744792) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=4 pred=(-9.592642,67.000000,25.941429) obs=(-9.592642,67.000000,25.941429) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=5 pred=(-9.588606,67.000000,26.146774) obs=(-9.588606,67.000000,26.146774) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=6 pred=(-9.584476,67.000000,26.356874) obs=(-9.584476,67.000000,26.356874) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=7 pred=(-9.580295,67.000000,26.569569) obs=(-9.580295,67.000000,26.569569) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=8 pred=(-9.576086,67.000000,26.783682) obs=(-9.576086,67.000000,26.783682) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=9 pred=(-9.571862,67.000000,26.998569) obs=(-9.571862,67.000000,26.998569) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=10 pred=(-9.567630,67.000000,27.213878) obs=(-9.567630,67.000000,27.213878) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=11 pred=(-9.563393,67.000000,27.429418) obs=(-9.563393,67.000000,27.429418) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=12 pred=(-9.559154,67.000000,27.645084) obs=(-9.559154,67.000000,27.645084) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=13 pred=(-9.554913,67.000000,27.860818) obs=(-9.554913,67.000000,27.860818) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=14 pred=(-9.550672,67.000000,28.076590) obs=(-9.550672,67.000000,28.076590) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=15 pred=(-9.546430,67.000000,28.292383) obs=(-9.546430,67.000000,28.292383) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=16 pred=(-9.542188,67.000000,28.508187) obs=(-9.542188,67.000000,28.508187) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=17 pred=(-9.537946,66.921600,28.723997) obs=(-9.537946,66.921600,28.723997) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=18 pred=(-9.535245,66.766368,28.861426) obs=(-9.535245,66.766368,28.861426) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=19 pred=(-9.532401,66.535841,29.006082) obs=(-9.532401,66.535841,29.006082) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=20 pred=(-9.529428,66.231524,29.157315) obs=(-9.529428,66.231524,29.157315) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=21 pred=(-9.526338,66.000000,29.314534) obs=(-9.526338,66.000000,29.314534) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=22 pred=(-9.521600,66.000000,29.555584) obs=(-9.521600,66.000000,29.555584) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=23 pred=(-9.517087,66.000000,29.785178) obs=(-9.517087,66.000000,29.785178) d=(0.00e+00,0.00e+00,0.00e+0
+0) BIT-EXACT ground pred=true obs=true
+t=24 pred=(-9.512697,66.000000,30.008518) obs=(-9.512697,66.000000,30.008518) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=EXACT
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:22:57.095Z S4 arm: W + sprint
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_sprint
+ARMED W_SPRINT at observed rest (-10.328602307498558,67.0,23.150788602455016) yaw=-104.86238 movementSequence=391699 worldEpoch=0 worldRevision=397 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:23:27.335Z S4 report: W + sprint
+> papea2ac physics Emojiado report
+physics qualification W_SPRINT sessionEpoch=1 worldEpoch=0 worldRevision=397 throughSequence=391701 profile=paper-26.2-124-movement
+rest (observed) pos=-10.328602307498558,67.0,23.150788602455016 yaw=-104.86238 movementSequence=391699 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=52 EXACT=21 EXACT_EMPTY=31 simulatedRest onGround=true support=-11,66,23 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-10.205320,67.000000,23.118661) obs=(-10.098156,67.000000,23.089975) d=(1.07e-01,0.00e+00,-2.87e-02) diff ground pred=true obs=true
+t=2 pred=(-10.014587,67.000000,23.069525) obs=(-9.860482,67.000000,23.123026) d=(1.54e-01,0.00e+00,5.35e-02) diff ground pred=true obs=true
+t=3 pred=(-9.787003,67.000000,23.011196) obs=(-9.618914,67.000000,23.207412) d=(1.68e-01,0.00e+00,1.96e-01) diff ground pred=true obs=true
+t=4 pred=(-9.539298,67.000000,22.947848) obs=(-9.375220,67.000000,23.319828) d=(1.64e-01,0.00e+00,3.72e-01) diff ground pred=true obs=true
+t=5 pred=(-9.280631,67.000000,22.881665) obs=(-9.130313,67.000000,23.447463) d=(1.50e-01,0.00e+00,5.66e-01) diff ground pred=true obs=true
+t=6 pred=(-9.016901,67.000000,22.810527) obs=(-8.874097,67.000000,23.482149) d=(1.43e-01,0.00e+00,6.72e-01) diff ground pred=true obs=true
+t=7 pred=(-8.753101,67.000000,22.728352) obs=(-8.734203,67.000000,23.501088) d=(1.89e-02,0.00e+00,7.73e-01) diff ground pred=true obs=true
+t=8 pred=(-8.493674,67.000000,22.629489) obs=(-8.657821,67.000000,23.511428) d=(-1.64e-01,0.00e+00,8.82e-01) diff ground pred=true obs=true
+t=9 pred=(-8.241944,67.000000,22.511380) obs=(-8.616116,67.000000,23.517074) d=(-3.74e-01,0.00e+00,1.01e+00) diff ground pred=true obs=true
+t=10 pred=(-7.999975,67.000000,22.374055) obs=(-8.593345,67.000000,23.520157) d=(-5.93e-01,0.00e+00,1.15e+00) diff ground pred=true obs=true
+t=11 pred=(-7.767252,67.000000,22.220916) obs=(-8.580913,67.000000,23.521840) d=(-8.14e-01,0.00e+00,1.30e+00) diff ground pred=true obs=true
+t=12 pred=(-7.541202,67.000000,22.057096) obs=(-8.574124,67.000000,23.522759) d=(-1.03e+00,0.00e+00,1.47e+00) diff ground pred=true obs=true
+t=13 pred=(-7.318796,67.000000,21.887444) obs=(-8.632115,67.000000,23.447120) d=(-1.31e+00,0.00e+00,1.56e+00) diff ground pred=true obs=true
+t=14 pred=(-7.300000,67.000000,21.714608) obs=(-8.725475,67.000000,23.329680) d=(-1.43e+00,0.00e+00,1.62e+00) diff ground pred=true obs=true
+t=15 pred=(-7.300000,67.000000,21.540327) obs=(-8.837921,67.000000,23.189233) d=(-1.54e+00,0.00e+00,1.65e+00) diff ground pred=true obs=true
+t=16 pred=(-7.300000,67.000000,21.366712) obs=(-8.959668,67.000000,23.035338) d=(-1.66e+00,0.00e+00,1.67e+00) diff ground pred=true obs=true
+t=17 pred=(-7.300000,67.000000,21.198242) obs=(-9.082816,67.000000,22.871361) d=(-1.78e+00,0.00e+00,1.67e+00) diff ground pred=true obs=true
+t=18 pred=(-7.300000,67.000000,21.041800) obs=(-9.199638,67.000000,22.697298) d=(-1.90e+00,0.00e+00,1.66e+00) diff ground pred=true obs=true
+t=19 pred=(-7.300000,67.000000,20.899452) obs=(-9.307215,67.000000,22.514589) d=(-2.01e+00,0.00e+00,1.62e+00) diff ground pred=true obs=true
+t=20 pred=(-7.300000,67.000000,20.777181) obs=(-9.400221,67.000000,22.323016) d=(-2.10e+00,0.00e+00,1.55e+00) diff ground pred=true obs=true
+t=21 pred=(-7.300000,67.000000,20.675689) obs=(-9.477719,67.000000,22.124130) d=(-2.18e+00,0.00e+00,1.45e+00) diff ground pred=true obs=true
+t=22 pred=(-7.176625,67.000000,20.588502) obs=(-9.544473,67.000000,21.920634) d=(-2.37e+00,0.00e+00,1.33e+00) diff ground pred=true obs=true
+t=23 pred=(-6.984751,67.000000,20.513926) obs=(-9.601668,67.000000,21.713747) d=(-2.62e+00,0.00e+00,1.20e+00) diff ground pred=true obs=true
+t=24 pred=(-6.754722,67.000000,20.487500) obs=(-9.632896,67.000000,21.600787) d=(-2.88e+00,0.00e+00,1.11e+00
+) diff ground pred=true obs=true
+summary: compared=40 bitExact=0 maxAbsDiff=(6.783451157810141,0.0,1.6731197419979367) simulatorStatuses=EXACT firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 40 of 40 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:24:42.763Z S4b arm: W + sprint (open area)
+> papea2ac physics Emojiado cancel
+no armed trace
+
+> papea2ac physics Emojiado arm w_sprint
+ARMED W_SPRINT at observed rest (-9.718834359754345,67.0,23.976485579169406) yaw=-449.17487 movementSequence=602837 worldEpoch=0 worldRevision=659 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:25:28.447Z S4c arm: W + sprint (open area, east end)
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_sprint
+ARMED W_SPRINT at observed rest (-28.244837198973332,67.0,23.832972309699777) yaw=-90.5762 movementSequence=664718 worldEpoch=0 worldRevision=770 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:26:07.213Z S4d arm: W + sprint (facing west, clear platform)
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_sprint
+ARMED W_SPRINT at observed rest (-25.289986314968633,67.0,24.642982631850966) yaw=-270.18564 movementSequence=717525 worldEpoch=0 worldRevision=770 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:26:25.827Z S4d report: W + sprint
+> papea2ac physics Emojiado report
+physics qualification W_SPRINT sessionEpoch=1 worldEpoch=0 worldRevision=770 throughSequence=718689 profile=paper-26.2-124-movement
+rest (observed) pos=-25.289986314968633,67.0,24.642982631850966 yaw=-270.18564 movementSequence=717525 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=52 EXACT=20 EXACT_EMPTY=32 simulatedRest onGround=true support=-26,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-25.417386,67.000000,24.643386) obs=(-25.417386,67.000000,24.643386) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=2 pred=(-25.614345,67.000000,24.644009) obs=(-25.614345,67.000000,24.644009) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=3 pred=(-25.849284,67.000000,24.644752) obs=(-25.849284,67.000000,24.644752) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=4 pred=(-26.104961,67.000000,24.645561) obs=(-26.104961,67.000000,24.645561) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=5 pred=(-26.371959,67.000000,24.646406) obs=(-26.371959,67.000000,24.646406) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=6 pred=(-26.645140,67.000000,24.647270) obs=(-26.645140,67.000000,24.647270) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=7 pred=(-26.921696,67.000000,24.648145) obs=(-26.921696,67.000000,24.648145) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=8 pred=(-27.200095,67.000000,24.649026) obs=(-27.200095,67.000000,24.649026) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=9 pred=(-27.479500,67.000000,24.649910) obs=(-27.479500,67.000000,24.649910) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=10 pred=(-27.759455,67.000000,24.650796) obs=(-27.759455,67.000000,24.650796) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=11 pred=(-28.039709,67.000000,24.651682) obs=(-28.039709,67.000000,24.651682) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=12 pred=(-28.320128,67.000000,24.652570) obs=(-28.320128,67.000000,24.652570) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=13 pred=(-28.600636,67.000000,24.653457) obs=(-28.600636,67.000000,24.653457) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=14 pred=(-28.881192,67.000000,24.654345) obs=(-28.881192,67.000000,24.654345) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=15 pred=(-29.161776,67.000000,24.655232) obs=(-29.161776,67.000000,24.655232) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=16 pred=(-29.442374,67.000000,24.656120) obs=(-29.442374,67.000000,24.656120) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=17 pred=(-29.722979,67.000000,24.657008) obs=(-29.722979,67.000000,24.657008) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=18 pred=(-30.003590,67.000000,24.657896) obs=(-30.003590,67.000000,24.657896) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=19 pred=(-30.284202,67.000000,24.658784) obs=(-30.284202,67.000000,24.658784) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=20 pred=(-30.564816,67.000000,24.659671) obs=(-30.564816,67.000000,24.659671) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=21 pred=(-30.845430,67.000000,24.660559) obs=(-30.845430,67.000000,24.660559) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=22 pred=(-31.126045,67.000000,24.661447) obs=(-31.126045,67.000000,24.661447) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=23 pred=(-31.406661,67.000000,24.662335) obs=(-31.406661,67.000000,24.662335) d=(0.00e+00,0.00e+00,0.00e+00) BIT
+-EXACT ground pred=true obs=true
+t=24 pred=(-31.687276,67.000000,24.663223) obs=(-31.687276,67.000000,24.663223) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=EXACT
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:26:34.323Z S5 arm: jump stationary
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm jump_stationary
+ARMED JUMP_STATIONARY at observed rest (-38.47402819750775,67.0,24.684694909827687) yaw=-270.18564 movementSequence=753153 worldEpoch=0 worldRevision=801 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:27:01.226Z S5 report: jump stationary
+> papea2ac physics Emojiado report
+physics qualification JUMP_STATIONARY sessionEpoch=1 worldEpoch=0 worldRevision=801 throughSequence=753864 profile=paper-26.2-124-movement
+rest (observed) pos=-38.47402819750775,67.0,24.684694909827687 yaw=-270.18564 movementSequence=753153 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=37 EXACT=14 EXACT_EMPTY=23 simulatedRest onGround=true support=-39,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+note: 13 idle samples before the first movement
+t=1 pred=(-38.474028,67.420000,24.684695) obs=(-38.474028,67.420000,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=2 pred=(-38.474028,67.753200,24.684695) obs=(-38.474028,67.753200,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=3 pred=(-38.474028,68.001336,24.684695) obs=(-38.474028,68.001336,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=4 pred=(-38.474028,68.166109,24.684695) obs=(-38.474028,68.166109,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=5 pred=(-38.474028,68.249187,24.684695) obs=(-38.474028,68.249187,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=6 pred=(-38.474028,68.252203,24.684695) obs=(-38.474028,68.252203,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=7 pred=(-38.474028,68.176759,24.684695) obs=(-38.474028,68.176759,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=8 pred=(-38.474028,68.024424,24.684695) obs=(-38.474028,68.024424,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=9 pred=(-38.474028,67.796736,24.684695) obs=(-38.474028,67.796736,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=10 pred=(-38.474028,67.495201,24.684695) obs=(-38.474028,67.495201,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=11 pred=(-38.474028,67.121297,24.684695) obs=(-38.474028,67.121297,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=12 pred=(-38.474028,67.000000,24.684695) obs=(-38.474028,67.000000,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=13 pred=(-38.474028,67.420000,24.684695) obs=(-38.474028,67.420000,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=14 pred=(-38.474028,67.753200,24.684695) obs=(-38.474028,67.753200,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=15 pred=(-38.474028,68.001336,24.684695) obs=(-38.474028,68.001336,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=16 pred=(-38.474028,68.166109,24.684695) obs=(-38.474028,68.166109,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=17 pred=(-38.474028,68.249187,24.684695) obs=(-38.474028,68.249187,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=18 pred=(-38.474028,68.252203,24.684695) obs=(-38.474028,68.252203,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=19 pred=(-38.474028,68.176759,24.684695) obs=(-38.474028,68.176759,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=20 pred=(-38.474028,68.024424,24.684695) obs=(-38.474028,68.024424,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=21 pred=(-38.474028,67.796736,24.684695) obs=(-38.474028,67.796736,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=22 pred=(-38.474028,67.495201,24.684695) obs=(-38.474028,67.495201,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=23 pred=(-38.474
+028,67.121297,24.684695) obs=(-38.474028,67.121297,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=24 pred=(-38.474028,67.000000,24.684695) obs=(-38.474028,67.000000,24.684695) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=EXACT
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:27:10.823Z S6 arm: W + jump
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_jump
+ARMED W_JUMP at observed rest (-24.643869859705312,67.0,24.842616161778277) yaw=-270.31125 movementSequence=801783 worldEpoch=0 worldRevision=831 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:27:34.822Z S6 report: W + jump
+> papea2ac physics Emojiado report
+physics qualification W_JUMP sessionEpoch=1 worldEpoch=0 worldRevision=831 throughSequence=802223 profile=paper-26.2-124-movement
+rest (observed) pos=-24.643869859705312,67.0,24.842616161778277 yaw=-270.31125 movementSequence=801783 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=52 EXACT=20 EXACT_EMPTY=32 simulatedRest onGround=true support=-25,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-24.741868,67.420000,24.843142) obs=(-24.741868,67.000000,24.843142) d=(0.00e+00,-4.20e-01,0.00e+00) diff ground pred=false obs=true
+t=2 pred=(-24.814975,67.753200,24.843535) obs=(-24.893374,67.000000,24.843956) d=(-7.84e-02,-7.53e-01,4.21e-04) diff ground pred=false obs=true
+t=3 pred=(-24.901102,68.001336,24.843997) obs=(-25.074095,67.420000,24.844926) d=(-1.73e-01,-5.81e-01,9.29e-04) diff ground pred=false obs=false
+t=4 pred=(-24.999078,68.166109,24.844523) obs=(-25.192368,67.753200,24.845561) d=(-1.93e-01,-4.13e-01,1.04e-03) diff ground pred=false obs=false
+t=5 pred=(-25.107835,68.249187,24.845107) obs=(-25.319597,68.001336,24.846244) d=(-2.12e-01,-2.48e-01,1.14e-03) diff ground pred=false obs=false
+t=6 pred=(-25.226404,68.252203,24.845744) obs=(-25.454974,68.166109,24.846971) d=(-2.29e-01,-8.61e-02,1.23e-03) diff ground pred=false obs=false
+t=7 pred=(-25.353901,68.176759,24.846428) obs=(-25.597768,68.249187,24.847738) d=(-2.44e-01,7.24e-02,1.31e-03) diff ground pred=false obs=false
+t=8 pred=(-25.489524,68.024424,24.847156) obs=(-25.747309,68.252203,24.848541) d=(-2.58e-01,2.28e-01,1.38e-03) diff ground pred=false obs=false
+t=9 pred=(-25.632540,67.796736,24.847924) obs=(-25.902992,68.176759,24.849376) d=(-2.70e-01,3.80e-01,1.45e-03) diff ground pred=false obs=false
+t=10 pred=(-25.782284,67.495201,24.848728) obs=(-26.064263,68.024424,24.850242) d=(-2.82e-01,5.29e-01,1.51e-03) diff ground pred=false obs=false
+t=11 pred=(-25.938151,67.121297,24.849565) obs=(-26.230619,67.796736,24.851135) d=(-2.92e-01,6.75e-01,1.57e-03) diff ground pred=false obs=false
+t=12 pred=(-26.099590,67.000000,24.850432) obs=(-26.401603,67.495201,24.852053) d=(-3.02e-01,4.95e-01,1.62e-03) diff ground pred=true obs=false
+t=13 pred=(-26.344498,67.420000,24.851747) obs=(-26.576798,67.121297,24.852994) d=(-2.32e-01,-2.99e-01,1.25e-03) diff ground pred=false obs=false
+t=14 pred=(-26.497817,67.753200,24.852570) obs=(-26.755825,67.000000,24.853955) d=(-2.58e-01,-7.53e-01,1.39e-03) diff ground pred=false obs=true
+t=15 pred=(-26.656937,68.001336,24.853424) obs=(-27.016739,67.420000,24.855356) d=(-3.60e-01,-5.81e-01,1.93e-03) diff ground pred=false obs=false
+t=16 pred=(-26.821337,68.166109,24.854307) obs=(-27.178797,67.753200,24.856226) d=(-3.57e-01,-4.13e-01,1.92e-03) diff ground pred=false obs=false
+t=17 pred=(-26.990540,68.249187,24.855215) obs=(-27.345870,68.001336,24.857123) d=(-3.55e-01,-2.48e-01,1.91e-03) diff ground pred=false obs=false
+t=18 pred=(-27.164114,68.252203,24.856147) obs=(-27.517506,68.166109,24.858045) d=(-3.53e-01,-8.61e-02,1.90e-03) diff ground pred=false obs=false
+t=19 pred=(-27.341667,68.176759,24.857101) obs=(-27.693294,68.249187,24.858988) d=(-3.52e-01,7.24e-02,1.89e-03) diff ground pred=false obs=false
+t=20 pred=(-27.522839,68.024424,24.858073) obs=(-27.872862,68.252203,24.859953) d=(-3.50e-01,2.28e-01,1.88e-03) diff ground pred=false obs=false
+t=21 pred=(-27.707306,67.796736,24.859064) obs=(-28.055868,68.176759,24.860935) d=(-3.49e-01,3.80e-01,1.87e-03) diff ground pred=false obs=false
+t=22 pred=(-27.894770,67.495201,24.860070) obs=(-28.242003,68.024424,24.861934) d=(-3.47e-01,5.29e-01,1.86e-03) diff ground pred=false obs=false
+t=23 pred=(-28.084963,67.121297,24.861091) obs=(-28.430986,67.796736,24.862949) d=(-3.46e-01,6.75e-01,1.86e-03) diff ground pred=false obs=false
+t=24 pre
+d=(-28.277637,67.000000,24.862126) obs=(-28.622560,67.495201,24.863978) d=(-3.45e-01,4.95e-01,1.85e-03) diff ground pred=true obs=false
+summary: compared=40 bitExact=0 maxAbsDiff=(0.40293938454597367,0.7531999805212024,0.0021633752893244207) simulatorStatuses=EXACT firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 40 of 40 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:28:24.533Z S6b arm: W + jump (simultaneous press)
+> papea2ac physics Emojiado cancel
+no armed trace
+
+> papea2ac physics Emojiado arm w_jump
+ARMED W_JUMP at observed rest (-24.628446596774225,67.0,24.765299300056643) yaw=-267.38034 movementSequence=905495 worldEpoch=0 worldRevision=893 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:28:45.440Z S6b report: W + jump (simultaneous press)
+> papea2ac physics Emojiado report
+physics qualification W_JUMP sessionEpoch=1 worldEpoch=0 worldRevision=893 throughSequence=905657 profile=paper-26.2-124-movement
+rest (observed) pos=-24.628446596774225,67.0,24.765299300056643 yaw=-267.38034 movementSequence=905495 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=52 EXACT=20 EXACT_EMPTY=32 simulatedRest onGround=true support=-25,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-24.726344,67.420000,24.760819) obs=(-24.726344,67.420000,24.760819) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=2 pred=(-24.799376,67.753200,24.757477) obs=(-24.799376,67.753200,24.757477) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=3 pred=(-24.885414,68.001336,24.753540) obs=(-24.885414,68.001336,24.753540) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=4 pred=(-24.983288,68.166109,24.749060) obs=(-24.983288,68.166109,24.749060) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=5 pred=(-25.091933,68.249187,24.744088) obs=(-25.091933,68.249187,24.744088) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=6 pred=(-25.210380,68.252203,24.738668) obs=(-25.210380,68.252203,24.738668) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=7 pred=(-25.337746,68.176759,24.732839) obs=(-25.337746,68.176759,24.732839) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=8 pred=(-25.473228,68.024424,24.726639) obs=(-25.473228,68.024424,24.726639) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=9 pred=(-25.616097,67.796736,24.720101) obs=(-25.616097,67.796736,24.720101) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=10 pred=(-25.765687,67.495201,24.713255) obs=(-25.765687,67.495201,24.713255) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=11 pred=(-25.921393,67.121297,24.706129) obs=(-25.921393,67.121297,24.706129) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=12 pred=(-26.082665,67.000000,24.698749) obs=(-26.082665,67.000000,24.698749) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+t=13 pred=(-26.327321,67.420000,24.687553) obs=(-26.327321,67.420000,24.687553) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=14 pred=(-26.480482,67.753200,24.680543) obs=(-26.480482,67.753200,24.680543) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=15 pred=(-26.639438,68.001336,24.673269) obs=(-26.639438,68.001336,24.673269) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=16 pred=(-26.803668,68.166109,24.665753) obs=(-26.803668,68.166109,24.665753) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=17 pred=(-26.972697,68.249187,24.658018) obs=(-26.972697,68.249187,24.658018) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=18 pred=(-27.146092,68.252203,24.650082) obs=(-27.146092,68.252203,24.650082) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=19 pred=(-27.323462,68.176759,24.641965) obs=(-27.323462,68.176759,24.641965) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=20 pred=(-27.504447,68.024424,24.633683) obs=(-27.504447,68.024424,24.633683) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=21 pred=(-27.688724,67.796736,24.625250) obs=(-27.688724,67.796736,24.625250) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=22 pred=(-27.875995,67.495201,24.616679) obs=(-27.875995,67.495201,24.616679) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=23 pred=(-28.065991,67.121297,24.607984) obs=(-28.065991,67.121297,24.60
+7984) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=false obs=false
+t=24 pred=(-28.258467,67.000000,24.599176) obs=(-28.258467,67.000000,24.599176) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=EXACT
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:28:51.861Z S7 arm: W + shift (sneak walk)
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_shift
+ARMED W_SHIFT at observed rest (-35.60466785524391,67.0,24.31882452417111) yaw=-267.38034 movementSequence=938087 worldEpoch=0 worldRevision=923 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:29:32.751Z S7 report: W + shift (sneak to the edge)
+> papea2ac physics Emojiado report
+physics qualification W_SHIFT sessionEpoch=1 worldEpoch=0 worldRevision=923 throughSequence=938904 profile=paper-26.2-124-movement
+rest (observed) pos=-35.60466785524391,67.0,24.31882452417111 yaw=-267.38034 movementSequence=938087 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=UNKNOWN boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=37 EXACT=14 EXACT_EMPTY=23 simulatedRest onGround=true support=-36,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+note: 18 idle samples before the first movement
+t=1 pred=(-35.634034,67.000000,24.317416) obs=(-35.506780,67.000000,24.323521) d=(1.27e-01,0.00e+00,6.10e-03) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=2 pred=(-35.679432,67.000000,24.315193) obs=(-35.355454,67.000000,24.330931) d=(3.24e-01,0.00e+00,1.57e-02) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=3 pred=(-35.733571,67.000000,24.312291) obs=(-35.174991,67.000000,24.340602) d=(5.59e-01,0.00e+00,2.83e-02) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=4 pred=(-35.792415,67.000000,24.308098) obs=(-34.978845,67.000000,24.354580) d=(8.14e-01,0.00e+00,4.65e-02) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=5 pred=(-35.853770,67.000000,24.302621) obs=(-34.774327,67.000000,24.372837) d=(1.08e+00,0.00e+00,7.02e-02) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=6 pred=(-35.916470,67.000000,24.296208) obs=(-34.565326,67.000000,24.394213) d=(1.35e+00,0.00e+00,9.80e-02) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=7 pred=(-35.979897,67.000000,24.289219) obs=(-34.353904,67.000000,24.417508) d=(1.63e+00,0.00e+00,1.28e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=8 pred=(-36.043721,67.000000,24.281917) obs=(-34.141159,67.000000,24.441850) d=(1.90e+00,0.00e+00,1.60e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=9 pred=(-36.107761,67.000000,24.274443) obs=(-33.927692,67.000000,24.466764) d=(2.18e+00,0.00e+00,1.92e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=10 pred=(-36.171922,67.000000,24.266897) obs=(-33.713821,67.000000,24.491916) d=(2.46e+00,0.00e+00,2.25e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=11 pred=(-36.236157,67.000000,24.259377) obs=(-33.499706,67.000000,24.516983) d=(2.74e+00,0.00e+00,2.58e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=12 pred=(-36.300436,67.000000,24.251913) obs=(-33.285440,67.000000,24.541863) d=(3.01e+00,0.00e+00,2.90e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=13 pred=(-36.364745,67.000000,24.244521) obs=(-33.071076,67.000000,24.566501) d=(3.29e+00,0.00e+00,3.22e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=14 pred=(-36.429073,67.000000,24.237192) obs=(-32.856651,67.000000,24.590933) d=(3.57e+00,0.00e+00,3.54e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=15 pred=(-36.493411,67.000000,24.229896) obs=(-32.642191,67.000000,24.615252) d=(3.85e+00,0.00e+00,3.85e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=16 pred=(-36.557754,67.000000,24.222619) obs=(-32.427713,67.000000,24.639510) d=(4.13e+00,0.00e+00,4.17e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=17 pred=(-36.622101,67.000000,24.215352) obs=(-32.213225,67.000000,24.663733) d=(4.41e+00,0.00e+00,4.48e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=18 pred=(-36.686451,67.000000,24.208113) obs=(-31.998724,67.000000,24.687864) d=(4.69e+00,0.00e+00,4.80e-01) diff groun
+d pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=19 pred=(-36.750804,67.000000,24.200889) obs=(-31.784214,67.000000,24.711944) d=(4.97e+00,0.00e+00,5.11e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=20 pred=(-36.815167,67.000000,24.193757) obs=(-31.569669,67.000000,24.735716) d=(5.25e+00,0.00e+00,5.42e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=21 pred=(-36.879546,67.000000,24.186763) obs=(-31.355075,67.000000,24.759030) d=(5.52e+00,0.00e+00,5.72e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=22 pred=(-36.943946,67.000000,24.179970) obs=(-31.140408,67.000000,24.781674) d=(5.80e+00,0.00e+00,6.02e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=23 pred=(-37.008364,67.000000,24.173351) obs=(-30.925682,67.000000,24.803736) d=(6.08e+00,0.00e+00,6.30e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=24 pred=(-37.072796,67.000000,24.166869) obs=(-30.710909,67.000000,24.825341) d=(6.36e+00,0.00e+00,6.58e-01) diff ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+summary: compared=40 bitExact=0 maxAbsDiff=(10.834001265214237,0.0,1.05607653855375) simulatorStatuses=UNKNOWN_ENTITY_NEIGHBORHOOD firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 40 of 40 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:30:24.164Z S7b arm: W + shift (shift first)
+> papea2ac physics Emojiado cancel
+no armed trace
+
+> papea2ac physics Emojiado arm w_shift
+ARMED W_SHIFT at observed rest (-29.74924298364837,67.0,24.998354917253053) yaw=-267.21286 movementSequence=1042123 worldEpoch=0 worldRevision=953 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:30:44.371Z S7b report: W + shift (shift first)
+> papea2ac physics Emojiado report
+physics qualification W_SHIFT sessionEpoch=1 worldEpoch=0 worldRevision=953 throughSequence=1042840 profile=paper-26.2-124-movement
+rest (observed) pos=-29.74924298364837,67.0,24.998354917253053 yaw=-267.21286 movementSequence=1042123 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=UNKNOWN boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=72 EXACT=28 EXACT_EMPTY=44 simulatedRest onGround=true support=-30,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-29.778608,67.000000,24.996924) obs=(-29.778608,67.000000,24.996924) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=2 pred=(-29.824007,67.000000,24.994711) obs=(-29.824007,67.000000,24.994711) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=3 pred=(-29.878159,67.000000,24.992071) obs=(-29.878159,67.000000,24.992071) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=4 pred=(-29.937092,67.000000,24.989199) obs=(-29.937092,67.000000,24.989199) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=5 pred=(-29.998634,67.000000,24.986199) obs=(-29.998634,67.000000,24.986199) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=6 pred=(-30.061601,67.000000,24.983130) obs=(-30.061601,67.000000,24.983130) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=7 pred=(-30.125347,67.000000,24.980023) obs=(-30.125347,67.000000,24.980023) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=8 pred=(-30.189517,67.000000,24.976895) obs=(-30.189517,67.000000,24.976895) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=9 pred=(-30.253919,67.000000,24.973756) obs=(-30.253919,67.000000,24.973756) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=10 pred=(-30.318447,67.000000,24.970611) obs=(-30.318447,67.000000,24.970611) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=11 pred=(-30.383045,67.000000,24.967462) obs=(-30.383045,67.000000,24.967462) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=12 pred=(-30.447681,67.000000,24.964311) obs=(-30.447681,67.000000,24.964311) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=13 pred=(-30.512337,67.000000,24.961160) obs=(-30.512337,67.000000,24.961160) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=14 pred=(-30.577004,67.000000,24.958008) obs=(-30.577004,67.000000,24.958008) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=15 pred=(-30.641678,67.000000,24.954855) obs=(-30.641678,67.000000,24.954855) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=16 pred=(-30.706355,67.000000,24.951703) obs=(-30.706355,67.000000,24.951703) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=17 pred=(-30.771033,67.000000,24.948550) obs=(-30.771033,67.000000,24.948550) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=18 pred=(-30.835713,67.000000,24.945398) obs=(-30.835713,67.000000,24.945398) d
+=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=19 pred=(-30.900393,67.000000,24.942245) obs=(-30.900393,67.000000,24.942245) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=20 pred=(-30.965074,67.000000,24.939092) obs=(-30.965074,67.000000,24.939092) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=21 pred=(-31.029755,67.000000,24.935940) obs=(-31.029755,67.000000,24.935940) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=22 pred=(-31.094436,67.000000,24.932787) obs=(-31.094436,67.000000,24.932787) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=23 pred=(-31.159117,67.000000,24.929634) obs=(-31.159117,67.000000,24.929634) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+t=24 pred=(-31.223797,67.000000,24.926482) obs=(-31.223797,67.000000,24.926482) d=(0.00e+00,0.00e+00,0.00e+00) BIT-EXACT ground pred=true obs=true UNKNOWN_ENTITY_NEIGHBORHOOD ENTITIES_UNKNOWN
+summary: compared=40 bitExact=40 maxAbsDiff=(0.0,0.0,0.0) simulatorStatuses=UNKNOWN_ENTITY_NEIGHBORHOOD
+QUALIFYING: 40 ticks bit-exact
+
+
+=== 2026-09-20T04:31:09.356Z S8 arm: W + sprint + jump
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> papea2ac physics Emojiado arm w_sprint_jump
+ARMED W_SPRINT_JUMP at observed rest (-33.75568647082731,67.0,24.803071103812602) yaw=-267.21286 movementSequence=1095079 worldEpoch=0 worldRevision=984 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:31:58.520Z S8 report: W + sprint + jump
+> papea2ac physics Emojiado report
+physics qualification W_SPRINT_JUMP sessionEpoch=1 worldEpoch=0 worldRevision=984 throughSequence=1096080 profile=paper-26.2-124-movement
+rest (observed) pos=-33.75568647082731,67.0,24.803071103812602 yaw=-267.21286 movementSequence=1095079 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=72 EXACT=28 EXACT_EMPTY=44 simulatedRest onGround=true support=-34,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+note: 38 idle samples before the first movement
+t=1 pred=(-34.082897,67.420000,24.791930) obs=(-33.883013,67.000000,24.798736) d=(2.00e-01,-4.20e-01,6.81e-03) diff ground pred=false obs=true
+t=2 pred=(-34.287019,67.753200,24.784980) obs=(-34.079859,67.000000,24.792034) d=(2.07e-01,-7.53e-01,7.05e-03) diff ground pred=false obs=true
+t=3 pred=(-34.498235,68.001336,24.777789) obs=(-34.514548,67.420000,24.777233) d=(-1.63e-02,-5.81e-01,-5.55e-04) diff ground pred=false obs=false
+t=4 pred=(-34.715908,68.166109,24.770377) obs=(-34.777353,67.753200,24.768285) d=(-6.14e-02,-4.13e-01,-2.09e-03) diff ground pred=false obs=false
+t=5 pred=(-34.939455,68.249187,24.762766) obs=(-35.041971,68.001336,24.759275) d=(-1.03e-01,-2.48e-01,-3.49e-03) diff ground pred=false obs=false
+t=6 pred=(-35.168347,68.252203,24.754972) obs=(-35.308238,68.166109,24.750209) d=(-1.40e-01,-8.61e-02,-4.76e-03) diff ground pred=false obs=false
+t=7 pred=(-35.402105,68.176759,24.747013) obs=(-35.576007,68.249187,24.741092) d=(-1.74e-01,7.24e-02,-5.92e-03) diff ground pred=false obs=false
+t=8 pred=(-35.640290,68.024424,24.738903) obs=(-35.845142,68.252203,24.731929) d=(-2.05e-01,2.28e-01,-6.97e-03) diff ground pred=false obs=false
+t=9 pred=(-35.882504,67.796736,24.730656) obs=(-36.115520,68.176759,24.722723) d=(-2.33e-01,3.80e-01,-7.93e-03) diff ground pred=false obs=false
+t=10 pred=(-36.128383,67.495201,24.722285) obs=(-36.387029,68.024424,24.713478) d=(-2.59e-01,5.29e-01,-8.81e-03) diff ground pred=false obs=false
+t=11 pred=(-36.377599,67.121297,24.713799) obs=(-36.659568,67.796736,24.704199) d=(-2.82e-01,6.75e-01,-9.60e-03) diff ground pred=false obs=false
+t=12 pred=(-36.629850,67.000000,24.705211) obs=(-36.933043,67.495201,24.694887) d=(-3.03e-01,4.95e-01,-1.03e-02) diff ground pred=true obs=false
+t=13 pred=(-37.186610,67.420000,24.686254) obs=(-37.207371,67.121297,24.685547) d=(-2.08e-02,-2.99e-01,-7.07e-04) diff ground pred=false obs=false
+t=14 pred=(-37.516065,67.753200,24.675036) obs=(-37.482475,67.000000,24.676180) d=(3.36e-02,-7.53e-01,1.14e-03) diff ground pred=false obs=true
+t=15 pred=(-37.841335,68.001336,24.663962) obs=(-38.060029,67.420000,24.656515) d=(-2.19e-01,-5.81e-01,-7.45e-03) diff ground pred=false obs=false
+t=16 pred=(-38.162796,68.166109,24.653016) obs=(-38.400840,67.753200,24.644911) d=(-2.38e-01,-4.13e-01,-8.10e-03) diff ground pred=false obs=false
+t=17 pred=(-38.480791,68.249187,24.642189) obs=(-38.736442,68.001336,24.633485) d=(-2.56e-01,-2.48e-01,-8.70e-03) diff ground pred=false obs=false
+t=18 pred=(-38.795632,68.252203,24.631469) obs=(-39.067306,68.166109,24.622219) d=(-2.72e-01,-8.61e-02,-9.25e-03) diff ground pred=false obs=false
+t=19 pred=(-39.107602,68.176759,24.620847) obs=(-39.393857,68.249187,24.611101) d=(-2.86e-01,7.24e-02,-9.75e-03) diff ground pred=false obs=false
+t=20 pred=(-39.416960,68.024424,24.610314) obs=(-39.716483,68.252203,24.600116) d=(-3.00e-01,2.28e-01,-1.02e-02) diff ground pred=false obs=false
+t=21 pred=(-39.723941,67.796736,24.599862) obs=(-40.010074,68.176759,24.590120) d=(-2.86e-01,3.80e-01,-9.74e-03) diff ground pred=false obs=false
+t=22 pred=(-40.028759,67.495201,24.589483) obs=(-40.277241,68.024424,24.581023) d=(-2.48e-01,5.29e-01,-8.46e-03) diff ground pred=false obs=false
+t=23 pred=(-40.331609,67.121297,24.579172) obs=(-40.520363,67.796736,24.572745) 
+d=(-1.89e-01,6.75e-01,-6.43e-03) diff ground pred=false obs=false
+t=24 pred=(-40.632667,67.000000,24.568921) obs=(-40.741604,67.495201,24.565212) d=(-1.09e-01,4.95e-01,-3.71e-03) diff ground pred=true obs=false
+summary: compared=26 bitExact=0 maxAbsDiff=(0.461403281396251,0.7531999805212024,0.01571001811496231) simulatorStatuses=EXACT firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 26 of 26 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:32:34.177Z S8b arm: W + sprint + jump (simultaneous)
+> papea2ac physics Emojiado cancel
+no armed trace
+
+> papea2ac physics Emojiado arm w_sprint_jump
+ARMED W_SPRINT_JUMP at observed rest (-27.27390622594573,67.0,24.554484310653887) yaw=-267.12982 movementSequence=1188290 worldEpoch=0 worldRevision=1014 - now perform the scenario, then run report
+
+
+=== 2026-09-20T04:32:55.704Z S8b report: W + sprint + jump (simultaneous)
+> papea2ac physics Emojiado report
+physics qualification W_SPRINT_JUMP sessionEpoch=1 worldEpoch=0 worldRevision=1014 throughSequence=1189030 profile=paper-26.2-124-movement
+rest (observed) pos=-27.27390622594573,67.0,24.554484310653887 yaw=-267.12982 movementSequence=1188290 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815, minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08}
+rest collision: COMPLETE hits=0 boxes=0 cells=52 EXACT=20 EXACT_EMPTY=32 simulatedRest onGround=true support=-28,66,24 vel=Vec3d[x=0.0, y=-0.0784000015258789, z=0.0]
+t=1 pred=(-27.600882,67.420000,24.537824) obs=(-27.401141,67.000000,24.548001) d=(2.00e-01,-4.20e-01,1.02e-02) diff ground pred=false obs=true
+t=2 pred=(-27.804858,67.753200,24.527431) obs=(-27.797587,67.420000,24.527801) d=(7.27e-03,-3.33e-01,3.70e-04) diff ground pred=false obs=false
+t=3 pred=(-28.015923,68.001336,24.516676) obs=(-28.039494,67.753200,24.515475) d=(-2.36e-02,-2.48e-01,-1.20e-03) diff ground pred=false obs=false
+t=4 pred=(-28.233439,68.166109,24.505593) obs=(-28.285076,68.001336,24.502962) d=(-5.16e-02,-1.65e-01,-2.63e-03) diff ground pred=false obs=false
+t=5 pred=(-28.456826,68.249187,24.494211) obs=(-28.534003,68.166109,24.490279) d=(-7.72e-02,-8.31e-02,-3.93e-03) diff ground pred=false obs=false
+t=6 pred=(-28.685555,68.252203,24.482557) obs=(-28.785973,68.249187,24.477440) d=(-1.00e-01,-3.02e-03,-5.12e-03) diff ground pred=false obs=false
+t=7 pred=(-28.919145,68.176759,24.470654) obs=(-29.040713,68.252203,24.464460) d=(-1.22e-01,7.54e-02,-6.19e-03) diff ground pred=false obs=false
+t=8 pred=(-29.157159,68.024424,24.458527) obs=(-29.297973,68.176759,24.451352) d=(-1.41e-01,1.52e-01,-7.17e-03) diff ground pred=false obs=false
+t=9 pred=(-29.399199,67.796736,24.446194) obs=(-29.557527,68.024424,24.438127) d=(-1.58e-01,2.28e-01,-8.07e-03) diff ground pred=false obs=false
+t=10 pred=(-29.644902,67.495201,24.433675) obs=(-29.819168,67.796736,24.424796) d=(-1.74e-01,3.02e-01,-8.88e-03) diff ground pred=false obs=false
+t=11 pred=(-29.893939,67.121297,24.420986) obs=(-30.082708,67.495201,24.411367) d=(-1.89e-01,3.74e-01,-9.62e-03) diff ground pred=false obs=false
+t=12 pred=(-30.146010,67.000000,24.408142) obs=(-30.347977,67.121297,24.397851) d=(-2.02e-01,1.21e-01,-1.03e-02) diff ground pred=true obs=false
+t=13 pred=(-30.702370,67.420000,24.379794) obs=(-30.614818,67.000000,24.384255) d=(8.76e-02,-4.20e-01,4.46e-03) diff ground pred=false obs=true
+t=14 pred=(-31.031589,67.753200,24.363019) obs=(-31.184620,67.420000,24.355222) d=(-1.53e-01,-3.33e-01,-7.80e-03) diff ground pred=false obs=false
+t=15 pred=(-31.356626,68.001336,24.346457) obs=(-31.521179,67.753200,24.338073) d=(-1.65e-01,-2.48e-01,-8.38e-03) diff ground pred=false obs=false
+t=16 pred=(-31.677857,68.166109,24.330090) obs=(-31.852894,68.001336,24.321171) d=(-1.75e-01,-1.65e-01,-8.92e-03) diff ground pred=false obs=false
+t=17 pred=(-31.995624,68.249187,24.313899) obs=(-32.180202,68.166109,24.304494) d=(-1.85e-01,-8.31e-02,-9.40e-03) diff ground pred=false obs=false
+t=18 pred=(-32.310238,68.252203,24.297868) obs=(-32.503499,68.249187,24.288021) d=(-1.93e-01,-3.02e-03,-9.85e-03) diff ground pred=false obs=false
+t=19 pred=(-32.621985,68.176759,24.281984) obs=(-32.823147,68.252203,24.271734) d=(-2.01e-01,7.54e-02,-1.02e-02) diff ground pred=false obs=false
+t=20 pred=(-32.931121,68.024424,24.266232) obs=(-33.139473,68.176759,24.255616) d=(-2.08e-01,1.52e-01,-1.06e-02) diff ground pred=false obs=false
+t=21 pred=(-33.237882,67.796736,24.250602) obs=(-33.452777,68.024424,24.239652) d=(-2.15e-01,2.28e-01,-1.09e-02) diff ground pred=false obs=false
+t=22 pred=(-33.542482,67.495201,24.235082) obs=(-33.763331,67.796736,24.223829) d=(-2.21e-01,3.02e-01,-1.13e-02) diff ground pred=false obs=false
+t=23 pred=(-33.845114,67.121297,24.219661) obs=(-34.071381,67.495201,24.208132) d=(-2.26e-01,3.74e-01,-1.15e-02) diff ground p
+red=false obs=false
+t=24 pred=(-34.145957,67.000000,24.204333) obs=(-34.377154,67.121297,24.192552) d=(-2.31e-01,1.21e-01,-1.18e-02) diff ground pred=true obs=false
+summary: compared=40 bitExact=0 maxAbsDiff=(0.6628505956737172,1.1661092609382138,0.033774234909188294) simulatorStatuses=EXACT firstMismatch=t=1
+QUALIFYING TRACE WITH DISCREPANCIES: 40 of 40 ticks differ (see d=...); not a verdict
+
+
+=== 2026-09-20T04:33:20.097Z final: status + collision/physics status with the player connected, then clean stop
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=1239379
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=1239379 totalDelayNanos=73445096800
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4005756/100663296 sharedSections=1845 sharedHits=9871 privateTier=786432 revisions=1045 historyEvictions=9411 evicted=0 unloaded=390 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=507 diagnosticExact=387 activeTraces=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3102 complete=3102 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=137009 hits=2347 cacheHits=137001 cacheMisses=8 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac physics Emojiado cancel
+trace cancelled
+
+> stop
+Stopping the server

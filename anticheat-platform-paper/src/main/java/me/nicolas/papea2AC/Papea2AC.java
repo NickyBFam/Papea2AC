@@ -152,8 +152,24 @@ public final class Papea2AC extends JavaPlugin implements Listener {
                 for(int i=0;i<p.firstBoxes().size();i++)sender.sendMessage("  box["+i+"] "+p.firstBoxes().get(i));// bounded: at most 8 lines per pose
             }
             return true;
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("physics")){
+            // Phase 5 diagnostic + real-client qualification tracer. Inputs are DECLARED by the operator (a scenario), never inferred;
+            // the output compares the simulator's prediction under that declared input with the observed positions - a discrepancy is
+            // information, not a verdict. Server-current facts (border, effects, boots, attribute bases, nearby entities) are read on the
+            // main thread here and passed as primitives with that provenance.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            String op=args.length>=3?args[2].toLowerCase(Locale.ROOT):"step";
+            if(op.equals("report")){for(String line:engine.physicsReport(player.getUniqueId()))sender.sendMessage(line);return true;}
+            if(op.equals("cancel")){sender.sendMessage(engine.physicsCancel(player.getUniqueId()));return true;}
+            var scenario=me.nicolas.papea2ac.core.PhysicsQualification.Scenario.parse(args.length>=4?args[3]:"release_all");
+            if(scenario==null){sender.sendMessage("Unknown scenario; one of "+Arrays.toString(me.nicolas.papea2ac.core.PhysicsQualification.Scenario.values()));return true;}
+            var facts=armFacts(player);
+            if(op.equals("arm")){sender.sendMessage(engine.physicsArm(player.getUniqueId(),scenario,facts));return true;}
+            for(String line:engine.physicsOneStep(player.getUniqueId(),scenario,facts))sender.sendMessage(line);
+            return true;
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());
@@ -173,11 +189,26 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         sender.sendMessage("world observers="+world.observerWorlds()+" chunks="+world.chunks()+" complete="+world.completeChunks()+" partial="+world.partialChunks()+" sections="+world.sections()
             +" sharedBytes="+world.sharedBytes()+"/"+world.sharedLimit()+" sharedSections="+world.sharedSections()+" sharedHits="+world.sharedHits()+" privateTier="+world.privateLimit()
             +" revisions="+world.revisions()+" historyEvictions="+world.historyEvictions()+" evicted="+world.evictedChunks()+" unloaded="+world.unloadedChunks()+" coverageBreaks="+world.coverageBreaks()+" budgetRejections="+world.budgetRejections());
+        var phy=engine.physicsEngineStatus();
+        sender.sendMessage("physics profile="+phy.profile()+" sha256="+phy.profileDigest().substring(0,16)+" sine="+phy.sineDigest().substring(0,16)+" blockTable="+phy.blockTableDigest().substring(0,16)+" blocks="+phy.blocks()+" fluidStates="+phy.fluidStates()
+            +" effects="+phy.effects()+" attributes="+phy.attributes()+" diagnosticSteps="+phy.diagnosticSteps()+" diagnosticExact="+phy.diagnosticExact()+" activeTraces="+phy.activeTraces());
         var col=engine.collisionEngineStatus();
         sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
             +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()
             +" unsupportedStates="+col.unsupportedStates()+" contextRequired="+col.contextRequired()+" dynamicCells="+col.dynamicCells()+" worldUnknownCells="+col.worldUnknownCells());
         return true;
+    }
+    /** Main-thread, server-current facts for the physics diagnostic (labelled as such in the output); primitives only cross into core. */
+    private static me.nicolas.papea2ac.core.PhysicsQualification.ArmFacts armFacts(Player player){
+        var border=player.getWorld().getWorldBorder();double half=border.getSize()/2.0;var c=border.getCenter();
+        boolean noEntities=player.getNearbyEntities(8,8,8).isEmpty();
+        var boots=player.getInventory().getBoots();boolean leather=boots!=null&&boots.getType()==org.bukkit.Material.LEATHER_BOOTS;
+        var effects=new ArrayList<String>();for(var e:player.getActivePotionEffects())effects.add(e.getType().getKey().asString()+"#"+e.getAmplifier());
+        var bases=new LinkedHashMap<String,Double>();
+        for(var a:new org.bukkit.attribute.Attribute[]{org.bukkit.attribute.Attribute.MOVEMENT_SPEED,org.bukkit.attribute.Attribute.STEP_HEIGHT,org.bukkit.attribute.Attribute.GRAVITY,org.bukkit.attribute.Attribute.JUMP_STRENGTH,org.bukkit.attribute.Attribute.SNEAKING_SPEED,org.bukkit.attribute.Attribute.MOVEMENT_EFFICIENCY,org.bukkit.attribute.Attribute.SCALE}){
+            var inst=player.getAttribute(a);if(inst!=null)bases.put(a.getKey().asString(),inst.getBaseValue());
+        }
+        return new me.nicolas.papea2ac.core.PhysicsQualification.ArmFacts(true,c.getX()-half,c.getZ()-half,c.getX()+half,c.getZ()+half,noEntities,leather,effects,bases);
     }
     @EventHandler public void join(PlayerJoinEvent event){attach(event.getPlayer());}
     @EventHandler public void quit(PlayerQuitEvent event){Binding b=bindings.remove(event.getPlayer().getUniqueId());if(b!=null)capture.detach(b.channel(),b.session());}

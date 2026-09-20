@@ -1,0 +1,77 @@
+# Phase 5 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes, covering the complete Phase 5
+# implementation baseline set: physics production sources, the movement profile / block movement table / sine table
+# readers and pinned resources (anticheat-version), the read-only world forward addition (BlockBehaviorQuery), core
+# wiring (PhysicsEngineStatus, PhysicsQualification, PacketEngine, TimelineStatus.movementSequence), platform
+# command/display changes, tests, native differential tests, the controlled extraction tool, the in-process oracle
+# plugin sources, benchmarks, memory harness, Gradle task changes, the ArchitectureTest change, the Phase 5 report,
+# verification/coverage/native/drift/fixture artifacts, the real-client evidence log, and PHASE_5_HUMAN_APPROVAL.md.
+# Parent commit: 8bc0cc1ba63dc946003584aaec215f7087308544
+# Phase 4 implementation baseline (unchanged in history): 1685e96519f2eaec3f5b28c12d687e8118809b64
+# Phase 3 implementation baseline (unchanged in history): 92159ec5ef8524c5953ecaa22f663c1f556d52ac
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Generated: 2026-09-20
+# File count: 56
+# Hashes are computed over committed Git blob content (the staged index after .gitattributes normalization),
+# not over working-tree checkout bytes. This manifest excludes itself.
+# Format: <sha256>  <path>
+6f17375c987b19947e0706052e9c7a1611639135067cc7a050c671fb9d894c72  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+b17a002f0bc03877dbfd93071eecaa0a9058cab32e782aaa13906bb3caafae89  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PhysicsEngineStatus.java
+1d07a597b6bbd0ad527d9cfa6d3f252a567ee405288a706f26e5d6bdd5eeebc0  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PhysicsQualification.java
+7c81f3220cf7b9bfa21e56e3a5fb3e32bb8067341cb099da5daeae59a3dcf8c9  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimelineStatus.java
+407b83163fe67446b0f2c6e2a699c10e2cceabcfa1b455c729fff64143bbff4f  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/FallResetRay.java
+efbaa3ef08128e77242ac4138ce0694ff5b1ab8e71a8cbdd27ca558497ef404a  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/InsideBlockSampler.java
+29d1f4071687aaffc6572a198a4520bd749de1e1800fb317ac59265a341d6875  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/MovementGeometry.java
+6bcf7eb0ea5e1f2908079914390070f3482b2438c251273e7335877e52bd9a55  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/MovementInput.java
+aa6975eab43368abf219bb7d9af11979a40f2db3ba7e4c6555cba8e60615a367  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsEnvironment.java
+90bc19f058cbb991a5df842b07d32d73cda7214f2a67fb2fd68b8490ee5f6cb3  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsKernels.java
+973409dfbff8d9d9343ecd114151f1722ff0a2a62c326a048834815e2c741a47  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsResult.java
+25517522bb2d36dcb120ce3150b410013171bac219c5e285d6165370773afb68  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsSimulator.java
+d808f95df29338e90d0c53b082956e81458aaf5dabb5ad78ccf098f6e994c8f6  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsState.java
+43e0eceb38a9d69b4382e886cfd706a6905629e7acc1344b10a2d44d7c6ed618  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/Uncertainty.java
+708a4c00dd2d3fc968b0d3d4333e54a0df4f33de1ffd04d6b70250a054e1692f  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/Vec3d.java
+cfa6069cbb622a7a049befc1a7242e89ec53f3ea42d757b21b539b8e6a21dcb2  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+82647e597254baa0d5d92864814ad116360589c2f050871663cd77c33944a18c  anticheat-testing/build.gradle.kts
+3bfa4f92e90b64d93783608dbefaaf43cd2dfd1e14d6df9f72eef4a279efeb89  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/PhysicsBenchmarks.java
+b936d0c5b767c63cc0e9ed4844be423378863fb544976986d1aaf21cbfd7fff7  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/MovementPropertyExtractMain.java
+142f227b1a29c071f9855eb166f4a0563d4d37586d125d46a9a161d1e039dbab  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeMovementProfileTest.java
+ecdf48fdc9694aec0f9a54da2ee29978ceee42a382e70e7c27b2af1c04f372b0  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/PhysicsOracleMain.java
+4af2df138914c28071db98f3af5f1feaa04a49c86b6eff6ba156150f46bf4ca6  anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/OraclePlayer.java
+7bd8987b2c6e2108cd23751b1098db755e07d903fa0f0a83b5c06c90e9f4ee25  anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/PhysicsOraclePlugin.java
+7c61329152ff8c7ea3bdb44a83de84c96841dd81cd0bd365b2bfb33bdae60e09  anticheat-testing/src/oracle/resources/paper-plugin.yml
+75b8f45c271f50a4e59ce76d64808ed96651acd69be15514957ffb78be720f66  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+d051a6cb788a467ddae598522e5b5caca9888a0569858598e188d7ae0258c56c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MiniJson.java
+0f3f2054ee241ef2f9cb25f6be7f42f4b742831d30f2472bda662fab5fc2930e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementPropertyCoverageMain.java
+64456e5524f2a270fbc6c3ec13a5d00e0fa98467860c9cc8cae44823370ece4e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementPropertyCoverageTest.java
+13157834c8364595929bb9a364c39838bf3cd0a0e3d84568eaf6590e39661560  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsCoreMatrixTest.java
+05ee82d7a72088f067db5e00a2aec71b6dfc0f72358900cb8673f0909114b92b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsMemoryMain.java
+6533c250d5ee666c1620771506574f738ddcb4c6451e0a4b19791aa3722f26e2  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsOracleFixtureTest.java
+991bd74c7cfb2f5eebfab70151b6172bb73681517e2927d881bd13996dedfbb6  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsPropertyTest.java
+535b46c3dc8787570f4183b6929b1fe3d39e9b493be0566d010fd3549b66a736  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsQualificationTest.java
+6968a8e6e324d3ea7177d50d94f12f7dfa8545556ff394f1f29104f199bf65fd  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
+504872d37dbccc9be88c8ac501cb021ae558effab0e3d7c6905189f7960249c7  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsTestSupport.java
+d21d408fb18a54db33f884578780b42eae4259dc09b1a8eaab13fd68eb8d6886  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ScenarioWorld.java
+50da6a761739e2e68680275dcc7b87aca016e1747802d7b9620026a3240c10e1  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TrajectoryDigest.java
+6cbf7e2ae46f13b11108180c6b77aa8f504462733ec167997510c9791ce6ca43  anticheat-version/src/main/java/me/nicolas/papea2ac/version/BlockMovementTable.java
+37adb3c156a28a90e568bcbb943daebc32f19bf0fc3b43f5b84db52cb1b7e47e  anticheat-version/src/main/java/me/nicolas/papea2ac/version/MovementProfile.java
+de9ab636d80e6abb0b4287168bd01abcd097084b93a80e608c6ceaf3b6a1fd3f  anticheat-version/src/main/resources/me/nicolas/papea2ac/version/block-movement-paper-26.2-124.tsv
+4df7479291b0ab9c14857e3c4341ad35eee86cb3bfa140c90f89eea028f59511  anticheat-version/src/main/resources/me/nicolas/papea2ac/version/movement-profile-paper-26.2-124.tsv
+87a67a39fff59636acb04edcda4ef622831037291f11fb61586c57596771dac2  anticheat-version/src/main/resources/me/nicolas/papea2ac/version/mth-sin-paper-26.2-124.bin
+d8902ea8fa639b25b4f88a7628cc60c967b4aba85922d3cd6678bd26cfc4a296  anticheat-world/src/main/java/me/nicolas/papea2ac/world/BlockBehaviorQuery.java
+2d002501ab742937876b3fcdd8cad45812b525bb4d4a1798092842f74d306ef8  docs/PHASE_5_HUMAN_APPROVAL.md
+38733f120cc67091a7f19b50ae1a990de76ed38f5f2ce8e8beaf17174ed3f51e  docs/PHASE_5_IMPLEMENTATION.md
+8d955f7099bba15b0a04ca451a0bfe78d5a13cb7fdc62166dcd499d380cbb363  docs/phase5-artifacts/benchmarks.json
+483c3551a869a3555820a77664671b7b8bde757ba5cf8352037522b33265c0dc  docs/phase5-artifacts/memory-results.json
+446028cd4b25dd6a7c82f0b0ecf6dc7d5815c521af2dbedfd7cd3df6beac08c2  docs/phase5-artifacts/movement-property-coverage.json
+fe2e4c1e40824802ceea4ec0396b1fb406e46aeb46c62bd4d33f78bda2bd5bdf  docs/phase5-artifacts/movement-property-coverage.tsv
+c4b9e6364be1de8f4bf168cf548ff7b5f4ad17e9f3c42498262913a8abf00775  docs/phase5-artifacts/movement-table-summary.json
+1d88f7cc5a6140ba47c3d4c2a87662d88cf406e0fceb7b767f832a8916351c40  docs/phase5-artifacts/multi-tick-drift-results.json
+11c47128ab4057fc686a1c4c96f1f7f327bfc254a5df3dd150a7446da73f9d19  docs/phase5-artifacts/native-differential-results.json
+9cc67503f208afd9f6bd9030b1aa36110e5eeaf4085e26c44c36267b6cd4c954  docs/phase5-artifacts/physics-fixtures/README.md
+29f2719c5ef1303cd0068bf4b73c88eee8bad99d9a86bdd54dcda6d87b27d5d5  docs/phase5-artifacts/physics-fixtures/native-trajectories.json
+f4947721ecbf1a93ae02e54e763e472c8286d048ffd66828e474288185729821  docs/phase5-artifacts/real-client-evidence.log
+2a480f82bc9ab2b23cffa2c8ade4694b7a6871997379ec4176dad65d12592a88  docs/phase5-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 56 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# 776d529611850888d0c139544ec0db4d2e1c890b065dc7dbbbbdbc3eaa10ee6a

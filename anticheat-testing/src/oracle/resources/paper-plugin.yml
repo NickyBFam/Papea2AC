@@ -1,0 +1,6 @@
+name: PhysicsOracle
+version: 1.0-SNAPSHOT
+main: me.nicolas.papea2ac.oracle.PhysicsOraclePlugin
+api-version: '26.2'
+authors: [Papea2AC test lane]
+description: Phase 5 native movement oracle (test-only; runs explicit scenarios through the pinned server's own movement code and shuts down)

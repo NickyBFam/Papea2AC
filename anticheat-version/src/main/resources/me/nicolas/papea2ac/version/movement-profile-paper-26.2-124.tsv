@@ -1,0 +1,102 @@
+# Papea2AC movement profile constants, profile paper-26.2-124, extracted from the pinned server jar by MovementPropertyExtractMain (nativeTest lane).
+# A <attribute> <playerDefault> <min> <max> <registryDefault>   (Player.createAttributes() supplier; RangedAttribute bounds used by sanitizeValue)
+# M <name> <modifierId> <amount> <operation>   (transient modifiers the client adds locally)
+# E <effect> <category> [<attribute> <modifierId> <amount> <operation>]...   (MobEffect.attributeModifiers templates; amount is per (amplifier+1))
+# T <name> <sha256> <length>   (table digests)
+A minecraft:air_drag_modifier 1.0 0.0 2048.0 1.0
+A minecraft:armor 0.0 0.0 30.0 0.0
+A minecraft:armor_toughness 0.0 0.0 20.0 0.0
+A minecraft:attack_damage 1.0 0.0 2048.0 2.0
+A minecraft:attack_knockback 0.0 0.0 5.0 0.0
+A minecraft:attack_speed 4.0 0.0 1024.0 4.0
+A minecraft:below_name_distance 10.0 0.0 512.0 10.0
+A minecraft:block_break_speed 1.0 0.0 1024.0 1.0
+A minecraft:block_interaction_range 4.5 0.0 64.0 4.5
+A minecraft:bounciness 0.0 0.0 1.0 0.0
+A minecraft:burning_time 1.0 0.0 1024.0 1.0
+A minecraft:camera_distance 4.0 0.0 32.0 4.0
+A minecraft:entity_interaction_range 3.0 0.0 64.0 3.0
+A minecraft:explosion_knockback_resistance 0.0 0.0 1.0 0.0
+A minecraft:fall_damage_multiplier 1.0 0.0 100.0 1.0
+A minecraft:friction_modifier 1.0 0.0 2048.0 1.0
+A minecraft:gravity 0.08 -1.0 1.0 0.08
+A minecraft:jump_strength 0.41999998688697815 0.0 32.0 0.41999998688697815
+A minecraft:knockback_resistance 0.0 -2.0 1.0 0.0
+A minecraft:luck 0.0 -1024.0 1024.0 0.0
+A minecraft:max_absorption 0.0 0.0 2048.0 0.0
+A minecraft:max_health 20.0 1.0 1024.0 20.0
+A minecraft:mining_efficiency 0.0 0.0 1024.0 0.0
+A minecraft:movement_efficiency 0.0 0.0 1.0 0.0
+A minecraft:movement_speed 0.10000000149011612 0.0 1024.0 0.7
+A minecraft:name_tag_distance 64.0 0.0 512.0 64.0
+A minecraft:oxygen_bonus 0.0 0.0 1024.0 0.0
+A minecraft:safe_fall_distance 3.0 -1024.0 1024.0 3.0
+A minecraft:scale 1.0 0.0625 16.0 1.0
+A minecraft:sneaking_speed 0.3 0.0 1.0 0.3
+A minecraft:step_height 0.6 0.0 10.0 0.6
+A minecraft:submerged_mining_speed 0.2 0.0 20.0 0.2
+A minecraft:sweeping_damage_ratio 0.0 0.0 1.0 0.0
+A minecraft:water_movement_efficiency 0.0 0.0 1.0 0.0
+A minecraft:waypoint_receive_range 6.0E7 0.0 6.0E7 0.0
+A minecraft:waypoint_transmit_range 6.0E7 0.0 6.0E7 0.0
+M sprinting minecraft:sprinting 0.30000001192092896 ADD_MULTIPLIED_TOTAL
+E minecraft:absorption BENEFICIAL minecraft:max_absorption minecraft:effect.absorption 4.0 ADD_VALUE
+E minecraft:bad_omen NEUTRAL
+E minecraft:blindness HARMFUL
+E minecraft:breath_of_the_nautilus BENEFICIAL
+E minecraft:conduit_power BENEFICIAL
+E minecraft:darkness HARMFUL
+E minecraft:dolphins_grace BENEFICIAL
+E minecraft:fire_resistance BENEFICIAL
+E minecraft:glowing NEUTRAL
+E minecraft:haste BENEFICIAL minecraft:attack_speed minecraft:effect.haste 0.10000000149011612 ADD_MULTIPLIED_TOTAL
+E minecraft:health_boost BENEFICIAL minecraft:max_health minecraft:effect.health_boost 4.0 ADD_VALUE
+E minecraft:hero_of_the_village BENEFICIAL
+E minecraft:hunger HARMFUL
+E minecraft:infested HARMFUL
+E minecraft:instant_damage HARMFUL
+E minecraft:instant_health BENEFICIAL
+E minecraft:invisibility BENEFICIAL minecraft:waypoint_transmit_range minecraft:effect.waypoint_transmit_range_hide -1.0 ADD_MULTIPLIED_TOTAL
+E minecraft:jump_boost BENEFICIAL minecraft:safe_fall_distance minecraft:effect.jump_boost 1.0 ADD_VALUE
+E minecraft:levitation HARMFUL
+E minecraft:luck BENEFICIAL minecraft:luck minecraft:effect.luck 1.0 ADD_VALUE
+E minecraft:mining_fatigue HARMFUL minecraft:attack_speed minecraft:effect.mining_fatigue -0.10000000149011612 ADD_MULTIPLIED_TOTAL
+E minecraft:nausea HARMFUL
+E minecraft:night_vision BENEFICIAL
+E minecraft:oozing HARMFUL
+E minecraft:poison HARMFUL
+E minecraft:raid_omen NEUTRAL
+E minecraft:regeneration BENEFICIAL
+E minecraft:resistance BENEFICIAL
+E minecraft:saturation BENEFICIAL
+E minecraft:slow_falling BENEFICIAL
+E minecraft:slowness HARMFUL minecraft:movement_speed minecraft:effect.slowness -0.15000000596046448 ADD_MULTIPLIED_TOTAL
+E minecraft:speed BENEFICIAL minecraft:movement_speed minecraft:effect.speed 0.20000000298023224 ADD_MULTIPLIED_TOTAL
+E minecraft:strength BENEFICIAL minecraft:attack_damage minecraft:effect.strength 3.0 ADD_VALUE
+E minecraft:trial_omen NEUTRAL
+E minecraft:unluck HARMFUL minecraft:luck minecraft:effect.unluck -1.0 ADD_VALUE
+E minecraft:water_breathing BENEFICIAL
+E minecraft:weakness HARMFUL minecraft:attack_damage minecraft:effect.weakness -4.0 ADD_VALUE
+E minecraft:weaving HARMFUL
+E minecraft:wind_charged HARMFUL
+E minecraft:wither HARMFUL
+T mth-sin 87a67a39fff59636acb04edcda4ef622831037291f11fb61586c57596771dac2 65536
+# V <yawDegrees> <sinBits> <cosBits>   (Mth.sin/cos of yaw * 0.017453292F, conformance vectors)
+V 0.0 0 1065353216
+V 1.0 1016000362 1065350662
+V -1.0 -1131483286 1065350634
+V 45.0 1060439283 1060439283
+V 90.0 1065353216 621621554
+V 135.0 1060439283 -1087044365
+V 180.0 621621554 -1082130432
+V -180.0 621621554 -1082130432
+V 270.0 -1082130432 0
+V 359.99 -1186394149 1065353216
+V 360.0 0 1065353216
+V 720.0 0 1065353216
+V -0.0 0 1065353216
+V 12.34567 1046144376 1064965409
+V 1234567.0 1061967757 -1088801421
+V -98765.4 -1085230793 -1089190723
+V 1.0E-4 0 1065353216
+V 89.99999 1065353216 952700891

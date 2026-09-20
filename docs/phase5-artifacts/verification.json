@@ -1,0 +1,315 @@
+{
+  "phase": "5 - Physics Simulator",
+  "status": "HUMAN_APPROVED_FOR_BASELINE",
+  "date": "2026-09-20",
+  "head": "8bc0cc1ba63dc946003584aaec215f7087308544",
+  "workingTree": "Phase 5 implementation set, staged for the Phase 5 implementation baseline commit",
+  "phase4Baseline": "1685e96519f2eaec3f5b28c12d687e8118809b64",
+  "phase4Receipt": "8bc0cc1ba63dc946003584aaec215f7087308544",
+  "phase4ManifestComposite": "42e70b5b840dd4d9585cdd2f44763aeca8634bd5fd9636629564dd00a44fcd6c",
+  "build": "PASS",
+  "testCounts": {
+    "test": 484,
+    "testClasses": 49,
+    "testFailed": 0,
+    "nativeTest": 132,
+    "nativeTestClasses": 19,
+    "nativeTestFailed": 0,
+    "uniqueTotal": 616,
+    "phase4": {
+      "test": 416,
+      "nativeTest": 124,
+      "uniqueTotal": 540
+    },
+    "phase5TestClasses": {
+      "PhysicsCoreMatrixTest": 53,
+      "PhysicsPropertyTest": 5,
+      "PhysicsOracleFixtureTest": 2,
+      "MovementPropertyCoverageTest": 3,
+      "PhysicsQualificationTest": 4,
+      "ArchitectureTest(+1)": 1,
+      "NativeMovementProfileTest(nativeTest)": 8
+    },
+    "otherVerificationTasks": [
+      "verifyMandatoryCoverage",
+      "replayConformance",
+      "pluginJar",
+      "collisionFixtures",
+      "shapeCoverage",
+      "movementPropertyCoverage",
+      "extractMovementProperties",
+      "physicsOracleJar",
+      "physicsNativeDifferential",
+      "benchmarkPhysics",
+      "physicsMemoryHarness"
+    ]
+  },
+  "phase1SemanticCoverage": "127/127",
+  "phase1MandatoryGaps": 0,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "schema": "2 current, 1 readable (unchanged)",
+  "phase1Regression": "NONE (nativeTest 132/132 incl. the 124 Phase 1-4 tests; replayConformance pinned digests reproduced)",
+  "phase2Regression": "NONE (timeline suites unchanged and green; TimelineStatus gained movementSequence, additive)",
+  "phase3Regression": "NONE (world suites unchanged; BlockBehaviorQuery is an additive forward reader over WorldView; UNKNOWN != AIR, UNLOADED != EVICTED, CONTENT_NOT_RETAINED and epochs re-asserted through PhysicsResult statuses)",
+  "phase4Regression": "NONE (collision API frozen and untouched; shape coverage 1196/32366/325/0 unchanged; native collision kernels 124/124 green)",
+  "physicsOwnerModule": "anticheat-physics",
+  "inputModules": [
+    "anticheat-model",
+    "anticheat-version",
+    "anticheat-world",
+    "anticheat-collision"
+  ],
+  "outputModules": [
+    "anticheat-core (composition, PhysicsEngineStatus, PhysicsQualification)",
+    "anticheat-platform-paper (display only, no physics edge)"
+  ],
+  "movementProfile": {
+    "id": "paper-26.2-124-movement",
+    "profileSha256": "4df7479291b0ab9c14857e3c4341ad35eee86cb3bfa140c90f89eea028f59511",
+    "sineTableSha256": "87a67a39fff59636acb04edcda4ef622831037291f11fb61586c57596771dac2",
+    "sineFormulaMismatches": 0,
+    "blockTableSha256": "de9ab636d80e6abb0b4287168bd01abcd097084b93a80e608c6ceaf3b6a1fd3f",
+    "blocks": 1196,
+    "states": 32366,
+    "fluidStates": 11792,
+    "effects": 40,
+    "attributes": 36
+  },
+  "movementPropertyCoverage": {
+    "artifact": "docs/phase5-artifacts/movement-property-coverage.tsv",
+    "primaryCounts": {
+      "UNSUPPORTED": 0,
+      "TRANSPORT_UNSUPPORTED": 3,
+      "FLUID_DEFERRED": 3,
+      "INSIDE_EFFECT": 4,
+      "BOUNCE": 17,
+      "STEP_ON_MOTION": 0,
+      "FRICTION_SPECIAL": 4,
+      "SPEED_FACTOR": 1,
+      "JUMP_FACTOR": 0,
+      "CLIMBABLE": 9,
+      "CONTEXT_DEPENDENT": 0,
+      "NON_MOTION_OVERRIDE": 63,
+      "DEFAULT": 1092
+    },
+    "unexplainedGaps": 0
+  },
+  "nativeDifferential": {
+    "status": "PASS",
+    "results": "docs/phase5-artifacts/native-differential-results.json",
+    "scenarios": 91,
+    "compared": 88,
+    "exactSingleStep": 88,
+    "exactChained": 88,
+    "deferredFluid": 3,
+    "oracleErrors": 0,
+    "ticksCompared": 3105,
+    "ticksExactSingleStep": 3105,
+    "ticksExactChained": 3105,
+    "worstSingleStepAbsDiff": 0,
+    "worstChainedAbsDiff": 0,
+    "oracle": "pinned Paper 26.2 build 124 server process (26.2-124-22ca6c7 (MC: 26.2)), test-only OraclePlayer driving the jar's own LivingEntity/Entity/Player movement code; comparison is bit-level on position and velocity, exact on flags"
+  },
+  "multiTickDifferential": {
+    "results": "docs/phase5-artifacts/multi-tick-drift-results.json",
+    "worst": {
+      "driftAt2": 0,
+      "driftAt2Scenario": "-",
+      "driftAt5": 0,
+      "driftAt5Scenario": "-",
+      "driftAt20": 0,
+      "driftAt20Scenario": "-",
+      "driftAt100": 0,
+      "driftAt100Scenario": "-"
+    },
+    "maxObservedDrift": 0
+  },
+  "fixtures": {
+    "artifact": "docs/phase5-artifacts/physics-fixtures/native-trajectories.json",
+    "pinnedTrajectories": 88,
+    "determinism": "PASS"
+  },
+  "memory": {
+    "artifact": "docs/phase5-artifacts/memory-results.json",
+    "blockMovementTableBytes": 1661744,
+    "movementProfileBytes": 279096,
+    "behaviorCacheEstimateBytes": 1622416,
+    "simulatorBytes": 16,
+    "retainedBytesPer1000Results": 385672,
+    "perStepAllocationBytes": {
+      "idle_ground": 10192,
+      "walk_forward": 12130,
+      "sprint_forward": 12082,
+      "fall_20": 9130,
+      "jump_stationary": 8347,
+      "wall_forward": 13914,
+      "step_up_slab": 13099,
+      "ice_walk": 11789,
+      "cobweb_walk_in": 12030,
+      "ladder_climb": 14417,
+      "mixed_course_random_100": 11506
+    },
+    "perPlayerRetained": 0
+  },
+  "jmh": {
+    "artifact": "docs/phase5-artifacts/benchmarks.json",
+    "recipe": "JMH 1.37, Temurin 25, 3 forks, 5x1s warmup, 10x1s measurement, -prof gc",
+    "kernels": {
+      "airborne": {
+        "nsPerOp": 2212.6,
+        "error": 75.8,
+        "allocBytesPerOp": 5912
+      },
+      "candidateScaling1": {
+        "nsPerOp": 3354.1,
+        "error": 43.5,
+        "allocBytesPerOp": 7344
+      },
+      "candidateScaling32": {
+        "nsPerOp": 112477.2,
+        "error": 784.6,
+        "allocBytesPerOp": 265169
+      },
+      "candidateScaling64": {
+        "nsPerOp": 226161.4,
+        "error": 1925.5,
+        "allocBytesPerOp": 529026
+      },
+      "candidateScaling8": {
+        "nsPerOp": 24726.6,
+        "error": 371.3,
+        "allocBytesPerOp": 57766
+      },
+      "cobwebEntry": {
+        "nsPerOp": 2750.4,
+        "error": 12.1,
+        "allocBytesPerOp": 6760
+      },
+      "externalVelocityApplied": {
+        "nsPerOp": 3919.2,
+        "error": 39.5,
+        "allocBytesPerOp": 7416
+      },
+      "iceWalk": {
+        "nsPerOp": 2745.8,
+        "error": 18,
+        "allocBytesPerOp": 6680
+      },
+      "idleOnGround": {
+        "nsPerOp": 2650.5,
+        "error": 29.5,
+        "allocBytesPerOp": 5939
+      },
+      "jumpFromGround": {
+        "nsPerOp": 2404.4,
+        "error": 10.8,
+        "allocBytesPerOp": 5152
+      },
+      "ladderClimb": {
+        "nsPerOp": 3327.6,
+        "error": 38.4,
+        "allocBytesPerOp": 10856
+      },
+      "soulSandWalk": {
+        "nsPerOp": 4954.4,
+        "error": 29.6,
+        "allocBytesPerOp": 12811
+      },
+      "sprintOnGround": {
+        "nsPerOp": 3566.6,
+        "error": 16.7,
+        "allocBytesPerOp": 7035
+      },
+      "stairsAndSlabCourse": {
+        "nsPerOp": 28760,
+        "error": 125.3,
+        "allocBytesPerOp": 63318
+      },
+      "stepUpSlab": {
+        "nsPerOp": 4853.2,
+        "error": 33.8,
+        "allocBytesPerOp": 11352
+      },
+      "twentyTickChainedWalk": {
+        "nsPerOp": 66812.8,
+        "error": 907.6,
+        "allocBytesPerOp": 142008
+      },
+      "walkOnGround": {
+        "nsPerOp": 3497.1,
+        "error": 83.7,
+        "allocBytesPerOp": 7168
+      },
+      "wallCollision": {
+        "nsPerOp": 4207,
+        "error": 36.1,
+        "allocBytesPerOp": 7757
+      },
+      "waterContactDeferred": {
+        "nsPerOp": 228.9,
+        "error": 3.2,
+        "allocBytesPerOp": 912
+      },
+      "worstBoundedCourseStep": {
+        "nsPerOp": 4540.5,
+        "error": 33,
+        "allocBytesPerOp": 10960
+      }
+    }
+  },
+  "diagnosticCommand": "IMPLEMENTED: /papea2ac physics <player> [step <scenario> | arm <scenario> | report | cancel] (declared-input scenarios; never infers keys) + physics line in /papea2ac status",
+  "realClientPhysicsQualification": {
+    "status": "PASS",
+    "date": "2026-09-20",
+    "client": "Minecraft Java 26.2 (owner, Emojiado)",
+    "server": "Paper 26.2 build 124, 127.0.0.1:25576, final plugin jar sha256 19c340ee0d7a3175",
+    "evidence": "docs/phase5-artifacts/real-client-evidence.log (31 samples, 0 secret matches)",
+    "controlledInputScenarios": {
+      "release all keys": "QUALIFYING 30/30 idle samples at rest",
+      "hold W": "QUALIFYING 40/40 bit-exact (S2b; S2 was a sprint-toggle declaration mismatch)",
+      "hold D": "QUALIFYING 40/40 bit-exact",
+      "W+sprint": "QUALIFYING 40/40 bit-exact (S4d; S4 obstacle in lane, S4b/c relocation)",
+      "jump stationary": "QUALIFYING 40/40 bit-exact",
+      "W+jump": "QUALIFYING 40/40 bit-exact (S6b; S6 key-onset skew 2 ticks = NOT QUALIFYING)",
+      "W+shift": "QUALIFYING 40/40 bit-exact with status UNKNOWN_ENTITY_NEIGHBORHOOD (dropped item nearby) (S7b; S7 declaration mismatch)",
+      "W+sprint+jump": "NOT QUALIFYING (key-onset skew 2 and 1 ticks in S8/S8b); impulse bit-exact natively"
+    },
+    "timingAmbiguousTraces": [
+      "S6",
+      "S8",
+      "S8b"
+    ],
+    "physicsResiduals": 0,
+    "mismatchesCalledCheating": 0
+  },
+  "paperSmoke": {
+    "log": ".phase1-runtime/qualification-run-phase5.log",
+    "startupSeconds": 5.665,
+    "exceptions": 0,
+    "cleanDisableWithPlayerConnected": true,
+    "pluginJarSha256Prefix": "19c340ee0d7a3175"
+  },
+  "gates": {
+    "gitDiffCheck": "clean",
+    "todoFixmeHack": 0,
+    "architectureTest": "9/9",
+    "movementPropertyCoverageGate": "PASS (0 unexplained gaps)",
+    "fixtureDeterminism": "PASS"
+  },
+  "phase6Implementation": "NONE",
+  "knownLimitations": [
+    "fluids detected and explicitly deferred (UNSUPPORTED_FLUID)",
+    "elytra, creative flight, vehicles, riptide, sleeping, spectator: UNSUPPORTED_MODE",
+    "entity pushing / entity colliders: interface only, not natively differential-tested",
+    "world border proximity UNSUPPORTED_BORDER; border knowledge is a caller input",
+    "LocalPlayer.moveTowardsClosestSpace push-out not modelled (INSIDE_BLOCK_START)",
+    "crouch-slowdown shift-key timing is a documented client-side assumption",
+    "abstract/interval transfer functions (M3) deferred to Phase 6",
+    "per-step allocation ~10-15 KB (Phase 4 result values)"
+  ],
+  "environmentalFlakes": [
+    "PhysicsQualificationTest.selfConsistentObservationsReplayBitExact: one poller-starvation miss under parallel --rerun-tasks load (samples=11/12) - test-only hardening (publish waits for the poller fetch), 4/4 on every rerun; not a physics failure",
+    "LiveRecordingTest (Phase 2, pre-existing): one @TempDir deletion failure on one Windows clean run - ENVIRONMENTAL / NON-REPRODUCED; not a Phase 5 defect"
+  ]
+}
