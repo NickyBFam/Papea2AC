@@ -182,6 +182,8 @@ public final class PacketEngine implements AutoCloseable {
     /** Engine-wide observer-world accounting (PERFORMANCE.md shared-world partition + per-session private tier) and the run-local block-state dictionary; both thread-safe, shared by every session's ObserverWorld. */
     public final WorldBudget worldBudget=new WorldBudget();
     public final BlockStateDictionary blockStates=new BlockStateDictionary();
+    /** Phase 4: one pure geometry engine per PacketEngine (its shape cache is keyed by the engine-wide dictionary). Constructed here - core is the composition root (ARCHITECTURE path 1); it never reads the live server world. */
+    public final me.nicolas.papea2ac.collision.CollisionEngine collision=new me.nicolas.papea2ac.collision.CollisionEngine(me.nicolas.papea2ac.version.CollisionProfile.PAPER_26_2,blockStates);
     /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
@@ -330,6 +332,36 @@ public final class PacketEngine implements AutoCloseable {
     }
     /** Engine-wide observer-world accounting (fixed shape, no per-player labels). */
     public WorldBudget.Snapshot worldBudgetSnapshot(){return worldBudget.snapshot();}
+    /** Engine-wide collision counters (fixed shape), projected to primitives for platform-paper. */
+    public CollisionEngineStatus collisionEngineStatus(){
+        var m=collision.metrics().snapshot();var t=collision.profile().table();
+        return new CollisionEngineStatus(collision.profile().id(),t.digest(),t.stateCount(),t.shapeCount(),t.blockCount(),m.queries(),m.complete(),m.incomplete(),m.unavailable(),m.rejected(),m.truncated(),m.cellsVisited(),m.hits(),m.boxesEmitted(),
+            m.shapeCacheHits(),m.shapeCacheMisses(),m.unsupportedStates(),m.contextRequired(),m.dynamicCells(),m.worldUnknownCells(),m.historicalMisses());
+    }
+    /**
+     * Bounded collision readout for one session against the PUBLISHED world snapshot at the PUBLISHED observed position, for the
+     * STANDING and CROUCHING boxes explicitly (no silent pose assumption; the pose a player is actually in is Phase 5's business).
+     * Cross-thread safe: snapshot views only. Empty for an unknown player. Geometry only - no validity judgment.
+     */
+    public synchronized java.util.Optional<CollisionStatus> collisionStatus(UUID player){
+        Session s=active.get(player);
+        if(s==null)return java.util.Optional.empty();
+        var w=s.world.snapshot();var view=w.view(blockStates);var st=s.timeline.snapshot().state();var m=st.movement();
+        boolean hasPosition=m.observedAtSequence()>0;
+        var poses=new java.util.ArrayList<CollisionStatus.PoseReport>(2);
+        if(hasPosition)for(var pose:new me.nicolas.papea2ac.collision.PlayerBox.Pose[]{me.nicolas.papea2ac.collision.PlayerBox.Pose.STANDING,me.nicolas.papea2ac.collision.PlayerBox.Pose.CROUCHING}){
+            var box=me.nicolas.papea2ac.collision.PlayerBox.of(collision.profile(),pose,m.position().x(),m.position().y(),m.position().z());
+            var r=collision.query(view,box,me.nicolas.papea2ac.collision.ShapeContext.body(box.minY()),st.worldEpoch());
+            var first=new java.util.ArrayList<String>(CollisionStatus.MAX_BOXES);
+            outer:for(var h:r.hits())for(int i=0;i<h.shape().boxCount();i++){if(first.size()>=CollisionStatus.MAX_BOXES)break outer;var b=h.worldBox(i);
+                first.add((h.definite()?"":"possible ")+h.status()+" @"+h.x()+","+h.y()+","+h.z()+" ["+b.minX()+","+b.minY()+","+b.minZ()+" -> "+b.maxX()+","+b.maxY()+","+b.maxZ()+"]");}
+            var counts=new StringBuilder();
+            for(var cs:me.nicolas.papea2ac.collision.CellStatus.values())if(r.count(cs)>0)counts.append(counts.length()>0?" ":"").append(cs.name()).append('=').append(r.count(cs));
+            poses.add(new CollisionStatus.PoseReport(pose.name(),box.minX(),box.minY(),box.minZ(),box.maxX(),box.maxY(),box.maxZ(),r.certainty().name(),r.unavailableReason()==null?"":r.unavailableReason().name(),
+                r.cellsVisited(),r.hitCount(),r.boxCount(),r.truncated(),r.definitelyObstructed(),r.definitelyClear(),counts.toString(),first));
+        }
+        return java.util.Optional.of(new CollisionStatus(s.key.epoch(),w.worldEpoch(),w.revision(),w.lastSequence(),hasPosition,m.position().x(),m.position().y(),m.position().z(),collision.profile().id(),poses));
+    }
     /** Primitive-only diagnostic projection of the published Timeline Snapshot (for platform-paper, which may not depend on anticheat-player). Empty for an unknown player - never a fabricated default. */
     public synchronized java.util.Optional<TimelineStatus> timelineStatus(UUID player){
         Session s=active.get(player);

@@ -1,0 +1,71 @@
+{
+  "generated": "2026-09-20",
+  "oracle": "pinned Paper 26.2 build 124 jar (Mojang mappings), vanilla client algorithms: BlockStateBase.getCollisionShape, DiscreteVoxelShape grid, EntityCollisionContext, Mth.getSeed offsets, EntityDimensions.makeBoundingBox, VoxelShape.collideX (vanilla, not Moonrise), Shapes private index-merger join",
+  "classes": {
+    "NativeCollisionKernelTest": {
+      "tests": 3,
+      "failures": 0,
+      "cases": [
+        {
+          "name": "candidateAcceptanceMatchesVanillaForEveryShape()",
+          "seconds": 0.187
+        },
+        {
+          "name": "axisClipMatchesVanillaCollideForEveryShapeIncludingPenetration()",
+          "seconds": 0.381
+        },
+        {
+          "name": "shapesCollideOverManyShapesMatchesTheResultLevelClip()",
+          "seconds": 0.013
+        }
+      ],
+      "moonriseServerCollideDivergences": {
+        "differing": 19,
+        "sampled": 57060,
+        "note": "Paper replaces VoxelShape.collide with a Moonrise re-implementation; the vanilla client collideX is the reference and Papea2AC matches it bit for bit on every sampled case"
+      }
+    },
+    "NativeCollisionShapeTest": {
+      "tests": 6,
+      "failures": 0,
+      "cases": [
+        {
+          "name": "scaffoldingContextRuleMatchesNativeAroundEveryPredicateBoundary()",
+          "seconds": 0.181
+        },
+        {
+          "name": "everyFullCubeStateUsesTheSingletonBlockShape()",
+          "seconds": 0.058
+        },
+        {
+          "name": "powderSnowNullEntityPathAndEmptyContextAreEmptyLikeNative()",
+          "seconds": 0.04
+        },
+        {
+          "name": "avatarPoseBoxesMatchNativeMakeBoundingBox()",
+          "seconds": 0.013
+        },
+        {
+          "name": "positionOffsetBlocksMatchNativeAtManyPositions()",
+          "seconds": 0.097
+        },
+        {
+          "name": "everyRegistryStateRestingShapeAndGridMatchesNative()",
+          "seconds": 0.585
+        }
+      ]
+    }
+  },
+  "total": 9,
+  "failed": 0,
+  "coverage": {
+    "registryStatesCompared": 32366,
+    "fullCubeSingletonStates": 3037,
+    "scaffoldingContextCases": 3072,
+    "offsetPositionCases": 3120,
+    "avatarPoseCases": 1400,
+    "candidateAcceptanceCases": "324 shapes x 40 boxes",
+    "clipCases": "324 shapes x 60 boxes x 3 axes (58320), >500 penetrating",
+    "multiShapeCollideCases": 900
+  }
+}

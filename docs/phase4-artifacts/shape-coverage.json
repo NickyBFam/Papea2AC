@@ -1,0 +1,20 @@
+{
+  "profile": "paper-26.2-124",
+  "tableSha256": "0c3e2b3648f9e8fdfd406a5cde6b060677926df2a99729ab175e0befc535ba3b",
+  "blocks": 1196,
+  "states": 32366,
+  "uniqueShapes": 325,
+  "classification": {
+    "EMPTY_NON_COLLIDING": {"blocks": 242, "states": 5066},
+    "FULL_CUBE": {"blocks": 427, "states": 3037},
+    "EXACT": {"blocks": 121, "states": 1375},
+    "STATE_DERIVED_EXACT": {"blocks": 383, "states": 22689},
+    "NEIGHBOR_DERIVED_EXACT": {"blocks": 0, "states": 0},
+    "POSITION_DERIVED_EXACT": {"blocks": 3, "states": 52},
+    "CONTEXT_DERIVED_EXACT": {"blocks": 1, "states": 32},
+    "CONSERVATIVE_UNCERTAIN_BY_SPEC": {"blocks": 19, "states": 115},
+    "UNSUPPORTED": {"blocks": 0, "states": 0}
+  },
+  "unexplainedUnsupported": 0,
+  "neighborDerivedNote": "none in this profile: connection state is carried in block-state properties (verified: no STATIC block reads the level)"
+}

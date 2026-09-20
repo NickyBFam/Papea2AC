@@ -1,0 +1,13 @@
+{
+  "methodology": "forced GC + Runtime used-heap diff, 3 trials, median; estimates, not supported capacity",
+  "profile": "paper-26.2-124-collision",
+  "shapeTable": {"resourceBytes": 208874, "blocks": 1196, "states": 32366, "uniqueShapes": 325, "deduplicationRatio": 99.6, "parsedRetainedBytes": 1028576},
+  "internedShapeInstancesBytes": 125608,
+  "emptyEngineBytes": 650712,
+  "dictionaryAllStatesBytes": 2075944,
+  "engineWithEveryRegistryStateResolvedBytes": 4871160,
+  "resolverCacheEstimateBytes": 2144504,
+  "retainedBytesPer1000Results": 260040,
+  "sampleResult": {"hits": 1, "boxes": 1, "cells": 37, "certainty": "COMPLETE"},
+  "partitionNote": "PERFORMANCE.md reference shape-cache partition is 32 MiB; the whole table + interned shapes + a fully warm per-engine cache is far below it, and nothing per player is retained by the collision engine"
+}

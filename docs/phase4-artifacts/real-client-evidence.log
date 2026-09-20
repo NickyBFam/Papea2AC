@@ -1,0 +1,332 @@
+
+=== 2026-09-19T18:50:43.799Z P4-JOIN+COURSE-BUILT start of course
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=88788
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=88788 totalDelayNanos=36230891500
+delayP95UpperNanos=65535 delayP99UpperNanos=524287
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4312304/100663296 sharedSections=1986 sharedHits=4498 privateTier=786432 revisions=501 historyEvictions=1753 evicted=0 unloaded=83 coverageBreaks=0 budgetRejections=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=2 complete=2 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=74 hits=0 cacheHits=72 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=0 revision=501 throughSequence=89045 profile=paper-26.2-124-collision observedPosition=-12.82446197971333,67.0,19.54029322717274
+STANDING box=[-13.12446199163426,67.0,19.24029321525181 -> -12.524461967792401,68.79999995231628,19.84029323909367] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+CROUCHING box=[-13.12446199163426,67.0,19.24029321525181 -> -12.524461967792401,68.5,19.84029323909367] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+
+
+=== 2026-09-19T18:51:42.213Z P4-A corridor pressed against wall
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=0 revision=711 throughSequence=190980 profile=paper-26.2-124-collision observedPosition=25.69999998807907,67.0,20.473723374633032
+STANDING box=[25.399999976158142,67.0,20.173723362712103 -> 26.0,68.79999995231628,20.77372338655396] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=32 EXACT_EMPTY=20
+CROUCHING box=[25.399999976158142,67.0,20.173723362712103 -> 26.0,68.5,20.77372338655396] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=32 EXACT_EMPTY=20
+
+
+=== 2026-09-19T21:31:35.644Z P4-A corridor against north wall
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1822 throughSequence=10954392 profile=paper-26.2-124-collision observedPosition=-33.13285994819019,67.0,20.582578330709506
+STANDING box=[-33.43285996011112,67.0,20.282578318788577 -> -32.83285993626926,68.79999995231628,20.882578342630435] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=36 EXACT_EMPTY=16
+CROUCHING box=[-33.43285996011112,67.0,20.282578318788577 -> -32.83285993626926,68.5,20.882578342630435] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=36 EXACT_EMPTY=16
+
+
+=== 2026-09-19T21:32:49.272Z P4-B bottom slab
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1853 throughSequence=11081639 profile=paper-26.2-124-collision observedPosition=-28.663578364756,67.5,20.540645844685145
+STANDING box=[-28.963578376676928,67.5,20.240645832764216 -> -28.36357835283507,69.29999995231628,20.840645856606073] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=31
+CROUCHING box=[-28.963578376676928,67.5,20.240645832764216 -> -28.36357835283507,69.0,20.840645856606073] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=31
+
+
+=== 2026-09-19T21:34:37.493Z P4-B top slab overhead: standing body blocked at its west face
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1855 throughSequence=11260677 profile=paper-26.2-124-collision observedPosition=-27.30000001192093,67.0,20.552439786157226
+STANDING box=[-27.600000023841858,67.0,20.252439774236297 -> -27.0,68.79999995231628,20.852439798078155] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=22 EXACT_EMPTY=30
+CROUCHING box=[-27.600000023841858,67.0,20.252439774236297 -> -27.0,68.5,20.852439798078155] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=22 EXACT_EMPTY=30
+
+
+=== 2026-09-19T21:36:08.878Z P4-B crouching under the top slab
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1857 throughSequence=11398024 profile=paper-26.2-124-collision observedPosition=-26.725922081887052,67.0,20.532213665543633
+STANDING box=[-27.02592209380798,67.0,20.232213653622704 -> -26.425922069966123,68.79999995231628,20.832213677464562] certainty=COMPLETE cells=52 hits=1 boxes=1 definitelyObstructed=true definitelyClear=false
+  cells: EXACT=22 EXACT_EMPTY=30
+  box[0] EXACT @-27,68,20 [-27.0,68.5,20.0 -> -26.0,69.0,21.0]
+CROUCHING box=[-27.02592209380798,67.0,20.232213653622704 -> -26.425922069966123,68.5,20.832213677464562] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=22 EXACT_EMPTY=30
+
+
+=== 2026-09-19T21:51:52.811Z P4-C stairs lower step
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1955 throughSequence=12543147 profile=paper-26.2-124-collision observedPosition=-23.988836067309105,67.5,20.865228977880747
+STANDING box=[-24.288836079230034,67.5,20.565228965959818 -> -23.688836055388176,69.29999995231628,21.165228989801676] certainty=COMPLETE cells=72 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=14 EXACT_EMPTY=58
+CROUCHING box=[-24.288836079230034,67.5,20.565228965959818 -> -23.688836055388176,69.0,21.165228989801676] certainty=COMPLETE cells=72 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=14 EXACT_EMPTY=58
+
+
+=== 2026-09-19T22:00:21.053Z P4-D fence line pressed against
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=1970 throughSequence=13208647 profile=paper-26.2-124-collision observedPosition=-18.92500001192093,67.0,20.433692025984982
+STANDING box=[-19.225000023841858,67.0,20.133692014064053 -> -18.625,68.79999995231628,20.73369203790591] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+CROUCHING box=[-19.225000023841858,67.0,20.133692014064053 -> -18.625,68.5,20.73369203790591] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+
+
+=== 2026-09-19T22:02:15.562Z P4-E wall line pressed against
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2003 throughSequence=13349808 profile=paper-26.2-124-collision observedPosition=-14.987500011920929,67.0,20.42899641124714
+STANDING box=[-15.287500023841858,67.0,20.128996399326212 -> -14.6875,68.79999995231628,20.72899642316807] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+CROUCHING box=[-15.287500023841858,67.0,20.128996399326212 -> -14.6875,68.5,20.72899642316807] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+
+
+=== 2026-09-19T22:03:02.198Z P4-F fence gate closed pressed against
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2005 throughSequence=13408205 profile=paper-26.2-124-collision observedPosition=-10.925000011920929,67.0,20.60606917670812
+STANDING box=[-11.225000023841858,67.0,20.306069164787193 -> -10.625,68.79999995231628,20.90606918862905] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+CROUCHING box=[-11.225000023841858,67.0,20.306069164787193 -> -10.625,68.5,20.90606918862905] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=23 EXACT_EMPTY=29
+
+
+=== 2026-09-19T22:03:33.237Z P4-F fence gate open standing in the gate cell
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2007 throughSequence=13446224 profile=paper-26.2-124-collision observedPosition=-10.283532350392592,67.0,20.58484395518527
+STANDING box=[-10.583532362313521,67.0,20.28484394326434 -> -9.983532338471663,68.79999995231628,20.8848439671062] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=22 EXACT_EMPTY=30
+CROUCHING box=[-10.583532362313521,67.0,20.28484394326434 -> -9.983532338471663,68.5,20.8848439671062] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=22 EXACT_EMPTY=30
+
+
+=== 2026-09-19T22:09:54.403Z P4-G door closed pressed against
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2015 throughSequence=13956153 profile=paper-26.2-124-collision observedPosition=-7.300000011920929,67.0,20.540161136378863
+STANDING box=[-7.600000023841858,67.0,20.240161124457934 -> -7.0,68.79999995231628,20.840161148299792] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=26 EXACT_EMPTY=26
+CROUCHING box=[-7.600000023841858,67.0,20.240161124457934 -> -7.0,68.5,20.840161148299792] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=26 EXACT_EMPTY=26
+
+
+=== 2026-09-19T22:11:32.892Z P4-G door open standing in the doorway
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2017 throughSequence=14097988 profile=paper-26.2-124-collision observedPosition=-6.498469588511612,67.0,20.52876686317957
+STANDING box=[-6.798469600432541,67.0,20.22876685125864 -> -6.198469576590683,68.79999995231628,20.8287668751005] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=20 EXACT_EMPTY=17
+CROUCHING box=[-6.798469600432541,67.0,20.22876685125864 -> -6.198469576590683,68.5,20.8287668751005] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=20 EXACT_EMPTY=17
+
+
+=== 2026-09-19T22:40:39.182Z P4-H trapdoor closed standing on it
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2070 throughSequence=16357831 profile=paper-26.2-124-collision observedPosition=-2.3657370981004275,67.1875,20.458456925546866
+STANDING box=[-2.6657371100213565,67.1875,20.158456913625937 -> -2.0657370861794986,68.98749995231628,20.758456937467795] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=22
+CROUCHING box=[-2.6657371100213565,67.1875,20.158456913625937 -> -2.0657370861794986,68.6875,20.758456937467795] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=22
+
+
+=== 2026-09-19T22:42:58.281Z P4-H trapdoor open standing in its cell
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2083 throughSequence=16530828 profile=paper-26.2-124-collision observedPosition=-2.9594897878888022,68.0,20.659191153795238
+STANDING box=[-3.259489799809731,68.0,20.35919114187431 -> -2.6594897759678733,69.79999995231628,20.959191165716167] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=9 EXACT_EMPTY=43
+CROUCHING box=[-3.259489799809731,68.0,20.35919114187431 -> -2.6594897759678733,69.5,20.959191165716167] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=9 EXACT_EMPTY=43
+
+
+=== 2026-09-19T22:43:34.455Z P4-I ladder climbing halfway
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2114 throughSequence=16589041 profile=paper-26.2-124-collision observedPosition=0.512499988079071,67.22751587080853,20.455073094986556
+STANDING box=[0.2124999761581421,67.22751587080853,20.155073083065627 -> 0.8125,69.02751582312482,20.755073106907485] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=11 EXACT_EMPTY=26
+CROUCHING box=[0.2124999761581421,67.22751587080853,20.155073083065627 -> 0.8125,68.72751587080853,20.755073106907485] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=11 EXACT_EMPTY=17
+
+
+=== 2026-09-19T22:44:05.014Z P4-J carpet standing on it
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2117 throughSequence=16636022 profile=paper-26.2-124-collision observedPosition=5.459293837082432,67.0625,20.47121115112657
+STANDING box=[5.1592938251615035,67.0625,20.171211139205642 -> 5.759293849003361,68.86249995231628,20.7712111630475] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=22
+CROUCHING box=[5.1592938251615035,67.0625,20.171211139205642 -> 5.759293849003361,68.5625,20.7712111630475] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=22
+
+
+=== 2026-09-19T22:45:00.595Z P4-J snow layers=4 standing on it
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2120 throughSequence=16697067 profile=paper-26.2-124-collision observedPosition=7.191020335798505,67.375,20.42292520410963
+STANDING box=[6.8910203238775765,67.375,20.122925192188703 -> 7.491020347719434,69.17499995231628,20.72292521603056] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=11 EXACT_EMPTY=41
+CROUCHING box=[6.8910203238775765,67.375,20.122925192188703 -> 7.491020347719434,68.875,20.72292521603056] certainty=COMPLETE cells=40 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=11 EXACT_EMPTY=29
+
+
+=== 2026-09-19T22:45:24.837Z P4-J snow layers=7 standing on it
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2121 throughSequence=16725829 profile=paper-26.2-124-collision observedPosition=8.236707412399413,67.75,20.40175603088056
+STANDING box=[7.936707400478484,67.75,20.10175601895963 -> 8.536707424320342,69.54999995231628,20.701756042801488] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=10 EXACT_EMPTY=42
+CROUCHING box=[7.936707400478484,67.75,20.10175601895963 -> 8.536707424320342,69.25,20.701756042801488] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=10 EXACT_EMPTY=42
+
+
+=== 2026-09-19T22:45:45.552Z P4-K narrow 1x2 opening standing inside
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2122 throughSequence=16753861 profile=paper-26.2-124-collision observedPosition=11.42996185001411,67.0,20.47031030330425
+STANDING box=[11.12996183809318,67.0,20.17031029138332 -> 11.729961861935038,68.79999995231628,20.770310315225178] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=16 EXACT_EMPTY=21
+CROUCHING box=[11.12996183809318,67.0,20.17031029138332 -> 11.729961861935038,68.5,20.770310315225178] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=16 EXACT_EMPTY=21
+
+
+=== 2026-09-19T22:46:37.980Z P4-L fence pair across the chunk boundary x=15/16 pressed from west
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2245 throughSequence=16836369 profile=paper-26.2-124-collision observedPosition=15.074999988079071,67.0,20.562081688877555
+STANDING box=[14.774999976158142,67.0,20.262081676956626 -> 15.375,68.79999995231628,20.862081700798484] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=14 EXACT_EMPTY=38
+CROUCHING box=[14.774999976158142,67.0,20.262081676956626 -> 15.375,68.5,20.862081700798484] certainty=COMPLETE cells=52 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=14 EXACT_EMPTY=38
+
+
+=== 2026-09-20T00:20:36.252Z P4-L standing inside the cauldron
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2535 throughSequence=24915020 profile=paper-26.2-124-collision observedPosition=19.425571339169046,67.25,20.50632908567799
+STANDING box=[19.125571327248117,67.25,20.20632907375706 -> 19.725571351089975,69.04999995231628,20.80632909759892] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=31
+CROUCHING box=[19.125571327248117,67.25,20.20632907375706 -> 19.725571351089975,68.75,20.80632909759892] certainty=COMPLETE cells=28 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=22
+
+
+=== 2026-09-20T00:21:02.582Z P4-L standing on/in the hopper
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2537 throughSequence=24972185 profile=paper-26.2-124-collision observedPosition=21.452061651569284,67.6875,20.538995863786585
+STANDING box=[21.152061639648355,67.6875,20.238995851865656 -> 21.752061663490213,69.48749995231628,20.838995875707514] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=31
+CROUCHING box=[21.152061639648355,67.6875,20.238995851865656 -> 21.752061663490213,69.1875,20.838995875707514] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=6 EXACT_EMPTY=31
+
+
+=== 2026-09-20T00:22:08.323Z P4-M standing on scaffolding (context-dependent shape)
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2540 throughSequence=25055166 profile=paper-26.2-124-collision observedPosition=24.34721843051217,68.0,22.436066949017317
+STANDING box=[24.047218418591243,68.0,22.136066937096388 -> 24.6472184424331,69.79999995231628,22.736066960938246] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=5 EXACT_CONTEXT=1 EXACT_EMPTY=31
+CROUCHING box=[24.047218418591243,68.0,22.136066937096388 -> 24.6472184424331,69.5,22.736066960938246] certainty=COMPLETE cells=37 hits=0 boxes=0 definitelyObstructed=false definitelyClear=true
+  cells: EXACT=5 EXACT_CONTEXT=1 EXACT_EMPTY=31
+
+
+=== 2026-09-20T00:22:38.312Z P4-M standing on a shulker box (block-entity envelope)
+> papea2ac collision Emojiado
+collision sessionEpoch=1 worldEpoch=1 revision=2540 throughSequence=25093265 profile=paper-26.2-124-collision observedPosition=24.41193841352918,68.0,20.47918185542875
+STANDING box=[24.111938401608253,68.0,20.17918184350782 -> 24.71193842545011,69.79999995231628,20.779181867349678] certainty=INCOMPLETE cells=37 hits=1 boxes=1 definitelyObstructed=false definitelyClear=false
+  cells: EXACT=5 EXACT_EMPTY=31 DYNAMIC_BLOCK_ENTITY=1
+  box[0] possible DYNAMIC_BLOCK_ENTITY @24,67,20 [24.0,67.0,20.0 -> 25.0,68.5,21.0]
+CROUCHING box=[24.111938401608253,68.0,20.17918184350782 -> 24.71193842545011,69.5,20.779181867349678] certainty=INCOMPLETE cells=37 hits=1 boxes=1 definitelyObstructed=false definitelyClear=false
+  cells: EXACT=5 EXACT_EMPTY=31 DYNAMIC_BLOCK_ENTITY=1
+  box[0] possible DYNAMIC_BLOCK_ENTITY @24,67,20 [24.0,67.0,20.0 -> 25.0,68.5,21.0]
+
+
+=== 2026-09-20T00:23:51.536Z P4-N unknown-world live check: teleported with capture off, chunks never observed
+> papea2ac collision Emojiado
+collision sessionEpoch=2 worldEpoch=0 revision=0 throughSequence=46772 profile=paper-26.2-124-collision observedPosition=3005.609227251878,68.0,2993.675187549976
+STANDING box=[3005.309227239957,68.0,2993.375187538055 -> 3005.909227263799,69.79999995231628,2993.9751875618967] certainty=UNAVAILABLE(DIMENSION_UNKNOWN) cells=0 hits=0 boxes=0 definitelyObstructed=false definitelyClear=false
+  cells: none
+CROUCHING box=[3005.309227239957,68.0,2993.375187538055 -> 3005.909227263799,69.5,2993.9751875618967] certainty=UNAVAILABLE(DIMENSION_UNKNOWN) cells=0 hits=0 boxes=0 definitelyObstructed=false definitelyClear=false
+  cells: none
+
+> papea2ac world Emojiado
+world sessionEpoch=2 worldEpoch=0 dimension=UNKNOWN revision=0 lastSequence=46861
+chunks=0 complete=0 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=0
+privateBytes=0 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+
+=== 2026-09-20T00:24:36.155Z P4-END back at the course start (new session after capture re-arm)
+> papea2ac collision Emojiado
+collision sessionEpoch=2 worldEpoch=0 revision=426 throughSequence=107483 profile=paper-26.2-124-collision observedPosition=-37.5,67.0,20.5
+STANDING box=[-37.80000001192093,67.0,20.19999998807907 -> -37.19999998807907,68.79999995231628,20.80000001192093] certainty=UNAVAILABLE(DIMENSION_UNKNOWN) cells=0 hits=0 boxes=0 definitelyObstructed=false definitelyClear=false
+  cells: none
+CROUCHING box=[-37.80000001192093,67.0,20.19999998807907 -> -37.19999998807907,68.5,20.80000001192093] certainty=UNAVAILABLE(DIMENSION_UNKNOWN) cells=0 hits=0 boxes=0 definitelyObstructed=false definitelyClear=false
+  cells: none
+
+> papea2ac world Emojiado
+world sessionEpoch=2 worldEpoch=0 dimension=UNKNOWN revision=426 lastSequence=108217
+chunks=213 complete=213 partial=0 contentNotRetained=0 transportIncomplete=0 evicted=0 unloaded=213
+privateBytes=61344 historyBytes=0 historyEntries=0 historyEvictions=0 coverage=HEALTHY
+blockUpdates=0 last=none
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=25223536
+NORMALIZED=4
+PROVISIONAL=4
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=1
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=1 rejected=0 failed=0 rollingBytes=262144
+delaySamples=25223536 totalDelayNanos=384922487600
+delayP95UpperNanos=32767 delayP99UpperNanos=131071
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4038516/100663296 sharedSections=1860 sharedHits=17113 privateTier=786432 revisions=2968 historyEvictions=17045 evicted=0 unloaded=882 coverageBreaks=0 budgetRejections=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=56 complete=50 incomplete=2 unavailable=4 rejected=0 truncated=0 cells=2348 hits=3 cacheHits=2319 cacheMisses=29 unsupportedStates=0 contextRequired=0 dynamicCells=2 worldUnknownCells=0
+

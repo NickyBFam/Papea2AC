@@ -143,3 +143,45 @@ tasks.register<JavaExec>("inspectCapsule") {
     val filter = project.findProperty("filter")?.toString() ?: ""
     args(listOf(capsule) + filter.split(",").filter { it.isNotBlank() })
 }
+tasks.register<JavaExec>("extractCollisionShapes") {
+    description = "Phase 4 controlled extraction: regenerates the version-pinned vanilla collision shape table (anticheat-version resource) and its summary from the pinned Paper jar. Never runs in production; a changed table is a reviewed event."
+    dependsOn(tasks.named(nativeTest.classesTaskName))
+    classpath = nativeTest.runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CollisionShapeExtractMain")
+    args(rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/collision-shapes-paper-26.2-124.tsv").absolutePath,
+         rootProject.file("docs/phase4-artifacts/shape-table-summary.json").absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" } }
+}
+tasks.register<JavaExec>("collisionFixtures") {
+    description = "Regenerates the pinned Phase 4 collision fixture digests (docs/phase4-artifacts/collision-fixtures.json). A changed digest is a reviewed event."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CollisionFixtureMain")
+    args(rootProject.file("docs/phase4-artifacts/collision-fixtures.json").absolutePath)
+    doFirst { rootProject.file("docs/phase4-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("shapeCoverage") {
+    description = "Phase 4 shape coverage inventory (docs/phase4-artifacts/shape-coverage.tsv + .json): every block of the pinned profile classified; the ShapeCoverageInventoryTest gate asserts zero unexplained UNSUPPORTED."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ShapeCoverageMain")
+    args(rootProject.file("docs/phase4-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase4-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkCollision") {
+    description = "Phase 4 JMH kernels: shape lookup, broad phase, no-hit/many-hit/historical/pathological queries, clip. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    args("CollisionBenchmarks", "-prof", "gc", "-rf", "json", "-rff", rootProject.file("docs/phase4-artifacts/benchmarks.json").absolutePath)
+    doFirst { rootProject.file("docs/phase4-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("collisionMemoryHarness") {
+    description = "Empirical (forced-GC heap diff) Phase 4 collision memory estimate: shape table, resolver cache, engine, per-query retention. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CollisionMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase4-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase4-artifacts").mkdirs() }
+}

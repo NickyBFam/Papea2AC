@@ -1,0 +1,74 @@
+# Phase 4 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes, covering the complete Phase 4
+# implementation baseline set: collision production sources, model/version additions, the pinned collision shape
+# table resource, the read-only world forward addition (WorldView), core wiring, platform command/display changes,
+# tests, native differential tests and the controlled extraction tool, benchmarks, memory harness, Gradle task
+# changes, the ArchitectureTest change, the Phase 4 report, verification/coverage/native/fixture artifacts, the
+# real-client evidence log, and PHASE_4_HUMAN_APPROVAL.md.
+# Parent commit: d9d50661c899f6c852247472d7ffde15dca3e78a
+# Phase 3 implementation baseline (unchanged in history): 92159ec5ef8524c5953ecaa22f663c1f556d52ac
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Generated: 2026-09-20
+# File count: 54
+# Format: <sha256>  <path>
+# Normalization: each hash is SHA-256 over the COMMITTED GIT BLOB CONTENT of the staged file
+# (`git cat-file blob :<path>`), i.e. after .gitattributes normalization (LF for all of these files).
+# This manifest file is excluded from its own list.
+aa02540d523115e205984955c0874df49740445ad1ce5af786de9f5e2c1d7b02  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/AxisClip.java
+f9cb9a4dabb77ae6bbf43b1866c10e55a44b5abdbf42d20674de7bb7051b01a8  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/BlockShapeResolver.java
+b03bc9717e2162075a142750382bc7de08aa949cacc578ac2268a10d55c555ad  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/CellStatus.java
+e7dc27a73079a4b099b7fd3888af0463d1347f8cbf5372ac9f573d612f6159ff  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/CollisionEngine.java
+37c33b3581c15ea2c72460b39b4b9eff424039931686fd696237b8ff881454e9  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/CollisionMetrics.java
+f9ab2fd729ab1ecbb8fdeb00c98781eedff61c9ee3a3f09b335e5764ccb5bb1b  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/CollisionResult.java
+7d729633d2d879d138412fbb8c448795225387c83f2bd3a4d32700685be36a84  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/CollisionShape.java
+7860fc8c264e90c89026f1589bc796a301b59919490c8a58d56486721bfa9a68  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/PlayerBox.java
+a2dd107a69f24975dbe163c1e6f7b43b26ada02076580322ca8282193db48fa9  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/ResolvedShape.java
+518408880729bfcca4338610a901553595ab99733d5c8ac44b6279d6184efe4d  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/ShapeContext.java
+63c8cc619495d15246016054c36d4344865038451e09f1aef83e8f6cbc8b26d0  anticheat-collision/src/main/java/me/nicolas/papea2ac/collision/VoxelJoin.java
+e12da0f2486ee998ba245b7ca59bdb7964a7e1764f28615f13cd25d0ebf8ff3a  anticheat-core/src/main/java/me/nicolas/papea2ac/core/CollisionEngineStatus.java
+6fccf9b5b3d8c9c46150e20f7c7414b5a4b4bb2a7a8b270eee737dc881a6c1fc  anticheat-core/src/main/java/me/nicolas/papea2ac/core/CollisionStatus.java
+855ac06fcd29041dd469ca008674ee3bc6d04e31a9729d5fdb1a6e81e4c94b78  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+3f299011f315c1d81e317b0387e697bf47b2cfdbd367a00ae651551d355d3382  anticheat-model/src/main/java/me/nicolas/papea2ac/model/Aabb.java
+6fc67c6ff9893a77e309efe06be2db4b9ee5c09f58dab81038ef7c7f40760b7a  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+c698e0f445124a27297e3da904e15a55a01f333755eb194570e98a7330043d23  anticheat-testing/build.gradle.kts
+c9dfec8d4d65b171fa37e298e061219ca92ade1ea1a984cd3d67ec56b314402a  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/CollisionBenchmarks.java
+9baa719d734f99db4aeb91712c35946031c6d73cdc7c31daddb10905bae6e474  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/CollisionShapeExtractMain.java
+033c37b5325a09f0d8b25fa8805e7bb9f503b999d69797ad6458bdf12388165e  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeCollisionKernelTest.java
+5504137c3843fb777e9ad2a214d464e25549868c41dc2030f47056e12c56bbfa  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeCollisionShapeTest.java
+7061f4a14512bf3477e22db9d96f8d6c0979f373556757fad0159fa38565ef7f  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeCollisionSupport.java
+2e59a650028a758c0554ac149bc5d1093c3a45b2bcd2ee31ff9e3573d1c507cf  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AabbTest.java
+d8dd65044f18ffe53a10e6f3c59308a7baf347465f51d18b459a04bbba6b6c1f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+a694199f8e277e13734a47c1e1ee7bdf4842eba5b0ef57e35ff44ab7b604ca8f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AxisClipAndPlayerBoxTest.java
+dccce1227054fa3980aaa9befe807ab33ac8c85ab8c46c9d3ffbf431b722ed05  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/BlockShapeResolverTest.java
+80c97bc67d9d65322384e3cfd5c85e4e0b6c400f9347132ff2ec6ad61a2ebbda  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/BlockShapeTableTest.java
+4a341edc2b497f9514b86818c2c80516fa6c4769155fb37d3f0ed87cc9804107  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionEngineIntegrationTest.java
+4ea554af8275c423fdd067fcf5b93eb55176011e2cb1fc17ca3ee8e4323e9a0f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionFixtureDeterminismTest.java
+ddf9b2495bbe0b431387ef8637befe89cb79a69766edf1cd45696957fadcf09d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionFixtureMain.java
+008f9f37b663033917387f2aa4479ac09af5e554d5ce7cc92c2a0de67e003c8b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionFixtures.java
+b88d4a36d6a705ee9e20f9ef8f75422b626d11ec325f3cf218e1bf8a3f192a1c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionMemoryMain.java
+f1f5225f4cc08d1734fb7169ce6b5a96f2d09398cf838666c9f3cbd27e01f2f9  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionPropertyTest.java
+48a44866d045682a6f0cbd094da69f9b544c386e86f4eeef78f8140683bba868  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionQueryTest.java
+0403c6c834fc917b045dbbe6555d29012781911514d9c852862bb7d4e808f44e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/CollisionTestSupport.java
+4131c853d08d9363b80b605691762bb724b690142fb5ab9d19a5d8407b69480d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ShapeCoverageInventoryTest.java
+2ae261f270206454be1a9666eee8965e62f0f134865a35fe85bb083e9fcae97f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ShapeCoverageMain.java
+a9d092b70c915dbace6b6ef8fcfe699ca56178db7463248a2d7037c02391540d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/WorldViewTest.java
+e27bb4cfa5ecc76f8a1795cb2c44b48c80fef2c7e9bfc53b323cbc1e48745b4c  anticheat-version/src/main/java/me/nicolas/papea2ac/version/BlockShapeTable.java
+481c3b162bd0f82ade1cf1f1af17fe24798974112914c0fcda3459184c5e3230  anticheat-version/src/main/java/me/nicolas/papea2ac/version/CollisionProfile.java
+0c3e2b3648f9e8fdfd406a5cde6b060677926df2a99729ab175e0befc535ba3b  anticheat-version/src/main/resources/me/nicolas/papea2ac/version/collision-shapes-paper-26.2-124.tsv
+5e30fbbbb592329041a3f4c50074e42c12f59839d70f556402f3c5ece3bd05a5  anticheat-world/src/main/java/me/nicolas/papea2ac/world/ObserverWorld.java
+5f6e7928ba275819a66879d223b21a34475ef0e26f9b4c715b87a351eb8693f4  anticheat-world/src/main/java/me/nicolas/papea2ac/world/WorldView.java
+1490c00044091a22925d419fb9c92ec672e1e2f4a1b524c64fb51e849e80f13a  docs/PHASE_4_HUMAN_APPROVAL.md
+afe8aaceb132b6d8addc33d6887003b2556d4c2da3159f764b0ae1aaefdc59e6  docs/PHASE_4_IMPLEMENTATION.md
+0d12e83c3f0e8fa9598a234879f8dbd093062e21f20a969ca951a9f9eaf70719  docs/phase4-artifacts/benchmarks.json
+4bd9ea030f189f54d5896d2c50408c9bc8945c3a617ad492fa4b48847f300186  docs/phase4-artifacts/collision-fixtures.json
+a46defcc928307c7eb2366124934454c3f7b3f39faea86fcf1c8bc703eb79339  docs/phase4-artifacts/memory-results.json
+893778f78327aa3ddfec26221871443be4c264a42b86a002336cb1c4e20f711c  docs/phase4-artifacts/native-differential-results.json
+bf3611da04e7f7b49f3a621866eccb8794fbfe9bb21d13ce523fa0f51e402969  docs/phase4-artifacts/real-client-evidence.log
+96ed97563c93292c7b31528284cb8a99a5a42a6aa68afbe9a83f677534a7449e  docs/phase4-artifacts/shape-coverage.json
+fadf568f4e1785adfc84d7bc9b754684a4d7cd1953ae13e4c0f2357b8919564b  docs/phase4-artifacts/shape-coverage.tsv
+782921a5547369dbda24d230e1e914daa8ee4562aca4930a0dce017a68daa45b  docs/phase4-artifacts/shape-table-summary.json
+09ddf2e748e088ef29805e32636542501bb1cc7de4c596563690c65f5ad2fe93  docs/phase4-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 54 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# 42e70b5b840dd4d9585cdd2f44763aeca8634bd5fd9636629564dd00a44fcd6c

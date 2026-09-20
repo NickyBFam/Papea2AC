@@ -1,0 +1,207 @@
+{
+  "phase": "4 - Collision Engine",
+  "status": "HUMAN_APPROVED_FOR_BASELINE",
+  "date": "2026-09-20",
+  "head": "d9d50661c899f6c852247472d7ffde15dca3e78a",
+  "phase3Baseline": "92159ec5ef8524c5953ecaa22f663c1f556d52ac",
+  "phase3ManifestComposite": "437de69d8e4be2deb5d98552677658c95d190032e60c95e37eb1ef66e871ab6a",
+  "build": "PASS",
+  "testCounts": {
+    "test": 416,
+    "testClasses": 44,
+    "nativeTest": 124,
+    "nativeTestClasses": 18,
+    "architecture": "included in test (9 tests)",
+    "uniqueTotal": 540,
+    "phase3": {
+      "test": 353,
+      "nativeTest": 115,
+      "uniqueTotal": 468
+    },
+    "phase4TestClasses": {
+      "AabbTest": 4,
+      "BlockShapeTableTest": 5,
+      "BlockShapeResolverTest": 13,
+      "CollisionQueryTest": 19,
+      "AxisClipAndPlayerBoxTest": 5,
+      "WorldViewTest": 2,
+      "CollisionPropertyTest": 6,
+      "CollisionFixtureDeterminismTest": 3,
+      "ShapeCoverageInventoryTest": 2,
+      "CollisionEngineIntegrationTest": 3,
+      "ArchitectureTest(+1)": 1,
+      "NativeCollisionShapeTest(nativeTest)": 6,
+      "NativeCollisionKernelTest(nativeTest)": 3
+    },
+    "otherVerificationTasks": [
+      "verifyMandatoryCoverage",
+      "replayConformance",
+      "pluginJar",
+      "collisionFixtures",
+      "shapeCoverage",
+      "benchmarkCollision",
+      "collisionMemoryHarness",
+      "extractCollisionShapes"
+    ]
+  },
+  "phase1SemanticCoverage": "127/127",
+  "phase1MandatoryGaps": 0,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "schema": "2 current, 1 readable (unchanged)",
+  "phase1Regression": "NONE (nativeTest 124/124 incl. 115 Phase 1-3 tests; replayConformance 4/4 pinned digests reproduced)",
+  "phase2Regression": "NONE (timeline suites unchanged and green; coherence test extended with geometry)",
+  "phase3Regression": "NONE (world suites unchanged and green; WorldViewTest proves the forward addition is equivalent to blockAt/blockAtSequence; UNKNOWN != AIR, UNLOADED != EVICTED, CONTENT_NOT_RETAINED, epochs and budgets re-asserted through the collision result)",
+  "collisionOwnerModule": "anticheat-collision",
+  "inputModules": [
+    "anticheat-model",
+    "anticheat-version",
+    "anticheat-world"
+  ],
+  "outputModules": [
+    "anticheat-core (composition, CollisionStatus/CollisionEngineStatus)",
+    "anticheat-platform-paper (display only, no collision edge)"
+  ],
+  "shapeTable": {
+    "resource": "anticheat-version/src/main/resources/me/nicolas/papea2ac/version/collision-shapes-paper-26.2-124.tsv",
+    "sha256": "0c3e2b3648f9e8fdfd406a5cde6b060677926df2a99729ab175e0befc535ba3b",
+    "bytes": 208874,
+    "blocks": 1196,
+    "states": 32366,
+    "uniqueShapes": 325,
+    "deduplicationRatio": 99.6,
+    "classification": {
+      "EMPTY_NON_COLLIDING": 242,
+      "FULL_CUBE": 427,
+      "EXACT": 121,
+      "STATE_DERIVED_EXACT": 383,
+      "NEIGHBOR_DERIVED_EXACT": 0,
+      "POSITION_DERIVED_EXACT": 3,
+      "CONTEXT_DERIVED_EXACT": 1,
+      "CONSERVATIVE_UNCERTAIN_BY_SPEC": 19,
+      "UNSUPPORTED": 0
+    }
+  },
+  "nativeDifferential": {
+    "status": "PASS",
+    "results": "docs/phase4-artifacts/native-differential-results.json",
+    "registryStatesCompared": 32366,
+    "clipCases": 58320,
+    "candidateAcceptanceCases": 12960,
+    "scaffoldingContextCases": 3072,
+    "offsetPositionCases": 3120,
+    "avatarPoseCases": 1400,
+    "oracleNote": "vanilla client algorithms (collideX, private merger join) - Paper's Moonrise collide diverged from the client in 19 of 57060 sampled cases; Papea2AC matches the client bit for bit"
+  },
+  "memory": {
+    "artifact": "docs/phase4-artifacts/memory-results.json",
+    "parsedTableBytes": 1028576,
+    "internedShapesBytes": 125608,
+    "emptyEngineBytes": 650712,
+    "engineWithEveryRegistryStateResolvedBytes": 4871160,
+    "resolverCacheEstimateBytes": 2144504,
+    "retainedBytesPer1000Results": 260040,
+    "partition": "32 MiB shape-cache partition; worst case < 6 MB; nothing per player"
+  },
+  "jmh": {
+    "artifact": "docs/phase4-artifacts/benchmarks.json",
+    "recipe": "JMH 1.37, Temurin 25, 3 forks, 5x1s warmup, 10x1s measurement, -prof gc",
+    "fullCubeLookupNs": 6.2,
+    "complexShapeLookupNs": 6.2,
+    "singleSectionBroadPhaseNs": 347.5,
+    "multiSectionBroadPhaseNs": 907.2,
+    "noHitQueryNs": 308,
+    "manyHitQueryNs": 459.5,
+    "historicalQueryNs": 1687.6,
+    "historicalViewOnlyNs": 1256.8,
+    "pathologicalFullBudgetNs": 132289.5,
+    "clipManyHitsNs": 971.4,
+    "voxelJoinNs": 63.3,
+    "note": "run 1 (2026-09-19, quiet host) values below are the documented measurement; benchmarks.json holds run 2 (2026-09-20 final pre-baseline re-run, noisier host, 1.2-1.7x slower, identical allocation profile) - see PHASE_4_IMPLEMENTATION.md section 13",
+    "run2": {
+      "fullCubeLookupNs": 6.9,
+      "complexShapeLookupNs": 6.8,
+      "singleSectionBroadPhaseNs": 587.8,
+      "multiSectionBroadPhaseNs": 1091.6,
+      "noHitQueryNs": 409.2,
+      "manyHitQueryNs": 670.4,
+      "historicalQueryNs": 2628.3,
+      "historicalViewOnlyNs": 2016.7,
+      "pathologicalFullBudgetNs": 183951.7,
+      "clipManyHitsNs": 1673.8,
+      "voxelJoinNs": 110.2
+    }
+  },
+  "fixtures": {
+    "artifact": "docs/phase4-artifacts/collision-fixtures.json",
+    "count": 8,
+    "determinism": "PASS"
+  },
+  "diagnosticCommand": "IMPLEMENTED: /papea2ac collision <player> (two explicit poses, certainty, counts, <= 8 boxes per pose) + collision line in /papea2ac status",
+  "realClientCollisionQualification": {
+    "status": "PASS",
+    "date": "2026-09-19/20",
+    "client": "Minecraft Java 26.2 (owner, Emojiado)",
+    "server": "Paper 26.2 build 124, 127.0.0.1:25576",
+    "evidence": "docs/phase4-artifacts/real-client-evidence.log (27 samples, 0 secret matches)",
+    "stations": [
+      "join",
+      "full-block corridor",
+      "bottom slab",
+      "top slab standing (blocked)",
+      "top slab crouching (pose contract)",
+      "stairs",
+      "fence",
+      "wall",
+      "gate closed",
+      "gate open",
+      "door closed",
+      "door open",
+      "trapdoor closed",
+      "trapdoor open",
+      "ladder",
+      "carpet",
+      "snow 4",
+      "snow 7",
+      "narrow opening",
+      "chunk-boundary fence pair",
+      "cauldron",
+      "hopper",
+      "scaffolding (context)",
+      "shulker box (envelope)",
+      "unknown-world live check",
+      "epoch tracking after death"
+    ],
+    "unknownWorldLiveCheck": "UNAVAILABLE(DIMENSION_UNKNOWN), definitelyClear=false (session re-admitted mid-connection); UNKNOWN_CHUNK form GUI-free verified",
+    "notExercisedLive": [
+      "dimension transition (respawn epoch change exercised instead)"
+    ],
+    "defectsFound": 0
+  },
+  "paperSmoke": {
+    "log": ".phase1-runtime/qualification-run-phase4.log",
+    "startupSeconds": 5.01,
+    "exceptions": 0,
+    "cleanDisableWithPlayerConnected": true
+  },
+  "gates": {
+    "gitDiffCheck": "clean",
+    "todoFixmeHack": 0,
+    "architectureTest": "9/9",
+    "shapeCoverageGate": "PASS (0 unexplained UNSUPPORTED)",
+    "fixtureDeterminism": "PASS"
+  },
+  "environmentalNote": "ENVIRONMENTAL / NON-REPRODUCED FLAKE: one JUnit @TempDir deletion failure (Windows file-handle timing) in the Phase 2 LiveRecordingTest on one clean run on 2026-09-19; the immediate re-run and the final pre-baseline clean run (2026-09-20) passed 416/416",
+  "phase5Implementation": "NONE",
+  "knownLimitations": [
+    "powder snow entity-attribute branches specified from bytecode, not natively differential-tested (no Level-backed entity in the harness)",
+    "block-entity shapes (shulker lid, moving piston) are envelopes, never exact",
+    "context-dependent cells need a ShapeContext; without it an explicit envelope",
+    "world border, entity colliders, fluid occupancy, ray geometry not in Phase 4",
+    "historical view indexes history once per view (O(history))",
+    "voxel-join emulation allocates small index arrays per non-cube candidate",
+    "an unknown neighbour cell makes a query INCOMPLETE even if only a large shape could reach in"
+  ],
+  "humanApproval": "docs/PHASE_4_HUMAN_APPROVAL.md",
+  "manifest": "docs/phase4-artifacts/baseline-manifest.sha256"
+}

@@ -135,8 +135,25 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             sender.sendMessage("blockUpdates="+w.blockUpdates()+" last="+(w.lastBlockUpdate().isEmpty()?"none":w.lastBlockUpdate()));
             for(int i=0;i<w.recentBlockUpdates().size();i++)sender.sendMessage("  recent["+i+"] "+w.recentBlockUpdates().get(i));// bounded: at most 8 lines
             return true;
+        }else if(args.length==2&&args[0].equalsIgnoreCase("collision")){
+            // Bounded geometry readout (Phase 4 §54): the observed player box (two explicit poses) against the PUBLISHED observer-world snapshot -
+            // certainty, coverage counts and at most 8 boxes per pose. Geometry only: nothing here judges whether a movement was valid.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var status=engine.collisionStatus(player.getUniqueId());
+            if(status.isEmpty()){sender.sendMessage("No admitted session for that player.");return true;}
+            var c=status.get();
+            sender.sendMessage("collision sessionEpoch="+c.sessionEpoch()+" worldEpoch="+c.worldEpoch()+" revision="+c.worldRevision()+" throughSequence="+c.worldSequence()+" profile="+c.profile()
+                +" observedPosition="+(c.hasPosition()?c.x()+","+c.y()+","+c.z():"none"));
+            for(var p:c.poses()){
+                sender.sendMessage(p.pose()+" box=["+p.minX()+","+p.minY()+","+p.minZ()+" -> "+p.maxX()+","+p.maxY()+","+p.maxZ()+"] certainty="+p.certainty()+(p.unavailableReason().isEmpty()?"":"("+p.unavailableReason()+")")
+                    +" cells="+p.cellsVisited()+" hits="+p.hits()+" boxes="+p.boxes()+(p.truncated()?" TRUNCATED":"")+" definitelyObstructed="+p.definitelyObstructed()+" definitelyClear="+p.definitelyClear());
+                sender.sendMessage("  cells: "+(p.statusCounts().isEmpty()?"none":p.statusCounts()));
+                for(int i=0;i<p.firstBoxes().size();i++)sender.sendMessage("  box["+i+"] "+p.firstBoxes().get(i));// bounded: at most 8 lines per pose
+            }
+            return true;
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());
@@ -156,6 +173,10 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         sender.sendMessage("world observers="+world.observerWorlds()+" chunks="+world.chunks()+" complete="+world.completeChunks()+" partial="+world.partialChunks()+" sections="+world.sections()
             +" sharedBytes="+world.sharedBytes()+"/"+world.sharedLimit()+" sharedSections="+world.sharedSections()+" sharedHits="+world.sharedHits()+" privateTier="+world.privateLimit()
             +" revisions="+world.revisions()+" historyEvictions="+world.historyEvictions()+" evicted="+world.evictedChunks()+" unloaded="+world.unloadedChunks()+" coverageBreaks="+world.coverageBreaks()+" budgetRejections="+world.budgetRejections());
+        var col=engine.collisionEngineStatus();
+        sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
+            +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()
+            +" unsupportedStates="+col.unsupportedStates()+" contextRequired="+col.contextRequired()+" dynamicCells="+col.dynamicCells()+" worldUnknownCells="+col.worldUnknownCells());
         return true;
     }
     @EventHandler public void join(PlayerJoinEvent event){attach(event.getPlayer());}

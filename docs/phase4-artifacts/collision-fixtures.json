@@ -1,0 +1,15 @@
+{
+  "canonicalization": "SHA-256 over the canonical rendering of every query result of the fixture (certainty, provenance, status counts, hits with world boxes and definite flag); canonical block-state keys, never run-local ids",
+  "profile": "paper-26.2-124-collision",
+  "tableSha256": "0c3e2b3648f9e8fdfd406a5cde6b060677926df2a99729ab175e0befc535ba3b",
+  "fixtures": {
+    "simpleFullCube": {"queries": 3, "complete": 3, "incomplete": 0, "unavailable": 0, "rejected": 0, "hits": 5, "digest": "64fbe060bb1741e36b867fd16e1f05d274d3993a700254503b526f7686c93d02"},
+    "complexShapes": {"queries": 4, "complete": 4, "incomplete": 0, "unavailable": 0, "rejected": 0, "hits": 52, "digest": "1a36d1fdf8ef83e0c871217f603f082e58c74a6b9234399815edcba3d3108756"},
+    "contextAndOffsetShapes": {"queries": 3, "complete": 0, "incomplete": 3, "unavailable": 0, "rejected": 0, "hits": 16, "digest": "ce4628fd2b5ec08a61756f4b941aa92ebe6fb3cbe49d99721d874c9d4528de8a"},
+    "unknownWorld": {"queries": 2, "complete": 0, "incomplete": 2, "unavailable": 0, "rejected": 0, "hits": 1, "digest": "5c40bf06ae04b9f6c298741e9247bcbff6363c10d3140d288199dd7f54dace38"},
+    "coverageStates": {"queries": 4, "complete": 0, "incomplete": 4, "unavailable": 0, "rejected": 0, "hits": 0, "digest": "699a0643c1348e5027afc32b130b76cd2d70d7e01959af030aaf15b35a0879df"},
+    "historicalState": {"queries": 4, "complete": 3, "incomplete": 0, "unavailable": 1, "rejected": 0, "hits": 1, "digest": "3228ba2052db136c614adc3092aecdcd78f7e858bf624f92f3107f92af98e70d"},
+    "worldEpochMismatch": {"queries": 2, "complete": 0, "incomplete": 1, "unavailable": 1, "rejected": 0, "hits": 0, "digest": "fb8b864d3f97daa4ab87811568d067d57fa29039cf7da6750ebda3358422b689"},
+    "boundsAndRejection": {"queries": 3, "complete": 1, "incomplete": 0, "unavailable": 0, "rejected": 2, "hits": 0, "digest": "4451180cd825141bef182ebdbe1eaa0fb5d4844193ebc102179af984480c74a9"}
+  }
+}

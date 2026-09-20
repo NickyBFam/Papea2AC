@@ -427,6 +427,90 @@ public final class ObserverWorld {
         return lookupCurrent(pos, null, tomb);
     }
 
+    // ------------------------------------------------------------------ section-granular views (Phase 4 forward addition; read-only, same status vocabulary)
+
+    /** Section-level twin of {@link #lookupInChunk}: the same branching, one level up (a null section of a CONTENT_NOT_RETAINED chunk is CONTENT_NOT_RETAINED, otherwise UNKNOWN_SECTION). */
+    private static WorldView.SectionLookup sectionInChunk(ChunkSnapshot chunk, int sectionIndex) {
+        if (chunk.coverage() == WorldCoverage.TRANSPORT_INCOMPLETE) return WorldView.SectionLookup.miss(BlockLookup.Status.TRANSPORT_INCOMPLETE, chunk.coverage());
+        var section = chunk.section(sectionIndex);
+        if (section == null) return WorldView.SectionLookup.miss(chunk.coverage() == WorldCoverage.CONTENT_NOT_RETAINED ? BlockLookup.Status.CONTENT_NOT_RETAINED : BlockLookup.Status.UNKNOWN_SECTION, chunk.coverage());
+        return new WorldView.SectionLookup(BlockLookup.Status.KNOWN, section, chunk.coverage(), chunk.revision());
+    }
+    private static WorldView.SectionLookup sectionMissing(Tombstone tomb) {
+        return tomb == null ? WorldView.SectionLookup.miss(BlockLookup.Status.UNKNOWN_CHUNK, WorldCoverage.UNKNOWN)
+            : WorldView.SectionLookup.miss(tomb.reason() == WorldCoverage.UNLOADED ? BlockLookup.Status.UNLOADED : BlockLookup.Status.EVICTED, tomb.reason());
+    }
+
+    /** Owner thread: a view of the state after the last apply. It reads the live maps, so it is valid only until the next apply()/observeSequence() on the owner thread (which is the only mutator). */
+    public WorldView currentView() {
+        assertOwner();
+        final long epoch = worldEpoch, rev = revision, seq = lastSequence; final DimensionProfile dim = dimension;
+        return new WorldView() {
+            @Override public BlockLookup.Status availability() { return dim == null ? BlockLookup.Status.DIMENSION_UNKNOWN : BlockLookup.Status.KNOWN; }
+            @Override public long worldEpoch() { return epoch; }
+            @Override public DimensionProfile dimension() { return dim; }
+            @Override public long revision() { return rev; }
+            @Override public long sequence() { return seq; }
+            @Override public BlockStateDictionary dictionary() { return dictionary; }
+            @Override public SectionLookup section(int chunkX, int chunkZ, int sectionIndex) {
+                assertOwner();
+                if (dim == null) return SectionLookup.miss(BlockLookup.Status.DIMENSION_UNKNOWN, WorldCoverage.UNKNOWN);
+                var ck = new ChunkKey(chunkX, chunkZ); var chunk = chunks.get(ck);
+                if (sectionIndex < 0 || sectionIndex >= dim.sectionCount()) return SectionLookup.miss(BlockLookup.Status.OUTSIDE_DIMENSION, chunk != null ? chunk.coverage() : WorldCoverage.UNKNOWN); // same coverage detail as blockAt
+                return chunk != null ? sectionInChunk(chunk, sectionIndex) : sectionMissing(tombstones.get(ck));
+            }
+        };
+    }
+
+    /**
+     * Owner thread: the world as this observer knew it right after processing {@code sequence} - the section-granular
+     * form of {@link #blockAtSequence} with identical semantics (FUTURE_SEQUENCE / WRONG_WORLD_EPOCH / HISTORY_NOT_RETAINED
+     * / UNKNOWN_CHUNK for a chunk that did not exist yet ...). The history is indexed ONCE per view (oldest revision
+     * committed after {@code sequence}, per section), so a consumer touching several sections pays one scan, not one
+     * scan per cell. Valid until the next apply()/observeSequence().
+     */
+    public WorldView viewAtSequence(long sequence) {
+        assertOwner();
+        final BlockLookup.Status availability = sequence > lastSequence ? BlockLookup.Status.FUTURE_SEQUENCE
+            : (sequence < epochStartSequence || (firstSequence >= 0 && sequence < firstSequence)) ? BlockLookup.Status.WRONG_WORLD_EPOCH
+            : dimension == null ? BlockLookup.Status.DIMENSION_UNKNOWN : BlockLookup.Status.KNOWN;
+        final HashMap<Long, SectionRevision> candidates = new HashMap<>();
+        if (availability == BlockLookup.Status.KNOWN) for (var r : history) if (r.sequence() > sequence) {
+            long k = (((long) r.chunk().x() & 0x3FFFFFFL) << 38) | (((long) r.chunk().z() & 0x3FFFFFFL) << 12) | (r.sectionIndex() & 0xFFF); // BlockPos-style packing: 26+26+12 bits
+            var existing = candidates.get(k); if (existing == null || r.sequence() < existing.sequence()) candidates.put(k, r);
+        }
+        final long epoch = worldEpoch, seq = sequence, evictedMax = historyEvictedMaxSequence; final DimensionProfile dim = dimension;
+        // revision provenance of a historical view: the newest revision at or before the sequence is not tracked per se; report the current revision as the upper bound the caller can pin
+        final long rev = revision;
+        return new WorldView() {
+            @Override public BlockLookup.Status availability() { return availability; }
+            @Override public long worldEpoch() { return epoch; }
+            @Override public DimensionProfile dimension() { return dim; }
+            @Override public long revision() { return rev; }
+            @Override public long sequence() { return seq; }
+            @Override public BlockStateDictionary dictionary() { return dictionary; }
+            @Override public SectionLookup section(int chunkX, int chunkZ, int sectionIndex) {
+                assertOwner();
+                if (availability != BlockLookup.Status.KNOWN) return SectionLookup.miss(availability, WorldCoverage.UNKNOWN);
+                if (sectionIndex < 0 || sectionIndex >= dim.sectionCount()) return SectionLookup.miss(BlockLookup.Status.OUTSIDE_DIMENSION, WorldCoverage.UNKNOWN);
+                var ck = new ChunkKey(chunkX, chunkZ);
+                var candidate = candidates.get((((long) chunkX & 0x3FFFFFFL) << 38) | (((long) chunkZ & 0x3FFFFFFL) << 12) | (sectionIndex & 0xFFF));
+                var chunk = chunks.get(ck); var tomb = tombstones.get(ck);
+                long created = chunk != null ? chunk.createdSequence() : tomb != null ? tomb.createdSequence() : Long.MAX_VALUE;
+                if (created > seq) return SectionLookup.miss(BlockLookup.Status.UNKNOWN_CHUNK, WorldCoverage.UNKNOWN);
+                if (candidate != null) {
+                    if (evictedMax > seq && evictedMax < candidate.sequence()) return SectionLookup.miss(BlockLookup.Status.HISTORY_NOT_RETAINED, WorldCoverage.UNKNOWN);
+                    if (candidate.before() == null) return SectionLookup.miss(BlockLookup.Status.UNKNOWN_SECTION, WorldCoverage.PARTIAL);
+                    return new SectionLookup(BlockLookup.Status.KNOWN, candidate.before(), WorldCoverage.PARTIAL, candidate.revision() - 1);
+                }
+                if (evictedMax > seq) return SectionLookup.miss(BlockLookup.Status.HISTORY_NOT_RETAINED, WorldCoverage.UNKNOWN);
+                if (chunk != null) return sectionInChunk(chunk, sectionIndex);
+                if (tomb != null && tomb.sequence() > seq) return SectionLookup.miss(BlockLookup.Status.HISTORY_NOT_RETAINED, tomb.reason());
+                return sectionMissing(tomb);
+            }
+        };
+    }
+
     // ------------------------------------------------------------------ replay projection hooks (WorldReplayMapper only)
 
     Map<ChunkKey, ChunkSnapshot> chunksView() { assertOwner(); return Collections.unmodifiableMap(chunks); }
@@ -467,6 +551,24 @@ public final class ObserverWorld {
             if (section == null) return BlockLookup.miss(chunk.coverage() == WorldCoverage.CONTENT_NOT_RETAINED ? BlockLookup.Status.CONTENT_NOT_RETAINED : BlockLookup.Status.UNKNOWN_SECTION, chunk.coverage());
             int id = section.stateIdAt(pos.sectionIndex());
             return id < 0 ? BlockLookup.miss(BlockLookup.Status.UNKNOWN_CELL, chunk.coverage()) : BlockLookup.known(id, dictionary.key(id), chunk.revision(), chunk.coverage());
+        }
+        /** Cross-thread section-granular view of this immutable snapshot (no tombstone detail: an absent chunk is UNKNOWN_CHUNK here, exactly as {@link #blockAt}). */
+        public WorldView view(BlockStateDictionary dictionary) {
+            Objects.requireNonNull(dictionary);
+            return new WorldView() {
+                @Override public BlockLookup.Status availability() { return dimension == null ? BlockLookup.Status.DIMENSION_UNKNOWN : BlockLookup.Status.KNOWN; }
+                @Override public long worldEpoch() { return worldEpoch; }
+                @Override public DimensionProfile dimension() { return dimension; }
+                @Override public long revision() { return revision; }
+                @Override public long sequence() { return lastSequence; }
+                @Override public BlockStateDictionary dictionary() { return dictionary; }
+                @Override public SectionLookup section(int chunkX, int chunkZ, int sectionIndex) {
+                    if (dimension == null) return SectionLookup.miss(BlockLookup.Status.DIMENSION_UNKNOWN, WorldCoverage.UNKNOWN);
+                    if (sectionIndex < 0 || sectionIndex >= dimension.sectionCount()) return SectionLookup.miss(BlockLookup.Status.OUTSIDE_DIMENSION, WorldCoverage.UNKNOWN);
+                    var chunk = chunks.get(new ChunkKey(chunkX, chunkZ));
+                    return chunk == null ? SectionLookup.miss(BlockLookup.Status.UNKNOWN_CHUNK, WorldCoverage.UNKNOWN) : sectionInChunk(chunk, sectionIndex);
+                }
+            };
         }
     }
     private void publish() {
