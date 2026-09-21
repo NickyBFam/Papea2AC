@@ -71,6 +71,37 @@ class AbstractTransferTest {
         System.out.println("containment: boxes=" + boxes + " contained=" + contained + " top=" + top + " skipped=" + skipped);
         assertTrue(contained > 50000, "too few containment checks: " + contained);
     }
+    /**
+     * P7-F2 (Phase 7 teleport round trip): a client placed at floor height with a zero or tiny velocity (a correction installs exactly
+     * that) that lands while nearly still - Entity.move skips the position update when the collided move is negligible
+     * (lengthSqr <= 1e-7 with the vertical part absorbed). Every one of the 144 inputs, both poses, tiny random horizontal
+     * velocities: the concrete successor must be inside the envelope, and Phase 6 must not exclude the input.
+     */
+    @Test void aNegligibleCollidedMoveOnLandingIsInsideTheEnvelope() {
+        PhysicsScene ps = new PhysicsScene(); PhysicsEnvironment env = ps.env(); SplittableRandom r = new SplittableRandom(SEED ^ 0x5eedL);
+        AbstractTransfer t = new AbstractTransfer(ps.simulator, env, OBS, 4096); InputReconstructor rec = new InputReconstructor(ps.simulator);
+        int checked = 0, landedSkips = 0;
+        for (int c = 0; c < 40; c++) {
+            PlayerBox.Pose pose = r.nextBoolean() ? PlayerBox.Pose.STANDING : PlayerBox.Pose.CROUCHING;
+            double vx = (r.nextInt(21) - 10) * 1e-5, vz = (r.nextInt(21) - 10) * 1e-3 * (r.nextBoolean() ? 1 : 0.01);
+            PhysicsState s = PhysicsState.resting(8.5 + r.nextDouble() * 0.01, SURFACE, 8.5 + r.nextDouble() * 0.01, pose, false).withVelocity(new Vec3d(vx, r.nextBoolean() ? 0.0 : -0.0784000015258789, vz)).withSupport(PhysicsState.Support.NONE);
+            AbstractTransfer.Prepared prep = t.prepare(AbstractState.fromConcrete(s).boxes().get(0), List.of());
+            assertNotNull(prep, t.topReason());
+            float yaw = (float) (r.nextInt(720) * 0.5 - 180.0);
+            for (int o = 0; o < InputDomain.RAW_SIZE; o++) {
+                MovementInput in = InputDomain.fromOrdinal(o, yaw);
+                PhysicsResult pr = ps.simulator.simulate(s, in, env); if (!pr.exact()) continue; checked++;
+                if (pr.next().onGround() && pr.next().position().x() == s.position().x() && pr.next().position().z() == s.position().z() && pr.trace().movementCollided().x() != 0.0) landedSkips++;
+                List<AbstractState.Box> boxes = t.apply(prep, in);
+                assertNotNull(boxes, "TOP for " + InputDomain.describe(in) + ": " + t.topReason());
+                assertTrue(boxes.stream().anyMatch(b -> b.contains(pr.next())), "envelope misses the concrete successor: case " + c + " " + InputDomain.describe(in) + " " + pr.summary() + " boxes " + boxes);
+                TickObservation obs = TickObservation.exact(pr.next().position().x(), pr.next().position().y(), pr.next().position().z(), yaw, pr.next().onGround() ? TickObservation.GroundClaim.TRUE : TickObservation.GroundClaim.FALSE, 5);
+                ReconstructionResult rr = rec.reconstruct(ReconstructionRequest.of(s, obs, env));
+                assertTrue(rr.candidates().stream().anyMatch(cd -> cd.exact() && cd.predicted().equals(pr.next())), "Phase 6 excludes " + InputDomain.describe(in) + " from " + s + ": " + rr.describe(3));
+            }
+        }
+        assertTrue(checked > 5000, "checked " + checked); assertTrue(landedSkips > 0, "the negligible-move skip must actually occur in the sample: " + landedSkips);
+    }
     @Test void thresholdAndLandingEdgesAreUnionedNotChosen() {
         PhysicsScene ps = new PhysicsScene(); PhysicsEnvironment env = ps.env(); AbstractTransfer t = new AbstractTransfer(ps.simulator, env, OBS, 4096);
         PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5);

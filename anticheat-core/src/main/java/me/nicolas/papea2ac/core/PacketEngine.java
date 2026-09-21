@@ -14,6 +14,9 @@ public final class PacketEngine implements AutoCloseable {
     public final class Session {
         public final SessionKey key;public final HealthLatch health=new HealthLatch();
         public final ConnectionIngress ingress;public final TruthActor actor;public final PlayerTimeline timeline;public final ObserverWorld world;
+        /** Phase 7: the session's timing ledger (player-owned, shard-written, published view readable anywhere) and the player's own entity id once the platform reports it (-1 = unknown: velocity packets cannot be attributed yet). */
+        public final me.nicolas.papea2ac.player.TimingLedger timing;volatile int selfEntityId=-1;
+        long lastMarkerNanos,lastTimingExpireNanos,timingBreakGeneration=-1;int markerCounter;boolean bracketMarkerDue;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
         private final AtomicBoolean cleanupAlerted=new AtomicBoolean();
@@ -35,6 +38,7 @@ public final class PacketEngine implements AutoCloseable {
             actor=new TruthActor(key,health,capability,metrics,256);
             timeline=new PlayerTimeline(key);
             world=new ObserverWorld(key,worldBudget,blockStates);
+            timing=new me.nicolas.papea2ac.player.TimingLedger(key);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
@@ -72,7 +76,7 @@ public final class PacketEngine implements AutoCloseable {
                                 if(s.recording!=null){try{s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);}catch(RuntimeException|LinkageError e){errors.accept(e);}finally{try{s.recording.close();}catch(RuntimeException e){errors.accept(e);}}}
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
                                 s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
-                                s.world.close();
+                                s.world.close();s.timing.close();
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
                             continue;
@@ -82,6 +86,8 @@ public final class PacketEngine implements AutoCloseable {
                             if(s.recording!=null)s.recording.before(s.health.get(),clock);
                             s.actor.tick(clock);
                             if(s.recording!=null&&before.pending()!=s.actor.snapshot().pending())s.recording.clock(clock);
+                            if(clock-s.lastTimingExpireNanos>1_000_000_000L){s.lastTimingExpireNanos=clock;s.timing.expire(clock);}
+                            issueMarker(s,clock);
                             int work=0;
                             for(int i=0;i<32;i++){
                                 var o=s.deferred!=null?s.deferred:s.ingress.poll();if(o==null)break;
@@ -112,12 +118,29 @@ public final class PacketEngine implements AutoCloseable {
                                 String transport=after.healthy()||deliberateClose?null:after.reason().name();
                                 // The world only breaks on reasons that can mean lost/undecoded CLIENTBOUND observation (P3-F3); outcome-correlation reasons keep it healthy.
                                 String worldTransport=WorldObservationMapper.coverageBreakReason(after,deliberateClose);
+                                // Timing coverage breaks only on loss-class latch reasons (the same filter as the world, P3-F3): the permanent correlation limitation
+                                // (PIPELINE_UNCOVERED from the client's brand payload, EXPIRED/OUTCOME_UNKNOWN journal outcomes) loses no tick end and no marker, so it
+                                // must not push every real session into the bounded fallback alignment (P7-F4, real-client qualification; brief 56/57).
+                                // One break per health generation that carries a loss-class reason, whether the latch tripped inside this observation's processing or
+                                // before it (an ingress overflow invalidates at capture time, before the shard reads its boundary); the observation itself is the break.
+                                String timingBreak=WorldObservationMapper.coverageBreakReason(after,deliberateClose);
+                                if(timingBreak!=null&&after.generation()!=s.timingBreakGeneration){s.timingBreakGeneration=after.generation();s.timing.apply(s.key,new me.nicolas.papea2ac.player.TimingEvent.CoverageBreak(o.sequence(),o.capturedNanos(),timingBreak));}
+                                else{
+                                    var te=TimingObservationMapper.map(o,s.selfEntityId,s.timeline.currentState().worldEpoch()+(o.event() instanceof Observation.Outbound ob&&ob.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Respawn?1:0));
+                                    if(te.isPresent()){
+                                        var event=te.get();
+                                        if(event instanceof me.nicolas.papea2ac.player.TimingEvent.ExternalMotionSent||event instanceof me.nicolas.papea2ac.player.TimingEvent.TeleportSent)s.bracketMarkerDue=true;
+                                        if(event instanceof me.nicolas.papea2ac.player.TimingEvent.MarkerAcknowledged){long beforeSamples=s.timing.view().rtt().samples();s.timing.apply(s.key,event);var after2=s.timing.view();if(after2.rtt().samples()>beforeSamples){timingMetrics.rttSamples.increment();timingMetrics.markersAnswered.increment();}else timingMetrics.lateOrUnknownAcks.increment();}
+                                        else s.timing.apply(s.key,event);
+                                    }
+                                    if(o.event() instanceof Observation.Outbound ob2&&ob2.payload() instanceof me.nicolas.papea2ac.protocol.PacketPayload.Velocity&&s.selfEntityId<0)timingMetrics.velocityIgnoredUnknownSelf.increment();
+                                }
                                 if(degraded){
                                     s.timeline.append(s.key,new PlayerObservation.CoverageGap(after.reason().name()),o.sequence(),now,transport);
                                     if(worldTransport!=null)s.world.apply(s.key,new WorldObservation.CoverageBreak(worldTransport),o.sequence(),0,now,worldTransport);
                                     else applyWorld(s,o,now,null);// the bump does not concern clientbound observation: the world still consumes this observation
                                 }else{
-                                    PlayerObservationMapper.map(o).ifPresent(po->s.timeline.append(s.key,po,o.sequence(),now,transport));
+                                    PlayerObservationMapper.map(o,s.selfEntityId).ifPresent(po->s.timeline.append(s.key,po,o.sequence(),now,transport));
                                     applyWorld(s,o,now,worldTransport);
                                 }
                                 if(s.recording!=null&&degraded)s.recording.incomplete();
@@ -152,6 +175,10 @@ public final class PacketEngine implements AutoCloseable {
                     }else if(s.recording!=null&&s.recording.armed()){
                         s.recording.pause(writer,replayConfiguration,now);metrics.increment(PacketMetrics.Kind.RECORDING_PAUSED);
                     }
+                    metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
+                }
+                case Observation.ControlChange cc when cc.kind().equals("SELF_ENTITY") -> {
+                    try{s.selfEntityId=Integer.parseInt(cc.value());}catch(NumberFormatException ignored){}
                     metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
                 }
                 case Observation.ControlChange cc -> metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
@@ -193,6 +220,25 @@ public final class PacketEngine implements AutoCloseable {
     /** Phase 6: the stateless input reconstructor over the Phase 5 simulator (ARCHITECTURE path 1: core constructs simulation; platform-paper only displays primitives) and its bounded diagnostic / real-client tracer. */
     public final me.nicolas.papea2ac.simulation.InputReconstructor reconstruction=new me.nicolas.papea2ac.simulation.InputReconstructor(physics);
     public final ReconstructionTracer reconstructionTracer=new ReconstructionTracer(reconstruction,collision,blockBehaviors,this::timelineStatus);
+    /** Phase 7: the version-scoped timing profile, the bounded timing diagnostic/qualification tracer, the optional marker port (platform-supplied; absent = keep-alive evidence only) and bounded engine-wide counters. */
+    public final me.nicolas.papea2ac.version.TimingProfile timingProfile=me.nicolas.papea2ac.version.TimingProfile.PAPER_26_2;
+    public final TimingTracer timingTracer=new TimingTracer(reconstruction,collision,blockBehaviors,timingProfile);
+    private volatile MarkerPort markerPort;
+    /** Marker cadence: one ping per second per session while the platform port exists, plus one right after an outbound influence/correction (bracketing), never more than one per 50 ms, never with more than 16 pending. */
+    public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
+    static final class TimingMetrics{final java.util.concurrent.atomic.LongAdder markersIssued=new java.util.concurrent.atomic.LongAdder(),markerSendFailures=new java.util.concurrent.atomic.LongAdder(),markersAnswered=new java.util.concurrent.atomic.LongAdder(),rttSamples=new java.util.concurrent.atomic.LongAdder(),lateOrUnknownAcks=new java.util.concurrent.atomic.LongAdder(),velocityIgnoredUnknownSelf=new java.util.concurrent.atomic.LongAdder();}
+    final TimingMetrics timingMetrics=new TimingMetrics();
+    public void setMarkerPort(MarkerPort port){markerPort=port;}
+    /** Shard-thread marker issue: a session-scoped id (epoch in the high byte, a counter below) whose pong the ledger correlates; late pongs of an earlier session never match (new ledger, new epoch byte). */
+    void issueMarker(Session s,long clock){
+        MarkerPort port=markerPort;if(port==null||s.selfEntityId<0)return;
+        boolean periodic=clock-s.lastMarkerNanos>=MARKER_PERIOD_NANOS,bracket=s.bracketMarkerDue&&clock-s.lastMarkerNanos>=MARKER_MIN_GAP_NANOS;
+        if(!periodic&&!bracket)return;
+        if(s.timing.view().markers().pending()>=MARKER_MAX_PENDING){if(periodic)s.lastMarkerNanos=clock;return;}
+        s.lastMarkerNanos=clock;s.bracketMarkerDue=false;
+        int id=(int)(((s.key.epoch()&0xFF)<<24)|(++s.markerCounter&0xFFFFFF));
+        if(port.sendMarker(s.key.player(),id))timingMetrics.markersIssued.increment();else timingMetrics.markerSendFailures.increment();
+    }
     /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
@@ -383,6 +429,33 @@ public final class PacketEngine implements AutoCloseable {
             me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxNodes(),me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxEvaluations(),me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxTicks(),
             reconstructionTracer.requests.sum(),reconstructionTracer.witnessed.sum(),reconstructionTracer.samplesRecorded.sum(),reconstructionTracer.activeTraces());
     }
+    /** Engine-wide Phase 7 counters, primitives only. */
+    public TimingEngineStatus timingEngineStatus(){
+        long outliers=0,rejected=0,expired=0,stale=0;
+        synchronized(this){for(Session s:active.values()){var v=s.timing.view();outliers+=v.rtt().outliers();rejected+=v.rtt().rejected();expired+=v.markers().expired();stale+=v.counters().staleTeleportConfirms();}}
+        return new TimingEngineStatus(timingProfile.id(),markerPort!=null,timingMetrics.markersIssued.sum(),timingMetrics.markerSendFailures.sum(),timingMetrics.markersAnswered.sum(),timingMetrics.rttSamples.sum(),outliers,rejected,timingMetrics.lateOrUnknownAcks.sum(),
+            expired,stale,timingMetrics.velocityIgnoredUnknownSelf.sum(),timingTracer.activeTraces(),timingTracer.steps.sum(),timingTracer.explained.sum(),timingTracer.unexplained.sum());
+    }
+    /** The session's published timing view projected to primitives (thread-safe), empty for an unknown player. */
+    public synchronized java.util.Optional<TimingStatus> timingStatus(UUID player){
+        Session s=active.get(player);if(s==null)return java.util.Optional.empty();
+        var v=s.timing.view();var r=v.rtt();var m=v.markers();var c=v.counters();long now=System.nanoTime();
+        java.util.List<String> corrections=new java.util.ArrayList<>();
+        for(var pt:v.teleports())corrections.add("correction "+pt.teleportId()+" sent@"+pt.sent().sequence()+" -> ("+pt.sent().position().x()+","+pt.sent().position().y()+","+pt.sent().position().z()+") relative="+pt.sent().relativeMask()+(pt.confirmed()?" confirmed@"+pt.confirmedSequence():pt.superseded()?" SUPERSEDED":pt.writeFailed()?" WRITE_FAILED":" pending"));
+        return java.util.Optional.of(new TimingStatus(s.key.epoch(),v.worldEpoch(),v.tickEndCapable(),c.clientTickEnds(),c.movements(),c.externalMotions(),c.teleportsSent(),c.teleportsConfirmed(),c.staleTeleportConfirms(),c.evictions(),
+            r.hasSamples(),r.lastNanos(),r.minNanos(),r.smoothedNanos(),r.jitterNanos(),r.maxNanos(),r.samples(),r.outliers(),r.rejected(),r.ageNanos(now),
+            m.sent(),m.acknowledged(),m.pending(),m.expired(),m.lateOrUnknown(),m.failedWrites(),corrections));
+    }
+    /** Arms a timing trace (see TimingTracer); {@code declared} may be null. */
+    public synchronized String timingArm(UUID player,PhysicsQualification.Scenario declared,PhysicsQualification.ArmFacts facts){
+        Session s=active.get(player);
+        if(s==null)return "REFUSED: no admitted session";
+        var t=timelineStatus(player);if(t.isEmpty())return "REFUSED: no admitted session";
+        var w=s.world.snapshot();
+        return timingTracer.arm(player,declared,s.timing,t.get(),w.view(blockStates),w.worldEpoch(),s.key.epoch(),facts);
+    }
+    public java.util.List<String> timingReport(UUID player){return timingTracer.report(player);}
+    public String timingCancel(UUID player){return timingTracer.cancel(player);}
     /** Arms an input-reconstruction trace for a session against its PUBLISHED world snapshot (see ReconstructionTracer); {@code declared} may be null. */
     public synchronized String reconstructArm(UUID player,PhysicsQualification.Scenario declared,PhysicsQualification.ArmFacts facts){
         Session s=active.get(player);

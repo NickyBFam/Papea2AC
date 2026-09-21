@@ -1,0 +1,105 @@
+{
+  "phase": "7 - Latency / Acknowledgement / External-Motion Timing",
+  "pinned": "paper-26.2 build 124 (.phase1-runtime/versions/26.2/paper-26.2.jar), vanilla 26.2 client",
+  "profile": "paper-26.2-124-timing",
+  "legacyTransactions": "none: the 26.2 play protocol has no window-confirmation/transaction packet; ping/pong (int id) and keep-alive (long id) are the request/response pairs; teleport confirm and client tick end are the game-thread fences",
+  "packets": {
+    "ping": {
+      "class": "net.minecraft.network.protocol.common.ClientboundPingPacket",
+      "flow": "CLIENTBOUND",
+      "idField": "id:int",
+      "constructor": "ClientboundPingPacket(int) - the Phase 7 marker (PaperMarkerPort)",
+      "type": "minecraft:ping",
+      "wireId": 61,
+      "wireIdHex": "0x3d"
+    },
+    "pong": {
+      "class": "net.minecraft.network.protocol.common.ServerboundPongPacket",
+      "flow": "SERVERBOUND",
+      "idField": "id:int",
+      "constructor": "ServerboundPongPacket(int) - answered by the client's network thread; server handler is a no-op",
+      "type": "minecraft:pong",
+      "wireId": 45,
+      "wireIdHex": "0x2d"
+    },
+    "keepAlive": {
+      "class": "net.minecraft.network.protocol.common.ClientboundKeepAlivePacket",
+      "flow": "CLIENTBOUND",
+      "idField": "id:long",
+      "constructor": "ClientboundKeepAlivePacket(long) - server-issued challenge",
+      "type": "minecraft:keep_alive",
+      "wireId": 44,
+      "wireIdHex": "0x2c"
+    },
+    "keepAliveResponse": {
+      "class": "net.minecraft.network.protocol.common.ServerboundKeepAlivePacket",
+      "flow": "SERVERBOUND",
+      "idField": "id:long",
+      "constructor": "ServerboundKeepAlivePacket(long) - answered by the client's network thread",
+      "type": "minecraft:keep_alive",
+      "wireId": 28,
+      "wireIdHex": "0x1c"
+    },
+    "clientTickEnd": {
+      "class": "net.minecraft.network.protocol.game.ServerboundClientTickEndPacket",
+      "flow": "SERVERBOUND",
+      "constructor": "ServerboundClientTickEndPacket() - record, no payload, once per client tick",
+      "type": "minecraft:client_tick_end",
+      "wireId": 13,
+      "wireIdHex": "0xd"
+    },
+    "acceptTeleportation": {
+      "class": "net.minecraft.network.protocol.game.ServerboundAcceptTeleportationPacket",
+      "flow": "SERVERBOUND",
+      "idField": "id:int",
+      "constructor": "ServerboundAcceptTeleportationPacket(int) - the client's game-thread confirm",
+      "type": "minecraft:accept_teleportation",
+      "wireId": 0,
+      "wireIdHex": "0x0"
+    },
+    "playerPosition": {
+      "class": "net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket",
+      "flow": "CLIENTBOUND",
+      "idField": "id:int",
+      "constructor": "ClientboundPlayerPositionPacket(int, PositionMoveRotation, Set<Relative>) - the correction",
+      "type": "minecraft:player_position",
+      "wireId": 72,
+      "wireIdHex": "0x48"
+    }
+  },
+  "relativeFlags": [
+    "X",
+    "Y",
+    "Z",
+    "Y_ROT",
+    "X_ROT",
+    "DELTA_X",
+    "DELTA_Y",
+    "DELTA_Z",
+    "ROTATE_DELTA"
+  ],
+  "serverSemantics": {
+    "handlePong": "no-op (single return): a pong is receipt/RTT evidence only; the server neither validates nor acts on it",
+    "keepAliveConstructedIn": "keepConnectionAlive",
+    "keepAliveCadence": "one ClientboundKeepAlivePacket per second per connection (System.nanoTime based challenge id, io.papermc.paper.util.KeepAlive.pendingKeepAlives queue); LATENCY_CHECK_INTERVAL=15000 exists but does not drive the cadence (P7-F3)",
+    "keepAliveTimeout": "KEEPALIVE_LIMIT = Long.getLong(\"paper.playerconnection.keepalive\", 30) * 1000 ms: kicked when the oldest pending keep-alive is older than that",
+    "keepAliveResponse": "handleKeepAlive matches the response id against the head of the pending queue (challengeId) and feeds Paper's ping calculators; Papea2AC correlates the same long id in its MarkerLedger and never reads the server's latency field",
+    "teleportConfirm": "handleAcceptTeleportPacket: main thread (ensureRunningOnSameThread); accepted only when packet id == awaitingTeleport (a stale/superseded id is ignored); the server then snaps the player to awaitingPositionFromClient",
+    "teleportResend": "updateAwaitingTeleport: while awaitingPositionFromClient is set, an unconfirmed teleport is re-sent (same id) when tickCount - awaitingTeleportTime > 20; the id increments per internalTeleport, so a superseding correction carries a new id",
+    "clientTickEnd": "handleClientTickEnd: main thread; fires Paper's ClientTickEndEvent; the packet is the client's once-per-tick fence used for alignment (TICK_END_EXACT)"
+  },
+  "clientSemantics": {
+    "pong": "vanilla 26.2 client answers ClientboundPingPacket from the network thread (ClientCommonPacketListener.handlePing -> send(ServerboundPongPacket)): receipt evidence, no tick alignment",
+    "keepAlive": "answered from the network thread likewise",
+    "teleportConfirm": "handleMovePlayer runs on the game thread: applies the correction, sends ServerboundAcceptTeleportationPacket then the PosRot at the applied position (TimingProfile.teleportConfirmIsGameThreadFence)",
+    "clientTickEnd": "sent once at the end of every client tick while in a level (TimingProfile.clientTickEndPerTick; verified per session by presence and in the real-client qualification)"
+  },
+  "liveCapture": {
+    "path": "EmbeddedChannel -> PaperCapture -> PacketEngine shard -> TimingObservationMapper -> TimingLedger",
+    "ping/pong": "MarkerSent(PING) then MarkerAcknowledged(PING): 1 RTT sample",
+    "keepAlive": "MarkerSent(KEEPALIVE) then MarkerAcknowledged(KEEPALIVE): 1 RTT sample",
+    "clientTickEnd": "ClientTickEnd: tickEndCapable=true",
+    "playerPosition": "TeleportSent(id, relative mask) then TeleportConfirmed(id); a foreign confirm id is counted stale and confirms nothing",
+    "velocityUnknownSelf": "not attributed, counted"
+  }
+}

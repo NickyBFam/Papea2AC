@@ -286,3 +286,31 @@ tasks.register<JavaExec>("benchmarkReconstruction") {
     args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
     doFirst { rootProject.file("docs/phase6-artifacts").mkdirs() }
 }
+// ---- Phase 7: timing fixtures/gates artifacts, memory harness, JMH
+tasks.register<JavaExec>("timingFixtures") {
+    description = "Phase 7 evidence artifacts under docs/phase7-artifacts: deterministic timing fixtures, velocity/teleport/fuzz round-trip gate results, the RTT model results (summaries, no packet dumps). A changed fixture digest is a reviewed event."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.TimingFixtureMain")
+    args(rootProject.file("docs/phase7-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase7-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("timingMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 7 memory estimate: per-session ledger/estimator/marker state, retained resolutions, per-resolution allocation, timing-only versus timing + reconstruction. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.TimingMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase7-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase7-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkTiming") {
+    description = "Phase 7 JMH kernels: RTT update, ACK register/resolve, velocity/teleport register, timing-only resolution (1/2/4 branches, 2/3-tick gaps, worst bounded), and timing + Phase 6 + Phase 5 end to end (velocity, teleport, gaps). Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "TimingBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase7-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    doFirst { rootProject.file("docs/phase7-artifacts").mkdirs() }
+}

@@ -19,10 +19,17 @@ import java.util.Optional;
 public final class PlayerObservationMapper {
     private PlayerObservationMapper() {}
 
-    public static Optional<PlayerObservation> map(Observation observation) {
+    /** Phase 2 signature: no self identity known - every velocity packet is attributed (the pre-P7-F1 behaviour, kept for callers/tests without a session identity). */
+    public static Optional<PlayerObservation> map(Observation observation) { return map(observation, -1); }
+    /**
+     * P7-F1 (Phase 7 forward correction of a Phase 2 mapping): a Set Entity Velocity packet is THIS player's influence only when
+     * its entity id is the session's own; other entities' motion packets used to fill VelocityState's eight active slots
+     * (permanent UNCERTAIN_APPLICATION_OVERFLOW on any busy server). With the identity unknown (-1) the old behaviour stands.
+     */
+    public static Optional<PlayerObservation> map(Observation observation, int selfEntityId) {
         return switch (observation.event()) {
             case Observation.Attempt a -> mapInbound(a.payload());
-            case Observation.Outbound o -> mapOutbound(o.payload());
+            case Observation.Outbound o -> mapOutbound(o.payload(), selfEntityId);
             case Observation.Outcome o -> mapOutcome(o);
             case Observation.Tick t -> Optional.of(new PlayerObservation.TickObserved(t.serverTick()));
             case Observation.WriteOutcome ignored -> Optional.empty();
@@ -42,16 +49,18 @@ public final class PlayerObservationMapper {
         return Optional.empty();
     }
 
-    private static Optional<PlayerObservation> mapOutbound(PacketPayload payload) {
+    private static Optional<PlayerObservation> mapOutbound(PacketPayload payload, int selfEntityId) {
         if (payload instanceof SemanticPayload.Correction c)
             return Optional.of(new PlayerObservation.TeleportSent(c.teleportId(), vector(c.position()), rotation(c.rotation())));
+        if (payload instanceof PacketPayload.Velocity v && selfEntityId >= 0 && v.entityId() != selfEntityId) return Optional.empty();
         if (payload instanceof PacketPayload.Velocity v)
             // Set Entity Velocity replaces the entity's motion vector in vanilla semantics; PLAYER_STATE.md
             // Decision S2 forbids inferring the VECTOR from the source label, not classifying the packet's
             // own well-known mechanism. A version-profile module owning this distinction authoritatively is
             // a documented future refinement (see PHASE_2_IMPLEMENTATION.md).
+            // The vector is what the CLIENT decodes: the packet's low-precision codec quantizes each component (P7-F8, real-client qualification).
             return Optional.of(new PlayerObservation.ExternalMotionObserved(ExternalMotionInfluence.Mechanism.VELOCITY_REPLACE,
-                    "entity:" + v.entityId(), vector(v.vector()), 0));
+                    "entity:" + v.entityId(), TimingObservationMapper.lowPrecision(v.vector()), 0));
         if (payload instanceof PacketPayload.Explosion ex && ex.playerKnockback().isPresent())
             return Optional.of(new PlayerObservation.ExternalMotionObserved(ExternalMotionInfluence.Mechanism.VELOCITY_DELTA,
                     "explosion", vector(ex.playerKnockback().get()), 0));

@@ -1,0 +1,15 @@
+{
+  "phase": "7",
+  "cases": 1981,
+  "transmissions": 13626,
+  "statuses": {
+    "RESOLVED_UNIQUE": 13626
+  },
+  "influences": 1859,
+  "teleports": 704,
+  "silentClosures": 41,
+  "evaluations": 862528,
+  "maxHypotheses": 9,
+  "truthLost": 0,
+  "seeds": "90000..91999"
+}

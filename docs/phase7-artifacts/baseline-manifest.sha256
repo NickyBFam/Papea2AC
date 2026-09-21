@@ -1,0 +1,85 @@
+# Phase 7 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes over the committed Git blob content (not the
+# Windows checkout bytes), covering the complete Phase 7 implementation baseline set: the timing production sources
+# (anticheat-player: TimingEvent, RttEstimator, MarkerLedger, TimingLedger; anticheat-simulation: TimingRequest,
+# TimingBudget, TimingHypothesis, TimingResolution, TimingResolver, TimingReconstruction; anticheat-core:
+# TimingObservationMapper, MarkerPort, TimingTracer, TimingStatus, TimingEngineStatus and the PacketEngine timing hooks;
+# anticheat-version: TimingProfile and the P7-F8 LowPrecisionVector; anticheat-platform-paper: PaperMarkerPort and the
+# /papea2ac timing command wiring), the P7-F1..P7-F9 forward-correction production files (PacketEngine,
+# PlayerObservationMapper, the P7-F2 AbstractTransfer landing envelope, ReconstructionRequest.MAX_BRANCHES), tests
+# (resolver, ledger, property, fuzz, velocity/teleport round trips, fixtures, observation mapper, marker scheduling,
+# coverage, tracer, the AbstractTransferTest and ArchitectureTest additions), native tests (ACK inventory, LpVec3
+# differential), TimingBenchmarks, the memory/fixture harnesses, Gradle task changes, the Phase 7 report, the human
+# approval record, and the artifacts (ack inventory, RTT model, timing round-trip, velocity, teleport, fuzz, timing
+# fixtures, benchmarks (final-code run), memory results, verification.json, and the real-client evidence log).
+# The frozen Phase 0-6 documents and docs/phase1..6-artifacts are intentionally NOT part of this manifest: P7-F2 is a
+# forward correction of Phase 6 code; the Phase 6 historical baseline and its artifacts are unchanged.
+# Parent commit: 6d5485bb564450d79944f7799fa3f52029070e3f
+# Phase 6 implementation baseline (unchanged in history): ca6c16004247808fdb81203ecd1e041d3cfe7259
+# Phase 5 implementation baseline (unchanged in history): 03a538c4496df92df16b7e0ce503bb61750847ae
+# Phase 4 implementation baseline (unchanged in history): 1685e96519f2eaec3f5b28c12d687e8118809b64
+# Phase 3 implementation baseline (unchanged in history): 92159ec5ef8524c5953ecaa22f663c1f556d52ac
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Final qualified plugin jar (byte-identical rebuild): 5ee0324cac4d9314fd7b698bbc68d43f1eec2c87194657c8ff144c69e10e416b
+# Generated: 2026-09-21
+da691490368520cc1bafbeb0bcc461a529fc75b4acb3147c8c8e1216337c8c71  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MarkerPort.java
+5aa452ee3b7cbaef7192f621ef507007bd3120232bee5a1688effca648f5535f  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+ac4ae2d6429651386cb3e500aaec7a4312318e2be07e249d2fe35e5d88d864ae  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PlayerObservationMapper.java
+fc9243fe4c4d95466e771e2187a6fb4ba6162d241cb0d453c58044bd961e30d0  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingEngineStatus.java
+8006eda129a6beff467eb203795653eaa99dbfbdecc1ab72b03c63f8ae83312a  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingObservationMapper.java
+4ac68c928d430b53cdc6eb9338d0876d2678467f53884f62730b9ac3a029e0a6  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingStatus.java
+4db24a85273d228cc329386d8fb7934784b92a723fa7da7dc1099b2408ff1dbb  anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingTracer.java
+06ddb1b3ad97279b009091f9cb2549a068600c5cba5fa0895686481cee5fd17e  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+f935f9537066636b0503b3c87a571c4d8bed51a421b1c64668aa062c744e4ec7  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMarkerPort.java
+0d86ebaa5d849b91571f447867de65c686c79551b7537d83918740dfe9f4a3bc  anticheat-player/src/main/java/me/nicolas/papea2ac/player/MarkerLedger.java
+a1b23dc8931274edbcb2b8eef2925ca721b2b95b53b200ee92ef9bbfc7730152  anticheat-player/src/main/java/me/nicolas/papea2ac/player/RttEstimator.java
+0fef163742f99a3a6a3a84b9647e91bf07ca5bd0cd73c01743ca80b6c963d11c  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingEvent.java
+9d041811b6ec4365ac66d4c4be9a0b3605f1dbd751152fa84497d9bc987eed21  anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingLedger.java
+698ab4019c496e8b391b133918f89f2f20c9443ba5bcbfb1f68e31a67973e1b2  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java
+e6207bf65786c62934c278ccab9e95c9c45ec8888601816a4b49e6e3b218e08a  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionRequest.java
+114bdc6622bc296b66846f6e6574f41691bfd41b7f05f9a3eea59561fe62d1f6  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingBudget.java
+2b831014ad8931b505bf83ab2c7f0e2632cd4de2a929ef4a14fb93fa55121451  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingHypothesis.java
+c836c20891d505c5a82a55a447c1f772da5e59787394bd5e4b02159a06fa0be7  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingReconstruction.java
+fa193b715828973303780f208bc922c46cf3bb46bc5db531af7872f75e63e411  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingRequest.java
+1ca169b7fb4c4e81d26a364173d6b9d3fdb3eabd31131e53366a146d2f3f7ab8  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolution.java
+a1b11c2efa7d2e27471bc11c7bba194b32dfccb3180d925f9fd11b12c8269935  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolver.java
+c9d0a1fb21e6b1756774f3f56ff3931fbcb71a142cc2dc7f2fff23377af13bf3  anticheat-testing/build.gradle.kts
+02b93ae14a6e408a52f7c983800cf8c1477364b7154e9d7828bd644be4f4c31f  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/TimingBenchmarks.java
+82bef9f25bb5991a1f8c33b8b2f0f3881039e5b69e575a8e66a80160985910e2  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeAckInventoryTest.java
+6f1ce4c17b3a825a7b7a5bb8b03127ebc20daf85bc9e75279460cd575df4b29d  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeLowPrecisionVectorTest.java
+44b1a9d6500b5af7aeb930b98e1011f56641cca310c303a28d35ebd6b8e33a94  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AbstractTransferTest.java
+69b0235e16f6e1e2ab51493bf0b907af2a34aa0dea3130dbd520ae3a3280351c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+a20eae0ca69fdbb4c9b1eaed27b9f15b9a4ee27a893c1dfecdafc0286cf15bbf  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TeleportTimingRoundTripTest.java
+16b661325073101b4a03258df120650cd969d7b6f204a07efebc7947fb818e1a  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingCoverageTest.java
+c4b759f24be11ae69b9e2c159c3cd5177c041482634dc7afc9adeeef879be220  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureMain.java
+1aaff83445b5acb0a964db67e38d7faa5849852c84fca50f46913d1be111e25a  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureTest.java
+33a0eec1400b7790e60985f82a1b558766412b7fb01459cae4c149255e02056e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtures.java
+118aa884354797f366b113f798fd6ef3e6596390201f5ad5abe1804e77feb985  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFuzzTest.java
+1dd63b810d85dc4cdf688fd8a57eabe3d45bd6bedc874bcd0bc36cf217fcbb1f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingLedgerTest.java
+729f34bbff433a600945db20523385af919543749753c362adc52417fd0e9721  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingMarkerSchedulingTest.java
+68f5c5bf432ca1fca0ff23924a76ee6cca57c423ac72b2232e5b18ec0b9ca99e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingMemoryMain.java
+87c9d06dd3b001172e8e03246ed13b22ac3a93ad6d324f101f7fb4432e0e6038  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingObservationMapperTest.java
+525350b133b89848b59bd43dccf822439e5f9f10189a9c01a8a019d7fdc1ccb7  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingPropertyTest.java
+bbdae64c542e1e852784e91d843ad5a0ad58a89569eed88b02ac12c121c02ef0  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingResolverTest.java
+d49125ca833b3474e4877cf56a64d2d0b17b05c0bd6ec1eae843533948f3b57f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingTestSupport.java
+94edcad78067e5175d85c281a3f79c9b9f5fcf720a274a098c87b15f2a942a24  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingTracerTest.java
+076cdf9567b3e8df4cb8dc112cad86536fe4eb3bdf59f34caa516fd4216153a6  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/VelocityTimingRoundTripTest.java
+6947e137d4b212f2be5fb05fd333dedbd8d3f2954408152d62d72de0328f1708  anticheat-version/src/main/java/me/nicolas/papea2ac/version/LowPrecisionVector.java
+f1eacdbf6fd6d8cd22a53996e6863893e1c909c05f60eead18b79fa275194f97  anticheat-version/src/main/java/me/nicolas/papea2ac/version/TimingProfile.java
+232fc7d8c15ee693ed9a26d596fd851b118a4cbf20b81499cbb7cac1751eabae  docs/PHASE_7_HUMAN_APPROVAL.md
+3b780329f74d390f4233d9c424829dbd6915f2589a97098abeb3e8b35440b6fd  docs/PHASE_7_IMPLEMENTATION.md
+352fa4974369b2d5799b418cf713373a96cd791255876adef52a5d6f8c83c163  docs/phase7-artifacts/ack-inventory.json
+3154f059d3bc158ad1eaa8bdd514067153b0ef4f8c4628e8cab0e4e25a3936bb  docs/phase7-artifacts/benchmarks.json
+72bed3f1c2c34e600e789326fd46fcc7f3ae1da71e2f92f27411e40946378b35  docs/phase7-artifacts/memory-results.json
+eefd23653fbb4445be260fc40392f67a407bbf7c968279cc185e329ec50e0ed3  docs/phase7-artifacts/real-client-evidence.log
+64a39fe7190bf90fd051d39e67eb877fc3f13ee93b6c42c8d6bdf7953a70cffa  docs/phase7-artifacts/rtt-model-results.json
+815593d3c6254099aaa760fbbcc13b8f0102ae80408080f86dfb1d335fe2278f  docs/phase7-artifacts/teleport-timing-results.json
+e88ec4c7c7a404730971d2d6961d5f679c526c3537cb26d8439cd783bd12bff5  docs/phase7-artifacts/timing-fixtures/timing-fixtures.json
+d1dbdb20d64e85a9448da5999e0638ec2c82fc0a2b7dc76a0cca38f7668ef92c  docs/phase7-artifacts/timing-fuzz-results.json
+69b57c35e1da3b591d3380ee99903e50eacf1b5884a64d2486404e196c910d1b  docs/phase7-artifacts/timing-roundtrip-results.json
+7aba357583e0e527c26767b030dd3de61b779e1d0a04ae6f3fae047dc47fcea6  docs/phase7-artifacts/velocity-timing-results.json
+918f249f55dc70438928761a07fe2bbf642c3a97db9876060192915c1dd2dd39  docs/phase7-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 57 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# c19ca99a98787704235e79ba370eb71a874eb515cf24f86b1cbac49014c93964

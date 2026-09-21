@@ -1,0 +1,527 @@
+{
+  "phase": "7 - Latency / Acknowledgement / External-Motion Timing",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "date": "2026-09-21",
+  "head": "6d5485bb564450d79944f7799fa3f52029070e3f",
+  "workingTree": {
+    "modifiedTracked": [
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java",
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PlayerObservationMapper.java",
+      "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionRequest.java",
+      "anticheat-testing/build.gradle.kts",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AbstractTransferTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java"
+    ],
+    "untrackedRoots": [
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/MarkerPort.java",
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingEngineStatus.java",
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingObservationMapper.java",
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingStatus.java",
+      "anticheat-core/src/main/java/me/nicolas/papea2ac/core/TimingTracer.java",
+      "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMarkerPort.java",
+      "anticheat-player/src/main/java/me/nicolas/papea2ac/player/MarkerLedger.java",
+      "anticheat-player/src/main/java/me/nicolas/papea2ac/player/RttEstimator.java",
+      "anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingEvent.java",
+      "anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingLedger.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingBudget.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingHypothesis.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingReconstruction.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingRequest.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolution.java",
+      "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolver.java",
+      "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/TimingBenchmarks.java",
+      "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeAckInventoryTest.java",
+      "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeLowPrecisionVectorTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TeleportTimingRoundTripTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingCoverageTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureMain.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtures.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFuzzTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingLedgerTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingMarkerSchedulingTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingMemoryMain.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingObservationMapperTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingPropertyTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingResolverTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingTestSupport.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingTracerTest.java",
+      "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/VelocityTimingRoundTripTest.java",
+      "anticheat-version/src/main/java/me/nicolas/papea2ac/version/LowPrecisionVector.java",
+      "anticheat-version/src/main/java/me/nicolas/papea2ac/version/TimingProfile.java",
+      "docs/PHASE_7_IMPLEMENTATION.md",
+      "docs/phase7-artifacts/"
+    ],
+    "committed": false,
+    "baselined": false
+  },
+  "phase6Baseline": "ca6c16004247808fdb81203ecd1e041d3cfe7259",
+  "phase6Receipt": "6d5485bb564450d79944f7799fa3f52029070e3f",
+  "build": "PASS",
+  "testCounts": {
+    "test": 598,
+    "testClasses": 70,
+    "testFailed": 0,
+    "nativeTest": 137,
+    "nativeTestClasses": 21,
+    "nativeTestFailed": 0,
+    "uniqueTotal": 735,
+    "phase6": {
+      "test": 531,
+      "nativeTest": 132,
+      "uniqueTotal": 663
+    },
+    "phase7TestClasses": {
+      "TimingResolverTest": 19,
+      "TimingLedgerTest": 11,
+      "TimingPropertyTest": 6,
+      "TimingFuzzTest": 1,
+      "VelocityTimingRoundTripTest": 3,
+      "TeleportTimingRoundTripTest": 2,
+      "TimingFixtureTest": 2,
+      "TimingObservationMapperTest": 9,
+      "TimingMarkerSchedulingTest": 4,
+      "TimingTracerTest": 6,
+      "TimingCoverageTest": 2,
+      "AbstractTransferTest(+1, P7-F2)": 1,
+      "ArchitectureTest(+1, Phase 7 boundary)": 1,
+      "NativeAckInventoryTest": 3,
+      "NativeLowPrecisionVectorTest": 2
+    }
+  },
+  "phase1SemanticCoverage": "127/127",
+  "phase1MandatoryGaps": 0,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "phase1Regression": "NONE (nativeTest 137/137; verifyMandatoryCoverage and replayConformance pinned digests reproduced; the Phase 7 marker is the only new outbound write and is diagnostic traffic the server ignores)",
+  "phase2Regression": "NONE (timeline fixtures identical; PlayerObservationMapper.map(Observation) keeps its signature; velocity ExternalMotionObserved now carries the LP-decoded vector, P7-F8, which no pinned Phase 2 artifact contains)",
+  "phase3Regression": "NONE (world fixtures identical; timing coverage breaks reuse the world's loss-class filter, P7-F4)",
+  "phase4Regression": "NONE (collision fixtures identical; shape coverage identical)",
+  "phase5Regression": "NONE (physicsNativeDifferential 88/88 scenarios, 3105/3105 ticks bit-exact single-step and chained, drift 0.0; movement property coverage 1196/1196; docs/phase5-artifacts untouched)",
+  "phase6Regression": "NONE (reconstruction fixtures and no-false-exclusion gate identical; one envelope widening P7-F2 in AbstractTransfer landing - a superset, no pinned Phase 6 digest changed; docs/phase6-artifacts untouched)",
+  "phase7Owner": {
+    "player": "TimingEvent, RttEstimator, MarkerLedger, TimingLedger (mutable ledgers)",
+    "simulation": "TimingRequest, TimingBudget, TimingHypothesis, TimingResolution, TimingResolver, TimingReconstruction (interval/constraint solver + Phase 6 adapter)",
+    "core": "TimingObservationMapper, MarkerPort, PacketEngine marker scheduling, TimingTracer, TimingStatus, TimingEngineStatus",
+    "version": "TimingProfile, LowPrecisionVector",
+    "platform-paper": "PaperMarkerPort, SELF_ENTITY control, /papea2ac timing command (display + harness only)"
+  },
+  "timingProfile": {
+    "id": "paper-26.2-124-timing",
+    "keepAliveIntervalNanos": 1000000000,
+    "clientTickEndPerTick": true,
+    "applicationHorizonNanos": 3000000000,
+    "teleportConfirmIsGameThreadFence": true,
+    "pongBoundsApplication": false
+  },
+  "rttModel": {
+    "status": "PASS",
+    "estimator": "RttEstimator: 32-sample window, smoothed (alpha 1/8) + jitter (beta 1/4), outlier = > 3*smoothed + 4*jitter + 20 ms (kept in the window, not folded), re-seed after 3 consecutive outliers, rejects <= 0 and > 60 s, stale after 30 s",
+    "scenarios": [
+      {
+        "scenario": "stable_20ms",
+        "samples": 40,
+        "smoothedMs": 20.0,
+        "jitterMs": 0.000135,
+        "minMs": 20.0,
+        "maxMs": 20.0,
+        "outliers": 0,
+        "envelopeHighMs": 20.00054
+      },
+      {
+        "scenario": "jitter_20_60ms",
+        "samples": 40,
+        "smoothedMs": 45.846405,
+        "jitterMs": 10.124375,
+        "minMs": 22.0,
+        "maxMs": 59.0,
+        "outliers": 0,
+        "envelopeHighMs": 86.343905
+      },
+      {
+        "scenario": "outlier_spike",
+        "samples": 40,
+        "smoothedMs": 20.0,
+        "jitterMs": 0.00018,
+        "minMs": 20.0,
+        "maxMs": 5000.0,
+        "outliers": 1,
+        "envelopeHighMs": 5000.0
+      },
+      {
+        "scenario": "shift_20_to_400ms",
+        "samples": 40,
+        "smoothedMs": 400.0,
+        "jitterMs": 13.348389,
+        "minMs": 20.0,
+        "maxMs": 400.0,
+        "outliers": 3,
+        "envelopeHighMs": 453.393556
+      }
+    ],
+    "liveLocalhost": "smoothed 0.2-0.7 ms, jitter ~0.1 ms, max 30 ms bursts at join; 30-100 ms samples during main-thread diagnostic reports classified as outliers / re-seeded (documented localhost caveat)"
+  },
+  "rttSampleBounds": "32-sample window; samples <= 0 or > 60 s rejected; stale after 30 s; outlier > 3*smoothed + 4*jitter + 20 ms kept out of the estimate; live: 1805 samples/1805 markers answered in one session, 0 rejected, 0 late/unknown",
+  "ackInventory": "docs/phase7-artifacts/ack-inventory.json: keep-alive (long, 0x2c/0x1c), ping/pong (int, 0x3d/0x2d), player_position/accept_teleportation (0x48/0x00), client_tick_end (0x0d); no legacy transaction packet; nine Relative flags",
+  "ackSemantics": "PASS (bytecode: handlePong no-op; keep-alive 1 Hz with pending queue and 30 s limit (P7-F3); confirm accepted only when id == awaitingTeleport; re-send after 20 ticks; tick end on the main thread; live capture through PaperCapture for every pair)",
+  "ackStateBounds": "PASS (32 pending markers, 64 tombstones, 10 s expiry, 8 corrections, 16 pending markers issued max; TimingLedgerTest.pendingMarkersAndTombstonesAreBounded, TimingMarkerSchedulingTest)",
+  "velocityTiming": {
+    "status": "PASS",
+    "withTickEnds": {
+      "cases": 1500,
+      "transmissions": 11558,
+      "resolvedUnique": 11558,
+      "resolvedAmbiguous": 0,
+      "influences": 2893,
+      "maxHypotheses": 9,
+      "evaluations": 579420
+    },
+    "withoutTickEnds": {
+      "cases": 200,
+      "transmissions": 1549,
+      "resolvedUnique": 0,
+      "resolvedAmbiguous": 0,
+      "influences": 369,
+      "maxHypotheses": 16,
+      "evaluations": 321197
+    },
+    "failures": 0,
+    "liveFinalJar": "F2 standing: apply@3 of 3, 25 transmissions; F6 walking: apply@1, 183 transmissions",
+    "vectorCodec": "LpVec3 low-precision quantisation reproduced bit-exactly (P7-F8)"
+  },
+  "multipleVelocities": {
+    "status": "PASS",
+    "synthetic": "fixture multiple_velocities, TimingResolverTest.orderedInfluencesApplyInWireOrderAndTheProductIsBounded, round trips with 1-3 influences per case",
+    "live": "F4b three SETs 300 ms apart: applied@step1/tick3, step13/tick1, step24/tick1; T7 three setVelocity in one server tick coalesce into one packet (recorded)"
+  },
+  "explosionTiming": {
+    "status": "PASS",
+    "synthetic": "fixture explosion_impulse (ADD), round trips (SET/ADD mix)",
+    "live": "T9c creeper: ADD (-0.5095560,0.5503205,0) apply@3 then damage knockback SET apply@1 the next tick, 26 transmissions"
+  },
+  "teleportTiming": {
+    "status": "PASS",
+    "cases": 500,
+    "applicationPointsResolved": 500,
+    "preApplicationTransmissions": 470,
+    "truthLost": 0,
+    "live": "T5c/T6/F3b: application point at the confirm's PosRot, same-tick regular packet and rot-only explained, walking right after explained (75-96 transmissions)"
+  },
+  "teleportSupersession": "PASS (TimingResolverTest.aStaleConfirmResolvesNothingAndSupersessionIsRecorded, TimingLedgerTest.teleportSupersessionAndFailedWritesAreTracked, TeleportTimingRoundTripTest.supersessionAndStaleConfirmsResolveOnlyWhatTheyProve, fixture teleport_supersession; live: a foreign confirm id counted stale in NativeAckInventoryTest)",
+  "movementAlignment": "PASS (TICK_END_EXACT everywhere on the pinned client; BOUNDED_FALLBACK 1-3 without tick ends / degraded coverage; TIMING_GAP; UNSUPPORTED_HORIZON beyond the closure)",
+  "silentTicks": "PASS (exact single-tick silent closure to a superset fixed point, MAX_CLOSURE_TICKS 20; live: every 20-tick rest reminder resolved; limitation: influences inside the closure are branched at its boundary only, complete=false)",
+  "timingHypotheses": "PASS (provenance ids, describe(), equivalentTo dedup, severity-ordered statuses)",
+  "phase6Integration": "PASS (TimingReconstruction shares InputReconstructor calls across hypotheses, chunked <= MAX_BRANCHES 8; no duplication of the solver)",
+  "branchUnion": "PASS ((state, pending) dedup; union carried forward; TimingPropertyTest.addingUncertaintyNeverShrinksTheLegalHypothesisSet)",
+  "noFalseTimingExclusion": {
+    "status": "PASS",
+    "velocityTransmissions": 13107,
+    "teleportCases": 500,
+    "fuzzTransmissions": 13626,
+    "truthExcluded": 0,
+    "propertyTests": "TimingPropertyTest (6): determinism, monotone uncertainty, timeouts never certainty, bounded search, large timestamps, actual application tick never excluded"
+  },
+  "roundTrips": {
+    "timing": "26733/26733 transmissions with the truth retained",
+    "velocity": "1700/1700 cases",
+    "teleport": "500/500 application points, 0 lost",
+    "fuzz": "1981/1981 cases (13626 transmissions, 1859 influences, 704 teleports, 41 closures, max 9 hypotheses, 0 lost)"
+  },
+  "searchBounds": "PASS (TimingBudget.DEFAULT 3/16/8/64/16/16384/64, SearchBudget.DEFAULT per request, MAX_CLOSURE_TICKS 20; SEARCH_LIMIT + complete=false on exhaustion; no beam search; fuzz max 9 hypotheses)",
+  "memory": {
+    "status": "PASS",
+    "emptyLedgerBytes": 1416,
+    "ledgerAtRingBoundBytes": 6144,
+    "ledgerWithCapsFullBytes": 10432,
+    "rttEstimatorBytes": 360,
+    "perResolutionAllocationBytes": {
+      "one_tick_no_influence": {
+        "timingOnlyBytes": 2368,
+        "timingPlusReconstructionBytes": 145239,
+        "hypotheses": 1,
+        "reconstructions": 1,
+        "evaluations": 1,
+        "status": "RESOLVED_UNIQUE"
+      },
+      "one_tick_velocity_2_branches": {
+        "timingOnlyBytes": 5080,
+        "timingPlusReconstructionBytes": 233977,
+        "hypotheses": 2,
+        "reconstructions": 1,
+        "evaluations": 1,
+        "status": "RESOLVED_UNIQUE"
+      },
+      "three_ticks_two_influences": {
+        "timingOnlyBytes": 29112,
+        "timingPlusReconstructionBytes": 18151182,
+        "hypotheses": 10,
+        "reconstructions": 2,
+        "evaluations": 16,
+        "status": "NO_MODELLED_CANDIDATE"
+      },
+      "two_tick_gap": {
+        "timingOnlyBytes": 2312,
+        "timingPlusReconstructionBytes": 1109416,
+        "hypotheses": 1,
+        "reconstructions": 1,
+        "evaluations": 10,
+        "status": "RESOLVED_UNIQUE"
+      },
+      "three_tick_gap": {
+        "timingOnlyBytes": 2472,
+        "timingPlusReconstructionBytes": 6163374,
+        "hypotheses": 1,
+        "reconstructions": 1,
+        "evaluations": 26,
+        "status": "RESOLVED_UNIQUE"
+      }
+    },
+    "retainedBytesPer100TimingResolutions": 130080,
+    "retainedBytesPer100EndToEndResults": 243680,
+    "bounds": "event ring 2048 records / 256 KiB / 3 s; 32 pending markers + 64 tombstones; 8 corrections; 32 RTT samples; diagnostic event capture <= 4096 events only while a trace is armed (P7-F5), cleared when it is cancelled; nothing keyed by UUID beyond the session map",
+    "perSessionRetained": "one TimingLedger (above) - the resolver and the adapter are stateless; requests, hypotheses and results are values the caller owns and drops"
+  },
+  "jmh": {
+    "status": "PASS",
+    "setup": "JMH 1.37, Temurin 25, 3 forks, 5x1 s warm-up, 10x1 s measurement, -prof gc, one host, descriptive",
+    "rttSampleUpdate": {
+      "nsPerOp": 2.8,
+      "error": 0.1,
+      "allocBytesPerOp": 0,
+      "measurements": 30
+    },
+    "ackRegisterAndResolve": {
+      "nsPerOp": 30.9,
+      "error": 0.9,
+      "allocBytesPerOp": 152,
+      "measurements": 30
+    },
+    "ledgerVelocityRegister": {
+      "nsPerOp": 91.2,
+      "error": 5.2,
+      "allocBytesPerOp": 480,
+      "measurements": 30
+    },
+    "ledgerTeleportRegisterAndConfirm": {
+      "nsPerOp": 198.0,
+      "error": 5.5,
+      "allocBytesPerOp": 1272,
+      "measurements": 30
+    },
+    "ledgerTickEnd": {
+      "nsPerOp": 61.5,
+      "error": 9.5,
+      "allocBytesPerOp": 424,
+      "measurements": 30
+    },
+    "timingOnly": {
+      "OneBranch": {
+        "nsPerOp": 281.3,
+        "error": 11.2,
+        "allocBytesPerOp": 2104,
+        "measurements": 30
+      },
+      "TwoBranch": {
+        "nsPerOp": 947.1,
+        "error": 43.8,
+        "allocBytesPerOp": 4736,
+        "measurements": 30
+      },
+      "FourBranch": {
+        "nsPerOp": 1430.4,
+        "error": 89.1,
+        "allocBytesPerOp": 7853,
+        "measurements": 30
+      },
+      "Teleport": {
+        "nsPerOp": 114.9,
+        "error": 5.3,
+        "allocBytesPerOp": 952,
+        "measurements": 30
+      },
+      "Gap2": {
+        "nsPerOp": 369.9,
+        "error": 21.2,
+        "allocBytesPerOp": 2208,
+        "measurements": 30
+      },
+      "Gap3": {
+        "nsPerOp": 343.8,
+        "error": 10.1,
+        "allocBytesPerOp": 2368,
+        "measurements": 30
+      },
+      "WorstBounded": {
+        "nsPerOp": 13345.4,
+        "error": 759.7,
+        "allocBytesPerOp": 57048,
+        "measurements": 30
+      }
+    },
+    "endToEnd": {
+      "OneBranch": {
+        "nsPerOp": 26927.2,
+        "error": 2295.1,
+        "allocBytesPerOp": 86510,
+        "measurements": 30
+      },
+      "VelocityTwoBranch": {
+        "nsPerOp": 52004.8,
+        "error": 2572.0,
+        "allocBytesPerOp": 180158,
+        "measurements": 30
+      },
+      "VelocityFourBranch": {
+        "nsPerOp": 72795.9,
+        "error": 2674.4,
+        "allocBytesPerOp": 276745,
+        "measurements": 30
+      },
+      "Teleport": {
+        "nsPerOp": 773.3,
+        "error": 23.1,
+        "allocBytesPerOp": 2912,
+        "measurements": 30
+      },
+      "Gap2": {
+        "nsPerOp": 468736.3,
+        "error": 104787.8,
+        "allocBytesPerOp": 1047577,
+        "measurements": 30
+      },
+      "Gap3": {
+        "nsPerOp": 1754104.3,
+        "error": 197898.3,
+        "allocBytesPerOp": 5939444,
+        "measurements": 30
+      },
+      "WorstBounded": {
+        "nsPerOp": 1527330.8,
+        "error": 45777.6,
+        "allocBytesPerOp": 6802259,
+        "measurements": 30
+      }
+    },
+    "costModel": "timing layer 1-3 % of the end-to-end cost; the remainder is Phase 6 enumeration (multi-tick gaps are the Phase 6 hotspot)"
+  },
+  "fixtures": {
+    "cases": 19,
+    "file": "docs/phase7-artifacts/timing-fixtures/timing-fixtures.json",
+    "replayedBy": "TimingFixtureTest"
+  },
+  "coreMatrix": {
+    "1 stable RTT": "TimingLedgerTest.stableRttConvergesAndJitterShrinks; fixture stable_rtt_walk",
+    "2 RTT jitter": "TimingLedgerTest.jitterWidensTheEnvelopeAndOneOutlierDoesNotPoisonTheEstimate; fixture rtt_jitter",
+    "3 RTT outlier": "same + aPersistentShiftReseedsAfterThreeConsecutiveOutliers; fixture rtt_outlier; rtt-model-results",
+    "4 stale RTT": "TimingLedgerTest.staleAndAbsentRttAreReportedNotInvented",
+    "5 no RTT samples": "same; NO_ACK_EVIDENCE/INSUFFICIENT_RTT statuses in TimingResolverTest",
+    "6 ACK before movement": "TimingResolverTest.markerAnswersNeverNarrowApplicationUnderTheProfile; TimingMarkerSchedulingTest",
+    "7 ACK after movement": "same",
+    "8 ACK expiry": "TimingLedgerTest.expiryIsEvidenceUnavailableAndALateAnswerChangesNothing",
+    "9 late ACK": "TimingLedgerTest.markerLedgerResolvesInOrderAndCountsDuplicatesLateAndFailedWrites",
+    "10 session replacement": "TimingLedgerTest.theLedgerIsSessionScopedMonotonicAndBounded; TimingMarkerSchedulingTest.aLatePongOfAReplacedSession...; live T10/F5",
+    "11 velocity immediate": "fixture velocity_immediate; live F2",
+    "12 velocity delayed 1 tick": "fixture velocity_delayed_1",
+    "13 velocity delayed 2 ticks": "fixture velocity_delayed_2",
+    "14 multiple velocities": "fixture multiple_velocities; TimingResolverTest.orderedInfluencesApplyInWireOrder...; live F4b",
+    "15 velocity + wall collision": "VelocityTimingRoundTripTest/TimingFuzzTest over the course world (walls, steps) with random inputs",
+    "16 velocity + jump": "same (raw input domain includes jump)",
+    "17 explosion impulse": "fixture explosion_impulse; TimingResolverTest (ADD); live T9c",
+    "18 teleport immediate confirm": "fixture teleport_immediate_confirm; TeleportTimingRoundTripTest",
+    "19 teleport delayed confirm": "fixture teleport_delayed_confirm; TeleportTimingRoundTripTest (lead 0-2)",
+    "20 movement before confirm": "TimingResolverTest.movementBeforeTheConfirmIsPreApplicationOrdinaryMovement; 470 pre-application transmissions in the teleport gate",
+    "21 teleport supersession": "TimingResolverTest.aStaleConfirmResolvesNothingAndSupersessionIsRecorded; fixture teleport_supersession",
+    "22 stale teleport confirm": "same; NativeAckInventoryTest live capture",
+    "23 dimension change": "TimingResolverTest.aWorldDiscontinuityInsideTheIntervalIsNeverCrossed; fixture world_discontinuity",
+    "24 one-tick movement alignment": "TimingResolverTest.tickEndCountIsTheExactHorizon; live walking",
+    "25 two-tick gap": "fixture/benchmark Gap2; TimingResolverTest",
+    "26 three-tick gap": "Gap3; TimingResolverTest",
+    "27 unsupported >3 horizon": "TimingResolverTest.moreThanThreeTicksUsesTheSilentClosureAndBeyondItIsUnsupported",
+    "28 silent movement tick": "fixtures silent_client_velocity, silent_closure_reminder; VelocityTimingRoundTripTest.aVelocityLandingOnASilentClient...",
+    "29 threshold-suppressed movement": "send-threshold rule in the generator + closure constraint; live rest reminders",
+    "30 timing branch ambiguity": "TimingPropertyTest.addingUncertaintyNeverShrinksTheLegalHypothesisSet; RESOLVED_AMBIGUOUS status; no-tick-end fallback fixture",
+    "31 equivalent branch dedup": "TimingResolverTest.equivalentHypothesesDeduplicateAndTheSameTraceResolvesIdentically",
+    "32 search limit": "TimingPropertyTest.searchLimitsNeverClaimCompleteAndStayBounded; fixture influence_overflow",
+    "33 incomplete world": "INCOMPLETE/SEARCH_LIMIT via Phase 6 incompleteness; live entitiesNearby=UNKNOWN attempts",
+    "34 unresolved external motion": "TimingResolverTest.anUnresolvedVectorMakesTheIntervalExternalMotionUnresolved; fixture unresolved_motion",
+    "35 capture-only uncertainty": "TimingCoverageTest; TimingResolverTest.degradedCoverageNeverTrustsTheCounts",
+    "36 reconnect": "live T10/F5; TimingMarkerSchedulingTest",
+    "37 deterministic replay": "TimingFixtureTest; TimingPropertyTest.theSameTraceResolvesIdentically",
+    "38 bounded memory": "TimingLedgerTest bounds; timingMemoryHarness",
+    "39 malformed timing sample": "TimingLedgerTest.malformedSamplesAreRejectedNeverNaNOrInfinity",
+    "40 overflow/large monotonic timestamps": "TimingPropertyTest.largeMonotonicTimestampsAndOrderingAreSafe"
+  },
+  "diagnosticCommand": "/papea2ac timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz]; status line: timing profile=... markerPort=...; bounded (4 traces, 600 steps, 120 lines, 4096 captured events); prints hypotheses, statuses, RTT window, markers, corrections, influences; never a verdict",
+  "realClientTimingQualification": {
+    "status": "PASS",
+    "evidence": "docs/phase7-artifacts/real-client-evidence.log (git-ignored by *.log; force-add at baseline like Phase 6)",
+    "client": "vanilla 26.2 (Emojiado), Paper 26.2-124 on 127.0.0.1:25576, same host",
+    "finalJar": "5ee0324cac4d9314",
+    "jarsCycled": [
+      "10034e3174551891",
+      "3ed05119c81548c8",
+      "56fa676d6516ddc2",
+      "d47e7daa7a613dcd",
+      "842be1d3f06cfcd1",
+      "bffa77b7b9ce21df",
+      "5ee0324cac4d9314"
+    ],
+    "velocity": "PASS (F2 standing apply@3; F6 walking apply@1; earlier T3f/T4b on bffa77b7)",
+    "teleport": "PASS (F3b + T5c/T6)",
+    "multipleVelocity": "PASS (F4b + T7b; T7 same-tick coalescing recorded)",
+    "knockback": "PASS (T8b, bffa77b7)",
+    "explosion": "PASS (T9c, bffa77b7)",
+    "reconnect": "PASS (F5 + T10)",
+    "actualBehaviorIncluded": "YES in every qualifying test (the true application tick / application point is among the explaining hypotheses; union carried forward)",
+    "honestNegatives": [
+      "F3 first attempt: teleport into a wall -> client push-out (0.1/tick) is outside the model -> NO_MODELLED_CANDIDATE (known limitation)",
+      "two arms with wildlife within 8 blocks -> entitiesNearby=UNKNOWN -> SEARCH_LIMIT in the silent closure (Phase 6 incompleteness)",
+      "Peaceful difficulty removed the first creeper; the fireball never detonated"
+    ],
+    "localhostCaveat": "validates protocol ordering, ACK behaviour, application sequencing and integration; not internet latency envelopes"
+  },
+  "paperSmoke": {
+    "status": "PASS",
+    "finalJar": "5ee0324cac4d9314",
+    "done": "Done (5.056s)",
+    "stop": "Disabling Papea2AC, all dimensions saved, port released",
+    "exceptionsFinalInstance": 0,
+    "exceptionsSession": 0
+  },
+  "forwardDefects": [
+    "P7-F1 velocity attribution by self entity id",
+    "P7-F2 Phase 6 landing envelope: negligible collided move (MOVE_EPSILON_SQR)",
+    "P7-F3 keep-alive cadence is 1 s (limit 30 s), not 15 s",
+    "P7-F4 benign latch reasons must not break timing coverage",
+    "P7-F5 diagnostic capture independent of the 3 s ring",
+    "P7-F6 write outcomes recorded only for tracked markers/corrections",
+    "P7-F7 expiry judged at the interval's close, not the report clock",
+    "P7-F8 LpVec3 low-precision velocity codec reproduced bit-exactly",
+    "P7-F9 tracer: rest re-send folding, 600 steps, closed-session note"
+  ],
+  "gates": {
+    "gitDiffCheck": "clean",
+    "todoFixmeHack": 0,
+    "architectureTest": "11/11",
+    "noFalseExclusion": "PASS",
+    "roundTrip": "PASS",
+    "fixtureDeterminism": "PASS (Phase 2-6 fixtures regenerated byte-identical; timing fixtures pinned)",
+    "physicsNativeDifferential": "88/88, drift 0.0",
+    "movementPropertyCoverage": "1196/1196",
+    "verifyMandatoryCoverage": "PASS",
+    "replayConformance": "PASS",
+    "pluginJar": "PASS"
+  },
+  "phase8Implementation": "NONE",
+  "knownLimitations": [
+    "localhost only; latency envelopes rest on deterministic synthetic tests (network-condition qualification: EXTERNAL QUALIFICATION REQUIRED)",
+    "silent closure with influences inside it is complete=false (branched at the closure boundary only)",
+    "post-correction states outside the model (in-block push-out, unknown entity neighbourhood) -> NO_MODELLED_CANDIDATE / SEARCH_LIMIT",
+    "pongBoundsApplication not claimed",
+    "sneak/use ordering beyond the Phase 6 input domain not modelled; <= 3 pending rotations per interval",
+    "diagnostic report is a main-thread cost (diagnostic use only)",
+    "several setVelocity calls in one server tick coalesce into one packet (what the client sees)"
+  ]
+}

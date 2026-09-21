@@ -112,7 +112,7 @@ class ArchitectureTest {
         var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|Timer|ping|Ping|rtt|RTT|latency|Latency|acknowledg|Acknowledg|teleportConfirm|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet|HashMap)\\b");
         var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
         try(var files=Files.walk(dir)){
-            var sources=files.filter(p->p.toString().endsWith(".java")).toList();
+            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")).toList();
             assertTrue(sources.size()>=7,"Phase 6 simulation module must exist");
             for(Path file:sources){
                 String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
@@ -125,6 +125,37 @@ class ArchitectureTest {
         String transfer=Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java"));
         assertTrue(transfer.contains("PhysicsKernels.clientMoveVector(")&&transfer.contains("simulator.inputVector("),"one authoritative input-processing implementation");
         assertFalse(transfer.contains("* 0.98")||transfer.contains("0.98F")||transfer.contains("0.2F"),"no duplicated input constants in the abstract lane");
+    }
+    /**
+     * Phase 7 boundary: the timing layer (the Timing* files of anticheat-simulation - the approved DAG's "interval/constraint solver"
+     * owner - and the player-owned ledgers) models WHEN, never whether: no verdict, violation, alert, setback or punishment vocabulary,
+     * no Speed/Fly/Timer check, no "ping/2 = one-way delay" arithmetic, no wall clock, no Bukkit/NMS/Netty, no reflection, no
+     * hash-order collections, and the physics question always goes through InputReconstructor (never a duplicated simulator call).
+     */
+    @Test void timingLayerStaysWithinThePhase7Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|SpeedCheck|FlyCheck|TimerCheck|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|Instant|LocalDateTime|Random|ThreadLocalRandom|HashMap|HashSet|nanoTime)\\b|(rtt|Rtt|RTT|ping|Ping)[A-Za-z]*\\s*/\\s*2\\b|oneWay|halfRtt");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        java.util.List<Path> files=new java.util.ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-simulation/src/main/java"))){s.filter(p->p.getFileName().toString().startsWith("Timing")).forEach(files::add);}
+        for(String f:new String[]{"TimingEvent","TimingLedger","RttEstimator","MarkerLedger"})files.add(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+        files.add(ROOT.resolve("anticheat-version/src/main/java/me/nicolas/papea2ac/version/TimingProfile.java"));
+        assertTrue(files.size()>=10,"Phase 7 timing files must exist: "+files);
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains a verdict/check concept, ping-halving, a wall clock, a platform type or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        String adapter=Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingReconstruction.java"));
+        assertTrue(adapter.contains("reconstructor.reconstruct(")&&!adapter.contains(".simulate("),"the timing adapter asks InputReconstructor, never a simulator directly");
+        // the timing layer stays out of the frozen Phase 6 engine: InputReconstructor does not know Timing types
+        String engine=Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java"));
+        assertFalse(engine.contains("Timing"),"InputReconstructor is unchanged by Phase 7");
+        // player's ledgers import nothing beyond model (approved DAG: player -> model, replay-schema)
+        for(String f:new String[]{"TimingEvent","TimingLedger","RttEstimator","MarkerLedger"}){
+            String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+            for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
+        }
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{

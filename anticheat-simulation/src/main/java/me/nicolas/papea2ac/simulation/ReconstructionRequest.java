@@ -47,6 +47,8 @@ public record ReconstructionRequest(List<Start> frontier, List<TickObservation> 
     public record AbstractStart(AbstractState region, String label) implements Start {
         public AbstractStart { Objects.requireNonNull(region); label = clip(label); }
     }
+    /** LATENCY_COMPENSATION.md N2: at most eight application scenarios per request (Phase 7 splits larger hypothesis sets into several requests). */
+    public static final int MAX_BRANCHES = 8;
     /** One external-motion application scenario: the motions the caller applies before each tick ({@code motionsPerTick.get(t)}, absent ticks = none). */
     public record ExternalMotionBranch(String id, List<List<PhysicsEnvironment.ExternalMotion>> motionsPerTick) {
         public ExternalMotionBranch { id = clip(id); motionsPerTick = motionsPerTick.stream().map(List::copyOf).toList(); }
@@ -74,7 +76,7 @@ public record ReconstructionRequest(List<Start> frontier, List<TickObservation> 
         branches = branches.isEmpty() ? List.of(ExternalMotionBranch.NONE) : List.copyOf(branches); Objects.requireNonNull(budget); Objects.requireNonNull(observationProfile);
         if (frontier.isEmpty()) throw new IllegalArgumentException("empty frontier");
         if (ticks.isEmpty()) throw new IllegalArgumentException("no ticks");
-        if (branches.size() > 8) throw new IllegalArgumentException("more than 8 external-motion branches (LATENCY_COMPENSATION.md N2)");
+        if (branches.size() > MAX_BRANCHES) throw new IllegalArgumentException("more than " + MAX_BRANCHES + " external-motion branches (LATENCY_COMPENSATION.md N2)");
     }
     /** The common case: one concrete start, one or more observed ticks, no constraints, no external motion, default budget, envelope pruning on. */
     public static ReconstructionRequest of(PhysicsState start, List<TickObservation> ticks, PhysicsEnvironment env) {

@@ -166,8 +166,18 @@ public final class AbstractTransfer {
                 for (int c = 0; c < 2; c++) {
                     boolean land = c == 0;
                     if (land ? !landPossible : !freePossible) continue;
-                    Interval ny, vyAfter;
-                    if (land) { if (!sterbenz(box.y(), floor.top)) { topReason = "floor landing outside the Sterbenz regime"; return null; } ny = Interval.point(floor.top); vyAfter = Interval.ZERO; }
+                    Interval ny, vyAfter, lx = nx, lz = nz;
+                    if (land) {
+                        if (!sterbenz(box.y(), floor.top)) { topReason = "floor landing outside the Sterbenz regime"; return null; }
+                        ny = Interval.point(floor.top); vyAfter = Interval.ZERO;
+                        // P7-F2 - Entity.move: when the COLLIDED move is negligible (lengthSqr <= MOVE_EPSILON_SQR) and the collision absorbed at least that
+                        // much, the position is not updated at all (the simulator models it; a landing from (nearly) floor height with a tiny horizontal
+                        // request is exactly this case). The collided vector is (px, top - y, pz): where its squared length may be within the epsilon,
+                        // the unchanged position is unioned in (sound superset; the velocity is unaffected by the skip).
+                        Interval dy = box.y().sub(floor.top);
+                        Interval collidedSqr = px.square().add(pz.square()).add(dy.square());
+                        if (collidedSqr.lo() <= MovementProfile.MOVE_EPSILON_SQR) { lx = nx.hull(box.x()); lz = nz.hull(box.z()); ny = ny.hull(box.y()); }
+                    }
                     else { ny = yEnd; vyAfter = py; }
                     // gravity / levitation, then drag (block speed factor is 1 in the pilot region)
                     Interval d;
@@ -177,7 +187,7 @@ public final class AbstractTransfer {
                     float gd = friction * MovementProfile.computeModifiedFriction(MovementProfile.AIR_FRICTION, (float) a.airDragModifier());
                     float hd = MovementProfile.computeModifiedFriction(MovementProfile.VERTICAL_DRAG, (float) a.airDragModifier());
                     Interval fx = px.mul((double) gd), fy = d.mul((double) hd), fz = pz.mul((double) gd);
-                    boxes.add(new AbstractState.Box(nx, ny, nz, fx, fy, fz, land ? AbstractState.GROUND_ON : AbstractState.GROUND_OFF, poses, njLo, njHi));
+                    boxes.add(new AbstractState.Box(lx, ny, lz, fx, fy, fz, land ? AbstractState.GROUND_ON : AbstractState.GROUND_OFF, poses, njLo, njHi));
                 }
             }
         }

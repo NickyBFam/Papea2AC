@@ -1,0 +1,48 @@
+{
+  "phase": "7",
+  "estimator": "RttEstimator: 32-sample window, smoothed (alpha 1/8) + jitter (beta 1/4), outlier = > 3*smoothed + 4*jitter + 20 ms (kept in the window, not folded), re-seed after 3 consecutive outliers, rejects <= 0 and > 60 s, stale after 30 s",
+  "samplesFrom": ["PING/PONG markers (issued by core through the platform port at 1 Hz per session plus a bracket after each outbound influence/correction, at most one per 50 ms, 16 pending)", "KEEPALIVE (Paper 26.2 server cadence 1 s: one challenge per second, pending queue, 30 s limit - P7-F3)"],
+  "semantics": "capture-monotonic interval encoder tap -> pre-process tap: network round trip plus the client's network-thread handling; never a client tick, never halved into a one-way delay",
+  "scenarios": [
+    {
+      "scenario": "stable_20ms",
+      "samples": 40,
+      "smoothedMs": 20.0,
+      "jitterMs": 1.35E-4,
+      "minMs": 20.0,
+      "maxMs": 20.0,
+      "outliers": 0,
+      "envelopeHighMs": 20.00054
+    },
+    {
+      "scenario": "jitter_20_60ms",
+      "samples": 40,
+      "smoothedMs": 45.846405,
+      "jitterMs": 10.124375,
+      "minMs": 22.0,
+      "maxMs": 59.0,
+      "outliers": 0,
+      "envelopeHighMs": 86.343905
+    },
+    {
+      "scenario": "outlier_spike",
+      "samples": 40,
+      "smoothedMs": 20.0,
+      "jitterMs": 1.8E-4,
+      "minMs": 20.0,
+      "maxMs": 5000.0,
+      "outliers": 1,
+      "envelopeHighMs": 5000.0
+    },
+    {
+      "scenario": "shift_20_to_400ms",
+      "samples": 40,
+      "smoothedMs": 400.0,
+      "jitterMs": 13.348389,
+      "minMs": 20.0,
+      "maxMs": 400.0,
+      "outliers": 3,
+      "envelopeHighMs": 453.393556
+    }
+  ]
+}

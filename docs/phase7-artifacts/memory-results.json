@@ -1,0 +1,54 @@
+{
+  "phase": "7 - Latency / Acknowledgement / External-Motion Timing",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-resolution garbage; estimates on one host, not capacity",
+  "emptyLedgerBytes": 1416,
+  "ledgerAtRingBoundBytes": 6296,
+  "ledgerWithCapsFullBytes": 10432,
+  "rttEstimatorBytes": 360,
+  "bounds": "event ring 2048 records / 256 KiB / 3 s; 32 pending markers + 64 tombstones; 8 corrections; 32 RTT samples; diagnostic event capture <= 4096 events only while a trace is armed (P7-F5), cleared when it is cancelled; nothing keyed by UUID beyond the session map",
+  "perResolutionAllocationBytes": {
+    "one_tick_no_influence": {
+      "timingOnlyBytes": 2368,
+      "timingPlusReconstructionBytes": 145239,
+      "hypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 1,
+      "status": "RESOLVED_UNIQUE"
+    },
+    "one_tick_velocity_2_branches": {
+      "timingOnlyBytes": 5080,
+      "timingPlusReconstructionBytes": 233976,
+      "hypotheses": 2,
+      "reconstructions": 1,
+      "evaluations": 1,
+      "status": "RESOLVED_UNIQUE"
+    },
+    "three_ticks_two_influences": {
+      "timingOnlyBytes": 29072,
+      "timingPlusReconstructionBytes": 21565774,
+      "hypotheses": 10,
+      "reconstructions": 2,
+      "evaluations": 16,
+      "status": "NO_MODELLED_CANDIDATE"
+    },
+    "two_tick_gap": {
+      "timingOnlyBytes": 2312,
+      "timingPlusReconstructionBytes": 1385773,
+      "hypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 10,
+      "status": "RESOLVED_UNIQUE"
+    },
+    "three_tick_gap": {
+      "timingOnlyBytes": 2472,
+      "timingPlusReconstructionBytes": 7511913,
+      "hypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 26,
+      "status": "RESOLVED_UNIQUE"
+    }
+  },
+  "retainedBytesPer100TimingResolutions": 130080,
+  "retainedBytesPer100EndToEndResults": 243680,
+  "perSessionRetained": "one TimingLedger (above) - the resolver and the adapter are stateless; requests, hypotheses and results are values the caller owns and drops"
+}
