@@ -1,0 +1,77 @@
+# Phase 8 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes over the committed Git blob content (not the
+# Windows checkout bytes), covering the complete Phase 8 implementation baseline set: the validation production sources
+# (anticheat-simulation: MovementValidation, MovementValidationRequest, MovementValidationResult, MovementValidator - the only
+# producer of VALID / UNCERTAIN / INVALID - and the additive Phase 6 diagnostics in InputDomain, InputReconstructor and
+# ReconstructionResult; anticheat-player: ContextEvent, MovementContextLedger; anticheat-core: MovementValidationRunner,
+# ContextObservationMapper, ValidationStatus, ValidationEngineStatus and the PacketEngine composition; anticheat-platform-paper:
+# the /papea2ac validate command, the status line and the live-INVALID log sink), which include the P8-F1, P8-F3, P8-F4, P8-F6
+# forward fixes, the P8-F2 CLIMBABLE_CONTACT gate and the P8-F7 safeguard; tests (validator, corpus, property/metamorphic,
+# fixtures + fixture harness, runner, engine integration, context ledger, live reproductions, the pre-baseline safety suite,
+# the Phase 7 generator refactors and the ArchitectureTest Phase 8 boundary), ValidationBenchmarks, the memory harness,
+# Gradle task changes, the Phase 8 report, the human approval record, and the artifacts (validation fixtures, legitimate /
+# false-positive / native / timing corpus results, detection and invalid corpus results, benchmarks (final-code run),
+# memory results, verification.json with the pre-baseline decisions, and the real-client evidence log).
+# The frozen Phase 0-7 documents and docs/phase1..7-artifacts are intentionally NOT part of this manifest: the Phase 6/7
+# code touched by Phase 8 is a forward addition; the historical baselines and their artifacts are unchanged.
+# Parent commit: 060ab2a330af1886e13d1767de00c288f3a02c49
+# Phase 7 implementation baseline (unchanged in history): 537ffde64367835ffeedf63cd19776713196c110
+# Phase 6 implementation baseline (unchanged in history): ca6c16004247808fdb81203ecd1e041d3cfe7259
+# Phase 5 implementation baseline (unchanged in history): 03a538c4496df92df16b7e0ce503bb61750847ae
+# Phase 4 implementation baseline (unchanged in history): 1685e96519f2eaec3f5b28c12d687e8118809b64
+# Phase 3 implementation baseline (unchanged in history): 92159ec5ef8524c5953ecaa22f663c1f556d52ac
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Final baseline plugin jar (byte-identical rebuild of the manually ladder-qualified jar): 280db1652624420a6ea4167489cc8627ec1da54bbcb5ad3409358ae201a7532c
+# Generated: 2026-09-21
+58ad201c6c89d57db3da252292a82ad86207cd5b72df8b65dfed3d8763ffc7c7  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ContextObservationMapper.java
+2ae1962a06690f0a9ed5e84a83003d70193467e0e2732b4772b7bdf3ac71432f  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java
+80376c2596b49edae7c331fc2ab295e907417a08e974ba4d96eff595d1805556  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+2d9e10b17600812f084a6dd638d5fce2cb997b463aa9221047cff13f0ce1c6ea  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationEngineStatus.java
+4911655f21912ac08887429a843655e3cd1923ad9eac151df502f26518e7a79b  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationStatus.java
+364a0c3004680802d381466d394cc6cfbbaa46d4b015d24e5d158511bcecf550  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+fea5cd8aa8d5ae69dddda7e93b9001822617ebda8ff848a60037ce0877925887  anticheat-player/src/main/java/me/nicolas/papea2ac/player/ContextEvent.java
+0d9d7169f54c478879ecb8b7380f5b28081478ba9e15f73b042fd26d1ebf3e28  anticheat-player/src/main/java/me/nicolas/papea2ac/player/MovementContextLedger.java
+dfd81a2b2c2564e51a1bb16fcf871d367ff0e99e3fb2ca27b307505e460bba16  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputDomain.java
+663bb8dcceeffcef2c86fef729b615ab8b6c3318a76c4f53f69e7d09f00c91b3  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java
+cd8d29322467d2c5769d10432010ba49dd5bad83a1d260448430d2e2889917d5  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidation.java
+3b43e5f7e85d3e8e77de1e279f245415215d3c4f3d6c32e737a28c14fa9447f7  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationRequest.java
+bb03d6e8bbaf9ca3104784abb063336aed8ecd5aa7c48df73615b8e18d4dd191  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationResult.java
+433e894a02f6a60fc82cf6d62cc80179e9264a1e7cc9c6023bb973792bf18295  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java
+537fd9af5bf7a34a9351aacaf5ff5397588c47414e12b449c0f690cd29bfb499  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionResult.java
+188f84b86da602fe3d19e7fa7b02664cdb31ab7d0963bc88db0f9f4f393463d1  anticheat-testing/build.gradle.kts
+4a22fed5138aa200d1570dfd2d0826e9f55d9f4957a12050e3a19bd3496a58b8  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ValidationBenchmarks.java
+656bc43fb5f3b80ff529ac48ceba31391e8bb2cb9fd8dda09e7fa1a2ecc7f5af  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+eeda603cc51bd686ad32c0029fc55782531b4dda07de14975de1e2ce08722d96  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementContextLedgerTest.java
+b6a4c0c1f730b6edb4695e1ceab93f8b840e126a911b9326c3f5ce99f6d35871  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidationRunnerTest.java
+cff4215417f2a53e57b3e39a4abd4b286bc325dd055ab95087a7e90e1ae943fa  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidatorTest.java
+fd7592327c3afaa63a14001ac28c1a88fb85c4ba15671d940962ffc7036016e9  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TeleportTimingRoundTripTest.java
+acda26426ac18416270785167969b3ee6ff1d2bbc09143cc1601ea6f322b4572  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFuzzTest.java
+c0cf7adc7815fc9c28bd7233e95b13de74ef7e4655487df318892ec7c2b4d266  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpus.java
+584d1dcdc5a2153d5ad75b161c23839947123647cb9f990436fdc4843b27334b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpusTest.java
+db295c91eb8fb6b2ef0e5fd4f0e0b05b7ccc80d96e48b3e31764d961c3be575f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationEngineIntegrationTest.java
+31ebbec9fda8fad0b0fafc340805756181d34563fc9cef2b6e2ac36264c86b80  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureMain.java
+2148ea3dfea79e913585cd8c270865cf3b2ce8e1a12a82fde55a9b0eed06cdb3  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureTest.java
+909ef31800a959cd99a8084a632b51b10eebbd66db5ab5fd89db69d0afe84362  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtures.java
+d6385a1ed8e6569a9719ddd28806278e33a0c6325fbb992067062b39ab575709  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationLiveReproTest.java
+8413c71e2f19f388b46bb0381723567c13c2a23de008513fec707e8e82eac3d4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationMemoryMain.java
+10a34e849988bbf634cbee5908429af699337645fa95141a1287f1b51db00484  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationPropertyTest.java
+afeb4c9684477b0ae5eff9b086737b1277880479696e1ca916367ed6f2631863  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationSafetyTest.java
+0a444f0bfd99aa1cafd64f07888a49399c463d4fa2ca6d7a935d37c5434a2016  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationTestSupport.java
+c434d411d336f7b7482d5d7217e10a9d04e1d3bfc68d3104f4021e3b73c78669  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/VelocityTimingRoundTripTest.java
+50685d103aef834ddcd50f07e5405d7d0aa62d9b0af39aa4367060d0450b3776  docs/PHASE_8_HUMAN_APPROVAL.md
+65c0e0d17a3ec636d3cd7f5fb58207419ac1354984164b6093b6343a9e2d2ed4  docs/PHASE_8_IMPLEMENTATION.md
+c5018cbe7f89e31a105f9e9f8b67dc697a2ca355dc31042e3928acf8834734f2  docs/phase8-artifacts/benchmarks.json
+d939089f301567ddafc7f332bfc253b35cd790dd604e11ed6d9c73bea8298641  docs/phase8-artifacts/detection-results.json
+f2205ce4d6fb86b3ffa93462f208dbe070b79972664a3010ab29fa56e7c8b142  docs/phase8-artifacts/false-positive-results.json
+d939089f301567ddafc7f332bfc253b35cd790dd604e11ed6d9c73bea8298641  docs/phase8-artifacts/invalid-corpus-results.json
+3ca75a5c929d918502f2c2fed4ff41de7d8d47402cb461774aa4486ed2b7bf4d  docs/phase8-artifacts/legitimate-corpus-results.json
+c6db476e2edba1ae36c148abe30d1700fabf44fba9cb4fec98c064ebccfa7ba2  docs/phase8-artifacts/memory-results.json
+250e1e9fe6fbe68f079d6adf9ee604cec24f8da1e377f6a597ecef16bc6a2e01  docs/phase8-artifacts/native-validation-results.json
+ec47d1cf5cd130a440588d989472c986d46498da6e361749b71a26a64d14f7bd  docs/phase8-artifacts/real-client-evidence.log
+f81df3600b3fcb4db0672b7c8194eecc001a294efcb72e2c8b33a442988b5687  docs/phase8-artifacts/timing-validation-results.json
+7db089b4d8023e1391142adc87a7495e0721dec4031fb0033986f43ca1dc6fd0  docs/phase8-artifacts/validation-fixtures/validation-fixtures.json
+08c5ba74ea3ce6627357a69291a975194fc17144e8a75f79827e8ada488e7b9a  docs/phase8-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 48 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# fabfde975cb7f1be45c91ad9bfc88681308af2ab413c7730197de2a7622ba94a

@@ -1,0 +1,716 @@
+{
+ "phase": "8 - Movement Validation",
+ "status": "READY_FOR_BASELINE",
+ "date": "2026-09-21",
+ "head": "060ab2a330af1886e13d1767de00c288f3a02c49",
+ "workingTree": {
+  "modifiedTracked": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java",
+   "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputDomain.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionResult.java",
+   "anticheat-testing/build.gradle.kts",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TeleportTimingRoundTripTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFuzzTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/VelocityTimingRoundTripTest.java"
+  ],
+  "untrackedRoots": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ContextObservationMapper.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationEngineStatus.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationStatus.java",
+   "anticheat-player/src/main/java/me/nicolas/papea2ac/player/ContextEvent.java",
+   "anticheat-player/src/main/java/me/nicolas/papea2ac/player/MovementContextLedger.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidation.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationRequest.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationResult.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java",
+   "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ValidationBenchmarks.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementContextLedgerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidationRunnerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidatorTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpus.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpusTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationEngineIntegrationTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureMain.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtures.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationLiveReproTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationMemoryMain.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationPropertyTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationSafetyTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationTestSupport.java",
+   "docs/PHASE_8_HUMAN_APPROVAL.md",
+   "docs/PHASE_8_IMPLEMENTATION.md",
+   "docs/phase8-artifacts/"
+  ],
+  "committed": false,
+  "baselined": false
+ },
+ "phase7Baseline": "537ffde64367835ffeedf63cd19776713196c110",
+ "phase7Receipt": "060ab2a330af1886e13d1767de00c288f3a02c49",
+ "build": "PASS",
+ "testCounts": {
+  "test": 647,
+  "testClasses": 79,
+  "testFailed": 0,
+  "nativeTest": 137,
+  "nativeTestClasses": 21,
+  "nativeTestFailed": 0,
+  "uniqueTotal": 784,
+  "phase7": {
+   "test": 598,
+   "nativeTest": 137,
+   "uniqueTotal": 735
+  },
+  "phase8TestClasses": {
+   "MovementValidatorTest": 15,
+   "ValidationCorpusTest": 5,
+   "ValidationPropertyTest": 6,
+   "ValidationFixtureTest": 2,
+   "MovementValidationRunnerTest": 6,
+   "ValidationEngineIntegrationTest": 2,
+   "MovementContextLedgerTest": 5,
+   "ValidationLiveReproTest": 2,
+   "ValidationSafetyTest": 5
+  }
+ },
+ "phase1SemanticCoverage": "127/127",
+ "phase1MandatoryGaps": 0,
+ "productionTransport": "CAPTURE-ONLY",
+ "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+ "phase1to7Regression": "NONE (nativeTest all green; verifyMandatoryCoverage / replayConformance / movementPropertyCoverage / shapeCoverage pinned digests reproduced; physicsNativeDifferential bit-exact; Phase 2-7 fixture regeneration leaves docs/phase2..7-artifacts untouched; Phase 7 fuzz/velocity/teleport statistics identical after the generator refactor)",
+ "validationOwner": {
+  "simulation": "MovementValidation, MovementValidationRequest, MovementValidationResult, MovementValidator (the only producer of VALID/UNCERTAIN/INVALID); additive ReconstructionResult.Diagnostics / InputReconstructor accounting / InputDomain.describeHistory",
+  "player": "ContextEvent, MovementContextLedger",
+  "core": "MovementValidationRunner, ContextObservationMapper, ValidationStatus, ValidationEngineStatus, PacketEngine composition",
+  "platform": "/papea2ac validate <player> [view|recent|notable|inject], status line (display only)"
+ },
+ "validationCore": "MovementValidator.validate = TimingReconstruction.run once + classify (pure); classify(request, result) for a caller holding the union; the rule: explaining step -> VALID; else any incomplete/unsupported dimension -> UNCERTAIN naming each; else INVALID with proof; enforced again by MovementValidationResult's constructor",
+ "semantics": {
+  "VALID": "at least one explaining step (exact Phase 6 candidate under some timing hypothesis, or a correction application point); ambiguity fine; reasons LEGAL_INPUT_FOUND/LEGAL_TIMING_BRANCH_FOUND/EXTERNAL_MOTION_EXPLAINS/TELEPORT_APPLICATION_POINT; witnesses <= 4",
+  "UNCERTAIN": "27 typed reasons (CLIMBABLE_CONTACT added in the decision pass), every missing dimension named separately; residual diagnostics attached; nextFrontierComplete=false",
+  "INVALID": "completeness.all() && 0 legal candidates && no uncertainty; NO_LEGAL_INPUT + HORIZONTAL_EXCESS/VERTICAL_EXCESS/IMPOSSIBLE_ASCENT/IMPOSSIBLE_DESCENT/COLLISION_PENETRATION/UNEXPLAINED_DISPLACEMENT from the exhausted set; Proof(hypothesesExhausted, reconstructions, evaluations, rawEnumerated, excludedExact, excludedEnvelope, candidatesRemaining=0, profiles, epoch/revision, hypothesis ids)"
+ },
+ "completenessProof": "Completeness(timing, reconstruction, world, attributes, effects, equipment, entities, border, externalMotion, mechanicSupported, search, observation, frontier) derived per dimension from TimingResolution statuses, ReconstructionResult.Coverage reasons and the adapter notes; frontier flag travels with the chain, re-set by an absolute correction application point or a rest re-anchor",
+ "timingUnion": "every TimingResolution status consumed (RESOLVED_UNIQUE/AMBIGUOUS/NO_ACK_EVIDENCE/INSUFFICIENT_RTT complete unless flagged; TIMING_GAP, SEARCH_LIMIT, UNSUPPORTED_HORIZON, TELEPORT_UNRESOLVED, WORLD/SESSION_DISCONTINUITY, EXTERNAL_MOTION_UNRESOLVED, EXPIRED, UNSUPPORTED -> named UNCERTAIN reasons); RTT never used; timing corpus 16 610 transmissions VALID",
+ "reconstructionUnion": "TimingReconstruction.run unions every hypothesis's Phase 6 continuations (dedup by state+pending set); the chain carries next() forward; witnesses from exact candidates with history counts; no InputReconstructor call outside the adapter",
+ "externalMotion": "velocity SET / explosion ADD branches from Phase 7; EXTERNAL_MOTION_EXPLAINS; unresolved/expired/overflow -> UNCERTAIN; P8-F4: applied influences retired from the live scope once no continuation has them pending (and after the profile horizon)",
+ "teleportSafety": "application point VALID (TELEPORT_APPLICATION_POINT, no physics step); absolute correction re-anchors the chain (6 nodes: poses x ground, velocity = delta); pre-application movement ordinary (fixture valid_pre_application_reminder); outstanding correction across the interval TELEPORT_UNRESOLVED; respawn/world change DISCONTINUITY; epoch mismatch never VALID (property test)",
+ "locomotion": {
+  "supported": "walk, sprint, sneak, strafe, jump, fall, collisions, step-up, slabs, stairs, fences/walls, ice, slime, honey, soul sand, ladders, crawling pose, knockback/velocity, explosions, corrections",
+  "unsupported -> UNCERTAIN": "fluids/bubble columns (UNSUPPORTED_FLUID), elytra / creative or spectator / flight-capable context (UNSUPPORTED_LOCOMOTION, runner refuses), vehicles, powder snow with unknown equipment, entity pushing with a relevant entity within 4 blocks (ENTITY_NEIGHBORHOOD_UNKNOWN), levitation/slow falling, in-block push-out, >3-tick horizons, unknown game mode; climbable block within reach (CLIMBABLE_CONTACT, P8-F2): VALID when explained, never INVALID"
+ },
+ "zeroFalseInvalidGate": {
+  "status": "PASS",
+  "legitimateCases": 4269,
+  "legitimateTransmissions": 32314,
+  "VALID": 32312,
+  "UNCERTAIN": 2,
+  "INVALID": 0,
+  "uncertainReasons": {
+   "SEARCH_LIMIT": 2
+  },
+  "perClass": {
+   "timing-fuzz": {
+    "transmissions": 13626,
+    "validShare": 100.0,
+    "INVALID": 0
+   },
+   "velocity": {
+    "transmissions": 11558,
+    "validShare": 100.0,
+    "INVALID": 0
+   },
+   "velocity-no-tick-ends": {
+    "transmissions": 1549,
+    "validShare": 100.0,
+    "INVALID": 0
+   },
+   "teleport": {
+    "transmissions": 2877,
+    "validShare": 100.0,
+    "INVALID": 0
+   },
+   "native-trajectories": {
+    "transmissions": 2704,
+    "validShare": 99.93,
+    "INVALID": 0
+   }
+  },
+  "gate": ">= 95% VALID per supported benign class, 0 INVALID"
+ },
+ "nativeValidation": {
+  "status": "PASS",
+  "cases": 88,
+  "transmissions": 2704,
+  "VALID": 2702,
+  "UNCERTAIN": 2,
+  "INVALID": 0,
+  "uncertainReasons": {
+   "SEARCH_LIMIT": 2
+  }
+ },
+ "timingCorpusValidation": {
+  "status": "PASS",
+  "velocity": {
+   "cases": 1500,
+   "transmissions": 11558,
+   "VALID": 11558,
+   "INVALID": 0
+  },
+  "velocityNoTickEnds": {
+   "cases": 200,
+   "transmissions": 1549,
+   "VALID": 1549,
+   "INVALID": 0
+  },
+  "teleport": {
+   "cases": 500,
+   "transmissions": 2877,
+   "VALID": 2877,
+   "INVALID": 0
+  },
+  "fuzz": {
+   "cases": 1981,
+   "transmissions": 13626,
+   "VALID": 13626,
+   "INVALID": 0
+  }
+ },
+ "impossibleCorpus": {
+  "status": "PASS",
+  "observationModel": "exact double equality for transmitted positions (MovementObservationProfile.PAPER_26_2): any shift from every legal prediction, including one ulp, lies outside the reachable observation set in a complete context",
+  "generated": 3290,
+  "INVALID": 3290,
+  "UNCERTAIN": 0,
+  "VALID": 0,
+  "families": {
+   "horizontal-x1.01": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "HORIZONTAL_EXCESS": 3,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 247
+    }
+   },
+   "horizontal-x1.05": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "HORIZONTAL_EXCESS": 16,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 234
+    }
+   },
+   "horizontal-x1.1": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "HORIZONTAL_EXCESS": 76,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 174
+    }
+   },
+   "horizontal-x1.2": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "HORIZONTAL_EXCESS": 135,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 115
+    }
+   },
+   "horizontal-x1.5": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "COLLISION_PENETRATION": 1,
+     "HORIZONTAL_EXCESS": 177,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 73
+    }
+   },
+   "horizontal-x2.0": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "COLLISION_PENETRATION": 1,
+     "HORIZONTAL_EXCESS": 197,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 53
+    }
+   },
+   "upward+0.05": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 198,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 52,
+     "VERTICAL_EXCESS": 198
+    }
+   },
+   "upward+0.2": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 207,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 43,
+     "VERTICAL_EXCESS": 207
+    }
+   },
+   "upward+0.5": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 243,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 7,
+     "VERTICAL_EXCESS": 243
+    }
+   },
+   "upward+1.0": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 244,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 6,
+     "VERTICAL_EXCESS": 244
+    }
+   },
+   "hover": {
+    "cases": 20,
+    "INVALID": 20,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 20,
+     "NO_LEGAL_INPUT": 20,
+     "VERTICAL_EXCESS": 20
+    }
+   },
+   "no-gravity": {
+    "cases": 20,
+    "INVALID": 20,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 20,
+     "NO_LEGAL_INPUT": 20,
+     "VERTICAL_EXCESS": 20
+    }
+   },
+   "step+0.7": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "IMPOSSIBLE_ASCENT": 244,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 6,
+     "VERTICAL_EXCESS": 244
+    }
+   },
+   "through-floor": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "COLLISION_PENETRATION": 75,
+     "IMPOSSIBLE_DESCENT": 244,
+     "NO_LEGAL_INPUT": 250,
+     "VERTICAL_EXCESS": 244
+    }
+   },
+   "1-ulp": {
+    "cases": 250,
+    "INVALID": 250,
+    "UNCERTAIN": 0,
+    "VALID": 0,
+    "invalidReasons": {
+     "HORIZONTAL_EXCESS": 1,
+     "NO_LEGAL_INPUT": 250,
+     "UNEXPLAINED_DISPLACEMENT": 249
+    }
+   }
+  },
+  "gate": ">= 80% INVALID on strong classes"
+ },
+ "speedControlledTests": "horizontal x1.01/x1.05/x1.1/x1.2/x1.5/x2.0 (250 each): 250/250 INVALID at every factor; live injections 0.31/0.42/0.5 per tick: INVALID (UNEXPLAINED_DISPLACEMENT inside the legal extent at 0.31, HORIZONTAL_EXCESS at 0.42 and 0.5 against legal h<=0.3274 from rest)",
+ "flyControlledTests": "upward +0.05/+0.2/+0.5/+1.0 (250 each), hover 20/20, no-gravity 20/20, step +0.7 250/250, through-floor 250/250: all INVALID; fixture invalid_hover; live injections +0.05/tick drift, +0.1 hold, +1.0, -0.5 into the floor (COLLISION_PENETRATION), +0.7 step: INVALID",
+ "uncertainClasses": "search-limit (property test + fixture uncertain_search_limit + live honey->soul sand step), unknown world (fixture + engine test: WORLD_INCOMPLETE, chain re-anchors), unsupported fluid (fixture + live water step: UNSUPPORTED_FLUID), unknown attribute/effects/entities/border (property test: adding uncertainty never yields INVALID), teleport discontinuity, epoch mismatch, frontier incomplete, capture-only/coverage break -> CAPTURE_GAP / anchor drop",
+ "propertyMetamorphic": {
+  "status": "PASS",
+  "properties": [
+   "determinism / finiteness / bounded sizes",
+   "every VALID witness reproduces the observation",
+   "INVALID only with completeness.all(), 0 candidates, a proof and hypothesesExhausted == steps",
+   "adding uncertainty (frontier flag, content flag, attributes/entities/border/effects UNKNOWN) never yields INVALID",
+   "INVALID + a legal candidate -> VALID (metamorphic)",
+   "search exhaustion never INVALID; world-epoch mismatch never VALID"
+  ],
+  "seeds": "velocity corpus 7000+, fuzz 90000+"
+ },
+ "memory": {
+  "status": "PASS",
+  "validatorBytes": 16,
+  "contextLedgerEmptyBytes": 368,
+  "contextLedgerAtBoundsBytes": 54368,
+  "runnerEmptyBytes": 1440,
+  "runnerAnchoredRecentFullBytes": 12528,
+  "retainedBytesPer100ValidResults": 96480,
+  "retainedBytesPer100InvalidResults": 59680,
+  "perResultAllocationBytes": {
+   "valid_one_tick": {
+    "classifierOnlyBytes": 1928,
+    "endToEndBytes": 131920,
+    "classification": "VALID",
+    "timingHypotheses": 1,
+    "reconstructions": 1,
+    "evaluations": 1,
+    "witnesses": 1,
+    "proofHypothesisIds": 0,
+    "retainedResultBytes": 864
+   },
+   "valid_velocity_2_branches": {
+    "classifierOnlyBytes": 2000,
+    "endToEndBytes": 167360,
+    "classification": "VALID",
+    "timingHypotheses": 2,
+    "reconstructions": 1,
+    "evaluations": 1,
+    "witnesses": 1,
+    "proofHypothesisIds": 0,
+    "retainedResultBytes": 960
+   },
+   "invalid_horizontal_excess": {
+    "classifierOnlyBytes": 2488,
+    "endToEndBytes": 82640,
+    "classification": "INVALID",
+    "timingHypotheses": 1,
+    "reconstructions": 1,
+    "evaluations": 0,
+    "witnesses": 0,
+    "proofHypothesisIds": 1,
+    "retainedResultBytes": 592
+   },
+   "uncertain_world_incomplete": {
+    "classifierOnlyBytes": 1696,
+    "endToEndBytes": 749268,
+    "classification": "UNCERTAIN",
+    "timingHypotheses": 1,
+    "reconstructions": 1,
+    "evaluations": 144,
+    "witnesses": 0,
+    "proofHypothesisIds": 0,
+    "retainedResultBytes": 432
+   },
+   "two_tick_gap": {
+    "classifierOnlyBytes": 2664,
+    "endToEndBytes": 1118392,
+    "classification": "VALID",
+    "timingHypotheses": 1,
+    "reconstructions": 1,
+    "evaluations": 10,
+    "witnesses": 1,
+    "proofHypothesisIds": 0,
+    "retainedResultBytes": 896
+   },
+   "three_tick_gap": {
+    "classifierOnlyBytes": 2664,
+    "endToEndBytes": 6184881,
+    "classification": "VALID",
+    "timingHypotheses": 1,
+    "reconstructions": 1,
+    "evaluations": 26,
+    "witnesses": 1,
+    "proofHypothesisIds": 0,
+    "retainedResultBytes": 960
+   }
+  },
+  "bounds": "event slice <= 1024 events, recent ring 48 lines, injected ring 48 lines, one last result, frontier <= TimingBudget.DEFAULT.maxFrontierNodes() nodes; no per-transmission history, no UUID-labelled metric; attributes <= 32, effects <= 32, tracked entities <= 1024 (beyond the bound the neighbourhood is UNKNOWN, never dropped silently)"
+ },
+ "jmh": {
+  "status": "PASS",
+  "setup": "JMH 1.37, Temurin 25, 3 forks, 5x1 s warm-up, 10x1 s measurement, -prof gc, one host, descriptive",
+  "classifierOnly": {
+   "classifyValidSimple": {
+    "nsPerOp": 896.7,
+    "error": 48.5,
+    "allocBytesPerOp": 1320,
+    "measurements": 30
+   },
+   "classifyValidVelocity": {
+    "nsPerOp": 944.4,
+    "error": 19.4,
+    "allocBytesPerOp": 1536,
+    "measurements": 30
+   },
+   "classifyInvalidHorizontal": {
+    "nsPerOp": 1806.1,
+    "error": 20.9,
+    "allocBytesPerOp": 1856,
+    "measurements": 30
+   },
+   "classifyUncertainWorld": {
+    "nsPerOp": 421.5,
+    "error": 11.6,
+    "allocBytesPerOp": 1120,
+    "measurements": 30
+   },
+   "classifyWorstBounded": {
+    "nsPerOp": 989.7,
+    "error": 11.9,
+    "allocBytesPerOp": 1136,
+    "measurements": 30
+   }
+  },
+  "endToEnd": {
+   "endToEndValidSimple": {
+    "nsPerOp": 48769.4,
+    "error": 1247.4,
+    "allocBytesPerOp": 113360,
+    "measurements": 30
+   },
+   "endToEndValidAmbiguous": {
+    "nsPerOp": 90670.3,
+    "error": 2128.0,
+    "allocBytesPerOp": 208169,
+    "measurements": 30
+   },
+   "endToEndValidVelocity": {
+    "nsPerOp": 76987.2,
+    "error": 2696.7,
+    "allocBytesPerOp": 195931,
+    "measurements": 30
+   },
+   "endToEndUncertainWorldIncomplete": {
+    "nsPerOp": 287029.2,
+    "error": 4591.0,
+    "allocBytesPerOp": 722994,
+    "measurements": 30
+   },
+   "endToEndUncertainSearchLimit": {
+    "nsPerOp": 3249.6,
+    "error": 130.8,
+    "allocBytesPerOp": 10733,
+    "measurements": 30
+   },
+   "endToEndInvalidHorizontal": {
+    "nsPerOp": 41048.8,
+    "error": 1572.9,
+    "allocBytesPerOp": 105731,
+    "measurements": 30
+   },
+   "endToEndInvalidVertical": {
+    "nsPerOp": 42416.6,
+    "error": 1117.6,
+    "allocBytesPerOp": 105843,
+    "measurements": 30
+   },
+   "endToEndTwoBranch": {
+    "nsPerOp": 76052.7,
+    "error": 2176.1,
+    "allocBytesPerOp": 195889,
+    "measurements": 30
+   },
+   "endToEndFourBranch": {
+    "nsPerOp": 104432.6,
+    "error": 1842.6,
+    "allocBytesPerOp": 278574,
+    "measurements": 30
+   },
+   "endToEndGap2": {
+    "nsPerOp": 526322.2,
+    "error": 10357.6,
+    "allocBytesPerOp": 1326990,
+    "measurements": 30
+   },
+   "endToEndGap3": {
+    "nsPerOp": 2458875.0,
+    "error": 60321.7,
+    "allocBytesPerOp": 5941144,
+    "measurements": 30
+   },
+   "endToEndWorstBounded": {
+    "nsPerOp": 1892572.6,
+    "error": 53182.8,
+    "allocBytesPerOp": 6777281,
+    "measurements": 30
+   }
+  }
+ },
+ "fixtures": {
+  "status": "PASS",
+  "cases": 17,
+  "names": [
+   "valid_unique",
+   "valid_ambiguous",
+   "valid_external_velocity",
+   "valid_teleport_application",
+   "uncertain_incomplete_world",
+   "uncertain_unknown_attribute",
+   "uncertain_search_limit",
+   "uncertain_unsupported_fluid",
+   "uncertain_climbable_contact",
+   "uncertain_teleport_discontinuity",
+   "valid_pre_application_reminder",
+   "invalid_horizontal_excess",
+   "invalid_vertical_excess",
+   "invalid_collision_penetration",
+   "invalid_hover",
+   "world_epoch_mismatch",
+   "frontier_incomplete"
+  ],
+  "digest": "7db089b4d8023e1391142adc87a7495e0721dec4031fb0033986f43ca1dc6fd0"
+ },
+ "diagnosticCommand": "/papea2ac validate <player> [view | recent | notable | inject dx dy dz [ticks]]; status line: validation requests/VALID/UNCERTAIN/INVALID, uncertain families, timingBranches, reconstructions, evaluations, anchors/lost, internalErrors, injected",
+ "threading": "runner owned by the session shard thread (assertOwner); platform reads a volatile immutable ValidationStatus; inject under the runner monitor; no main-thread pipeline; exceptions contained (UNCERTAIN/INTERNAL_ERROR, anchor drop, counter)",
+ "sessionAndEpochSafety": "replacement session -> fresh runner and ledger (engine test); Discontinuity/CoverageBreak -> anchor drop, slice and influences cleared, side chain ended; epoch mismatch never VALID",
+ "realClientLegitimateQualification": "see PHASE_8_IMPLEMENTATION.md REAL CLIENT QUALIFICATION and docs/phase8-artifacts/real-client-evidence.log",
+ "realClientControlledImpossible": "eight side-chain injections on jar 39d447d6, repeated on e47ecc75, e55aca05 and 8fedca08: all INVALID with the expected diagnostics; live chain untouched",
+ "finalJar": "280db1652624420a6ea4167489cc8627ec1da54bbcb5ad3409358ae201a7532c",
+ "forwardDefects": {
+  "P8-F1": "FIXED - outbound write outcomes filled the live event slice (event slice bound within a second): WriteResolved never enters the slice; regression test",
+  "P8-F2": "RESOLVED DEFECT (scoped): reproduced live as two false INVALIDs on a ladder; CLIMBABLE_CONTACT excludes climbables from INVALID; model discrepancy -> Phase 5 follow-up - see preBaselineDecisions.p8f2",
+  "P8-F3": "FIXED - context ledger tracked every entity and overflowed in an ordinary world (neighbourhood UNKNOWN, every VALID incomplete, no rest anchor): only players/boats/rafts/shulkers tracked, bound 1024; regression test",
+  "P8-F4": "FIXED - applied influences never retired from the runner scope (injections refused, stale influences in every request): retired once no continuation has them pending / after the horizon; regression test",
+  "P8-F5": "EXPECTED BOUNDED SEARCH EVENT - see preBaselineDecisions.p8f5",
+  "P8-F6": "OPEN (not reproduced offline) - no rest anchor for two minutes while standing one block from a water pool; anchored once away from it; anchor diagnosis line added to the diagnostic",
+  "P8-F7": "NON-REPRODUCED OBSERVATION on the superseded first build (one unreadable live INVALID); log sink safeguard added - see preBaselineDecisions.p8f7"
+ },
+ "phase9Implementation": "NONE (no VL, alert, setback, punishment, accumulation, check object or configuration anywhere; architecture test)",
+ "knownLimitations": [
+  "exact-double observation model: any transmitted position outside the exact reachable set is INVALID in a complete context",
+  "anchoring needs a confirmed absolute correction or a 20-tick rest fixed point; unknown-world / unsupported-mechanic / lost-continuation steps drop the anchor until then",
+  "relevant entity within 4 blocks or incomplete tracker -> UNCERTAIN (no entity pushing model)",
+  "equipment never known (only matters on powder snow)",
+  "fluids and the other unsupported mechanics make transitions UNCERTAIN",
+  "SEARCH_LIMIT next to WORLD_INCOMPLETE is a consequence of the incompleteness (metric precedence puts the world first)",
+  "side-chain injection drops markers and pending influences (sound: wider union)",
+  "climbable blocks within reach (ladders, vines, scaffolding) are explained (VALID) but never INVALID (CLIMBABLE_CONTACT, P8-F2) until the ladder/sideways-input model discrepancy is located in Phase 5"
+ ],
+ "preBaselineDecisions": {
+  "pass": "PASS",
+  "date": "2026-09-21",
+  "finalJar": "280db1652624420a6ea4167489cc8627ec1da54bbcb5ad3409358ae201a7532c",
+  "productionChangesInThisPass": [
+   "classifier safety net: adapter Result.complete=false without a named dimension -> SEARCH_LIMIT (restrictive only)",
+   "live-INVALID log sink (Metrics.invalidSink, platform display only)",
+   "CLIMBABLE_CONTACT: climbable within reach -> mechanic dimension incomplete (never INVALID; VALID when explained)"
+  ],
+  "p8f2": {
+   "classification": "RESOLVED_DEFECT_SCOPED",
+   "firstObservation": {
+    "jar": "10cce50cd557fff4",
+    "chain": "live",
+    "result": "UNCERTAIN [FRONTIER_INCOMPLETE]",
+    "timing": "1 hypothesis, complete, TICK_END_EXACT",
+    "reconstruction": "1 call, complete, SIMULATED_COMPLETE extent h<=0.1504 rise[0.1176,0.42]",
+    "completeness": "all true except inherited frontier (P8-F3 era)",
+    "residual": "observed h=0.033403 rise=0.117600; nearest WA-C-U d=(0,0,1.626e-4)",
+    "preceding": "VALID (frontier incomplete)",
+    "following": "START_UNAVAILABLE until rest anchor",
+    "everProducedInvalid": false
+   },
+   "reproduction": {
+    "jar": "8fedca085f374bd3",
+    "chain": "live",
+    "routine": "shift + W+A / W+D with the shield raised on the ladder, up and down",
+    "results": [
+     "seq 22037 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] h=0.1416 rise=0 completeness ALL nearest -D---- d=(1.652e-2,0,2.432e-2)",
+     "seq 32883 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] h=0.0076 rise=0.1176 completeness ALL nearest W----- d=(0,0,5.637e-5)"
+    ],
+    "everProducedInvalid": true,
+    "falseInvalid": true,
+    "loggedInFullBySink": true
+   },
+   "rootCause": "client/model discrepancy on ladders with sideways input (5e-5 .. 3e-2), outside the Phase 5 native differential coverage; not reproducible offline (no packet recording armed; synthetic ladder chains VALID)",
+   "fix": "MovementValidator.climbableInReach -> CLIMBABLE_CONTACT (mechanicSupported=false): a climbable block within one block horizontally / -1..+2 vertically of any frontier start or the target; unknown cells and oversized regions count as contact",
+   "regression": [
+    "ValidationSafetyTest.aClimbableWithinReachForbidsInvalidButKeepsLegitimateClimbsValid",
+    "fixture uncertain_climbable_contact"
+   ],
+   "finalJarReproduced": false,
+   "finalJarLiveRecheck": "same routine on 280db165 (= the baseline jar, byte-identical rebuild): 322 VALID / 2 UNCERTAIN / 0 INVALID, log sink empty",
+   "phase5FollowUp": "ladder + sideways-input native differential scenario to locate the discrepancy; until then climbables are not qualified for INVALID"
+  },
+  "p8f5": {
+   "classification": "EXPECTED_BOUNDED_SEARCH_EVENT",
+   "jar": "94ad57d35b5ef78f",
+   "chain": "live",
+   "result": "UNCERTAIN [SEARCH_LIMIT] missing [reconstruction, search]",
+   "everProducedInvalid": false,
+   "budget": "Phase 6 SearchBudget.DEFAULT inside the silent closure (4 reconstruction calls, 2-node rest frontier at the honey/stone boundary, first walking tick h=0.098)",
+   "timingBranches": 1,
+   "worldCollisionComplete": true,
+   "finalJarReproduced": false,
+   "offlineFixture": "ValidationLiveReproTest.walkingFromHoneyOntoSoulSandStaysValidThroughTheLiveRunner (VALID); uncertain_search_limit fixture and searchExhaustionNeverProducesInvalid property cover the bound",
+   "rule": "SEARCH_LIMIT -> UNCERTAIN enforced by classifier, constructor, property test, fixture, ValidationSafetyTest"
+  },
+  "p8f7": {
+   "classification": "NON_REPRODUCED_OBSERVATION_ON_SUPERSEDED_BUILD",
+   "jar": "16e8e0908febb97e (first, pre-fix)",
+   "chain": "live",
+   "observation": "engine counted 1 live INVALID during join-in-creative -> gamemode survival + effect clear + tp; description lost (16-line ring)",
+   "falseInvalidOnThatBuild": true,
+   "finalJarReproduced": false,
+   "repeats": "hover-in-creative switch and join-in-creative switch on the final code: UNSUPPORTED_LOCOMOTION then clean re-anchor, 0 INVALID",
+   "safeguard": "Metrics.invalidSink: every live INVALID logged in full through the platform; notable ring retains it (this is how P8-F2 was captured in full)"
+  },
+  "invalidConstructorSafety": "PASS (13 dimensions individually proven by ValidationSafetyTest; legal candidate / uncertainty / missing proof rejected)",
+  "incompleteToInvalidPossible": false,
+  "searchLimitToUncertain": "PASS",
+  "queryLimitToUncertain": "PASS",
+  "unknownWorldToUncertain": "PASS",
+  "contentNotRetainedToUncertain": "PASS",
+  "unknownAttributeToUncertain": "PASS",
+  "unknownEffectToUncertain": "PASS",
+  "externalMotionUnresolvedToUncertain": "PASS",
+  "unsupportedLocomotionToUncertain": "PASS",
+  "climbableContactNeverInvalid": "PASS",
+  "invalidPlusIncompleteBranchToUncertain": "PASS",
+  "validPlusLegalBranchStaysValid": "PASS",
+  "invalidPlusLegalBranchToValid": "PASS",
+  "exactObservationModel": "ACCEPTED_FOR_PHASE_8",
+  "exactObservationModelRationale": "INVALID additionally requires the complete supported model in every dimension (climbables excluded after P8-F2); legitimate 32314 / native 2704 / live final-code transitions with 0 false INVALID; no tolerance introduced; P8-F2 shows why INVALID stays a physical-explainability result",
+  "phase9EvidenceBoundary": "DOCUMENTED: Phase 9 must not treat a single INVALID as enforcement evidence without reading completeness certificate, invalid proof, residual diagnostics, context provenance, timing/reconstruction completeness and unsupported/uncertain reasons; Phase 9 owns evidence policy, Phase 8 owns per-transition physical explainability",
+  "controlledInjectionIsolation": "SIDE_CHAIN_ONLY - PASS (no ledger/world/timeline reference or apply() in the runner; inject reachable only via PacketEngine.validationInject; regression: world revision, ledger counters and live counts unchanged)",
+  "liveFalsePositiveAudit": {
+   "finalJar": "280db165: 322 VALID / 2 UNCERTAIN / 0 INVALID on the ladder routine that had produced the two P8-F2 INVALIDs",
+   "earlierFinalCodeStates": "e55aca05 258/258 and 8fedca08 558/558 VALID on the general course; then 2 INVALID on the targeted ladder repeat (P8-F2, now impossible by construction)",
+   "earlierBuilds": "10cce50c, 94ad57d3, 39d447d6, e47ecc75: 0 live INVALID across ~14000 transitions; 16e8e090: 1 unreadable live INVALID (P8-F7)"
+  },
+  "withdrawnRefinement": "a reason-only refinement of climbableInReach (unknown cell -> no CLIMBABLE_CONTACT beside WORLD_INCOMPLETE) was tried after the live re-check and withdrawn: classification invariance not provable for an unknown, physics-untouched cell inside the margin; the baseline is the exactly live-qualified code",
+  "phase9Vocabulary": "NONE in production code (only pre-existing Phase 1 health alerts, Phase 5 vanilla constant names, Phase 7 RTT outlier bound, and \"setback\" describing a server correction packet)"
+ },
+ "testLaneNote": "final clean test --rerun-tasks 647/647 and nativeTest --rerun-tasks 137/137 (one earlier rerun-tasks pass had a single transient failure in the Phase 1-3 timing-sensitive LiveRecordingTest.awaitTerminationDrainsClosingSessionsAndReleasesTheirWorlds - \"Failed to close extension context\" - which passed on the repeat and in isolation; not a Phase 8 file)"
+}

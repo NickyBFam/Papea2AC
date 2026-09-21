@@ -19,28 +19,37 @@ import org.junit.jupiter.api.Test;
 class VelocityTimingRoundTripTest {
     record Stats(int cases, int steps, int uniqueSteps, int ambiguousSteps, int influences, int maxHypotheses, long evaluations) {}
 
+    /** One generated velocity case (the Phase 7 gate generator, reused by the Phase 8 corpus): null when the seed produced an unsimulable case. */
+    record VelocityCase(ReconstructionRoundTripTest.World world, Truth truth, List<Influence> influences) {}
+    static VelocityCase generate(long seed, boolean tickEnds) {
+        List<ReconstructionRoundTripTest.World> worlds = ReconstructionRoundTripTest.worlds();
+        SplittableRandom r = new SplittableRandom(seed);
+        ReconstructionRoundTripTest.World w = worlds.get(r.nextInt(worlds.size()));
+        double x0 = w.x0() + r.nextInt(5) - 2 + 0.5, z0 = w.z0() + r.nextInt(5) - 2 + 0.5;
+        PhysicsState start;
+        try { start = settled(w.ps(), x0, SURFACE, z0); } catch (AssertionError e) { return null; }
+        int n = 4 + r.nextInt(9); float yaw = ReconstructionRoundTripTest.randomYaw(r);
+        List<MovementInput> inputs = new ArrayList<>();
+        for (int i = 0; i < n; i++) { if (r.nextInt(8) == 0) yaw = ReconstructionRoundTripTest.randomYaw(r); inputs.add(r.nextInt(4) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw)); }
+        List<Influence> infl = new ArrayList<>(); int count = 1 + r.nextInt(3); int lastApp = 0, lastEmit = 0;
+        for (int i = 0; i < count; i++) {
+            int app = Math.min(n, lastApp + 1 + r.nextInt(3)); if (app <= lastApp) break;
+            int lead = Math.min(r.nextInt(3), app - 1); int emit = app - lead; if (emit < lastEmit) { lead = app - lastEmit; emit = lastEmit; }
+            boolean set = r.nextInt(3) != 0;
+            Vec3d v = set ? new Vec3d((r.nextInt(81) - 40) / 100.0, 0.36 + r.nextInt(10) / 100.0, (r.nextInt(81) - 40) / 100.0) : new Vec3d((r.nextInt(61) - 30) / 100.0, 0.2 + r.nextInt(20) / 100.0, (r.nextInt(61) - 30) / 100.0);
+            infl.add(new Influence(set ? TimingEvent.Operation.SET : TimingEvent.Operation.ADD, v, app, lead)); lastApp = app; lastEmit = emit;
+        }
+        Truth truth;
+        try { truth = simulate(w.ps(), w.env(), start, inputs, infl, new Recorder(), tickEnds); } catch (AssertionError e) { return null; }
+        return new VelocityCase(w, truth, infl);
+    }
     static Stats run(long seed0, int cases, boolean tickEnds, StringBuilder failures) {
         List<ReconstructionRoundTripTest.World> worlds = ReconstructionRoundTripTest.worlds();
         int steps = 0, unique = 0, ambiguous = 0, influences = 0, maxHyp = 0, done = 0; long evaluations = 0;
         for (int c = 0; c < cases; c++) {
-            long seed = seed0 + c; SplittableRandom r = new SplittableRandom(seed);
-            ReconstructionRoundTripTest.World w = worlds.get(r.nextInt(worlds.size()));
-            double x0 = w.x0() + r.nextInt(5) - 2 + 0.5, z0 = w.z0() + r.nextInt(5) - 2 + 0.5;
-            PhysicsState start;
-            try { start = settled(w.ps(), x0, SURFACE, z0); } catch (AssertionError e) { continue; }
-            int n = 4 + r.nextInt(9); float yaw = ReconstructionRoundTripTest.randomYaw(r);
-            List<MovementInput> inputs = new ArrayList<>();
-            for (int i = 0; i < n; i++) { if (r.nextInt(8) == 0) yaw = ReconstructionRoundTripTest.randomYaw(r); inputs.add(r.nextInt(4) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw)); }
-            List<Influence> infl = new ArrayList<>(); int count = 1 + r.nextInt(3); int lastApp = 0, lastEmit = 0;
-            for (int i = 0; i < count; i++) {
-                int app = Math.min(n, lastApp + 1 + r.nextInt(3)); if (app <= lastApp) break;
-                int lead = Math.min(r.nextInt(3), app - 1); int emit = app - lead; if (emit < lastEmit) { lead = app - lastEmit; emit = lastEmit; }
-                boolean set = r.nextInt(3) != 0;
-                Vec3d v = set ? new Vec3d((r.nextInt(81) - 40) / 100.0, 0.36 + r.nextInt(10) / 100.0, (r.nextInt(81) - 40) / 100.0) : new Vec3d((r.nextInt(61) - 30) / 100.0, 0.2 + r.nextInt(20) / 100.0, (r.nextInt(61) - 30) / 100.0);
-                infl.add(new Influence(set ? TimingEvent.Operation.SET : TimingEvent.Operation.ADD, v, app, lead)); lastApp = app; lastEmit = emit;
-            }
-            Truth truth;
-            try { truth = simulate(w.ps(), w.env(), start, inputs, infl, new Recorder(), tickEnds); } catch (AssertionError e) { continue; }
+            long seed = seed0 + c;
+            VelocityCase vc = generate(seed, tickEnds); if (vc == null) continue;
+            ReconstructionRoundTripTest.World w = vc.world(); Truth truth = vc.truth(); List<Influence> infl = vc.influences();
             List<ChainStep> chain = chain(w.ps(), w.env(), truth, TimingProfile.PAPER_26_2, TimingBudget.DEFAULT);
             done++; influences += infl.size();
             Set<String> appliedSeen = new HashSet<>();

@@ -20,7 +20,11 @@ import org.junit.jupiter.api.Test;
 class TeleportTimingRoundTripTest {
     record Case(long seed, List<ChainStep> chain, int preTicks, TimingEvent.MovementObserved applicationTx, Recorder rec) {}
 
-    static Case run(long seed, PhysicsScene ps, PhysicsEnvironment env) {
+    /** One generated teleport scenario (the Phase 7 gate generator, reused by the Phase 8 corpus): pre-application ticks, the correction, its application point, post ticks; null when unsimulable. */
+    record TeleportScenario(PhysicsState start, float yaw, Recorder rec, List<PhysicsState> preStates, List<TimingEvent.MovementObserved> preTx, PhysicsState post, TimingEvent.MovementObserved applied, List<PhysicsState> postStates, List<TimingEvent.MovementObserved> postTx, int before, int lead) {
+        PhysicsState truthFor(TimingEvent.MovementObserved target) { for (int k = 0; k < preTx.size(); k++) if (preTx.get(k) == target) return preStates.get(k); if (target == applied) return post; for (int k = 0; k < postTx.size(); k++) if (postTx.get(k) == target) return postStates.get(k); return null; }
+    }
+    static TeleportScenario generate(long seed, PhysicsScene ps, PhysicsEnvironment env) {
         SplittableRandom r = new SplittableRandom(seed);
         PhysicsState start = settled(ps, 8.5 + r.nextInt(3), SURFACE, 8.5 + r.nextInt(3));
         float yaw = ReconstructionRoundTripTest.randomYaw(r);
@@ -55,6 +59,11 @@ class TeleportTimingRoundTripTest {
             TimingEvent.MovementObserved m = null; if (send) { m = shared.movement(ps2.position().x(), ps2.position().y(), ps2.position().z(), yaw, ps2.onGround()); lx = ps2.position().x(); ly = ps2.position().y(); lz = ps2.position().z(); }
             postTx.add(m); shared.advance(1_000_000L); shared.tickEnd(); shared.advance(TICK_NANOS / 2);
         }
+        return new TeleportScenario(start, yaw, rec, preStates, preTx, post, applied, postStates, postTx, before, lead);
+    }
+    static Case run(long seed, PhysicsScene ps, PhysicsEnvironment env) {
+        TeleportScenario sc = generate(seed, ps, env); if (sc == null) return null;
+        PhysicsState start = sc.start(); float yaw = sc.yaw(); Recorder rec = sc.rec(); List<PhysicsState> preStates = sc.preStates(); List<TimingEvent.MovementObserved> preTx = sc.preTx(); PhysicsState post = sc.post(); TimingEvent.MovementObserved applied = sc.applied(); List<PhysicsState> postStates = sc.postStates(); List<TimingEvent.MovementObserved> postTx = sc.postTx(); int before = sc.before(), lead = sc.lead();
         // chain from the true start and check the truth at each transmission
         TimingReconstruction timing = new TimingReconstruction(new TimingResolver(), new InputReconstructor(ps.simulator));
         TimingReconstruction.Frontier frontier = TimingReconstruction.Frontier.of(start);

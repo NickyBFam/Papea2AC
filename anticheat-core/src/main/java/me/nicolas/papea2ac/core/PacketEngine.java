@@ -16,6 +16,8 @@ public final class PacketEngine implements AutoCloseable {
         public final ConnectionIngress ingress;public final TruthActor actor;public final PlayerTimeline timeline;public final ObserverWorld world;
         /** Phase 7: the session's timing ledger (player-owned, shard-written, published view readable anywhere) and the player's own entity id once the platform reports it (-1 = unknown: velocity packets cannot be attributed yet). */
         public final me.nicolas.papea2ac.player.TimingLedger timing;volatile int selfEntityId=-1;
+        /** Phase 8: the player-owned movement context (attributes/effects/abilities/border/entity neighbourhood as the client learned them) and the shard-owned live validation runner. */
+        public final me.nicolas.papea2ac.player.MovementContextLedger movementContext;public final MovementValidationRunner validation;
         long lastMarkerNanos,lastTimingExpireNanos,timingBreakGeneration=-1;int markerCounter;boolean bracketMarkerDue;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
@@ -39,6 +41,8 @@ public final class PacketEngine implements AutoCloseable {
             timeline=new PlayerTimeline(key);
             world=new ObserverWorld(key,worldBudget,blockStates);
             timing=new me.nicolas.papea2ac.player.TimingLedger(key);
+            movementContext=new me.nicolas.papea2ac.player.MovementContextLedger(key);
+            validation=new MovementValidationRunner(key,validator,physics,collision,blockBehaviors,timingProfile,validationMetrics);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
@@ -124,14 +128,26 @@ public final class PacketEngine implements AutoCloseable {
                                 // One break per health generation that carries a loss-class reason, whether the latch tripped inside this observation's processing or
                                 // before it (an ingress overflow invalidates at capture time, before the shard reads its boundary); the observation itself is the break.
                                 String timingBreak=WorldObservationMapper.coverageBreakReason(after,deliberateClose);
-                                if(timingBreak!=null&&after.generation()!=s.timingBreakGeneration){s.timingBreakGeneration=after.generation();s.timing.apply(s.key,new me.nicolas.papea2ac.player.TimingEvent.CoverageBreak(o.sequence(),o.capturedNanos(),timingBreak));}
+                                if(timingBreak!=null&&after.generation()!=s.timingBreakGeneration){
+                                    s.timingBreakGeneration=after.generation();
+                                    var brk=new me.nicolas.papea2ac.player.TimingEvent.CoverageBreak(o.sequence(),o.capturedNanos(),timingBreak);
+                                    s.timing.apply(s.key,brk);
+                                    s.movementContext.apply(s.key,new me.nicolas.papea2ac.player.ContextEvent.CoverageBreak(o.sequence(),timingBreak));
+                                    s.validation.onEvent(brk,s.timing.view(),s.movementContext.view(),s.world.currentView(),s.world.worldEpoch());
+                                }
                                 else{
+                                    // Phase 8 context first (a JoinGame also names the self entity when the platform control has not arrived yet)
+                                    if(s.selfEntityId<0&&o.event() instanceof Observation.Outbound jo&&jo.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.JoinGame jg)s.selfEntityId=jg.playerId();
+                                    for(var ce:ContextObservationMapper.map(o,s.selfEntityId))s.movementContext.apply(s.key,ce);
                                     var te=TimingObservationMapper.map(o,s.selfEntityId,s.timeline.currentState().worldEpoch()+(o.event() instanceof Observation.Outbound ob&&ob.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Respawn?1:0));
                                     if(te.isPresent()){
                                         var event=te.get();
                                         if(event instanceof me.nicolas.papea2ac.player.TimingEvent.ExternalMotionSent||event instanceof me.nicolas.papea2ac.player.TimingEvent.TeleportSent)s.bracketMarkerDue=true;
                                         if(event instanceof me.nicolas.papea2ac.player.TimingEvent.MarkerAcknowledged){long beforeSamples=s.timing.view().rtt().samples();s.timing.apply(s.key,event);var after2=s.timing.view();if(after2.rtt().samples()>beforeSamples){timingMetrics.rttSamples.increment();timingMetrics.markersAnswered.increment();}else timingMetrics.lateOrUnknownAcks.increment();}
                                         else s.timing.apply(s.key,event);
+                                        if(event instanceof me.nicolas.papea2ac.player.TimingEvent.Discontinuity dc)s.movementContext.apply(s.key,new me.nicolas.papea2ac.player.ContextEvent.WorldChanged(o.sequence(),dc.newWorldEpoch()));
+                                        // Phase 8: the live validation consumes the same event after the ledgers published it (world view: owner-thread read of the observer world)
+                                        s.validation.onEvent(event,s.timing.view(),s.movementContext.view(),s.world.currentView(),s.world.worldEpoch());
                                     }
                                     if(o.event() instanceof Observation.Outbound ob2&&ob2.payload() instanceof me.nicolas.papea2ac.protocol.PacketPayload.Velocity&&s.selfEntityId<0)timingMetrics.velocityIgnoredUnknownSelf.increment();
                                 }
@@ -223,6 +239,9 @@ public final class PacketEngine implements AutoCloseable {
     /** Phase 7: the version-scoped timing profile, the bounded timing diagnostic/qualification tracer, the optional marker port (platform-supplied; absent = keep-alive evidence only) and bounded engine-wide counters. */
     public final me.nicolas.papea2ac.version.TimingProfile timingProfile=me.nicolas.papea2ac.version.TimingProfile.PAPER_26_2;
     public final TimingTracer timingTracer=new TimingTracer(reconstruction,collision,blockBehaviors,timingProfile);
+    /** Phase 8: the movement validator (simulation-owned classification over the Phase 7 adapter; one instance, stateless) and the engine-wide bounded validation counters. */
+    public final me.nicolas.papea2ac.simulation.MovementValidator validator=new me.nicolas.papea2ac.simulation.MovementValidator(new me.nicolas.papea2ac.simulation.TimingReconstruction(new me.nicolas.papea2ac.simulation.TimingResolver(),reconstruction));
+    final MovementValidationRunner.Metrics validationMetrics=new MovementValidationRunner.Metrics();
     private volatile MarkerPort markerPort;
     /** Marker cadence: one ping per second per session while the platform port exists, plus one right after an outbound influence/correction (bracketing), never more than one per 50 ms, never with more than 16 pending. */
     public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
@@ -456,6 +475,17 @@ public final class PacketEngine implements AutoCloseable {
     }
     public java.util.List<String> timingReport(UUID player){return timingTracer.report(player);}
     public String timingCancel(UUID player){return timingTracer.cancel(player);}
+    /** Diagnostic sink for every live INVALID description (platform logger); display only, never a consumer of verdicts. */
+    public void setValidationInvalidSink(java.util.function.Consumer<String> sink){validationMetrics.invalidSink=sink;}
+    /** The session's published live validation status (thread-safe), empty for an unknown player. */
+    public synchronized java.util.Optional<ValidationStatus> validationStatus(UUID player){Session s=active.get(player);return s==null?java.util.Optional.empty():java.util.Optional.of(s.validation.status());}
+    /** Controlled impossible-movement injection (qualification only): a side chain, never the live chain or the timeline. */
+    public synchronized String validationInject(UUID player,me.nicolas.papea2ac.model.Vector3 step,int ticks){Session s=active.get(player);return s==null?"REFUSED: no admitted session":s.validation.inject(step,ticks);}
+    /** Engine-wide Phase 8 counters, primitives only. */
+    public ValidationEngineStatus validationEngineStatus(){
+        var m=validationMetrics;
+        return new ValidationEngineStatus(m.requests.sum(),m.valid.sum(),m.uncertain.sum(),m.invalid.sum(),m.uncertainSearchLimit.sum(),m.uncertainUnsupported.sum(),m.uncertainWorldIncomplete.sum(),m.uncertainExternalMotion.sum(),m.uncertainUnanchored.sum(),m.uncertainOther.sum(),m.timingBranches.sum(),m.reconstructions.sum(),m.evaluations.sum(),m.anchors.sum(),m.anchorsLost.sum(),m.internalErrors.sum(),m.injectedRequests.sum());
+    }
     /** Arms an input-reconstruction trace for a session against its PUBLISHED world snapshot (see ReconstructionTracer); {@code declared} may be null. */
     public synchronized String reconstructArm(UUID player,PhysicsQualification.Scenario declared,PhysicsQualification.ArmFacts facts){
         Session s=active.get(player);

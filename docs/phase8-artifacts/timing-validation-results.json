@@ -1,0 +1,60 @@
+{
+  "phase": "8",
+  "source": "the Phase 7 velocity / teleport / fuzz scenarios (their own seeds) validated as chains: the true branch prevents false INVALID",
+  "velocity": {
+    "cases": 1500,
+    "transmissions": 11558,
+    "VALID": 11558,
+    "UNCERTAIN": 0,
+    "INVALID": 0,
+    "validShare": 100.0,
+    "truthLost": 0,
+    "evaluations": 579420,
+    "uncertainReasons": {},
+    "invalidReasons": {},
+    "invalidCases": [],
+    "lostCases": []
+  },
+  "velocityNoTickEnds": {
+    "cases": 200,
+    "transmissions": 1549,
+    "VALID": 1549,
+    "UNCERTAIN": 0,
+    "INVALID": 0,
+    "validShare": 100.0,
+    "truthLost": 0,
+    "evaluations": 321197,
+    "uncertainReasons": {},
+    "invalidReasons": {},
+    "invalidCases": [],
+    "lostCases": []
+  },
+  "teleport": {
+    "cases": 500,
+    "transmissions": 2877,
+    "VALID": 2877,
+    "UNCERTAIN": 0,
+    "INVALID": 0,
+    "validShare": 100.0,
+    "truthLost": 0,
+    "evaluations": 34088,
+    "uncertainReasons": {},
+    "invalidReasons": {},
+    "invalidCases": [],
+    "lostCases": []
+  },
+  "fuzz": {
+    "cases": 1981,
+    "transmissions": 13626,
+    "VALID": 13626,
+    "UNCERTAIN": 0,
+    "INVALID": 0,
+    "validShare": 100.0,
+    "truthLost": 0,
+    "evaluations": 862528,
+    "uncertainReasons": {},
+    "invalidReasons": {},
+    "invalidCases": [],
+    "lostCases": []
+  }
+}

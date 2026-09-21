@@ -34,6 +34,8 @@ public final class InputReconstructor {
     private static final class Node {
         final PhysicsState state; final AbstractState region; final String startLabel; final boolean uncertain, inside; final PhysicsResult.Status physicsStatus; final List<PhysicsResult.Reason> reasons; final TickObservation.Residual residual;
         final List<List<MovementInput>> histories = new ArrayList<>(); int historyCount; boolean witness; long[][] masks = new long[0][];
+        /** The concrete chain start this node descends from (diagnostic reach reference; null for abstract starts). */
+        PhysicsState start;
         Node(PhysicsState state, AbstractState region, String startLabel, boolean uncertain, boolean inside, PhysicsResult.Status physicsStatus, List<PhysicsResult.Reason> reasons, TickObservation.Residual residual) {
             this.state = state; this.region = region; this.startLabel = startLabel; this.uncertain = uncertain; this.inside = inside; this.physicsStatus = physicsStatus; this.reasons = reasons; this.residual = residual;
         }
@@ -47,6 +49,42 @@ public final class InputReconstructor {
         int evaluations, maxLive, merged, dropped, excludedExact, excludedEnvelope, undecided, enumerated, simulated, unexplored, envelopeTransfers, envelopeCells;
         long q, c, i, e; boolean searchLimit, worldIncomplete, physicsUnsupported, environmentUnknown;
         ReconstructionResult.Status worstPhysics = ReconstructionResult.Status.EXACT_UNIQUE; final List<String> reasons = new ArrayList<>(), notes = new ArrayList<>();
+        // Phase 8 diagnostics (derived from work already done): nearest excluded exact predictions of the last tick, reach of the evaluated set
+        final List<ReconstructionResult.Nearest> nearest = new ArrayList<>();
+        int reachPredictions, uncertainNodes, abstractNodes; double simMaxH, simMaxRise = Double.NEGATIVE_INFINITY, simMinRise = Double.POSITIVE_INFINITY; boolean envelopeReachUsed; double envMaxH, envMaxRise = Double.NEGATIVE_INFINITY, envMinRise = Double.POSITIVE_INFINITY;
+        void reach(PhysicsState start, PhysicsState predicted) {
+            if (start == null) return;
+            double dx = predicted.position().x() - start.position().x(), dz = predicted.position().z() - start.position().z(), dy = predicted.position().y() - start.position().y();
+            double h = Math.sqrt(dx * dx + dz * dz); reachPredictions++; if (h > simMaxH) simMaxH = h; if (dy > simMaxRise) simMaxRise = dy; if (dy < simMinRise) simMinRise = dy;
+        }
+        void envelopeReach(PhysicsState start, List<AbstractState.Box> boxes) {
+            if (start == null || boxes == null) return; // no envelope for this input: it is simulated below and counted by reach()
+            for (AbstractState.Box b : boxes) {
+                double sx = start.position().x(), sz = start.position().z(), sy = start.position().y();
+                double fx = Math.max(Math.abs(b.x().lo() - sx), Math.abs(b.x().hi() - sx)), fz = Math.max(Math.abs(b.z().lo() - sz), Math.abs(b.z().hi() - sz));
+                double h = Math.sqrt(fx * fx + fz * fz); if (h > envMaxH) envMaxH = h;
+                if (b.y().hi() - sy > envMaxRise) envMaxRise = b.y().hi() - sy; if (b.y().lo() - sy < envMinRise) envMinRise = b.y().lo() - sy;
+                envelopeReachUsed = true;
+            }
+        }
+        void near(String branch, Node parent, MovementInput in, PhysicsState predicted, TickObservation.Residual residual) {
+            if (parent.start == null || !residual.finite()) return;
+            List<MovementInput> h = new ArrayList<>(parent.histories.isEmpty() ? List.of() : parent.histories.get(0)); h.add(in);
+            ReconstructionResult.Nearest n = new ReconstructionResult.Nearest(branch, parent.startLabel, h, parent.start, predicted, residual);
+            int at = nearest.size(); while (at > 0 && nearest.get(at - 1).residual().outsideDistance() > residual.outsideDistance()) at--;
+            if (at < ReconstructionResult.Diagnostics.MAX_NEAREST) { nearest.add(at, n); if (nearest.size() > ReconstructionResult.Diagnostics.MAX_NEAREST) nearest.remove(nearest.size() - 1); }
+        }
+        ReconstructionResult.Diagnostics diagnostics(int ticks, boolean envelopeLane) {
+            // outer bound of a single-tick request: every (node, input) of the concrete frontier was either covered by its sound M3 envelope or simulated exactly
+            // (no abstract or uncertain start, no undecided physics, no search bound, nothing unexplored) - the bound is the union of both extents
+            boolean outer = ticks == 1 && envelopeLane && uncertainNodes == 0 && abstractNodes == 0 && undecided == 0 && !searchLimit && unexplored == 0 && (envelopeReachUsed || reachPredictions > 0);
+            double oMaxH = Math.max(envelopeReachUsed ? envMaxH : 0, reachPredictions > 0 ? simMaxH : 0);
+            double oMaxRise = Math.max(envelopeReachUsed ? envMaxRise : Double.NEGATIVE_INFINITY, reachPredictions > 0 ? simMaxRise : Double.NEGATIVE_INFINITY);
+            double oMinRise = Math.min(envelopeReachUsed ? envMinRise : Double.POSITIVE_INFINITY, reachPredictions > 0 ? simMinRise : Double.POSITIVE_INFINITY);
+            ReconstructionResult.Extent r = new ReconstructionResult.Extent(reachPredictions, simMaxH, reachPredictions > 0 ? simMaxRise : 0, reachPredictions > 0 ? simMinRise : 0, excludedEnvelope == 0 && !searchLimit && unexplored == 0 && undecided == 0 && uncertainNodes == 0 && abstractNodes == 0,
+                outer, outer ? oMaxH : 0, outer ? oMaxRise : 0, outer ? oMinRise : 0);
+            return new ReconstructionResult.Diagnostics(nearest, r);
+        }
         void physics(PhysicsResult r) {
             q += r.work().queries(); c += r.work().cells(); i += r.work().insideCells(); e += r.work().entityOperations();
             if (r.exact()) return;
@@ -110,7 +148,7 @@ public final class InputReconstructor {
         ReconstructionResult.Coverage cov = new ReconstructionResult.Coverage(true, true, true, !acc.environmentUnknown, !acc.physicsUnsupported, !acc.worldIncomplete, !acc.searchLimit && acc.unexplored == 0, acc.reasons);
         ReconstructionResult.Counts counts = new ReconstructionResult.Counts(perTick, acc.enumerated, acc.simulated, acc.excludedExact, acc.excludedEnvelope, acc.undecided, matchingStates, matchingHistories, acc.unexplored);
         ReconstructionResult.Work work = new ReconstructionResult.Work(acc.evaluations, acc.maxLive, acc.merged, acc.dropped, acc.q, acc.c, acc.i, acc.e, acc.envelopeTransfers, acc.envelopeCells);
-        return new ReconstructionResult(status, status.completeSearch(), amb, cov, candidates, counts, work, prov, summaries, acc.notes);
+        return new ReconstructionResult(status, status.completeSearch(), amb, cov, candidates, counts, work, prov, summaries, acc.notes, acc.diagnostics(req.ticks().size(), req.envelopePruning()));
     }
     private static boolean anyWitness(List<ReconstructionResult.Candidate> cs) { for (ReconstructionResult.Candidate c : cs) if (c.match() == ReconstructionResult.Match.EXACT_WITNESS) return true; return false; }
 
@@ -126,7 +164,7 @@ public final class InputReconstructor {
         List<Node> nodes = new ArrayList<>();
         for (ReconstructionRequest.Start s : req.frontier()) {
             Node n = s instanceof ReconstructionRequest.ConcreteStart c ? new Node(c.state(), null, c.label(), false, true, PhysicsResult.Status.EXACT, List.of(), null) : new Node(null, ((ReconstructionRequest.AbstractStart) s).region(), s.label(), false, true, PhysicsResult.Status.EXACT, List.of(), null);
-            n.histories.add(List.of()); n.historyCount = 1; nodes.add(n);
+            n.start = n.state; n.histories.add(List.of()); n.historyCount = 1; nodes.add(n);
         }
         AbstractTransfer transfer = req.envelopePruning() || hasAbstract(nodes) ? new AbstractTransfer(simulator, base, req.observationProfile(), budget.maxEnvelopeCells()) : null;
         int T = req.ticks().size();
@@ -143,7 +181,8 @@ public final class InputReconstructor {
                 Boolean prevSprinting = t == 0 ? req.previousSprinting() : node.lastSprinting();
                 List<MovementInput> inputs = ordered(req.assumptions().isEmpty() ? tickInputs.get(t) : InputDomain.enumerate(req.constraints(), obs.yaw(), req.assumptions(), prevSprinting), req.witnessProposal());
                 acc.enumerated += inputs.size();
-                if (node.region != null) { expandAbstract(node, inputs, branch, req, t, transfer, leaves, acc); if (acc.searchLimit) break; continue; }
+                if (node.region != null) { acc.abstractNodes++; expandAbstract(node, inputs, branch, req, t, transfer, leaves, acc); if (acc.searchLimit) break; continue; }
+                if (node.uncertain) acc.uncertainNodes++;
                 // ---- envelope lane (M3): each input's own sound envelope for THIS tick must meet this tick's observation, and its propagation
                 //      over ALL inputs of the remaining ticks must meet every later observation; otherwise that input is excluded without a
                 //      physics step (a proven exclusion). A TOP envelope never excludes anything.
@@ -158,6 +197,7 @@ public final class InputReconstructor {
                     boolean isWitness = req.witnessProposal() != null && idx == 0 && sameKeys(in, req.witnessProposal());
                     if (prepared != null) {
                         List<AbstractState.Box> env1 = transfer.apply(prepared, in); acc.envelopeTransfers++;
+                        if (T == 1) acc.envelopeReach(node.start, env1);
                         if (env1 != null) {
                             boolean may = false; for (AbstractState.Box b : env1) if (b.intersectsPosition(obs.position(), req.observationProfile())) { may = true; break; }
                             if (may && T - t > 1) {
@@ -180,12 +220,14 @@ public final class InputReconstructor {
                     boolean inside = obs.position().contains(r.next().position(), req.observationProfile());
                     TickObservation.Residual residual = obs.residual(r.next().position(), r.next().onGround(), req.observationProfile());
                     if (r.exact()) {
-                        if (!inside) { acc.excludedExact++; continue; }
-                        addNode(next, leaves, new Node(r.next(), null, node.startLabel, node.uncertain, true, node.uncertain ? node.physicsStatus : r.status(), node.uncertain ? node.reasons : List.of(), residual), node, in, isWitness, budget, acc);
+                        if (last && !node.uncertain) acc.reach(node.start, r.next());
+                        if (!inside) { acc.excludedExact++; if (last && !node.uncertain) acc.near(branch.id(), node, in, r.next(), residual); continue; }
+                        Node child = new Node(r.next(), null, node.startLabel, node.uncertain, true, node.uncertain ? node.physicsStatus : r.status(), node.uncertain ? node.reasons : List.of(), residual); child.start = node.start;
+                        addNode(next, leaves, child, node, in, isWitness, budget, acc);
                     } else {
                         acc.undecided++;
                         // inexact prediction: never excluded; continued only while it is inside the observation set, otherwise reported at the end and left unexplored
-                        if (inside) addNode(next, leaves, new Node(r.next(), null, node.startLabel, true, true, r.status(), r.reasons(), residual), node, in, isWitness, budget, acc);
+                        if (inside) { Node child = new Node(r.next(), null, node.startLabel, true, true, r.status(), r.reasons(), residual); child.start = node.start; addNode(next, leaves, child, node, in, isWitness, budget, acc); }
                         else if (last) addNode(next, leaves, new Node(null, AbstractState.top("lower-bound prediction outside the observation under " + r.status()), node.startLabel, true, false, r.status(), r.reasons(), null), node, in, isWitness, budget, acc);
                         else acc.unexplored++;
                     }

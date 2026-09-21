@@ -1,0 +1,86 @@
+{
+  "phase": "8",
+  "gate": "every supported legitimate transition validates VALID or UNCERTAIN, never INVALID; >= 95% VALID per supported benign class (TESTING.md)",
+  "classes": {
+    "timing-fuzz": {
+      "cases": 1981,
+      "transmissions": 13626,
+      "VALID": 13626,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 862528,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "velocity": {
+      "cases": 1500,
+      "transmissions": 11558,
+      "VALID": 11558,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 579420,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "velocity-no-tick-ends": {
+      "cases": 200,
+      "transmissions": 1549,
+      "VALID": 1549,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 321197,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "teleport": {
+      "cases": 500,
+      "transmissions": 2877,
+      "VALID": 2877,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 34088,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "native-trajectories": {
+      "cases": 88,
+      "transmissions": 2704,
+      "VALID": 2702,
+      "UNCERTAIN": 2,
+      "INVALID": 0,
+      "validShare": 99.93,
+      "truthLost": 0,
+      "evaluations": 372522,
+      "uncertainReasons": {
+        "SEARCH_LIMIT": 2
+      },
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    }
+  },
+  "totals": {
+    "transmissions": 32314,
+    "VALID": 32312,
+    "cases": 4269,
+    "INVALID": 0,
+    "UNCERTAIN": 2
+  },
+  "seeds": "fuzz 90000..91999, velocity 7000..8499 (tick ends) and 9000..9199 (no tick ends), teleport 30000..30499, native = the pinned Phase 5 trajectories"
+}

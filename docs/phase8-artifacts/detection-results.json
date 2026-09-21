@@ -1,0 +1,276 @@
+{
+  "phase": "8",
+  "method": "controlled observation mutations of legitimate velocity-corpus transmissions (seeds 7000..7249, one transmission per case chosen by the seed): the chain is legitimate up to the mutated transmission, whose classification is recorded; no cheat client, no brand, no tuning score",
+  "observationModel": "exact double equality for transmitted positions (MovementObservationProfile.PAPER_26_2): any shift from every legal prediction, including one ulp, lies outside the reachable observation set in a complete context",
+  "families": {
+    "horizontal-x1.01": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 1.01",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10440,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "HORIZONTAL_EXCESS": 3,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 247
+      }
+    },
+    "horizontal-x1.05": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 1.05",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10440,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "HORIZONTAL_EXCESS": 16,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 234
+      }
+    },
+    "horizontal-x1.1": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 1.1",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10432,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "HORIZONTAL_EXCESS": 76,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 174
+      }
+    },
+    "horizontal-x1.2": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 1.2",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10432,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "HORIZONTAL_EXCESS": 135,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 115
+      }
+    },
+    "horizontal-x1.5": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 1.5",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10424,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "COLLISION_PENETRATION": 1,
+        "HORIZONTAL_EXCESS": 177,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 73
+      }
+    },
+    "horizontal-x2.0": {
+      "modification": "horizontal displacement from the previous transmitted position scaled by 2.0",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10400,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "COLLISION_PENETRATION": 1,
+        "HORIZONTAL_EXCESS": 197,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 53
+      }
+    },
+    "upward+0.05": {
+      "modification": "observed y raised by 0.05",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10416,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 198,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 52,
+        "VERTICAL_EXCESS": 198
+      }
+    },
+    "upward+0.2": {
+      "modification": "observed y raised by 0.2",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10400,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 207,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 43,
+        "VERTICAL_EXCESS": 207
+      }
+    },
+    "upward+0.5": {
+      "modification": "observed y raised by 0.5",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10384,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 243,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 7,
+        "VERTICAL_EXCESS": 243
+      }
+    },
+    "upward+1.0": {
+      "modification": "observed y raised by 1.0",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10376,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 244,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 6,
+        "VERTICAL_EXCESS": 244
+      }
+    },
+    "hover": {
+      "modification": "observed y held at the previous transmitted y (an airborne target that should have fallen)",
+      "cases": 20,
+      "transmissions": 20,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 20,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 0,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 20,
+        "NO_LEGAL_INPUT": 20,
+        "VERTICAL_EXCESS": 20
+      }
+    },
+    "no-gravity": {
+      "modification": "the vertical fall of the tick removed (dy set to 0 for a falling target)",
+      "cases": 20,
+      "transmissions": 20,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 20,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 0,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 20,
+        "NO_LEGAL_INPUT": 20,
+        "VERTICAL_EXCESS": 20
+      }
+    },
+    "step+0.7": {
+      "modification": "observed y raised by 0.7 with a ground claim (a step no block supports)",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10384,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "IMPOSSIBLE_ASCENT": 244,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 6,
+        "VERTICAL_EXCESS": 244
+      }
+    },
+    "through-floor": {
+      "modification": "observed y lowered by 0.6 (feet inside the floor)",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10376,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "COLLISION_PENETRATION": 75,
+        "IMPOSSIBLE_DESCENT": 244,
+        "NO_LEGAL_INPUT": 250,
+        "VERTICAL_EXCESS": 244
+      }
+    },
+    "1-ulp": {
+      "modification": "observed x moved by one ulp (the smallest representable change)",
+      "cases": 250,
+      "transmissions": 250,
+      "VALID": 0,
+      "UNCERTAIN": 0,
+      "INVALID": 250,
+      "validShare": 0.0,
+      "truthLost": 0,
+      "evaluations": 10440,
+      "uncertainReasons": {},
+      "invalidReasons": {
+        "HORIZONTAL_EXCESS": 1,
+        "NO_LEGAL_INPUT": 250,
+        "UNEXPLAINED_DISPLACEMENT": 249
+      }
+    }
+  },
+  "totals": {
+    "INVALID": 3290,
+    "generated": 3290,
+    "VALID": 0,
+    "UNCERTAIN": 0
+  }
+}

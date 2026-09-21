@@ -1,0 +1,19 @@
+{
+  "phase": "8",
+  "source": "pinned Phase 5 native trajectories (docs/phase6-artifacts/physics-fixtures/native-trajectories.json), digest-verified, transmitted as the client would and validated as chains",
+  "cases": 88,
+  "transmissions": 2704,
+  "VALID": 2702,
+  "UNCERTAIN": 2,
+  "INVALID": 0,
+  "validShare": 99.93,
+  "truthLost": 0,
+  "evaluations": 372522,
+  "uncertainReasons": {
+    "SEARCH_LIMIT": 2
+  },
+  "invalidReasons": {},
+  "invalidCases": [],
+  "lostCases": [],
+  "failures": []
+}

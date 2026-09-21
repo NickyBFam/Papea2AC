@@ -19,7 +19,40 @@ import java.util.Objects;
  * {@link Candidate} carries its own match kind and the physics status it was computed under.
  */
 public record ReconstructionResult(Status status, boolean complete, Ambiguity ambiguity, Coverage coverage, List<Candidate> candidates, Counts counts, Work work,
-                                   Provenance provenance, List<BranchSummary> branches, List<String> notes) {
+                                   Provenance provenance, List<BranchSummary> branches, List<String> notes, Diagnostics diagnostics) {
+    /** The Phase 6 shape (no diagnostics): kept for every existing caller; {@link Diagnostics#NONE} is attached. */
+    public ReconstructionResult(Status status, boolean complete, Ambiguity ambiguity, Coverage coverage, List<Candidate> candidates, Counts counts, Work work, Provenance provenance, List<BranchSummary> branches, List<String> notes) {
+        this(status, complete, ambiguity, coverage, candidates, counts, work, provenance, branches, notes, Diagnostics.NONE);
+    }
+    /**
+     * Bounded diagnostics for the consumer of an EMPTY or thin candidate set (Phase 8 residual/excess reporting; never a matching
+     * input, never a verdict): the nearest exact-but-excluded predictions of the LAST tick (at most {@value #MAX_NEAREST}, by
+     * distance outside the observation set) and the reach of the evaluated set relative to each node's chain start. Nothing here
+     * changes a status, a count or a candidate: it is derived from work the search already did.
+     */
+    public record Diagnostics(List<Nearest> nearest, Extent extent) {
+        public static final int MAX_NEAREST = 4;
+        public static final Diagnostics NONE = new Diagnostics(List.of(), Extent.NONE);
+        public Diagnostics { nearest = List.copyOf(nearest); Objects.requireNonNull(extent); if (nearest.size() > MAX_NEAREST) throw new IllegalArgumentException("nearest"); }
+    }
+    /** An exact prediction of the last tick that lies OUTSIDE the observation set (an excluded input), with its residual. */
+    public record Nearest(String branchId, String startLabel, List<MovementInput> input, PhysicsState start, PhysicsState predicted, TickObservation.Residual residual) {
+        public Nearest { Objects.requireNonNull(branchId); Objects.requireNonNull(startLabel); input = List.copyOf(input); Objects.requireNonNull(start); Objects.requireNonNull(predicted); Objects.requireNonNull(residual); }
+    }
+    /**
+     * Displacement reach of the evaluated set, each prediction measured from its own chain start ({@code horizontal} =
+     * hypot(dx, dz), {@code rise} = dy). {@code simulated*} ranges over every EXACT concrete prediction of the last tick (inside or
+     * excluded); {@code allInputsSimulated} says whether that is the whole admitted domain (false when the envelope lane pruned
+     * inputs without a physics step). {@code envelope*} is the sound OUTER bound of the whole admitted domain - the union of every
+     * input's M3 envelope and of every exact prediction of an input that had no envelope - available for single-tick requests over a
+     * concrete frontier whose envelope lane ran with nothing undecided, unexplored or bounded ({@code envelopePresent}); it bounds
+     * what any legal input could reach.
+     */
+    public record Extent(int predictions, double simulatedMaxHorizontal, double simulatedMaxRise, double simulatedMinRise, boolean allInputsSimulated,
+                        boolean envelopePresent, double envelopeMaxHorizontal, double envelopeMaxRise, double envelopeMinRise) {
+        public static final Extent NONE = new Extent(0, 0, 0, 0, false, false, 0, 0, 0);
+        public boolean present() { return predictions > 0 || envelopePresent; }
+    }
     /** Ordered by severity (first = most severe); the result status is the most severe applicable one. ENVELOPE_ONLY: the search was complete but every surviving candidate is an M3 envelope possibility (no concrete witness exists in the request - an abstract start). */
     public enum Status {
         NUMERIC_INVALID, WORLD_EPOCH_MISMATCH, DISCONTINUITY, UNAVAILABLE_WORLD, TIMING_UNRESOLVED, ROTATION_UNRESOLVED, SEARCH_LIMIT, QUERY_LIMIT,
@@ -99,7 +132,7 @@ public record ReconstructionResult(Status status, boolean complete, Ambiguity am
     public record BranchSummary(String id, int matchingStates, int matchingHistories, boolean complete) {}
 
     public ReconstructionResult {
-        Objects.requireNonNull(status); Objects.requireNonNull(ambiguity); Objects.requireNonNull(coverage); candidates = List.copyOf(candidates); Objects.requireNonNull(counts); Objects.requireNonNull(work); Objects.requireNonNull(provenance); branches = List.copyOf(branches); notes = List.copyOf(notes);
+        Objects.requireNonNull(status); Objects.requireNonNull(ambiguity); Objects.requireNonNull(coverage); candidates = List.copyOf(candidates); Objects.requireNonNull(counts); Objects.requireNonNull(work); Objects.requireNonNull(provenance); branches = List.copyOf(branches); notes = List.copyOf(notes); Objects.requireNonNull(diagnostics);
         if (complete != status.completeSearch()) throw new IllegalArgumentException("completeness must agree with the status");
         if (status == Status.EXACT_UNIQUE && candidates.size() != 1) throw new IllegalArgumentException("EXACT_UNIQUE needs exactly one candidate");
         if (status == Status.NO_MODELLED_CANDIDATE && !candidates.isEmpty()) throw new IllegalArgumentException("NO_MODELLED_CANDIDATE with candidates");

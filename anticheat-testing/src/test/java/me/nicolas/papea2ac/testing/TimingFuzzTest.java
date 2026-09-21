@@ -19,43 +19,54 @@ import org.junit.jupiter.api.Test;
 class TimingFuzzTest {
     record Result(int cases, int steps, Map<String, Integer> statuses, int influences, int teleports, int closures, long evaluations, int maxHypotheses, int lost) {}
 
-    static Result fuzz(long seed0, int cases, StringBuilder failures) {
+    /** One generated scenario: the world, the true start, the recorder holding every event, and the hidden truth (state per transmission); null when the seed produced an unsimulable case. */
+    record Scenario(long seed, ReconstructionRoundTripTest.World world, PhysicsState start, Recorder rec, List<PhysicsState> truthStates, List<TimingEvent.MovementObserved> truthTx, List<Influence> influences, boolean teleport, List<MovementInput> firstInputs, boolean simulable) {
+        PhysicsState truthFor(TimingEvent.MovementObserved target) { int idx = truthTx.indexOf(target); return idx >= 0 ? truthStates.get(idx) : null; }
+    }
+    static Scenario generate(long seed) {
         List<ReconstructionRoundTripTest.World> worlds = ReconstructionRoundTripTest.worlds();
+        SplittableRandom r = new SplittableRandom(seed);
+        ReconstructionRoundTripTest.World w = worlds.get(r.nextInt(worlds.size()));
+        PhysicsState start; try { start = settled(w.ps(), w.x0() + r.nextInt(5) - 2 + 0.5, SURFACE, w.z0() + r.nextInt(5) - 2 + 0.5); } catch (AssertionError e) { return new Scenario(seed, null, null, null, List.of(), List.of(), List.of(), false, List.of(), false); }
+        float yaw = ReconstructionRoundTripTest.randomYaw(r);
+        // segment 1
+        int n1 = 2 + r.nextInt(8); List<MovementInput> in1 = new ArrayList<>(); int idleRun = 0;
+        for (int i = 0; i < n1; i++) { if (idleRun > 0) { in1.add(MovementInput.idle(yaw)); idleRun--; continue; } if (r.nextInt(6) == 0) idleRun = 1 + r.nextInt(6); if (r.nextInt(7) == 0) yaw = ReconstructionRoundTripTest.randomYaw(r); in1.add(r.nextInt(4) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw)); }
+        List<Influence> infl = new ArrayList<>(); int count = r.nextInt(3); int lastApp = 0, lastEmit = 0;
+        for (int i = 0; i < count; i++) { int app = Math.min(n1, lastApp + 1 + r.nextInt(3)); if (app <= lastApp) break; int lead = Math.min(r.nextInt(3), app - 1); int emit = app - lead; if (emit < lastEmit) { lead = app - lastEmit; emit = lastEmit; } boolean set = r.nextBoolean(); infl.add(new Influence(set ? TimingEvent.Operation.SET : TimingEvent.Operation.ADD, new Vec3d((r.nextInt(61) - 30) / 100.0, 0.2 + r.nextInt(30) / 100.0, (r.nextInt(61) - 30) / 100.0), app, lead)); lastApp = app; lastEmit = emit; }
+        Recorder rec = new Recorder();
+        // marker traffic with jitter
+        for (int i = 0; i < 3; i++) { rec.marker(TimingEvent.MarkerKind.PING, i); rec.advance((10 + r.nextInt(40)) * 1_000_000L); rec.ack(TimingEvent.MarkerKind.PING, i); }
+        Truth t1; try { t1 = simulate(w.ps(), w.env(), start, in1, infl, rec, true); } catch (AssertionError e) { return new Scenario(seed, null, null, null, List.of(), List.of(), List.of(), false, List.of(), false); }
+        List<PhysicsState> truthStates = new ArrayList<>(); List<TimingEvent.MovementObserved> truthTx = new ArrayList<>();
+        for (TruthTick tt : t1.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); }
+        // optional correction: sent, client keeps ticking `lead` ticks (segment 2 pre), then applies, then segment 3
+        boolean teleport = r.nextInt(3) == 0; PhysicsState post = null; TimingEvent.MovementObserved applied = null;
+        if (teleport) {
+            PhysicsState s = t1.ticks().get(t1.ticks().size() - 1).after();
+            double tx = w.x0() + 4.5 + r.nextInt(3), tz = w.z0() + 4.5 + r.nextInt(3); long id = 50 + r.nextInt(9);
+            rec.advance(TICK_NANOS / 8); rec.teleport(id, tx, SURFACE, tz, yaw, 0);
+            int lead = r.nextInt(3);
+            if (lead > 0) { List<MovementInput> pre = new ArrayList<>(); for (int i = 0; i < lead; i++) pre.add(r.nextInt(3) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw));
+                Truth tp; try { tp = simulate(w.ps(), w.env(), s, pre, List.of(), rec, true, false); } catch (AssertionError e) { return new Scenario(seed, null, null, null, List.of(), List.of(), List.of(), true, List.of(), false); }
+                for (TruthTick tt : tp.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); } s = tp.ticks().get(tp.ticks().size() - 1).after(); }
+            rec.advance(TICK_NANOS / 4); rec.confirm(id); rec.advance(100_000L); applied = rec.movement(tx, SURFACE, tz, yaw, s.onGround());
+            post = s.withPosition(new Vec3d(tx, SURFACE, tz)).withVelocity(Vec3d.ZERO).withSupport(PhysicsState.Support.NONE);
+            truthStates.add(post); truthTx.add(applied);
+            int n3 = 2 + r.nextInt(5); List<MovementInput> in3 = new ArrayList<>(); for (int i = 0; i < n3; i++) in3.add(r.nextInt(3) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw));
+            Truth t3; try { t3 = simulate(w.ps(), w.env(), post, in3, List.of(), rec, true, false); } catch (AssertionError e) { return new Scenario(seed, null, null, null, List.of(), List.of(), List.of(), true, List.of(), false); }
+            for (TruthTick tt : t3.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); }
+        }
+        return new Scenario(seed, w, start, rec, truthStates, truthTx, infl, teleport, in1, true);
+    }
+    static Result fuzz(long seed0, int cases, StringBuilder failures) {
         int done = 0, steps = 0, influences = 0, teleports = 0, closures = 0, maxHyp = 0, lost = 0; long evaluations = 0; Map<String, Integer> statuses = new TreeMap<>();
         for (int c = 0; c < cases; c++) {
-            long seed = seed0 + c; SplittableRandom r = new SplittableRandom(seed);
-            ReconstructionRoundTripTest.World w = worlds.get(r.nextInt(worlds.size()));
-            PhysicsState start; try { start = settled(w.ps(), w.x0() + r.nextInt(5) - 2 + 0.5, SURFACE, w.z0() + r.nextInt(5) - 2 + 0.5); } catch (AssertionError e) { continue; }
-            float yaw = ReconstructionRoundTripTest.randomYaw(r);
-            // segment 1
-            int n1 = 2 + r.nextInt(8); List<MovementInput> in1 = new ArrayList<>(); int idleRun = 0;
-            for (int i = 0; i < n1; i++) { if (idleRun > 0) { in1.add(MovementInput.idle(yaw)); idleRun--; continue; } if (r.nextInt(6) == 0) idleRun = 1 + r.nextInt(6); if (r.nextInt(7) == 0) yaw = ReconstructionRoundTripTest.randomYaw(r); in1.add(r.nextInt(4) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw)); }
-            List<Influence> infl = new ArrayList<>(); int count = r.nextInt(3); int lastApp = 0, lastEmit = 0;
-            for (int i = 0; i < count; i++) { int app = Math.min(n1, lastApp + 1 + r.nextInt(3)); if (app <= lastApp) break; int lead = Math.min(r.nextInt(3), app - 1); int emit = app - lead; if (emit < lastEmit) { lead = app - lastEmit; emit = lastEmit; } boolean set = r.nextBoolean(); infl.add(new Influence(set ? TimingEvent.Operation.SET : TimingEvent.Operation.ADD, new Vec3d((r.nextInt(61) - 30) / 100.0, 0.2 + r.nextInt(30) / 100.0, (r.nextInt(61) - 30) / 100.0), app, lead)); lastApp = app; lastEmit = emit; }
-            Recorder rec = new Recorder();
-            // marker traffic with jitter
-            for (int i = 0; i < 3; i++) { rec.marker(TimingEvent.MarkerKind.PING, i); rec.advance((10 + r.nextInt(40)) * 1_000_000L); rec.ack(TimingEvent.MarkerKind.PING, i); }
-            Truth t1; try { t1 = simulate(w.ps(), w.env(), start, in1, infl, rec, true); } catch (AssertionError e) { continue; }
-            List<PhysicsState> truthStates = new ArrayList<>(); List<TimingEvent.MovementObserved> truthTx = new ArrayList<>();
-            for (TruthTick tt : t1.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); }
-            // optional correction: sent, client keeps ticking `lead` ticks (segment 2 pre), then applies, then segment 3
-            boolean teleport = r.nextInt(3) == 0; PhysicsState post = null; TimingEvent.MovementObserved applied = null;
-            if (teleport) {
-                teleports++;
-                PhysicsState s = t1.ticks().get(t1.ticks().size() - 1).after();
-                double tx = w.x0() + 4.5 + r.nextInt(3), tz = w.z0() + 4.5 + r.nextInt(3); long id = 50 + r.nextInt(9);
-                rec.advance(TICK_NANOS / 8); rec.teleport(id, tx, SURFACE, tz, yaw, 0);
-                int lead = r.nextInt(3);
-                if (lead > 0) { List<MovementInput> pre = new ArrayList<>(); for (int i = 0; i < lead; i++) pre.add(r.nextInt(3) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw));
-                    Truth tp; try { tp = simulate(w.ps(), w.env(), s, pre, List.of(), rec, true, false); } catch (AssertionError e) { continue; }
-                    for (TruthTick tt : tp.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); } s = tp.ticks().get(tp.ticks().size() - 1).after(); }
-                rec.advance(TICK_NANOS / 4); rec.confirm(id); rec.advance(100_000L); applied = rec.movement(tx, SURFACE, tz, yaw, s.onGround());
-                post = s.withPosition(new Vec3d(tx, SURFACE, tz)).withVelocity(Vec3d.ZERO).withSupport(PhysicsState.Support.NONE);
-                truthStates.add(post); truthTx.add(applied);
-                int n3 = 2 + r.nextInt(5); List<MovementInput> in3 = new ArrayList<>(); for (int i = 0; i < n3; i++) in3.add(r.nextInt(3) == 0 ? MovementInput.idle(yaw) : ReconstructionRoundTripTest.randomInput(r, yaw));
-                Truth t3; try { t3 = simulate(w.ps(), w.env(), post, in3, List.of(), rec, true, false); } catch (AssertionError e) { continue; }
-                for (TruthTick tt : t3.ticks()) { truthStates.add(tt.after()); truthTx.add(tt.transmission()); }
-            }
+            long seed = seed0 + c;
+            Scenario sc = generate(seed);
+            if (sc.teleport()) teleports++;
+            if (!sc.simulable()) continue;
+            ReconstructionRoundTripTest.World w = sc.world(); PhysicsState start = sc.start(); Recorder rec = sc.rec(); List<PhysicsState> truthStates = sc.truthStates(); List<TimingEvent.MovementObserved> truthTx = sc.truthTx(); List<Influence> infl = sc.influences(); List<MovementInput> in1 = sc.firstInputs();
             // chain
             TimingReconstruction timing = new TimingReconstruction(new TimingResolver(), new InputReconstructor(w.ps().simulator));
             TimingReconstruction.Frontier frontier = TimingReconstruction.Frontier.of(start);

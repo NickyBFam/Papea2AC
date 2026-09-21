@@ -112,7 +112,7 @@ class ArchitectureTest {
         var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|Timer|ping|Ping|rtt|RTT|latency|Latency|acknowledg|Acknowledg|teleportConfirm|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet|HashMap)\\b");
         var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
         try(var files=Files.walk(dir)){
-            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")).toList();
+            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")&&!p.getFileName().toString().startsWith("MovementValidat")).toList(); // Timing* = Phase 7, MovementValidat* = Phase 8 (own boundaries below)
             assertTrue(sources.size()>=7,"Phase 6 simulation module must exist");
             for(Path file:sources){
                 String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
@@ -153,6 +153,53 @@ class ArchitectureTest {
         assertFalse(engine.contains("Timing"),"InputReconstructor is unchanged by Phase 7");
         // player's ledgers import nothing beyond model (approved DAG: player -> model, replay-schema)
         for(String f:new String[]{"TimingEvent","TimingLedger","RttEstimator","MarkerLedger"}){
+            String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+            for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
+        }
+    }
+    /**
+     * Phase 8 boundary: movement validation is owned by anticheat-simulation (MovementValidat* files: the only place VALID / UNCERTAIN /
+     * INVALID are produced), composed by core (runner, context mapper, status records) and displayed by the platform. None of these
+     * files knows a violation level, an alert, a setback, a punishment, a threshold, a "closest candidate", a cheat brand, a wall clock,
+     * a platform type, reflection, a hash-order collection or a transcendental Math call; the validator consumes the Phase 7 adapter
+     * ({@code TimingReconstruction.run}) and never re-implements physics, timing or reconstruction; the frozen Phase 6/7 engines do not
+     * know the validation types; and the platform never derives a verdict of its own (it prints the validator's words).
+     */
+    @Test void movementValidationStaysWithinThePhase8Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|vl|VL|alert|Alert|setback|Setback|punish|Punish|kick|Kick|ban|Ban|flagged|Flagged|threshold|Threshold|closest|Closest|nearestIsValid|KillAura|SpeedCheck|FlyCheck|TimerCheck|Vape|Wurst|LiquidBounce|Meteor|Impact|rewind|Rewind|getBlockAt|getBlockState|getChunkAt|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|Instant|LocalDateTime|Random|ThreadLocalRandom|HashMap|HashSet|nanoTime)\\b");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        java.util.List<Path> files=new java.util.ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-simulation/src/main/java"))){s.filter(p->p.getFileName().toString().startsWith("MovementValidat")).forEach(files::add);}
+        for(String f:new String[]{"MovementValidationRunner","ContextObservationMapper","ValidationStatus","ValidationEngineStatus"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        for(String f:new String[]{"ContextEvent","MovementContextLedger"})files.add(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+        assertTrue(files.size()>=10,"Phase 8 validation files must exist: "+files);
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains an enforcement/threshold/brand concept, a wall clock, a platform type or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        // the classification rule lives in the simulation module only: VALID/UNCERTAIN/INVALID are produced nowhere else
+        String validator=Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java"));
+        assertTrue(validator.contains("timing.run(")&&!validator.contains("reconstructor.reconstruct(")&&!validator.contains("new TimingResolver("),"the validator consumes the Phase 7 adapter and never re-runs timing or reconstruction itself");
+        assertFalse(validator.contains("0.98")||validator.contains("0.08")||validator.contains("0.6F")||validator.contains("0.91"),"no duplicated physics constants in the validator");
+        for(String f:new String[]{"anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java","anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java"}){
+            String code=Files.readString(ROOT.resolve(f)).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            assertFalse(code.contains("Classification.INVALID")&&code.contains("new MovementValidationResult("),f+" builds a verdict of its own");
+            assertFalse(Pattern.compile("\\b(residual|excess)[A-Za-z]*\\s*[<>]=?\\s*[0-9]").matcher(code).find(),f+" compares a residual to a threshold");
+        }
+        // controlled injection is SIDE-CHAIN ONLY: the runner holds no ledger, timeline or world reference it could mutate (it receives published views), never calls apply(), and inject() is reachable only through PacketEngine.validationInject (the platform command), never from the validation path
+        String runner=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java")).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+        assertFalse(runner.contains(".apply(")||runner.contains("PlayerTimeline")||runner.contains("ObserverWorld")||runner.contains("TimingLedger timing;")||runner.contains("MovementContextLedger context;"),"the runner mutates nothing it does not own");
+        assertFalse(runner.contains("inject(")&&runner.indexOf("inject(")!=runner.lastIndexOf("inject(")&&!runner.contains("public synchronized String inject("),"inject is a single public entry point");
+        try(var s=Files.walk(ROOT.resolve("anticheat-core/src/main/java"))){for(Path p:s.filter(q->q.toString().endsWith(".java")&&!q.getFileName().toString().equals("MovementValidationRunner.java")).toList()){String c=Files.readString(p);assertFalse(c.contains(".inject(")&&!c.contains("validationInject"),p+" calls the injection harness outside the diagnostic entry point");}}
+        // the frozen engines do not know the validation types
+        for(String f:new String[]{"InputReconstructor","TimingReconstruction","TimingResolver","PhysicsSimulator"}){
+            Path p=f.equals("PhysicsSimulator")?ROOT.resolve("anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsSimulator.java"):ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/"+f+".java");
+            assertFalse(Files.readString(p).contains("MovementValidat"),f+" is independent of Phase 8");
+        }
+        // player's context ledger imports nothing beyond model/player (approved DAG)
+        for(String f:new String[]{"ContextEvent","MovementContextLedger"}){
             String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
             for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
         }

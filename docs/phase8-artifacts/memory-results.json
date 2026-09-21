@@ -1,0 +1,82 @@
+{
+  "phase": "8 - Movement Validation",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-result garbage; estimates on one host, not capacity",
+  "validatorBytes": 16,
+  "contextLedgerEmptyBytes": 368,
+  "contextLedgerAtBoundsBytes": 54368,
+  "contextLedgerBounds": "attributes <= 32, effects <= 32, tracked entities <= 1024 (beyond the bound the neighbourhood is UNKNOWN, never dropped silently)",
+  "runnerEmptyBytes": 1440,
+  "runnerAnchoredRecentFullBytes": 12528,
+  "runnerBounds": "event slice <= 1024 events, recent ring 48 lines, injected ring 48 lines, one last result, frontier <= TimingBudget.DEFAULT.maxFrontierNodes() nodes; no per-transmission history, no UUID-labelled metric",
+  "perResultAllocationBytes": {
+    "valid_one_tick": {
+      "classifierOnlyBytes": 1928,
+      "endToEndBytes": 131920,
+      "classification": "VALID",
+      "timingHypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 1,
+      "witnesses": 1,
+      "proofHypothesisIds": 0,
+      "retainedResultBytes": 864
+    },
+    "valid_velocity_2_branches": {
+      "classifierOnlyBytes": 2000,
+      "endToEndBytes": 167360,
+      "classification": "VALID",
+      "timingHypotheses": 2,
+      "reconstructions": 1,
+      "evaluations": 1,
+      "witnesses": 1,
+      "proofHypothesisIds": 0,
+      "retainedResultBytes": 960
+    },
+    "invalid_horizontal_excess": {
+      "classifierOnlyBytes": 2488,
+      "endToEndBytes": 82640,
+      "classification": "INVALID",
+      "timingHypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 0,
+      "witnesses": 0,
+      "proofHypothesisIds": 1,
+      "retainedResultBytes": 592
+    },
+    "uncertain_world_incomplete": {
+      "classifierOnlyBytes": 1696,
+      "endToEndBytes": 749268,
+      "classification": "UNCERTAIN",
+      "timingHypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 144,
+      "witnesses": 0,
+      "proofHypothesisIds": 0,
+      "retainedResultBytes": 432
+    },
+    "two_tick_gap": {
+      "classifierOnlyBytes": 2664,
+      "endToEndBytes": 1118392,
+      "classification": "VALID",
+      "timingHypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 10,
+      "witnesses": 1,
+      "proofHypothesisIds": 0,
+      "retainedResultBytes": 896
+    },
+    "three_tick_gap": {
+      "classifierOnlyBytes": 2664,
+      "endToEndBytes": 6184881,
+      "classification": "VALID",
+      "timingHypotheses": 1,
+      "reconstructions": 1,
+      "evaluations": 26,
+      "witnesses": 1,
+      "proofHypothesisIds": 0,
+      "retainedResultBytes": 960
+    }
+  },
+  "retainedBytesPer100ValidResults": 96480,
+  "retainedBytesPer100InvalidResults": 59680,
+  "perSessionRetained": "one MovementContextLedger + one MovementValidationRunner (above; the runner keeps the frontier, the last result and two bounded rings of description lines) - the validator is stateless; requests and results are values the caller owns and drops"
+}

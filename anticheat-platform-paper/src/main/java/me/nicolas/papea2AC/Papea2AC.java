@@ -51,6 +51,7 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         capture=new PaperCapture(engine);
         // Phase 7 marker port: the pinned protocol's clientbound ping written on the player's channel (captured outbound like any packet); a missing class disables markers, never the plugin.
         engine.setMarkerPort(new me.nicolas.papea2AC.platform.PaperMarkerPort());
+        engine.setValidationInvalidSink(text->getLogger().info(text)); // Phase 8 diagnostic (P8-F7): every live INVALID is logged in full; display only, never enforcement
         if(!capture.registerEarlyHook())getLogger().warning("Early transport capture unavailable on this server; falling back to join-time attachment only.");
         getServer().getServicesManager().register(PapeaService.class,new CoverageService(engine),this,ServicePriority.Normal);
         getServer().getScheduler().runTaskTimer(this,()->{
@@ -216,8 +217,31 @@ public final class Papea2AC extends JavaPlugin implements Listener {
                     return true; }
                 default -> { sender.sendMessage("Usage: /papea2ac timing <name> [view | arm [declared-scenario] | report | cancel | velocity <x> <y> <z> | teleport <dx> <dy> <dz>]"); return true; }
             }
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("validate")){
+            // Phase 8 diagnostic: the live movement validation of a session (classification + reasons + completeness + residual summary); bounded; never a level, never a punishment.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            String op=args.length>=3?args[2].toLowerCase(Locale.ROOT):"view";
+            var v=engine.validationStatus(player.getUniqueId()); if(v.isEmpty()){sender.sendMessage("no admitted session");return true;} var st=v.get();
+            switch(op){
+                case "view" -> {
+                    sender.sendMessage("validation session="+st.sessionEpoch()+" anchored="+st.anchored()+" ("+st.anchorKind()+" seq="+st.anchorSequence()+") frontier="+st.frontierNodes()+(st.frontierComplete()?" complete":" INCOMPLETE")+" transitions="+st.transitions()+" VALID="+st.valid()+" UNCERTAIN="+st.uncertain()+" INVALID="+st.invalid()+(st.injectionTicksPending()>0?" injectionPending="+st.injectionTicksPending():""));
+                    for(String line:st.context().split("\n"))sender.sendMessage(line);
+                    sender.sendMessage("last: "+st.lastClassification()+" seq="+st.lastStartSequence()+"->"+st.lastEndSequence());
+                    for(String line:st.lastResult())sender.sendMessage("  "+line);
+                    return true; }
+                case "recent" -> { sender.sendMessage("recent ("+st.recent().size()+"):"); for(String line:st.recent())sender.sendMessage("  "+line); if(!st.injected().isEmpty()){sender.sendMessage("injected:");for(String line:st.injected())sender.sendMessage("  "+line);} return true; }
+                case "notable" -> { sender.sendMessage("notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID="+st.invalid()+" UNCERTAIN="+st.uncertain()+"; last "+st.notable().size()+" lines):"); for(String line:st.notable())sender.sendMessage("  "+line); return true; }
+                case "inject" -> { // controlled impossible-movement harness (brief 54): synthetic transmissions on a SIDE chain; the live chain and the timeline never see them
+                    if(args.length<6){sender.sendMessage("Usage: /papea2ac validate <name> inject <dx> <dy> <dz> [ticks]");return true;}
+                    try{double dx=Double.parseDouble(args[3]),dy=Double.parseDouble(args[4]),dz=Double.parseDouble(args[5]);int ticks=args.length>=7?Integer.parseInt(args[6]):1;
+                        sender.sendMessage(engine.validationInject(player.getUniqueId(),new me.nicolas.papea2ac.model.Vector3(dx,dy,dz),ticks));}
+                    catch(IllegalArgumentException e){sender.sendMessage("Usage: /papea2ac validate <name> inject <dx> <dy> <dz> [ticks]");}
+                    return true; }
+                default -> { sender.sendMessage("Usage: /papea2ac validate <name> [view | recent | notable | inject <dx> <dy> <dz> [ticks]]"); return true; }
+            }
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | validate <name> [view | recent | notable | inject dx dy dz [ticks]] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());
@@ -246,6 +270,8 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         var tim=engine.timingEngineStatus();
         sender.sendMessage("timing profile="+tim.timingProfile()+" markerPort="+tim.markerPortPresent()+" markersIssued="+tim.markersIssued()+" sendFailures="+tim.markerSendFailures()+" answered="+tim.markersAnswered()+" rttSamples="+tim.rttSamples()+" outliers="+tim.rttOutliers()+" rejected="+tim.rttRejected()
             +" lateOrUnknownAcks="+tim.lateOrUnknownAcks()+" expiredMarkers="+tim.expiredMarkers()+" staleTeleportConfirms="+tim.staleTeleportConfirms()+" velocityIgnoredUnknownSelf="+tim.velocityIgnoredUnknownSelf()+" activeTraces="+tim.activeTraces()+" tracerSteps="+tim.tracerSteps()+" explained="+tim.tracerExplained()+" unexplained="+tim.tracerUnexplained());
+        var val=engine.validationEngineStatus();
+        sender.sendMessage("validation requests="+val.requests()+" VALID="+val.valid()+" UNCERTAIN="+val.uncertain()+" INVALID="+val.invalid()+" uncertain{searchLimit="+val.uncertainSearchLimit()+" unsupported="+val.uncertainUnsupported()+" worldIncomplete="+val.uncertainWorldIncomplete()+" externalMotion="+val.uncertainExternalMotion()+" unanchored="+val.uncertainUnanchored()+" other="+val.uncertainOther()+"} timingBranches="+val.timingBranches()+" reconstructions="+val.reconstructions()+" evaluations="+val.evaluations()+" anchors="+val.anchors()+"/lost="+val.anchorsLost()+" internalErrors="+val.internalErrors()+" injected="+val.injectedRequests());
         var col=engine.collisionEngineStatus();
         sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
             +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()

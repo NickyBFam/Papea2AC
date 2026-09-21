@@ -114,6 +114,8 @@ public final class InputDomain {
     }
     /** Number of distinct context-free classes in the full raw domain: 144 - 8 (the idle tuples with usingItem = true). */
     public static final int CLASS_COUNT = RAW_SIZE - 8;
+    /** A per-tick history joined with {@code >} (bounded by the caller's list). */
+    public static String describeHistory(java.util.List<MovementInput> history) { StringBuilder sb = new StringBuilder(); for (int t = 0; t < history.size(); t++) sb.append(t > 0 ? ">" : "").append(describe(history.get(t))); return sb.toString(); }
     /** Bounded stable text for a raw input (diagnostics): keys as letters, {@code f+1 s-1 J C R U} style. */
     public static String describe(MovementInput in) {
         StringBuilder sb = new StringBuilder(12);

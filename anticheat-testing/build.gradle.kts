@@ -314,3 +314,34 @@ tasks.register<JavaExec>("benchmarkTiming") {
     args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
     doFirst { rootProject.file("docs/phase7-artifacts").mkdirs() }
 }
+
+// ---- Phase 8: validation fixtures/corpora artifacts, memory harness, JMH
+tasks.register<JavaExec>("validationMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 8 memory estimate: validator, live runner empty/anchored, context ledger empty/at bounds, retained results, per-result allocation classifier-only versus end to end. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ValidationMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase8-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase8-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkValidation") {
+    description = "Phase 8 JMH kernels: classifier-only (VALID simple/velocity, INVALID horizontal, UNCERTAIN world, worst bounded) and end to end (VALID simple/ambiguous/velocity, UNCERTAIN world-incomplete/search-limit, INVALID horizontal/vertical, 2/4 branches, 2/3-tick gaps, worst bounded). Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "ValidationBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase8-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms") // fixture sanity only, never the record
+    doFirst { rootProject.file("docs/phase8-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("validationFixtures") {
+    description = "Phase 8 evidence artifacts under docs/phase8-artifacts: deterministic validation fixtures, legitimate-corpus / false-positive results, native and timing corpus validation, impossible-movement detection results (summaries only). Fails on any false INVALID."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ValidationFixtureMain")
+    maxHeapSize = "2g"
+    args(rootProject.file("docs/phase8-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase8-artifacts").mkdirs() }
+}
