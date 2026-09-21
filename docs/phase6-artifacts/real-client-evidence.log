@@ -1,0 +1,1707 @@
+
+=== 2026-09-20T16:16:22.561Z S0 smoke: status with the final jar (sha256 3839ef366f20836c)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-20T16:16:31.476Z S0b smoke: reconstruct on an offline player refuses
+> papea2ac reconstruct Emojiado arm hold_w
+Player is not online.
+
+> papea2ac reconstruct Emojiado report
+Player is not online.
+
+
+=== 2026-09-20T17:29:22.193Z S0c owner joined: status + world/collision context with Emojiado standing still
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=158890
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=158890 totalDelayNanos=18735115500
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4036292/100663296 sharedSections=1859 sharedHits=3252 privateTier=786432 revisions=215 historyEvictions=1 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac player Emojiado
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=159086, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+
+=== 2026-09-20T17:29:30.456Z S1 arm: release_all (owner standing still, no keys)
+> papea2ac reconstruct Emojiado arm release_all
+ARMED reconstruction (declared RELEASE_ALL, checked for membership only) at observed rest (-39.45387360288861,67.0,23.93387827656415) yaw=265.15213 movementSequence=166462 worldEpoch=0 worldRevision=215 - now move, then run report
+
+
+=== 2026-09-20T17:29:34.819Z S1 report: release_all
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=215 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=RELEASE_ALL (membership check only)
+rest (observed) pos=-39.45387360288861,67.0,23.93387827656415 yaw=265.15213 movementSequence=166462 samples=4
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0, minecraft:gravity=0.08}
+seq=170268 pos=(-39.453874,67.000000,23.933878) yaw=265.2 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=4 reconstructed=1 unique=0 ambiguous=1 incomplete=0 noCandidate=0 alignedH1=1 gapHypotheses=0 requests=4 declaredPresent=1 declaredAbsent=0
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-20T17:30:51.592Z S1b arm: release_all with camera motion only (no movement keys)
+> papea2ac reconstruct Emojiado arm release_all
+ARMED reconstruction (declared RELEASE_ALL, checked for membership only) at observed rest (-39.45387360288861,67.0,23.93387827656415) yaw=-93.53378 movementSequence=260162 worldEpoch=0 worldRevision=216 - now move, then run report
+
+
+=== 2026-09-20T17:31:49.409Z S1b report: release_all with camera motion only
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=216 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=RELEASE_ALL (membership check only)
+rest (observed) pos=-39.45387360288861,67.0,23.93387827656415 yaw=-93.53378 movementSequence=260162 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0, minecraft:gravity=0.08}
+seq=267275 pos=(-39.471268,67.000000,23.983402) yaw=-93.5 H1=NO_MODELLED_CANDIDATE/0 H2=NO_MODELLED_CANDIDATE/0 H3=NO_MODELLED_CANDIDATE/0 -> NO CANDIDATE under H<=3 (not a verdict: timing/coverage - see statuses); chain stops here
+summary: positionSamples=7 reconstructed=0 unique=0 ambiguous=0 incomplete=0 noCandidate=1 alignedH1=0 gapHypotheses=0 requests=9 declaredPresent=0 declaredAbsent=0
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-20T17:33:33.973Z S1c arm: release_all, brief mouse nudges with 2 s pauses (no movement keys)
+> papea2ac reconstruct Emojiado arm release_all
+ARMED reconstruction (declared RELEASE_ALL, checked for membership only) at observed rest (-40.92279819184667,67.0,24.04543735521802) yaw=275.2441 movementSequence=450479 worldEpoch=0 worldRevision=217 - now move, then run report
+
+
+=== 2026-09-20T17:34:03.983Z S1c report: release_all, brief mouse nudges
+> papea2ac reconstruct Emojiado report
+An unexpected error occurred while trying to execute that command
+
+=== 2026-09-20T17:36:29.755Z S0d stop server (player connected) to install the tracer fix jar 88e9137074a64169
+> stop
+Stopping the server
+
+=== 2026-09-20T17:37:41.154Z S0e smoke: restarted with the tracer-fix jar (sha256 88e9137074a64169), Done (5.243s)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-20T17:38:22.202Z S1d arm: release_all, brief mouse nudges with 2 s pauses (no movement keys)
+> papea2ac reconstruct Emojiado arm release_all
+ARMED reconstruction (declared RELEASE_ALL, checked for membership only) at observed rest (-40.92279819184667,67.0,24.04543735521802) yaw=-91.52176 movementSequence=19771 worldEpoch=0 worldRevision=215 - now move, then run report
+
+
+=== 2026-09-20T17:38:58.089Z S1d report: release_all, brief mouse nudges
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=215 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=RELEASE_ALL (membership check only)
+rest (observed) pos=-40.92279819184667,67.0,24.04543735521802 yaw=-91.52176 movementSequence=19771 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=34906 pos=(-40.922798,67.000000,24.045437) yaw=-90.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=36522 pos=(-40.922798,67.000000,24.045437) yaw=-108.1 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=39393 pos=(-40.922798,67.000000,24.045437) yaw=-120.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=40579 pos=(-40.922798,67.000000,24.045437) yaw=-120.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=42423 pos=(-40.922798,67.000000,24.045437) yaw=-136.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=23 reconstructed=5 unique=0 ambiguous=5 incomplete=0 noCandidate=0 alignedH1=5 gapHypotheses=0 inexactRestClosures=0 requests=23 declaredPresent=5 declaredAbsent=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (5)
+
+
+=== 2026-09-20T17:39:09.495Z S2 arm: hold_w (walk forward ~2 s)
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-40.92279819184667,67.0,24.04543735521802) yaw=-155.83273 movementSequence=63536 worldEpoch=0 worldRevision=220 - now move, then run report
+
+
+=== 2026-09-20T17:39:38.661Z S2 report: hold_w
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=220 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-40.92279819184667,67.0,24.04543735521802 yaw=-155.83273 movementSequence=63536 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=81990 pos=(-40.882673,67.000000,23.956029) yaw=-155.8 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=82009 pos=(-40.820639,67.000000,23.817802) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82050 pos=(-40.746642,67.000000,23.652922) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82107 pos=(-40.666115,67.000000,23.473489) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82130 pos=(-40.582022,67.000000,23.286109) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82161 pos=(-40.495981,67.000000,23.094391) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82222 pos=(-40.408877,67.000000,22.900304) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82245 pos=(-40.321193,67.000000,22.704924) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82280 pos=(-40.233192,67.000000,22.508837) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82331 pos=(-40.145018,67.000000,22.312365) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82348 pos=(-40.056749,67.000000,22.115682) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82389 pos=(-39.968429,67.000000,21.918885) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82438 pos=(-39.880081,67.000000,21.722025) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82459 pos=(-39.791717,67.000000,21.525130) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82504 pos=(-39.703345,67.000000,21.328217) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82573 pos=(-39.614968,67.000000,21.131293) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82612 pos=(-39.526589,67.000000,20.934364) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82663 pos=(-39.438208,67.000000,20.737432) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82729 pos=(-39.349827,67.000000,20.540498) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82764 pos=(-39.261445,67.000000,20.343563) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82817 pos=(-39.173063,67.000000,20.146628) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82870 pos=(-39.084681,67.000000,19.949693) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=82897 pos=(-38.996299,67.000000,19.752757) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1
+ declared=PRESENT eval=144 [W-----]
+seq=82958 pos=(-38.907917,67.000000,19.555821) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83011 pos=(-38.819535,67.000000,19.358885) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83034 pos=(-38.731152,67.000000,19.161950) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83075 pos=(-38.642770,67.000000,18.965014) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83130 pos=(-38.554388,67.000000,18.768078) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83169 pos=(-38.466006,67.000000,18.571142) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83214 pos=(-38.377624,67.000000,18.374206) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83285 pos=(-38.289241,67.000000,18.177271) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83302 pos=(-38.200859,67.000000,17.980335) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83349 pos=(-38.112477,67.000000,17.783399) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83408 pos=(-38.024095,67.000000,17.586463) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83435 pos=(-37.935712,67.000000,17.389527) yaw=-155.8 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=83519 pos=(-37.887456,67.000000,17.282000) yaw=-155.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 declared=ABSENT eval=144 [------(+3) ---C--(+3)]
+seq=83590 pos=(-37.861107,67.000000,17.223291) yaw=-155.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=ABSENT eval=288 [------(+7) ---C--(+7)]
+seq=83635 pos=(-37.846721,67.000000,17.191235) yaw=-155.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=ABSENT eval=288 [------(+7) ---C--(+7)]
+seq=83723 pos=(-37.838867,67.000000,17.173733) yaw=-155.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=ABSENT eval=288 [------(+7) ---C--(+7)]
+seq=83810 pos=(-37.834578,67.000000,17.164177) yaw=-155.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=ABSENT eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=43 unique=34 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=43 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=35 declaredAbsent=8
+NOT QUALIFYING: the declared input is absent from 8 transition(s) - a declaration/alignment discrepancy to investigate, not a verdict
+
+
+=== 2026-09-20T17:42:49.013Z S0f stop server (player connected) to install the release-phase tracer jar 3bd4b86d69aaadf8
+> stop
+Stopping the server
+
+=== 2026-09-20T17:43:34.154Z S0g smoke: restarted with the release-phase tracer jar (sha256 3bd4b86d69aaadf8)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-20T17:55:30.729Z S1 arm (final jar): release_all, brief mouse nudges with 2 s pauses (no movement keys)
+> papea2ac reconstruct Emojiado arm release_all
+ARMED reconstruction (declared RELEASE_ALL, checked for membership only) at observed rest (-37.83095764544151,67.0,17.156109937187786) yaw=-155.53964 movementSequence=21516 worldEpoch=0 worldRevision=215 - now move, then run report
+
+
+=== 2026-09-20T17:55:58.676Z S1 report (final jar): release_all
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=215 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=RELEASE_ALL (membership check only)
+rest (observed) pos=-37.83095764544151,67.0,17.156109937187786 yaw=-155.53964 movementSequence=21516 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=31913 pos=(-37.830958,67.000000,17.156110) yaw=-155.7 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=33022 pos=(-37.830958,67.000000,17.156110) yaw=-155.9 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=33847 pos=(-37.830958,67.000000,17.156110) yaw=-173.9 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=34712 pos=(-37.830958,67.000000,17.156110) yaw=-173.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+seq=35687 pos=(-37.830958,67.000000,17.156110) yaw=-212.8 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 declared=PRESENT eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=14 reconstructed=5 unique=0 ambiguous=5 incomplete=0 noCandidate=0 alignedH1=5 gapHypotheses=0 inexactRestClosures=0 requests=14 declaredPresent=5 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (5)
+
+
+=== 2026-09-20T17:56:04.868Z S2 arm (final jar): hold_w (walk forward ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-37.83095764544151,67.0,17.156109937187786) yaw=-279.38928 movementSequence=60188 worldEpoch=0 worldRevision=217 - now move, then run report
+
+
+=== 2026-09-20T17:56:43.752Z S2 report (final jar): hold_w
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=217 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-37.83095764544151,67.0,17.156109937187786 yaw=-279.38928 movementSequence=60188 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=84560 pos=(-37.927645,67.000000,17.172095) yaw=-279.4 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=84611 pos=(-38.077124,67.000000,17.196809) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84668 pos=(-38.255427,67.000000,17.226288) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84697 pos=(-38.449468,67.000000,17.258369) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84746 pos=(-38.652102,67.000000,17.291870) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84805 pos=(-38.859427,67.000000,17.326147) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84828 pos=(-39.069314,67.000000,17.360848) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84877 pos=(-39.280600,67.000000,17.395780) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84936 pos=(-39.492650,67.000000,17.430838) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=84963 pos=(-39.705117,67.000000,17.465966) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85042 pos=(-39.917811,67.000000,17.501130) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85097 pos=(-40.130629,67.000000,17.536316) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85118 pos=(-40.343516,67.000000,17.571512) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85177 pos=(-40.556439,67.000000,17.606715) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85226 pos=(-40.769383,67.000000,17.641921) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85245 pos=(-40.982338,67.000000,17.677129) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85310 pos=(-41.195299,67.000000,17.712338) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85370 pos=(-41.408263,67.000000,17.747547) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85387 pos=(-41.621228,67.000000,17.782757) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85446 pos=(-41.834195,67.000000,17.817967) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85485 pos=(-42.047163,67.000000,17.853177) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85516 pos=(-42.260130,67.000000,17.888387) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85571 pos=(-42.473098,67.000000,17.923597) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRE
+SENT eval=144 [W-----]
+seq=85634 pos=(-42.686066,67.000000,17.958807) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85655 pos=(-42.899034,67.000000,17.994017) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85708 pos=(-43.112002,67.000000,18.029228) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85769 pos=(-43.324970,67.000000,18.064438) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85790 pos=(-43.537938,67.000000,18.099648) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85837 pos=(-43.750906,67.000000,18.134858) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85908 pos=(-43.963874,67.000000,18.170068) yaw=-279.4 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=85930 pos=(-44.080155,67.000000,18.189293) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=85983 pos=(-44.143644,67.000000,18.199789) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=86042 pos=(-44.178309,67.000000,18.205521) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=86059 pos=(-44.197236,67.000000,18.208650) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=86122 pos=(-44.207571,67.000000,18.210358) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=86187 pos=(-44.213213,67.000000,18.211291) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=86222 pos=(-44.216294,67.000000,18.211801) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=91837 pos=(-44.216294,67.000000,18.211801) yaw=-279.4 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=38 unique=29 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=38 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=30 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (30)
+
+
+=== 2026-09-20T17:56:52.374Z S3 arm: hold_s (walk backward ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (-44.20887645001173,67.0,16.712206107225605) yaw=-89.48066 movementSequence=108356 worldEpoch=0 worldRevision=218 - now move, then run report
+
+
+=== 2026-09-20T17:57:25.131Z S3 re-arm (owner repositioned after the first arm): hold_s
+> papea2ac reconstruct Emojiado cancel
+trace cancelled
+
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (-38.55565289550476,67.0,16.76883927526515) yaw=-89.48066 movementSequence=140577 worldEpoch=0 worldRevision=280 - now move, then run report
+
+
+=== 2026-09-20T17:57:53.604Z S3 report: hold_s
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=280 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_S (membership check only)
+rest (observed) pos=-38.55565289550476,67.0,16.76883927526515 yaw=-89.48066 movementSequence=140577 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=UNKNOWN boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=149680 pos=(-38.653649,67.000000,16.767956) yaw=-89.5 H1=UNKNOWN_ENTITY_NEIGHBORHOOD/1 -> H1 UNKNOWN_ENTITY_NEIGHBORHOOD states=1 histories=1 declared=PRESENT eval=144 [S-----? SD----(+142)?]
+chain stops here: no exact witness state to continue from (UNKNOWN_ENTITY_NEIGHBORHOOD, 1 incomplete state(s)) - coverage, not a verdict
+summary: positionSamples=11 reconstructed=1 unique=0 ambiguous=0 incomplete=1 noCandidate=0 alignedH1=1 gapHypotheses=0 inexactRestClosures=10 requests=11 declaredPresent=1 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-20T17:58:27.068Z S3 note: a creeper was within the entity neighbourhood (facts entitiesNearby=UNKNOWN -> every candidate incomplete, chain stopped honestly); hostiles removed, difficulty peaceful for the session
+> difficulty peaceful
+The difficulty has been set to Peaceful
+> kill @e[type=!player,type=!item_frame,type=!armor_stand]
+Killed 316 entities
+> execute at Emojiado run say after: @e[distance=..12,type=!player]
+
+
+=== 2026-09-20T17:58:35.324Z S3 re-arm (entities cleared): hold_s
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (-39.4313546213395,67.0,16.78226056357242) yaw=-89.27131 movementSequence=216999 worldEpoch=0 worldRevision=281 - now move, then run report
+
+
+=== 2026-09-20T17:58:52.623Z S3 report: hold_s
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=281 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_S (membership check only)
+rest (observed) pos=-39.4313546213395,67.0,16.78226056357242 yaw=-89.27131 movementSequence=216999 samples=58
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=227975 pos=(-39.529347,67.000000,16.781020) yaw=-89.3 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [S-----(+1)]
+seq=228054 pos=(-39.680842,67.000000,16.779103) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228201 pos=(-39.861551,67.000000,16.776816) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228252 pos=(-40.058210,67.000000,16.774327) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228347 pos=(-40.263578,67.000000,16.771728) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228434 pos=(-40.473701,67.000000,16.769069) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228495 pos=(-40.686420,67.000000,16.766376) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=228558 pos=(-40.900557,67.000000,16.763666) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228619 pos=(-41.115467,67.000000,16.760946) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228684 pos=(-41.330801,67.000000,16.758221) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228739 pos=(-41.546365,67.000000,16.755493) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228796 pos=(-41.762055,67.000000,16.752763) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228851 pos=(-41.977813,67.000000,16.750032) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228914 pos=(-42.193610,67.000000,16.747301) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=228979 pos=(-42.409427,67.000000,16.744570) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=229032 pos=(-42.625255,67.000000,16.741838) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=229089 pos=(-42.841089,67.000000,16.739107) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=229158 pos=(-43.056926,67.000000,16.736375) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=229209 pos=(-43.272766,67.000000,16.733644) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [S-----]
+seq=229262 pos=(-43.488606,67.000000,16.730912) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229320 pos=(-43.704447,67.000000,16.728180) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229381 pos=(-43.920288,67.000000,16.725448) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229438 pos=(-44.136129,67.000000,16.722717) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----
+]
+seq=229487 pos=(-44.351971,67.000000,16.719985) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229544 pos=(-44.567812,67.000000,16.717253) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229613 pos=(-44.783654,67.000000,16.714522) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229666 pos=(-44.999495,67.000000,16.711790) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229717 pos=(-45.215337,67.000000,16.709058) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229772 pos=(-45.431178,67.000000,16.706327) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229833 pos=(-45.647020,67.000000,16.703595) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229882 pos=(-45.862861,67.000000,16.700863) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229933 pos=(-46.078703,67.000000,16.698132) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=229984 pos=(-46.294544,67.000000,16.695400) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=230053 pos=(-46.510386,67.000000,16.692668) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=230108 pos=(-46.726227,67.000000,16.689936) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=230155 pos=(-46.942069,67.000000,16.687205) yaw=-89.3 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [S-----]
+seq=230205 pos=(-47.059918,67.000000,16.685713) yaw=-89.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=230266 pos=(-47.124264,67.000000,16.684899) yaw=-89.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=230313 pos=(-47.159397,67.000000,16.684454) yaw=-89.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=230362 pos=(-47.178580,67.000000,16.684211) yaw=-89.3 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=58 reconstructed=44 unique=35 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=44 gapHypotheses=0 inexactRestClosures=0 requests=58 declaredPresent=36 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (36)
+
+
+=== 2026-09-20T17:59:05.702Z S4 arm: hold_a (strafe left ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm hold_a
+ARMED reconstruction (declared HOLD_A, checked for membership only) at observed rest (-47.19789420861581,67.0,16.68396698325083) yaw=-89.27131 movementSequence=250449 worldEpoch=0 worldRevision=281 - now move, then run report
+
+
+=== 2026-09-20T17:59:40.038Z S4 re-arm (owner repositioned): hold_a
+> papea2ac reconstruct Emojiado cancel
+trace cancelled
+
+> papea2ac reconstruct Emojiado arm hold_a
+ARMED reconstruction (declared HOLD_A, checked for membership only) at observed rest (-21.998941370048527,67.0,20.78290778563108) yaw=-97.47688 movementSequence=283008 worldEpoch=0 worldRevision=311 - now move, then run report
+
+
+=== 2026-09-20T17:59:58.531Z S4 report: hold_a
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=311 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_A (membership check only)
+rest (observed) pos=-21.998941370048527,67.0,20.78290778563108 yaw=-97.47688 movementSequence=283008 samples=51
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=291516 pos=(-22.011693,67.000000,20.685741) yaw=-97.5 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [-A----(+1)]
+seq=291547 pos=(-22.031406,67.000000,20.535521) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291610 pos=(-22.054921,67.000000,20.356334) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291657 pos=(-22.080511,67.000000,20.161331) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291714 pos=(-22.107234,67.000000,19.957692) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291769 pos=(-22.134577,67.000000,19.749339) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291830 pos=(-22.162257,67.000000,19.538411) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291881 pos=(-22.190121,67.000000,19.326077) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=291966 pos=(-22.218086,67.000000,19.112976) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292007 pos=(-22.246107,67.000000,18.899456) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292066 pos=(-22.274157,67.000000,18.685707) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292131 pos=(-22.302223,67.000000,18.471833) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292204 pos=(-22.330299,67.000000,18.257891) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292249 pos=(-22.358379,67.000000,18.043912) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292318 pos=(-22.386463,67.000000,17.829912) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292369 pos=(-22.414547,67.000000,17.615902) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292417 pos=(-22.442633,67.000000,17.401885) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292478 pos=(-22.470718,67.000000,17.187865) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292523 pos=(-22.498804,67.000000,16.973843) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292562 pos=(-22.526891,67.000000,16.759820) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292635 pos=(-22.554977,67.000000,16.545797) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292680 pos=(-22.583063,67.000000,16.331773) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292729 pos=(-22.611150,67.000000,16.117749) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292790 pos=(-2
+2.639236,67.000000,15.903725) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=292923 pos=(-22.667322,67.000000,15.689701) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-A----]
+seq=293256 pos=(-22.695409,67.000000,15.475677) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [-A----]
+seq=293349 pos=(-22.723495,67.000000,15.261653) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [-A----]
+seq=293417 pos=(-22.738830,67.000000,15.144796) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=293506 pos=(-22.747203,67.000000,15.080992) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=293567 pos=(-22.751775,67.000000,15.046155) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=293620 pos=(-22.754271,67.000000,15.027134) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=293695 pos=(-22.755634,67.000000,15.016748) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=293758 pos=(-22.756378,67.000000,15.011078) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=293907 pos=(-22.756784,67.000000,15.007982) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=305968 pos=(-22.756784,67.000000,15.007982) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=51 reconstructed=35 unique=26 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=35 gapHypotheses=0 inexactRestClosures=0 requests=51 declaredPresent=27 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (27)
+
+
+=== 2026-09-20T18:00:09.285Z S5 arm: hold_d (strafe right ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm hold_d
+ARMED reconstruction (declared HOLD_D, checked for membership only) at observed rest (-22.75678415688445,67.0,15.007981857456482) yaw=-97.47688 movementSequence=315450 worldEpoch=0 worldRevision=341 - now move, then run report
+
+
+=== 2026-09-20T18:00:45.927Z S5 report: hold_d
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=341 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_D (membership check only)
+rest (observed) pos=-22.75678415688445,67.0,15.007981857456482 yaw=-97.47688 movementSequence=315450 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=325840 pos=(-22.744033,67.000000,15.105149) yaw=-97.5 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [-D----(+1)]
+seq=325906 pos=(-22.724320,67.000000,15.255369) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [-D----]
+seq=325941 pos=(-22.700805,67.000000,15.434556) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [-D----]
+seq=325974 pos=(-22.675215,67.000000,15.629559) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [-D----]
+seq=326027 pos=(-22.648491,67.000000,15.833198) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326094 pos=(-22.621149,67.000000,16.041551) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326139 pos=(-22.593469,67.000000,16.252479) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326196 pos=(-22.565604,67.000000,16.464813) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326273 pos=(-22.537639,67.000000,16.677914) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326322 pos=(-22.509619,67.000000,16.891434) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326373 pos=(-22.481569,67.000000,17.105183) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326432 pos=(-22.453502,67.000000,17.319057) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326461 pos=(-22.425427,67.000000,17.532999) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326538 pos=(-22.397346,67.000000,17.746978) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326575 pos=(-22.369263,67.000000,17.960977) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326602 pos=(-22.341178,67.000000,18.174988) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326655 pos=(-22.313093,67.000000,18.389005) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326712 pos=(-22.285007,67.000000,18.603025) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326757 pos=(-22.256921,67.000000,18.817047) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326830 pos=(-22.228835,67.000000,19.031070) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326889 pos=(-22.200749,67.000000,19.245093) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=326955 pos=(-22.172662,67.000000,19.459117) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327026 pos=(-22.144576,67.000000,19.673141) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+s
+eq=327083 pos=(-22.116490,67.000000,19.887165) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327138 pos=(-22.088403,67.000000,20.101189) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327215 pos=(-22.060317,67.000000,20.315213) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327256 pos=(-22.032231,67.000000,20.529237) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327303 pos=(-22.004144,67.000000,20.743261) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327356 pos=(-21.976058,67.000000,20.957285) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327431 pos=(-21.947972,67.000000,21.171309) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327674 pos=(-21.919885,67.000000,21.385333) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327723 pos=(-21.891799,67.000000,21.599357) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327772 pos=(-21.863713,67.000000,21.813381) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327821 pos=(-21.835626,67.000000,22.027405) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327872 pos=(-21.807540,67.000000,22.241429) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327919 pos=(-21.779453,67.000000,22.455453) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=327956 pos=(-21.751367,67.000000,22.669477) yaw=-97.5 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [-D----]
+seq=328034 pos=(-21.736032,67.000000,22.786334) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=8 [------(+3) ---C--(+3)]
+seq=328071 pos=(-21.727659,67.000000,22.850138) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=16 [------(+7) ---C--(+7)]
+seq=328104 pos=(-21.723087,67.000000,22.884975) yaw=-97.5 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=16 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=45 unique=36 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=45 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=37 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (37)
+
+
+=== 2026-09-20T18:00:55.769Z S6 arm: w_a (W+A diagonal ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm w_a
+ARMED reconstruction (declared W_A, checked for membership only) at observed rest (-21.71807788200566,67.0,22.923148304575914) yaw=-97.47688 movementSequence=366655 worldEpoch=0 worldRevision=371 - now move, then run report
+
+
+=== 2026-09-20T18:01:20.222Z S6 report: w_a
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=371 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_A (membership check only)
+rest (observed) pos=-21.71807788200566,67.0,22.923148304575914 yaw=-97.47688 movementSequence=366655 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=376202 pos=(-21.718078,67.000000,22.923148) yaw=-97.7 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=16 [------(+7) ---C--(+7)]
+seq=381073 pos=(-21.657512,67.000000,22.843576) yaw=-97.7 H1=NO_MODELLED_CANDIDATE/0 H2=NO_MODELLED_CANDIDATE/0 H3=NO_MODELLED_CANDIDATE/0 -> NO CANDIDATE under H<=3 (not a verdict: timing/coverage - see statuses); chain stops here
+summary: positionSamples=14 reconstructed=1 unique=0 ambiguous=1 incomplete=0 noCandidate=1 alignedH1=1 gapHypotheses=0 inexactRestClosures=0 requests=16 declaredPresent=0 declaredAbsent=0 releaseIdle=0 prePressIdle=1
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-20T18:06:43Z S0h stop server to install the nearest-diagnostic tracer jar 589674560dc02e6a (RCON reset while the server closed; log: Disabling Papea2AC at 14:06:20, 0 errors, player had left at 14:02:55)
+> stop
+Stopping the server
+
+=== 2026-09-20T18:07:08.994Z S0i smoke: restarted with the nearest-diagnostic tracer jar (sha256 589674560dc02e6a)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> difficulty
+The difficulty is Peaceful
+
+=== 2026-09-20T22:32:33.868Z S6b arm: w_a, NO mouse movement after arming (isolates rotation bookkeeping)
+> papea2ac reconstruct Emojiado arm w_a
+ARMED reconstruction (declared W_A, checked for membership only) at observed rest (-25.223024643463084,67.0,20.42017312624478) yaw=-89.60594 movementSequence=59621 worldEpoch=0 worldRevision=274 - now move, then run report
+
+
+=== 2026-09-20T22:32:56.515Z S6b report: w_a, no mouse movement
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=274 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_A (membership check only)
+rest (observed) pos=-25.223024643463084,67.0,20.42017312624478 yaw=-89.60594 movementSequence=59621 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:gravity=0.08, minecraft:movement_speed=0.10000000149011612, minecraft:sneaking_speed=0.3, minecraft:movement_efficiency=0.0, minecraft:step_height=0.6, minecraft:jump_strength=0.41999998688697815, minecraft:scale=1.0}
+seq=70304 pos=(-25.151834,67.000000,20.349945) yaw=-89.60594 H1=NO_MODELLED_CANDIDATE/0 H2=NO_MODELLED_CANDIDATE/0 H3=NO_MODELLED_CANDIDATE/0 -> NO CANDIDATE under H<=3 (not a verdict: timing/coverage - see statuses); chain stops here
+  nearest (diagnostic only, one tick from 2 frontier state(s), yaw -89.60594): WA----@c0 d=(7.219e-09,0.000e+00,-7.122e-09) |d|=1.014e-08 EXACT; WA----@c1 d=(7.219e-09,0.000e+00,-7.122e-09) |d|=1.014e-08 EXACT; WA--R-@c0 d=(2.136e-02,0.000e+00,-2.107e-02) |d|=3.000e-02 EXACT
+summary: positionSamples=12 reconstructed=0 unique=0 ambiguous=0 incomplete=0 noCandidate=1 alignedH1=0 gapHypotheses=0 inexactRestClosures=0 requests=14 declaredPresent=0 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-20T22:50:34Z S0j stop server to install the P6-F1 jar d9b5f0f96cac0c92 (client input pipeline fix; player offline at the time)
+> stop
+
+=== 2026-09-20T22:51:06.959Z S0k smoke: restarted with the P6-F1 jar (sha256 d9b5f0f96cac0c92): client input pipeline fix, tracer release-phase + nearest diagnostics
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-20T23:20:32.838Z S6 arm (P6-F1 jar): w_a, no mouse movement
+> papea2ac reconstruct Emojiado arm w_a
+ARMED reconstruction (declared W_A, checked for membership only) at observed rest (-25.70149221308513,67.0,19.919000422557733) yaw=-87.93177 movementSequence=13015 worldEpoch=0 worldRevision=214 - now move, then run report
+
+
+=== 2026-09-20T23:20:54.112Z S6 report (P6-F1 jar): w_a
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=214 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_A (membership check only)
+rest (observed) pos=-25.70149221308513,67.0,19.919000422557733 yaw=-87.93177 movementSequence=13015 samples=62
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=25295 pos=(-25.628279,67.000000,19.850884) yaw=-87.93177 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [WA----(+1)]
+seq=25356 pos=(-25.515092,67.000000,19.745577) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25415 pos=(-25.380079,67.000000,19.619963) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25454 pos=(-25.233149,67.000000,19.483262) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25517 pos=(-25.079712,67.000000,19.340507) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25564 pos=(-24.922722,67.000000,19.194447) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25591 pos=(-24.763793,67.000000,19.046582) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25653 pos=(-24.603805,67.000000,18.897732) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25690 pos=(-24.443238,67.000000,18.748343) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25737 pos=(-24.282356,67.000000,18.598661) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25802 pos=(-24.121301,67.000000,18.448819) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25835 pos=(-23.960152,67.000000,18.298889) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25866 pos=(-23.798952,67.000000,18.148911) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25927 pos=(-23.637724,67.000000,17.998907) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25970 pos=(-23.476480,67.000000,17.848889) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=25997 pos=(-23.315228,67.000000,17.698863) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26056 pos=(-23.153972,67.000000,17.548833) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26089 pos=(-22.992713,67.000000,17.398800) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26120 pos=(-22.831452,67.000000,17.248767) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26173 pos=(-22.670191,67.000000,17.098732) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26202 pos=(-22.508930,67.000000,16.948697) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26229 pos=(-22.347668,67.000000,16.798662) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26286 pos=(-22.186406,67.000000,16.648627) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=
+1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26311 pos=(-22.025144,67.000000,16.498592) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26340 pos=(-21.863882,67.000000,16.348557) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26387 pos=(-21.702620,67.000000,16.198521) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26422 pos=(-21.541358,67.000000,16.048486) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26450 pos=(-21.380096,67.000000,15.898451) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26535 pos=(-21.218834,67.000000,15.748415) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WA----]
+seq=26558 pos=(-21.057572,67.000000,15.598380) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26627 pos=(-20.896310,67.000000,15.448345) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26694 pos=(-20.735048,67.000000,15.298309) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26717 pos=(-20.573786,67.000000,15.148274) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26746 pos=(-20.412524,67.000000,14.998239) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26813 pos=(-20.251262,67.000000,14.848203) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26842 pos=(-20.090000,67.000000,14.698168) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WA----]
+seq=26882 pos=(-20.001951,67.000000,14.616249) yaw=-87.93177 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=26939 pos=(-19.953876,67.000000,14.571521) yaw=-87.93177 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=26964 pos=(-19.927627,67.000000,14.547099) yaw=-87.93177 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=27001 pos=(-19.913295,67.000000,14.533765) yaw=-87.93177 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=62 reconstructed=44 unique=35 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=44 gapHypotheses=0 inexactRestClosures=0 requests=62 declaredPresent=36 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (36)
+
+
+=== 2026-09-20T23:21:01.943Z S7 arm: w_d (W+D diagonal ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm w_d
+ARMED reconstruction (declared W_D, checked for membership only) at observed rest (-19.898864588754055,67.0,14.520339401656871) yaw=-87.93177 movementSequence=40186 worldEpoch=0 worldRevision=244 - now move, then run report
+
+
+=== 2026-09-20T23:21:28.304Z S7 report: w_d
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=244 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_D (membership check only)
+rest (observed) pos=-19.898864588754055,67.0,14.520339401656871 yaw=-87.93177 movementSequence=40186 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=52394 pos=(-19.830749,67.000000,14.593552) yaw=-87.93177 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [WD----(+1)]
+seq=52431 pos=(-19.725441,67.000000,14.706740) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52468 pos=(-19.599827,67.000000,14.841753) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52511 pos=(-19.463126,67.000000,14.988683) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52553 pos=(-19.320371,67.000000,15.142120) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52588 pos=(-19.174311,67.000000,15.299109) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52635 pos=(-19.026446,67.000000,15.458038) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52692 pos=(-18.877596,67.000000,15.618027) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [WD----]
+seq=52739 pos=(-18.728208,67.000000,15.778593) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=52802 pos=(-18.578526,67.000000,15.939476) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=52873 pos=(-18.428683,67.000000,16.100530) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=52950 pos=(-18.278753,67.000000,16.261679) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=52999 pos=(-18.128775,67.000000,16.422879) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53068 pos=(-17.978771,67.000000,16.584108) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53109 pos=(-17.828753,67.000000,16.745351) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53162 pos=(-17.678727,67.000000,16.906603) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53229 pos=(-17.528697,67.000000,17.067860) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53266 pos=(-17.378665,67.000000,17.229119) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53411 pos=(-17.228631,67.000000,17.390379) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53480 pos=(-17.078596,67.000000,17.551640) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53535 pos=(-16.928561,67.000000,17.712902) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53582 pos=(-16.778526,67.000000,17.874164) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53621 pos=(-16.628491,67.000000,18.035426) yaw=-87.93177 H1=EXACT_UNIQUE/1 
+-> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53668 pos=(-16.478456,67.000000,18.196688) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53722 pos=(-16.328421,67.000000,18.357950) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53773 pos=(-16.178385,67.000000,18.519212) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53838 pos=(-16.028350,67.000000,18.680474) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53881 pos=(-15.878315,67.000000,18.841736) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=53958 pos=(-15.728280,67.000000,19.002998) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54027 pos=(-15.578244,67.000000,19.164260) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54142 pos=(-15.428209,67.000000,19.325522) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54227 pos=(-15.278174,67.000000,19.486784) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54282 pos=(-15.128138,67.000000,19.648046) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54371 pos=(-14.978103,67.000000,19.809308) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54420 pos=(-14.828068,67.000000,19.970570) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54477 pos=(-14.678032,67.000000,20.131832) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54562 pos=(-14.527997,67.000000,20.293094) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54627 pos=(-14.377962,67.000000,20.454356) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54690 pos=(-14.227926,67.000000,20.615618) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+seq=54799 pos=(-14.077891,67.000000,20.776880) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [WD----]
+summary: positionSamples=64 reconstructed=48 unique=45 ambiguous=3 incomplete=0 noCandidate=0 alignedH1=48 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=46 declaredAbsent=0 releaseIdle=2 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (46)
+
+
+=== 2026-09-20T23:21:35.018Z S2b arm (P6-F1 jar re-check): hold_w
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-12.999850441829997,67.0,21.935587351955526) yaw=-87.93177 movementSequence=70398 worldEpoch=0 worldRevision=304 - now move, then run report
+
+
+=== 2026-09-20T23:22:01.063Z S2b report (P6-F1 jar re-check): hold_w
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=304 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-12.999850441829997,67.0,21.935587351955526 yaw=-87.93177 movementSequence=70398 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=85862 pos=(-12.901914,67.000000,21.939119) yaw=-87.93177 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W-----(+1)]
+seq=85875 pos=(-12.750505,67.000000,21.944580) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=85934 pos=(-12.569900,67.000000,21.951093) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86005 pos=(-12.373354,67.000000,21.958182) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86020 pos=(-12.168103,67.000000,21.965584) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86087 pos=(-11.958100,67.000000,21.973157) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86158 pos=(-11.745503,67.000000,21.980825) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86189 pos=(-11.531489,67.000000,21.988543) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86248 pos=(-11.316701,67.000000,21.996289) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86317 pos=(-11.101491,67.000000,22.004050) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86328 pos=(-10.886050,67.000000,22.011820) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86387 pos=(-10.670483,67.000000,22.019594) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86460 pos=(-10.454848,67.000000,22.027371) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86475 pos=(-10.239175,67.000000,22.035149) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86532 pos=(-10.023482,67.000000,22.042928) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86605 pos=(-9.807777,67.000000,22.050707) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86632 pos=(-9.592066,67.000000,22.058487) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86695 pos=(-9.376352,67.000000,22.066266) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86767 pos=(-9.160636,67.000000,22.074046) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86790 pos=(-8.944919,67.000000,22.081826) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86851 pos=(-8.729202,67.000000,22.089605) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86926 pos=(-8.513484,67.000000,22.097385) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=86943 pos=(-8.297766,67.000000,22.105165) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE st
+ates=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87000 pos=(-8.082048,67.000000,22.112944) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87067 pos=(-7.866330,67.000000,22.120724) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87082 pos=(-7.650612,67.000000,22.128504) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87133 pos=(-7.434894,67.000000,22.136284) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87202 pos=(-7.219176,67.000000,22.144063) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87227 pos=(-7.003458,67.000000,22.151843) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87298 pos=(-6.787740,67.000000,22.159623) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87373 pos=(-6.572022,67.000000,22.167402) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87394 pos=(-6.356304,67.000000,22.175182) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87451 pos=(-6.140586,67.000000,22.182962) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87508 pos=(-5.924868,67.000000,22.190742) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87529 pos=(-5.709150,67.000000,22.198521) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87586 pos=(-5.493431,67.000000,22.206301) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87659 pos=(-5.277713,67.000000,22.214081) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87680 pos=(-5.061995,67.000000,22.221861) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87831 pos=(-4.846277,67.000000,22.229640) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+seq=87929 pos=(-4.630559,67.000000,22.237420) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-----]
+summary: positionSamples=64 reconstructed=48 unique=42 ambiguous=6 incomplete=0 noCandidate=0 alignedH1=48 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=43 declaredAbsent=0 releaseIdle=5 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (43)
+
+
+=== 2026-09-20T23:22:08.433Z S8 arm: w_sprint (hold sprint+W ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm w_sprint
+ARMED reconstruction (declared W_SPRINT, checked for membership only) at observed rest (-3.727725923848509,67.0,22.269980006831478) yaw=-87.93177 movementSequence=102196 worldEpoch=0 worldRevision=304 - now move, then run report
+
+
+=== 2026-09-20T23:22:26.168Z S8 report: w_sprint
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=304 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_SPRINT (membership check only)
+rest (observed) pos=-3.727725923848509,67.0,22.269980006831478 yaw=-87.93177 movementSequence=102196 samples=63
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=109742 pos=(-3.600409,67.000000,22.274572) yaw=-87.93177 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W---R-(+1)]
+seq=109783 pos=(-3.403577,67.000000,22.281670) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=109946 pos=(-3.168790,67.000000,22.290138) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110021 pos=(-2.913280,67.000000,22.299352) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110078 pos=(-2.646454,67.000000,22.308975) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110137 pos=(-2.373451,67.000000,22.318821) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110186 pos=(-2.097074,67.000000,22.328788) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110219 pos=(-1.818855,67.000000,22.338822) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110278 pos=(-1.539631,67.000000,22.348892) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110331 pos=(-1.259858,67.000000,22.358982) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110360 pos=(-0.979785,67.000000,22.369083) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110411 pos=(-0.699548,67.000000,22.379189) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110468 pos=(-0.419222,67.000000,22.389299) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110501 pos=(-0.138848,67.000000,22.399410) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110556 pos=(0.141554,67.000000,22.409523) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110650 pos=(0.421970,67.000000,22.419636) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110717 pos=(0.702394,67.000000,22.429749) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110812 pos=(0.982822,67.000000,22.439863) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110883 pos=(1.263253,67.000000,22.449976) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=110930 pos=(1.543685,67.000000,22.460090) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111005 pos=(1.824118,67.000000,22.470203) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111072 pos=(2.104551,67.000000,22.480317) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111103 pos=(2.384984,67.000000,22.490431) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 h
+istories=1 declared=PRESENT eval=1 [W---R-]
+seq=111174 pos=(2.665417,67.000000,22.500544) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111235 pos=(2.945851,67.000000,22.510658) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111264 pos=(3.226284,67.000000,22.520771) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W---R-]
+seq=111317 pos=(3.506718,67.000000,22.530885) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111370 pos=(3.787151,67.000000,22.540999) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111415 pos=(4.067585,67.000000,22.551112) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111496 pos=(4.348018,67.000000,22.561226) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111569 pos=(4.628452,67.000000,22.571340) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111626 pos=(4.908885,67.000000,22.581453) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111713 pos=(5.189319,67.000000,22.591567) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111812 pos=(5.469752,67.000000,22.601681) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111867 pos=(5.750186,67.000000,22.611794) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=111942 pos=(6.030619,67.000000,22.621908) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=112018 pos=(6.311053,67.000000,22.632022) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=112057 pos=(6.591486,67.000000,22.642135) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=112124 pos=(6.871920,67.000000,22.652249) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+seq=112195 pos=(7.152353,67.000000,22.662362) yaw=-87.93177 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W---R-]
+summary: positionSamples=63 reconstructed=49 unique=40 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=49 gapHypotheses=0 inexactRestClosures=0 requests=63 declaredPresent=41 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (41)
+
+
+=== 2026-09-20T23:22:33.287Z S9 arm: jump_stationary (tap space once or twice in place, no movement keys)
+> papea2ac reconstruct Emojiado arm jump_stationary
+ARMED reconstruction (declared JUMP_STATIONARY, checked for membership only) at observed rest (7.765169664636259,67.0,22.684463209747125) yaw=90.84004 movementSequence=126740 worldEpoch=0 worldRevision=334 - now move, then run report
+
+
+=== 2026-09-20T23:22:56.480Z S9 report: jump_stationary
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=334 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=JUMP_STATIONARY (membership check only)
+rest (observed) pos=7.765169664636259,67.0,22.684463209747125 yaw=90.84004 movementSequence=126740 samples=45
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=138128 pos=(7.765170,67.420000,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 declared=PRESENT eval=288 [--J---(+3) --JC--(+3)]
+seq=138189 pos=(7.765170,67.753200,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=32 declared=PRESENT eval=288 [------(+7) ---C--(+7) --J---(+7) --JC--(+7)]
+seq=138226 pos=(7.765170,68.001336,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138282 pos=(7.765170,68.166109,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138347 pos=(7.765170,68.249187,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138392 pos=(7.765170,68.252203,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138445 pos=(7.765170,68.176759,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138494 pos=(7.765170,68.024424,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138539 pos=(7.765170,67.796736,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138596 pos=(7.765170,67.495201,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=138653 pos=(7.765170,67.121297,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=64 declared=PRESENT eval=576 [------(+31) ---C--(+31)]
+seq=138703 pos=(7.765170,67.000000,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=32 declared=PRESENT eval=288 [------(+15) ---C--(+15)]
+seq=140313 pos=(7.765170,67.420000,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 declared=PRESENT eval=288 [--J---(+3) --JC--(+3)]
+seq=140370 pos=(7.765170,67.753200,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=32 declared=PRESENT eval=288 [------(+7) ---C--(+7) --J---(+7) --JC--(+7)]
+seq=140424 pos=(7.765170,68.001336,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140475 pos=(7.765170,68.166109,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140530 pos=(7.765170,68.249187,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140581 pos=(7.765170,68.252203,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J--
+-(+7) --JC--(+7)]
+seq=140626 pos=(7.765170,68.176759,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140683 pos=(7.765170,68.024424,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140738 pos=(7.765170,67.796736,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140796 pos=(7.765170,67.495201,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=140843 pos=(7.765170,67.121297,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=64 declared=PRESENT eval=576 [------(+31) ---C--(+31)]
+seq=140900 pos=(7.765170,67.000000,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=32 declared=PRESENT eval=288 [------(+15) ---C--(+15)]
+seq=149431 pos=(7.765170,67.000000,22.684463) yaw=90.84004 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=45 reconstructed=25 unique=0 ambiguous=25 incomplete=0 noCandidate=0 alignedH1=25 gapHypotheses=0 inexactRestClosures=0 requests=45 declaredPresent=24 declaredAbsent=0 releaseIdle=1 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (24)
+
+
+=== 2026-09-20T23:23:06.653Z S10 arm: w_jump (hold W, tap space once or twice while walking, release, stand)
+> papea2ac reconstruct Emojiado arm w_jump
+ARMED reconstruction (declared W_JUMP, checked for membership only) at observed rest (7.765169664636259,67.0,22.684463209747125) yaw=90.84004 movementSequence=158811 worldEpoch=0 worldRevision=334 - now move, then run report
+
+
+=== 2026-09-20T23:23:32.315Z S10 report: w_jump
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=334 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_JUMP (membership check only)
+rest (observed) pos=7.765169664636259,67.0,22.684463209747125 yaw=90.84004 movementSequence=158811 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=166891 pos=(7.765170,67.000000,22.684463) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=173910 pos=(7.667178,67.420000,22.683176) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-J---(+1)]
+seq=173956 pos=(7.594076,67.753200,22.682216) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=173987 pos=(7.507956,68.001336,22.681085) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174040 pos=(7.409987,68.166109,22.679798) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174095 pos=(7.301238,68.249187,22.678369) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174120 pos=(7.182677,68.252203,22.676812) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174275 pos=(7.055189,68.176759,22.675137) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174358 pos=(6.919577,68.024424,22.673356) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174397 pos=(6.776571,67.796736,22.671478) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174458 pos=(6.626837,67.495201,22.669511) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174505 pos=(6.470982,67.121297,22.667463) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=288 [W-----(+3)]
+seq=174540 pos=(6.309554,67.000000,22.665343) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=144 [W-----(+1)]
+seq=174601 pos=(6.064664,67.420000,22.662126) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-J---]
+seq=174652 pos=(5.911356,67.753200,22.660113) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=174685 pos=(5.752247,68.001336,22.658023) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174740 pos=(5.587859,68.166109,22.655863) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174797 pos=(5.418668,68.249187,22.653641) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174832 pos=(5.245106,68.252203,22.651361) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174891 pos=(5.067567,68.176759,22.649029) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=174950 pos=(4.886407,68.024424,22.646649) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=
+PRESENT eval=288 [W-----(+2) W-J---]
+seq=174995 pos=(4.701954,67.796736,22.644226) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=175062 pos=(4.514503,67.495201,22.641764) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=175126 pos=(4.324324,67.121297,22.639266) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=288 [W-----(+3)]
+seq=175165 pos=(4.131663,67.000000,22.636735) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=144 [W-----(+1)]
+seq=175232 pos=(3.858350,67.420000,22.633145) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-J---]
+seq=175301 pos=(3.689523,67.753200,22.630928) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=175326 pos=(3.516292,68.001336,22.628652) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=175393 pos=(3.339053,68.166109,22.626324) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+2) W-J---]
+seq=175452 pos=(3.158168,68.249187,22.623948) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175485 pos=(2.973964,68.252203,22.621528) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175542 pos=(2.786740,68.176759,22.619069) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175599 pos=(2.596767,68.024424,22.616574) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175632 pos=(2.404294,67.796736,22.614046) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175693 pos=(2.209546,67.495201,22.611488) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+seq=175746 pos=(2.012726,67.121297,22.608902) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=4 [W-----(+3)]
+seq=175783 pos=(1.814022,67.000000,22.606292) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W-----(+1)]
+seq=175840 pos=(1.535209,67.420000,22.602630) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-J---]
+seq=175899 pos=(1.363380,67.753200,22.600373) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=2 [W----- W-J---]
+seq=175930 pos=(1.187416,68.001336,22.598061) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W-----(+2) W-J---]
+summary: positionSamples=63 reconstructed=48 unique=3 ambiguous=45 incomplete=0 noCandidate=0 alignedH1=48 gapHypotheses=0 inexactRestClosures=0 requests=63 declaredPresent=47 declaredAbsent=0 releaseIdle=0 prePressIdle=1
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (47)
+
+
+=== 2026-09-20T23:23:39.750Z S11 arm: w_sprint_jump (sprint+W with repeated jumps ~2 s, release, stand)
+> papea2ac reconstruct Emojiado arm w_sprint_jump
+ARMED reconstruction (declared W_SPRINT_JUMP, checked for membership only) at observed rest (-3.0591525050297155,67.0,22.542280701704584) yaw=90.7563 movementSequence=190374 worldEpoch=0 worldRevision=364 - now move, then run report
+
+
+=== 2026-09-20T23:24:13.860Z S11 report: w_sprint_jump
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=364 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_SPRINT_JUMP (membership check only)
+rest (observed) pos=-3.0591525050297155,67.0,22.542280701704584 yaw=90.7563 movementSequence=190374 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=210545 pos=(-3.386524,67.420000,22.537981) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W-J-R-(+1)]
+seq=210592 pos=(-3.590747,67.753200,22.535298) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=2 [W---R- W-J-R-]
+seq=210627 pos=(-3.802068,68.001336,22.532522) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=210696 pos=(-4.019847,68.166109,22.529662) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=210747 pos=(-4.243504,68.249187,22.526724) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=210892 pos=(-4.472510,68.252203,22.523716) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=210979 pos=(-4.706383,68.176759,22.520644) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211036 pos=(-4.944686,68.024424,22.517513) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211083 pos=(-5.187019,67.796736,22.514330) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211142 pos=(-5.433019,67.495201,22.511099) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211187 pos=(-5.682358,67.121297,22.507824) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=4 [W---R-(+3)]
+seq=211236 pos=(-5.934734,67.000000,22.504509) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W---R-(+1)]
+seq=211297 pos=(-6.491768,67.420000,22.497192) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-J-R-]
+seq=211338 pos=(-6.821386,67.753200,22.492862) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=2 [W---R- W-J-R-]
+seq=211375 pos=(-7.146816,68.001336,22.488587) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211462 pos=(-7.468436,68.166109,22.484363) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211517 pos=(-7.786587,68.249187,22.480184) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211558 pos=(-8.101583,68.252203,22.476046) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211625 pos=(-8.413707,68.176759,22.471946) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211673 pos=(-8.723218,68.024424,22.467881) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211716 pos=(-9.030350,67.796736,22.463846) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4
+ [W---R-(+2) W-J-R-]
+seq=211765 pos=(-9.335319,67.495201,22.459840) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=211806 pos=(-9.638318,67.121297,22.455860) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=4 [W---R-(+3)]
+seq=211861 pos=(-9.939524,67.000000,22.451904) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W---R-(+1)]
+seq=211922 pos=(-10.540995,67.420000,22.444003) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-J-R-]
+seq=211977 pos=(-10.894875,67.753200,22.439355) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=2 [W---R- W-J-R-]
+seq=212024 pos=(-11.242384,68.001336,22.434790) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212079 pos=(-11.584095,68.166109,22.430302) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212120 pos=(-11.920530,68.249187,22.425882) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212151 pos=(-12.252164,68.252203,22.421526) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212210 pos=(-12.579428,68.176759,22.417227) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212259 pos=(-12.902716,68.024424,22.412981) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212298 pos=(-13.222386,67.796736,22.408782) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212345 pos=(-13.538764,67.495201,22.404626) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212392 pos=(-13.852146,67.121297,22.400510) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 declared=PRESENT eval=4 [W---R-(+3)]
+seq=212443 pos=(-14.162801,67.000000,22.396429) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W---R-(+1)]
+seq=212492 pos=(-14.772868,67.420000,22.388416) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W-J-R-]
+seq=212535 pos=(-15.131443,67.753200,22.383706) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=2 [W---R- W-J-R-]
+seq=212576 pos=(-15.483224,68.001336,22.379085) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+seq=212631 pos=(-15.828823,68.166109,22.374545) yaw=90.7563 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=4 [W---R-(+2) W-J-R-]
+summary: positionSamples=64 reconstructed=43 unique=3 ambiguous=40 incomplete=0 noCandidate=0 alignedH1=43 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=43 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (43)
+
+
+=== 2026-09-20T23:24:28.809Z S12 arm: w_shift (hold shift, then W ~2 s, release W then shift, stand)
+> papea2ac reconstruct Emojiado arm w_shift
+ARMED reconstruction (declared W_SHIFT, checked for membership only) at observed rest (-23.041553343035048,67.0,22.27980256927974) yaw=90.7563 movementSequence=233313 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:24:56.957Z S12 report: w_shift
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=394 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_SHIFT (membership check only)
+rest (observed) pos=-23.041553343035048,67.0,22.27980256927974 yaw=90.7563 movementSequence=233313 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=241533 pos=(-23.070951,67.000000,22.279416) yaw=90.7563 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W--C--(+1)]
+seq=241564 pos=(-23.116399,67.000000,22.278819) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241585 pos=(-23.170612,67.000000,22.278107) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241642 pos=(-23.229609,67.000000,22.277332) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241691 pos=(-23.291219,67.000000,22.276523) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241720 pos=(-23.354256,67.000000,22.275695) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241784 pos=(-23.418071,67.000000,22.274857) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241821 pos=(-23.482312,67.000000,22.274013) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241864 pos=(-23.546785,67.000000,22.273166) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241911 pos=(-23.611384,67.000000,22.272318) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241954 pos=(-23.676053,67.000000,22.271468) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=241983 pos=(-23.740760,67.000000,22.270618) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242144 pos=(-23.805487,67.000000,22.269768) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242199 pos=(-23.870226,67.000000,22.268918) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242222 pos=(-23.934971,67.000000,22.268067) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242285 pos=(-23.999719,67.000000,22.267217) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242330 pos=(-24.064469,67.000000,22.266366) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242353 pos=(-24.129220,67.000000,22.265516) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242408 pos=(-24.193971,67.000000,22.264665) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242443 pos=(-24.258723,67.000000,22.263814) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242472 pos=(-24.323475,67.000000,22.262964) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242527 pos=(-24.388227,67.000000,22.262113) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242580 pos=(-24.452979,67.000000,22.261263) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories
+=1 declared=PRESENT eval=1 [W--C--]
+seq=242601 pos=(-24.517731,67.000000,22.260412) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242652 pos=(-24.582483,67.000000,22.259562) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242687 pos=(-24.647235,67.000000,22.258711) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242709 pos=(-24.711987,67.000000,22.257861) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242760 pos=(-24.776740,67.000000,22.257010) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242793 pos=(-24.841492,67.000000,22.256160) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242810 pos=(-24.906244,67.000000,22.255309) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242861 pos=(-24.970996,67.000000,22.254458) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242904 pos=(-25.035748,67.000000,22.253608) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242927 pos=(-25.100500,67.000000,22.252757) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=242974 pos=(-25.165252,67.000000,22.251907) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243009 pos=(-25.230005,67.000000,22.251056) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243030 pos=(-25.294757,67.000000,22.250206) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243075 pos=(-25.359509,67.000000,22.249355) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243118 pos=(-25.424261,67.000000,22.248505) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243131 pos=(-25.489013,67.000000,22.247654) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+seq=243184 pos=(-25.553765,67.000000,22.246803) yaw=90.7563 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W--C--]
+summary: positionSamples=64 reconstructed=53 unique=52 ambiguous=1 incomplete=0 noCandidate=0 alignedH1=53 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=53 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (53)
+
+
+=== 2026-09-20T23:25:08.456Z S13 prep: give a shield for the use-item scenario
+> give Emojiado minecraft:shield 1
+Gave 1 [Shield] to Emojiado
+
+=== 2026-09-20T23:25:08.717Z S13 arm: w_use (hold right-click with the shield, then W ~2 s, release W, release right-click, stand)
+> papea2ac reconstruct Emojiado arm w_use
+ARMED reconstruction (declared W_USE, checked for membership only) at observed rest (-26.858150830633193,67.0,22.22966978549249) yaw=266.9734 movementSequence=261049 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:26:08.613Z S13 report: w_use (shield raised)
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=394 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_USE (membership check only)
+rest (observed) pos=-26.858150830633193,67.0,22.22966978549249 yaw=266.9734 movementSequence=261049 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=293189 pos=(-26.858151,67.000000,22.229670) yaw=267.47583 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=16 [------(+7) ---C--(+7)]
+seq=293978 pos=(-26.858151,67.000000,22.229670) yaw=266.51282 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=16 [------(+7) ---C--(+7)]
+seq=294336 pos=(-26.838588,67.000000,22.228462) yaw=266.47095 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W----U(+1)]
+seq=294357 pos=(-26.808344,67.000000,22.226595) yaw=266.47095 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=294398 pos=(-26.772268,67.000000,22.224369) yaw=266.47095 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=294427 pos=(-26.733008,67.000000,22.221945) yaw=266.47095 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=294440 pos=(-26.692009,67.000000,22.219415) yaw=266.47095 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+summary: positionSamples=53 reconstructed=7 unique=4 ambiguous=3 incomplete=0 noCandidate=0 alignedH1=7 gapHypotheses=0 inexactRestClosures=0 requests=53 declaredPresent=5 declaredAbsent=0 releaseIdle=0 prePressIdle=2
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (5)
+
+
+=== 2026-09-20T23:26:22.839Z S13b arm: w_use again (shield already selected: right-click, W ~2 s)
+> papea2ac reconstruct Emojiado arm w_use
+ARMED reconstruction (declared W_USE, checked for membership only) at observed rest (-23.802849431589745,67.0,22.049968863054232) yaw=267.099 movementSequence=311511 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:26:57.626Z S13b report: w_use (shield raised)
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=394 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=W_USE (membership check only)
+rest (observed) pos=-23.802849431589745,67.0,22.049968863054232 yaw=267.099 movementSequence=311511 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=328824 pos=(-23.802849,67.000000,22.049969) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=16 [------(+7) ---C--(+7)]
+seq=329206 pos=(-23.783267,67.000000,22.049133) yaw=267.55957 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=2 [W----U(+1)]
+seq=329257 pos=(-23.752993,67.000000,22.047841) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329312 pos=(-23.716881,67.000000,22.046299) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329335 pos=(-23.677582,67.000000,22.044621) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329380 pos=(-23.636543,67.000000,22.042869) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329437 pos=(-23.594553,67.000000,22.041077) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329462 pos=(-23.552044,67.000000,22.039262) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329507 pos=(-23.509253,67.000000,22.037435) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329564 pos=(-23.466306,67.000000,22.035602) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329585 pos=(-23.423275,67.000000,22.033765) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329636 pos=(-23.380198,67.000000,22.031926) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329689 pos=(-23.337096,67.000000,22.030086) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329710 pos=(-23.293980,67.000000,22.028245) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329753 pos=(-23.250856,67.000000,22.026404) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329812 pos=(-23.207729,67.000000,22.024563) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329831 pos=(-23.164599,67.000000,22.022722) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329888 pos=(-23.121468,67.000000,22.020881) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329941 pos=(-23.078336,67.000000,22.019040) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=329973 pos=(-23.035204,67.000000,22.017198) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330028 pos=(-22.992072,67.000000,22.015357) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330081 pos=(-22.948939,67.000000,22.013516) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330112 pos=(-22.905807,67.000000,22.011674) yaw
+=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330159 pos=(-22.862674,67.000000,22.009833) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330228 pos=(-22.819542,67.000000,22.007992) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330261 pos=(-22.776409,67.000000,22.006150) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330312 pos=(-22.733277,67.000000,22.004309) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330371 pos=(-22.690144,67.000000,22.002468) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330400 pos=(-22.647012,67.000000,22.000626) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330451 pos=(-22.603879,67.000000,21.998785) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330504 pos=(-22.560747,67.000000,21.996944) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330543 pos=(-22.517614,67.000000,21.995102) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330606 pos=(-22.474482,67.000000,21.993261) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330665 pos=(-22.431349,67.000000,21.991420) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330684 pos=(-22.388216,67.000000,21.989579) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330745 pos=(-22.345084,67.000000,21.987737) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330798 pos=(-22.301951,67.000000,21.985896) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330833 pos=(-22.258819,67.000000,21.984055) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330898 pos=(-22.215686,67.000000,21.982213) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+seq=330958 pos=(-22.172554,67.000000,21.980372) yaw=267.55957 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=1 [W----U]
+summary: positionSamples=62 reconstructed=42 unique=40 ambiguous=2 incomplete=0 noCandidate=0 alignedH1=42 gapHypotheses=0 inexactRestClosures=0 requests=62 declaredPresent=41 declaredAbsent=0 releaseIdle=0 prePressIdle=1
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (41)
+
+
+=== 2026-09-20T23:27:07.926Z S14 arm: airborne direction change (no declaration: W + jump, then release W and hold A while in the air, land, stand)
+> papea2ac reconstruct Emojiado arm
+ARMED reconstruction at observed rest (-20.486228349799987,67.0,21.90900931320444) yaw=268.062 movementSequence=349763 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:28:23.414Z S14 re-arm (owner repositioned): airborne direction change, no declaration
+> papea2ac reconstruct Emojiado cancel
+no armed trace
+
+> papea2ac reconstruct Emojiado arm
+ARMED reconstruction at observed rest (-19.38429717150979,67.0,21.871701915258246) yaw=267.60144 movementSequence=398723 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:29:02.040Z S14 report: airborne direction change
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=394 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation
+rest (observed) pos=-19.38429717150979,67.0,21.871701915258246 yaw=267.60144 movementSequence=398723 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=417161 pos=(-19.286383,67.420000,21.867597) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 eval=2 [W-J---(+1)]
+seq=417196 pos=(-19.213339,67.753200,21.864535) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 eval=2 [W----- W-J---]
+seq=417235 pos=(-19.127287,68.001336,21.860928) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417288 pos=(-19.029396,68.166109,21.856824) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417329 pos=(-18.920732,68.249187,21.852269) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417376 pos=(-18.802266,68.252203,21.847302) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417413 pos=(-18.674879,68.176759,21.841962) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417462 pos=(-18.539373,68.024424,21.836282) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417512 pos=(-18.396481,67.796736,21.830291) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=417554 pos=(-18.266449,67.495201,21.824840) yaw=267.60144 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=32 eval=32 [------(+11) ---C--(+11) --J---(+3) --JC--(+3)]
+seq=417587 pos=(-18.148119,67.121297,21.819880) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=64 eval=64 [------(+31) ---C--(+31)]
+seq=417644 pos=(-18.040439,67.000000,21.815366) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=32 eval=32 [------(+15) ---C--(+15)]
+seq=417686 pos=(-17.946556,67.000000,21.713344) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 eval=2 [-A----(+1)]
+seq=417719 pos=(-17.899400,67.000000,21.559726) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=417766 pos=(-17.877757,67.000000,21.377936) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=417810 pos=(-17.870045,67.420000,21.180765) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-AJ---]
+seq=417847 pos=(-17.866655,67.753200,21.053527) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 eval=2 [-A---- -AJ---]
+seq=417888 pos=(-17.864391,68.001336,20.918158) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=417927 pos=(-17.863152,68.166109,20.775389) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=417968 pos=(-17.862846,68.249187,20.625886) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=418022 pos=(-17.863387,68.252203,20.470256) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=418069 pos=(-17.864702,68.176759,20.309049) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=418106 pos=(-17.866718,68.024424,20.142769) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -A
+J---]
+seq=418151 pos=(-17.869374,67.796736,19.971871) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=418188 pos=(-17.872612,67.495201,19.796770) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [-A----(+2) -AJ---]
+seq=418225 pos=(-17.876380,67.121297,19.617847) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=4 eval=4 [-A----(+3)]
+seq=418265 pos=(-17.880629,67.000000,19.435443) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 eval=2 [-A----(+1)]
+seq=418303 pos=(-17.884496,67.000000,19.269456) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 eval=8 [------(+3) ---C--(+3)]
+seq=418336 pos=(-17.886608,67.000000,19.178827) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=418487 pos=(-17.887760,67.000000,19.129343) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=418542 pos=(-17.888390,67.000000,19.102325) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=418573 pos=(-17.888734,67.000000,19.087574) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=418620 pos=(-17.888921,67.000000,19.079519) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=418665 pos=(-17.889024,67.000000,19.075121) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+seq=420155 pos=(-17.889024,67.000000,19.075121) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=16 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=35 unique=3 ambiguous=32 incomplete=0 noCandidate=0 alignedH1=35 gapHypotheses=0 inexactRestClosures=0 requests=64
+
+
+=== 2026-09-20T23:29:20.019Z S14b arm: airborne direction change W->A in the air, no declaration
+> papea2ac reconstruct Emojiado arm
+ARMED reconstruction at observed rest (-17.889023604671916,67.0,19.07512131259766) yaw=267.60144 movementSequence=441382 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:31:37.227Z S14b report: airborne direction change W->A
+> papea2ac reconstruct Emojiado report
+no armed trace for that player (arm one first)
+
+
+=== 2026-09-20T23:31:52.073Z S14b re-arm (previous trace expired before report): airborne W->A
+> papea2ac reconstruct Emojiado arm
+ARMED reconstruction at observed rest (-16.62626811331852,67.0,16.865448127548344) yaw=267.60144 movementSequence=554779 worldEpoch=0 worldRevision=394 - now move, then run report
+
+
+=== 2026-09-20T23:32:13.448Z S14b report: airborne direction change W->A
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=394 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation
+rest (observed) pos=-16.62626811331852,67.0,16.865448127548344 yaw=267.60144 movementSequence=554779 samples=47
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=563721 pos=(-16.528354,67.420000,16.861343) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 eval=2 [W-J---(+1)]
+seq=563750 pos=(-16.455310,67.753200,16.858281) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 eval=2 [W----- W-J---]
+seq=563781 pos=(-16.369258,68.001336,16.854674) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=563828 pos=(-16.271367,68.166109,16.850570) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=563881 pos=(-16.162703,68.249187,16.846015) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=563918 pos=(-16.044237,68.252203,16.841049) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=563967 pos=(-15.916850,68.176759,16.835708) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 eval=4 [W-----(+2) W-J---]
+seq=564063 pos=(-15.800927,68.024424,16.830849) yaw=267.60144 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=32 eval=32 [------(+11) ---C--(+11) --J---(+3) --JC--(+3)]
+seq=564114 pos=(-15.695438,67.796736,16.826426) yaw=267.60144 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 eval=64 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=564197 pos=(-15.599442,67.495201,16.822402) yaw=267.60144 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 eval=64 [------(+23) ---C--(+23) --J---(+7) --JC--(+7)]
+seq=564254 pos=(-15.512086,67.121297,16.818740) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=64 eval=64 [------(+31) ---C--(+31)]
+seq=564295 pos=(-15.432593,67.000000,16.815408) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=32 eval=32 [------(+15) ---C--(+15)]
+seq=564357 pos=(-15.364358,67.000000,16.714461) yaw=267.60144 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 eval=2 [-A----(+1)]
+seq=564406 pos=(-15.331207,67.000000,16.561430) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=564451 pos=(-15.317211,67.000000,16.379961) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=564502 pos=(-15.313673,67.000000,16.182965) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=564665 pos=(-15.315847,67.000000,15.977492) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=564766 pos=(-15.321138,67.000000,15.767389) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=1 [-A----]
+seq=564817 pos=(-15.328132,67.000000,15.554759) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=144 [-A----]
+seq=564900 pos=(-15.336055,67.000000,15.340749) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=144 [-A----]
+seq=564953 pos=(-15.344486,67.000000,15.125985) yaw=267.60144 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 eval=144 [-A----]
+seq=565013 pos=(-15.349089,67.000000,15.008724) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 eval=144 [------(+3) ---C--(+3)]
+seq=565074 pos=(-15.351603,67.000000,14.944700) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=5
+65119 pos=(-15.352975,67.000000,14.909742) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=565172 pos=(-15.353724,67.000000,14.890656) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=565227 pos=(-15.354133,67.000000,14.880234) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=565285 pos=(-15.354357,67.000000,14.874544) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=565342 pos=(-15.354479,67.000000,14.871438) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+seq=574001 pos=(-15.354479,67.000000,14.871438) yaw=267.60144 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=47 reconstructed=29 unique=8 ambiguous=21 incomplete=0 noCandidate=0 alignedH1=29 gapHypotheses=0 inexactRestClosures=0 requests=47
+
+
+=== 2026-09-20T23:34:09.368Z S15 prep: Phase 4 course rebuilt (course.js -37 67 20 build) + ice strip x -20..-8 z 24..26 (y 66)
+> fill -20 66 24 -8 66 26 minecraft:ice
+Successfully filled 39 block(s)
+> execute if block -29 67 20 minecraft:oak_slab
+Test passed
+> execute if block -24 67 20 minecraft:oak_stairs
+Test passed
+> execute if block 0 67 20 minecraft:ladder
+Test passed
+> execute if block 11 67 18 minecraft:stone
+Test passed
+
+=== 2026-09-20T23:59:47.495Z S15 arm: hold_w into the 3-high stone wall at x=11 (K station)
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-38.55577387082316,67.0,20.396683191723003) yaw=271.15836 movementSequence=1894330 worldEpoch=0 worldRevision=585 - now move, then run report
+
+
+=== 2026-09-21T00:00:05.965Z S15 arm (after tp to 8.5,67,18.5 facing east): hold_w into the 3-high stone wall at x=11
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (8.5,67.0,18.5) yaw=-90.0 movementSequence=1926732 worldEpoch=0 worldRevision=675 - now move, then run report
+
+
+=== 2026-09-21T00:00:36.225Z S15 report: hold_w into the wall
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=675 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=8.5,67.0,18.5 yaw=-90.0 movementSequence=1926732 samples=41
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=1945675 pos=(8.598000,67.000000,18.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=1945712 pos=(8.749508,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945739 pos=(8.930231,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945790 pos=(9.126906,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945843 pos=(9.332291,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945888 pos=(9.542431,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945927 pos=(9.755167,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945966 pos=(9.969321,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1945999 pos=(10.184250,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1946040 pos=(10.399600,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1946075 pos=(10.615182,67.000000,18.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1946102 pos=(10.700000,67.000000,18.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=21 declared=PRESENT eval=144 [S----U(+9) S--C--(+10)]
+seq=1953350 pos=(10.700000,67.000000,18.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=64 declared=PRESENT eval=576 [------(+15) ---C--(+15) W-----(+15) W--C--(+15)]
+summary: positionSamples=41 reconstructed=13 unique=10 ambiguous=3 incomplete=0 noCandidate=0 alignedH1=13 gapHypotheses=0 inexactRestClosures=0 requests=41 declaredPresent=13 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (13)
+
+
+=== 2026-09-21T00:01:10.487Z S16 arm (tp -31.5,67,20.5 facing east): hold_w over the bottom slab at x=-29 (step up 0.5, step down), then under the top slab at x=-27
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-31.5,67.0,20.5) yaw=-90.0 movementSequence=1976999 worldEpoch=0 worldRevision=735 - now move, then run report
+
+
+=== 2026-09-21T00:01:53.054Z S16 report: hold_w over the slab
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=735 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-31.5,67.0,20.5 yaw=-90.0 movementSequence=1976999 samples=63
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=1984565 pos=(-31.402000,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=1984588 pos=(-31.250492,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984625 pos=(-31.069769,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984646 pos=(-30.873094,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984669 pos=(-30.667709,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984700 pos=(-30.457569,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984721 pos=(-30.244833,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984751 pos=(-30.030679,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984782 pos=(-29.815750,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984803 pos=(-29.600400,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984830 pos=(-29.384818,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984857 pos=(-29.169110,67.500000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=1984878 pos=(-28.953334,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=288 [W-----]
+seq=1984909 pos=(-28.737520,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984940 pos=(-28.521686,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984959 pos=(-28.305840,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1984988 pos=(-28.089988,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1985029 pos=(-27.874133,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1985050 pos=(-27.658277,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1985075 pos=(-27.442419,67.421600,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=1985100 pos=(-27.304960,67.266368,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=144 [W-----(+1)]
+seq=1985117 pos=(-27.300000,67.035841,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=48 declared=PRESENT eval=144 [S-----(+23) S--C--(+23)]
+seq=1985144 pos=(-27.300000,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/4 -> H
+1 EXACT_AMBIGUOUS states=4 histories=48 declared=PRESENT eval=288 [------(+15) ---C--(+15) W-----(+7) W--C--(+7)]
+seq=2002658 pos=(-27.300000,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=48 declared=PRESENT eval=576 [------(+15) ---C--(+15) W-----(+7) W--C--(+7)]
+summary: positionSamples=63 reconstructed=24 unique=18 ambiguous=6 incomplete=0 noCandidate=0 alignedH1=24 gapHypotheses=0 inexactRestClosures=0 requests=63 declaredPresent=24 declaredAbsent=0 releaseIdle=0 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (24)
+
+
+=== 2026-09-21T00:02:16.831Z S17 arm (tp -26.5,67,20.5 facing east): hold_w up the stairs at x=-24 onto the block at x=-23
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-26.5,67.0,20.5) yaw=-90.0 movementSequence=2018776 worldEpoch=0 worldRevision=735 - now move, then run report
+
+
+=== 2026-09-21T00:03:14.878Z S17 re-arm (tp -26.5,67,20.5 facing east again): hold_w up the stairs
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-26.5,67.0,20.5) yaw=-90.0 movementSequence=2065327 worldEpoch=0 worldRevision=735 - now move, then run report
+
+
+=== 2026-09-21T00:04:25.858Z S17 report: hold_w up the stairs
+> papea2ac reconstruct Emojiado report
+no armed trace for that player (arm one first)
+
+
+=== 2026-09-21T00:04:49.164Z S17 re-arm 2 (previous trace expired at 60 s): hold_w up the stairs
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-26.5,67.0,20.5) yaw=-90.0 movementSequence=2139025 worldEpoch=0 worldRevision=735 - now move, then run report
+
+
+=== 2026-09-21T00:05:24.648Z S17 report: hold_w up the stairs
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=735 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-26.5,67.0,20.5 yaw=-90.0 movementSequence=2139025 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2157825 pos=(-26.470600,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/10 -> H1 EXACT_AMBIGUOUS states=10 histories=40 declared=PRESENT eval=1584 [W-----(+19) W-J---(+3) W-J---(+1) W-J---(+1) +6]
+seq=2157864 pos=(-26.425148,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/9 -> H1 EXACT_AMBIGUOUS states=9 histories=36 declared=PRESENT eval=1440 [W-----(+17) W-J---(+3) W-J---(+1) W-J---(+1) +5]
+seq=2157907 pos=(-26.370931,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/8 -> H1 EXACT_AMBIGUOUS states=8 histories=32 declared=PRESENT eval=1296 [W-----(+15) W-J---(+3) W-J---(+1) W-J---(+1) +4]
+seq=2157951 pos=(-26.311928,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/7 -> H1 EXACT_AMBIGUOUS states=7 histories=28 declared=PRESENT eval=1152 [W-----(+13) W-J---(+3) W-J---(+1) W-J---(+1) +3]
+seq=2157990 pos=(-26.250313,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=24 declared=PRESENT eval=1008 [W-----(+11) W-J---(+3) W-J---(+1) W-J---(+1) +2]
+seq=2158025 pos=(-26.187271,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/5 -> H1 EXACT_AMBIGUOUS states=5 histories=20 declared=PRESENT eval=864 [W-----(+9) W-J---(+3) W-J---(+1) W-J---(+1) +1]
+seq=2158068 pos=(-26.123450,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=16 declared=PRESENT eval=720 [W-----(+7) W-J---(+3) W-J---(+1) W-J---(+1)]
+seq=2158109 pos=(-26.059204,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=12 declared=PRESENT eval=576 [W-----(+5) W-J---(+3) W-J---(+1)]
+seq=2158150 pos=(-25.994725,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 declared=PRESENT eval=432 [W-----(+3) W-J---(+3)]
+seq=2158201 pos=(-25.930120,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+1) W-J---(+1)]
+seq=2158242 pos=(-25.865445,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+1) W-J---(+1)]
+seq=2158285 pos=(-25.800733,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+1) W-J---(+1)]
+seq=2158338 pos=(-25.736000,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=4 declared=PRESENT eval=288 [W-----(+1) W-J---(+1)]
+seq=2158385 pos=(-25.671256,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/4 -> H1 EXACT_AMBIGUOUS states=4 histories=4 declared=PRESENT eval=288 [W----- W--C-- W-J--- W-JC--]
+seq=2158434 pos=(-25.537906,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=576 [W-----(+1)]
+seq=2158489 pos=(-25.367096,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158534 pos=(-25.175834,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158581 pos=(-24.973405,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158644 pos=(-24.764879,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158691 pos=(-24.553024,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/
+1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158736 pos=(-24.339351,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2158787 pos=(-24.124685,67.500000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=2158826 pos=(-23.909478,67.500000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=288 [W-----]
+seq=2158872 pos=(-23.693975,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=2 declared=PRESENT eval=144 [W----- W-J---]
+seq=2158917 pos=(-23.478310,68.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=288 [W-----]
+seq=2158959 pos=(-23.360557,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=2158994 pos=(-23.296264,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2159039 pos=(-23.261160,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2159080 pos=(-23.241993,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2159121 pos=(-23.231528,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2159168 pos=(-23.225814,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2159227 pos=(-23.222694,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2166413 pos=(-23.222694,68.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=33 unique=8 ambiguous=25 incomplete=0 noCandidate=0 alignedH1=33 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=25 declaredAbsent=0 releaseIdle=8 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (25)
+
+
+=== 2026-09-21T00:05:49.966Z S18 arm (tp -20.5,67,25.5 facing east, on the ice strip): hold_w ~1.5 s then release and slide to a stop
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-20.5,67.0,25.5) yaw=-90.0 movementSequence=2185702 worldEpoch=0 worldRevision=735 - now move, then run report
+
+
+=== 2026-09-21T00:06:16.288Z S18 report: hold_w on ice, release and slide
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=735 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-20.5,67.0,25.5 yaw=-90.0 movementSequence=2185702 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2197095 pos=(-20.402000,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=2197152 pos=(-20.250492,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197189 pos=(-20.069769,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197249 pos=(-19.873094,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197296 pos=(-19.743218,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197331 pos=(-19.604905,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197396 pos=(-19.459067,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197429 pos=(-19.306517,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197474 pos=(-19.147983,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197539 pos=(-18.984112,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197572 pos=(-18.815481,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197599 pos=(-18.642605,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197756 pos=(-18.465943,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197811 pos=(-18.285906,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197848 pos=(-18.102858,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197921 pos=(-17.917125,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2197958 pos=(-17.728998,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2198001 pos=(-17.538736,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2198068 pos=(-17.346569,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2198109 pos=(-17.152705,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2198144 pos=(-16.957325,67.000000,25.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2198202 pos=(-16.783086,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 released=IDLE eval=144 [------(+3) ---C--(+3)]
+seq=2198235 pos=(-16.627700,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS st
+ates=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198266 pos=(-16.489126,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198328 pos=(-16.365546,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198371 pos=(-16.255337,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198402 pos=(-16.157053,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198459 pos=(-16.069403,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198498 pos=(-15.991237,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198557 pos=(-15.921528,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198610 pos=(-15.859362,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198681 pos=(-15.803923,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198708 pos=(-15.754481,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198769 pos=(-15.710390,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198818 pos=(-15.671069,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198843 pos=(-15.636003,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198902 pos=(-15.604730,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198947 pos=(-15.576842,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2198994 pos=(-15.551971,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2199055 pos=(-15.529791,67.000000,25.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 released=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=64 reconstructed=51 unique=20 ambiguous=31 incomplete=0 noCandidate=0 alignedH1=51 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=21 declaredAbsent=0 releaseIdle=30 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (21)
+
+
+=== 2026-09-21T00:06:30.151Z S19 arm (tp -0.5,67,20.5 facing east, ladder at x=0 on the wall at x=1): hold_w to climb, release at the top or mid-way
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-0.5,67.0,20.5) yaw=-90.0 movementSequence=2219786 worldEpoch=0 worldRevision=765 - now move, then run report
+
+
+=== 2026-09-21T00:10:57.191Z S19 report: hold_w climbing the ladder
+> papea2ac reconstruct Emojiado report
+no armed trace for that player (arm one first)
+
+
+=== 2026-09-21T00:11:09.013Z S19 re-arm (auto-report in 25 s): hold_w climbing the ladder
+> papea2ac reconstruct Emojiado arm hold_w
+ARMED reconstruction (declared HOLD_W, checked for membership only) at observed rest (-0.5,67.0,20.5) yaw=-90.0 movementSequence=2448723 worldEpoch=0 worldRevision=825 - now move, then run report
+
+
+=== 2026-09-21T00:11:50.360Z S19 report (auto after ~25 s): hold_w climbing the ladder
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=825 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_W (membership check only)
+rest (observed) pos=-0.5,67.0,20.5 yaw=-90.0 movementSequence=2448723 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2455453 pos=(-0.402000,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=288 [W-----(+1)]
+seq=2455506 pos=(-0.250492,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2455557 pos=(-0.069769,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2455591 pos=(0.126906,67.000000,20.500000) yaw=-90.0 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=PRESENT eval=144 [W-----]
+seq=2455654 pos=(0.276906,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=144 [W-----(+1)]
+seq=2455707 pos=(0.426906,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=PRESENT eval=144 [W-----(+1)]
+seq=2455776 pos=(0.512500,67.000000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=8 declared=PRESENT eval=144 [W-----(+3) W--C--(+3)]
+seq=2455813 pos=(0.512500,67.117600,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=48 declared=PRESENT eval=288 [------(+7) ---C--(+7) W-----(+11) W--C--(+11) +2]
+seq=2455872 pos=(0.512500,67.235200,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2455911 pos=(0.512500,67.352800,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2455946 pos=(0.512500,67.470400,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456001 pos=(0.512500,67.588000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456038 pos=(0.512500,67.705600,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456089 pos=(0.512500,67.823200,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456142 pos=(0.512500,67.940800,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456181 pos=(0.512500,68.058400,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456220 pos=(0.512500,68.176000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456279 pos=(0.512500,68.293600,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456320 pos=(0.512500,68.411200,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [----
+--(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456353 pos=(0.512500,68.528800,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456400 pos=(0.512500,68.646400,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456437 pos=(0.512500,68.764000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456478 pos=(0.512500,68.881600,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456536 pos=(0.512500,68.999200,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456571 pos=(0.512500,69.116800,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456610 pos=(0.512500,69.234400,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456667 pos=(0.512500,69.352000,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456711 pos=(0.512500,69.469600,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=128 declared=PRESENT eval=864 [------(+15) ---C--(+15) --J---(+15) --JC--(+15) +2]
+seq=2456752 pos=(0.512500,69.506448,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/6 -> H1 EXACT_AMBIGUOUS states=6 histories=64 declared=PRESENT eval=864 [------(+7) ---C--(+7) --J---(+7) --JC--(+7) +2]
+seq=2456803 pos=(0.512500,69.464159,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=32 declared=PRESENT eval=864 [------(+7) --J---(+7) W-----(+15)]
+seq=2456862 pos=(0.512500,69.344316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2456897 pos=(0.512500,69.194316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2456942 pos=(0.512500,69.044316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2456979 pos=(0.512500,68.894316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457112 pos=(0.512500,68.744316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457185 pos=(0.512500,68.594316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457224 pos=(0.512500,68.444316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457257 pos=(0.512500,68.294316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457312 pos=(0.512500,68.144316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+seq=2457357 pos=(0.512500,67.994316,20.500000) yaw=-90.0 H1=EXACT_AMBIGUOUS/3 -> H1 EXACT_AMBIGUOUS states=3 histories=16 declared=PRESENT eval=432 [------(+3) --J---(+3) W-----(+7)]
+summary: positionSa
+mples=62 reconstructed=49 unique=3 ambiguous=46 incomplete=0 noCandidate=0 alignedH1=49 gapHypotheses=0 inexactRestClosures=0 requests=62 declaredPresent=46 declaredAbsent=0 releaseIdle=3 prePressIdle=0
+QUALIFYING: the declared input is in the candidate set of every reconstructed transition (46)
+
+
+=== 2026-09-21T00:12:17.091Z S20 NEGATIVE arm (tp 5.5,67,15.5 facing west): declared hold_s while the owner will hold W (auto-report in ~25 s)
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (5.5,67.0,15.5) yaw=90.0 movementSequence=2501057 worldEpoch=0 worldRevision=885 - now move, then run report
+
+
+=== 2026-09-21T00:12:56.411Z S20 NEGATIVE report: declared hold_s, owner held W
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=885 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_S (membership check only)
+rest (observed) pos=5.5,67.0,15.5 yaw=90.0 movementSequence=2501057 samples=39
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2532030 pos=(5.500000,67.000000,15.500000) yaw=90.0 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=39 reconstructed=1 unique=0 ambiguous=1 incomplete=0 noCandidate=0 alignedH1=1 gapHypotheses=0 inexactRestClosures=0 requests=39 declaredPresent=0 declaredAbsent=0 releaseIdle=0 prePressIdle=1
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-21T00:13:05.929Z S20 NEGATIVE re-arm: declared hold_s while the owner holds W (auto-report in ~35 s)
+> papea2ac reconstruct Emojiado cancel
+trace cancelled
+
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (5.5,67.0,15.5) yaw=90.0 movementSequence=2539424 worldEpoch=0 worldRevision=886 - now move, then run report
+
+
+=== 2026-09-21T00:13:45.786Z S20 NEGATIVE report: declared hold_s, owner held W
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=886 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_S (membership check only)
+rest (observed) pos=5.5,67.0,15.5 yaw=90.0 movementSequence=2539424 samples=43
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2558841 pos=(5.500000,67.000000,15.500000) yaw=90.3768 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2559600 pos=(5.500000,67.000000,15.500000) yaw=90.46054 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=288 [------(+7) ---C--(+7)]
+seq=2567842 pos=(5.500000,67.000000,15.500000) yaw=90.50241 H1=EXACT_AMBIGUOUS/2 -> H1 EXACT_AMBIGUOUS states=2 histories=16 pre-press=IDLE eval=288 [------(+7) ---C--(+7)]
+summary: positionSamples=39 reconstructed=3 unique=0 ambiguous=3 incomplete=0 noCandidate=0 alignedH1=3 gapHypotheses=0 inexactRestClosures=0 requests=39 declaredPresent=0 declaredAbsent=0 releaseIdle=0 prePressIdle=3
+NOT QUALIFYING: fewer than 3 reconstructed transitions
+
+
+=== 2026-09-21T00:14:15.679Z S20 NEGATIVE re-arm 2: declared hold_s while the owner holds W
+> papea2ac reconstruct Emojiado cancel
+no armed trace
+
+> papea2ac reconstruct Emojiado arm hold_s
+ARMED reconstruction (declared HOLD_S, checked for membership only) at observed rest (5.5,67.0,15.5) yaw=90.50241 movementSequence=2589422 worldEpoch=0 worldRevision=887 - now move, then run report
+
+
+=== 2026-09-21T00:14:31.446Z S20 NEGATIVE report: declared hold_s, owner held W
+> papea2ac reconstruct Emojiado report
+input reconstruction trace sessionEpoch=1 worldEpoch=0 worldRevision=887 profile=paper-26.2-124-movement observation=paper-26.2-124-movement-observation declared=HOLD_S (membership check only)
+rest (observed) pos=5.5,67.0,15.5 yaw=90.50241 movementSequence=2589422 samples=64 (capped)
+facts (server-current, diagnostic): border=known entitiesNearby=none boots=false effects=[] attributeBases={minecraft:step_height=0.6, minecraft:movement_efficiency=0.0, minecraft:sneaking_speed=0.3, minecraft:movement_speed=0.10000000149011612, minecraft:gravity=0.08, minecraft:scale=1.0, minecraft:jump_strength=0.41999998688697815}
+seq=2593470 pos=(5.402004,67.000000,15.499145) yaw=90.50241 H1=EXACT_AMBIGUOUS/1 -> H1 EXACT_AMBIGUOUS states=1 histories=2 declared=ABSENT eval=288 [W-----(+1)]
+seq=2593513 pos=(5.250501,67.000000,15.497823) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593550 pos=(5.069785,67.000000,15.496246) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593573 pos=(4.873117,67.000000,15.494531) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593638 pos=(4.667741,67.000000,15.492739) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593677 pos=(4.457609,67.000000,15.490905) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593706 pos=(4.244880,67.000000,15.489049) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593759 pos=(4.030734,67.000000,15.487181) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593802 pos=(3.815814,67.000000,15.485306) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593831 pos=(3.600472,67.000000,15.483427) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593891 pos=(3.384899,67.000000,15.481546) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593936 pos=(3.169199,67.000000,15.479664) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2593969 pos=(2.953431,67.000000,15.477782) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594030 pos=(2.737625,67.000000,15.475899) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594071 pos=(2.521799,67.000000,15.474016) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594102 pos=(2.305962,67.000000,15.472133) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594157 pos=(2.090118,67.000000,15.470250) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594208 pos=(1.874272,67.000000,15.468366) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594235 pos=(1.658423,67.000000,15.466483) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594288 pos=(1.442573,67.000000,15.464600) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594331 pos=(1.226723,67.000000,15.462717) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594452 pos=(1.010873,67.000000,15.460834) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594523 pos=(0.795022,67.000000,15.458950) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 dec
+lared=ABSENT eval=144 [W-----]
+seq=2594570 pos=(0.579171,67.000000,15.457067) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594605 pos=(0.363320,67.000000,15.455184) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594656 pos=(0.147470,67.000000,15.453301) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594709 pos=(-0.068381,67.000000,15.451417) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594766 pos=(-0.284232,67.000000,15.449534) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594827 pos=(-0.500083,67.000000,15.447651) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594904 pos=(-0.715934,67.000000,15.445768) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594932 pos=(-0.931785,67.000000,15.443884) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2594989 pos=(-1.147635,67.000000,15.442001) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595044 pos=(-1.363486,67.000000,15.440118) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595063 pos=(-1.579337,67.000000,15.438235) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595128 pos=(-1.795188,67.000000,15.436351) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595175 pos=(-2.011039,67.000000,15.434468) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595194 pos=(-2.226890,67.000000,15.432585) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595249 pos=(-2.442741,67.000000,15.430702) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595294 pos=(-2.658591,67.000000,15.428818) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+seq=2595313 pos=(-2.874442,67.000000,15.426935) yaw=90.50241 H1=EXACT_UNIQUE/1 -> H1 EXACT_UNIQUE states=1 histories=1 declared=ABSENT eval=144 [W-----]
+summary: positionSamples=64 reconstructed=52 unique=43 ambiguous=9 incomplete=0 noCandidate=0 alignedH1=52 gapHypotheses=0 inexactRestClosures=0 requests=64 declaredPresent=0 declaredAbsent=44 releaseIdle=0 prePressIdle=8
+NOT QUALIFYING: the declared input is absent from 44 transition(s) - a declaration/alignment discrepancy to investigate, not a verdict
+
+
+=== 2026-09-21T00:14:44.272Z FINAL status with the player connected (P6-F1 jar d9b5f0f96cac0c92), then clean stop
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=2612686
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=2612686 totalDelayNanos=55257350000
+delayP95UpperNanos=65535 delayP99UpperNanos=262143
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4056448/100663296 sharedSections=1870 sharedHits=8334 privateTier=786432 revisions=917 historyEvictions=7963 evicted=0 unloaded=330 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=1151 diagnosticDeclaredPresent=508 diagnosticSamples=1582 activeTraces=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1375783 complete=1375783 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=49657450 hits=682894 cacheHits=49657431 cacheMisses=19 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+

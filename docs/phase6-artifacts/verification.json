@@ -1,0 +1,637 @@
+{
+  "phase": "6 - Input Reconstruction",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "date": "2026-09-21",
+  "head": "8494857bbefd071b50f3d88fb1a3f925b0971c39",
+  "workingTree": "DIRTY (Phase 6 implementation, uncommitted by instruction)",
+  "phase5Baseline": "03a538c4496df92df16b7e0ce503bb61750847ae",
+  "phase5Receipt": "8494857bbefd071b50f3d88fb1a3f925b0971c39",
+  "phase5ManifestComposite": "776d529611850888d0c139544ec0db4d2e1c890b065dc7dbbbbdbc3eaa10ee6a",
+  "build": "PASS",
+  "testCounts": {
+    "test": 531,
+    "testClasses": 59,
+    "testFailed": 0,
+    "nativeTest": 132,
+    "nativeTestClasses": 19,
+    "nativeTestFailed": 0,
+    "uniqueTotal": 663,
+    "phase5": {
+      "test": 484,
+      "nativeTest": 132,
+      "uniqueTotal": 616
+    },
+    "phase6TestClasses": {
+      "InputDomainTest": 4,
+      "TickObservationTest": 3,
+      "InputReconstructorTest": 19,
+      "AbstractTransferTest": 4,
+      "ReconstructionRoundTripTest": 1,
+      "MultiTickReconstructionTest": 2,
+      "NativeTrajectoryReconstructionTest": 1,
+      "ReconstructionPropertyTest": 4,
+      "ReconstructionFixtureTest": 1,
+      "ReconstructionTracerTest": 7,
+      "ArchitectureTest(+1)": 1
+    }
+  },
+  "phase1SemanticCoverage": "127/127",
+  "phase1MandatoryGaps": 0,
+  "productionTransport": "CAPTURE-ONLY",
+  "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+  "schema": "2 current, 1 readable (unchanged)",
+  "phase1Regression": "NONE (nativeTest 132/132; replayConformance pinned digests reproduced)",
+  "phase2Regression": "NONE (timeline suites unchanged and green; reconstructed inputs never written back to the timeline)",
+  "phase3Regression": "NONE (world suites unchanged; one view per request; UNKNOWN cells make reconstructions INCOMPLETE_WORLD, never exclusions)",
+  "phase4Regression": "NONE (collision API untouched; shape coverage and collision native differential unchanged; the envelope region proof uses CollisionEngine.query COMPLETE only)",
+  "phase5Regression": "ONE DOCUMENTED FORWARD CORRECTION, P6-F1 (client input pipeline: float normalize, 0.98F, item use, sneaking, square-movement rescale; straight keys bit-identical, diagonals ~1e-8 block/tick). physicsNativeDifferential re-run after the fix: 88/88 scenarios, 3105/3105 ticks bit-exact single-step and chained, drift 0.0; pinned trajectory digests 81/88 byte-identical to the frozen Phase 5 record, the 7 changed are exactly the diagonal-input scenarios; movement property coverage 1196/1196; Phase 5 baseline and docs/phase5-artifacts untouched",
+  "inputReconstructionOwner": "anticheat-simulation",
+  "inputModules": [
+    "anticheat-model",
+    "anticheat-version",
+    "anticheat-world",
+    "anticheat-collision",
+    "anticheat-physics"
+  ],
+  "outputModules": [
+    "anticheat-core (composition, ReconstructionTracer, ReconstructionEngineStatus)",
+    "anticheat-platform-paper (display only, no simulation edge)"
+  ],
+  "physicsChanges": [
+    "PhysicsSimulator.resolveAttributes(env, sprinting) accessor (additive)",
+    "PhysicsSimulator.inputVector made public (additive)",
+    "P6-F1: PhysicsKernels.clientMoveVector (the local client's float input pipeline as one shared kernel, called by the simulator and the abstract lane; scaledImpulse removed)",
+    "MovementProfile.VEC2_NORMALIZE_EPSILON / SQUARE_MOVEMENT_CAP documented"
+  ],
+  "forwardDefects": [
+    {
+      "id": "P6-F1",
+      "origin": "real-client qualification S6 (W+A): NO MODELLED CANDIDATE, nearest input WA---- at residual 1.014e-8 exactly radial",
+      "finding": "the 26.2 client pre-processes the key vector in float (Vec2.normalized, scale 0.98F, 0.2F while using, sneakingSpeed while slow, square-movement rescale) - client-only code invisible to the server-side oracle; a diagonal becomes 0.7071067F per component (length 1 - 1.014e-7), the Phase 5 model fed (0.98F, 0.98F) to the double normalization (length exactly 1)",
+      "affected": "8 of 32 (forward, strafe, slow, use) tuples: walking/sprinting diagonals -1.014e-7 relative, sneak+use diagonals -6.3e-8; every straight key bit-identical",
+      "fix": "PhysicsKernels.clientMoveVector + oracle glue mirror (PhysicsOraclePlugin.squareMovement, OraclePlayer.applyInput no-op)",
+      "regression": {
+        "nativeDifferential": "88/88, 3105/3105, drift 0.0",
+        "pinnedTrajectoryDigests": {
+          "identical": 81,
+          "changed": [
+            "diagonal_forward_left",
+            "diagonal_back_right",
+            "walk_yaw_180_strafe",
+            "air_strafe",
+            "wall_diagonal_corner",
+            "packed_ice_strafe",
+            "mixed_course_random_100"
+          ]
+        },
+        "reconstructionFixtures": "23/24 identical; multi_tick_2_exact candidate-set digest re-pinned (counts identical)",
+        "testLane": "531/531",
+        "inGame": "S6 W+A and S7 W+D QUALIFYING on the fixed jar; straight-key re-check unchanged"
+      },
+      "historicalBaseline": "Phase 5 baseline 03a538c4 and docs/phase5-artifacts unchanged; re-pin under docs/phase6-artifacts/physics-fixtures"
+    }
+  ],
+  "tracerFixes": [
+    "empty exact frontier on incomplete-only closures (IndexOutOfBounds in the first live report) -> previous frontier kept / chain stops with an explicit line",
+    "declared-scenario accounting: pre-press idle, held, release tail (keys then idle); a wrong declaration stays ABSENT",
+    "NO CANDIDATE lines list the three nearest one-tick inputs with residuals"
+  ],
+  "inputDomain": {
+    "rawSize": 144,
+    "contextFreeClasses": 136,
+    "canonicalOrder": "lexicographic forward(-1,0,+1) > strafe(-1,0,+1) > jump(false,true) > shift(false,true) > sprinting(false,true) > usingItem(false,true); the reported input, if any, is tried first",
+    "clientAssumptions": [
+      {
+        "id": "SPRINT_START_REQUIRES_FORWARD",
+        "verified": false,
+        "appliedByDefault": false
+      },
+      {
+        "id": "SPRINT_EXCLUDES_ITEM_USE",
+        "verified": false,
+        "appliedByDefault": false
+      }
+    ]
+  },
+  "observationProfile": {
+    "id": "paper-26.2-124-movement-observation",
+    "positionSendThresholdSqr": 4e-8,
+    "positionReminderTicks": 20,
+    "positionRepresentation": "double x/y/z: exact equality",
+    "rotation": "float yaw sent when changed"
+  },
+  "solverBudget": {
+    "maxNodes": 256,
+    "maxEvaluations": 4096,
+    "maxTicks": 3,
+    "maxHistoriesPerNode": 256,
+    "maxCandidatesReported": 64,
+    "maxEnvelopeCells": 4096
+  },
+  "noFalseExclusionGate": {
+    "offlineChain": {
+      "ticks": 3105,
+      "declaredIncluded": 3105,
+      "exactWitness": 3105,
+      "falseExclusions": 0,
+      "pruningDisagreements": 0,
+      "unique": 1324,
+      "equivalentInputs": 250,
+      "distinctStates": 1531,
+      "incomplete": 0,
+      "evaluationsWithEnvelope": 211810,
+      "evaluationsWithoutEnvelope": 447120
+    },
+    "oracleStates": {
+      "ticks": 3105,
+      "declaredIncluded": 3105,
+      "exactWitness": 3105,
+      "falseExclusions": 0,
+      "unique": 1324,
+      "equivalentInputs": 250,
+      "distinctStates": 1531,
+      "incomplete": 0
+    }
+  },
+  "roundTrip": {
+    "cases": 1200,
+    "worlds": [
+      "flat",
+      "course (wall/slab/stairs/fence/low ceiling)",
+      "ice"
+    ],
+    "originalInputWitness": "1200/1200",
+    "pruningOnEqualsOff": true,
+    "exactUnique": 188,
+    "ambiguous": 1012,
+    "envelopeUsed": 1015,
+    "envelopeTop": 185
+  },
+  "multiTick": {
+    "horizon": "1-3 (MOVEMENT_SIMULATION.md M2: at most three inferred steps; 5 and 20 NOT APPLICABLE BY SPEC)",
+    "cases": 160,
+    "exactObservations": "160/160 witnessed",
+    "silentMiddle": "54/54 admitted",
+    "unobservedMiddle": {
+      "complete": 89,
+      "searchLimit": 71
+    }
+  },
+  "containment": {
+    "boxes": 238,
+    "concreteSuccessorsContained": 397440,
+    "topCases": 13826,
+    "edges": [
+      "zeroing thresholds",
+      "landing band",
+      "shape-epsilon zeroing",
+      "Sterbenz landing regime"
+    ]
+  },
+  "candidateDistribution": {
+    "native": {
+      "ticks": 3105,
+      "uniquePercent": 42.64,
+      "equivalentInputsPercent": 8.05,
+      "distinctStatesPercent": 49.31,
+      "incompletePercent": 0,
+      "meanRawCandidates": 144,
+      "meanPhysicsEvaluations": 68.21578099838969,
+      "meanMatchingStates": 1.9114331723027376,
+      "meanMatchingHistories": 7.568438003220612,
+      "maxMatchingStates": 34,
+      "maxMatchingHistories": 48,
+      "envelopeExcludedShare": 0.5262792986222938,
+      "exactExcludedShare": 0.4211621041331186
+    },
+    "random": {
+      "ticks": 1500,
+      "uniquePercent": 15.47,
+      "equivalentInputsPercent": 59.27,
+      "distinctStatesPercent": 25.27,
+      "incompletePercent": 0,
+      "meanRawCandidates": 144,
+      "meanPhysicsEvaluations": 24.403333333333332,
+      "meanMatchingStates": 1.2846666666666666,
+      "meanMatchingHistories": 3.1266666666666665,
+      "maxMatchingStates": 4,
+      "maxMatchingHistories": 16,
+      "envelopeExcludedShare": 0.8305324074074074,
+      "exactExcludedShare": 0.14775462962962962
+    }
+  },
+  "fixtures": {
+    "artifact": "docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json",
+    "cases": 24
+  },
+  "memory": {
+    "artifact": "docs/phase6-artifacts/memory-results.json",
+    "reconstructorBytes": 16,
+    "retainedBytesPer100ResultsIdleAmbiguous": 153352,
+    "retainedBytesPer100ResultsWalkUnique": 80440,
+    "perRequestAllocationBytes": {
+      "idle_unique_constrained": {
+        "envelopeOn": 38096,
+        "envelopeOff": 153168,
+        "evaluationsOn": 1,
+        "status": "EXACT_UNIQUE"
+      },
+      "idle_ambiguous": {
+        "envelopeOn": 139464,
+        "envelopeOff": 1173288,
+        "evaluationsOn": 8,
+        "status": "EXACT_AMBIGUOUS"
+      },
+      "walk": {
+        "envelopeOn": 85896,
+        "envelopeOff": 1170832,
+        "evaluationsOn": 1,
+        "status": "EXACT_UNIQUE"
+      },
+      "sprint": {
+        "envelopeOn": 86024,
+        "envelopeOff": 1161616,
+        "evaluationsOn": 1,
+        "status": "EXACT_UNIQUE"
+      },
+      "jump": {
+        "envelopeOn": 103328,
+        "envelopeOff": 1162760,
+        "evaluationsOn": 4,
+        "status": "EXACT_AMBIGUOUS"
+      },
+      "airborne": {
+        "envelopeOn": 104528,
+        "envelopeOff": 1050296,
+        "evaluationsOn": 2,
+        "status": "EXACT_AMBIGUOUS"
+      },
+      "wall_collision_concrete_lane": {
+        "envelopeOn": 1281464,
+        "envelopeOff": 1264608,
+        "evaluationsOn": 144,
+        "status": "EXACT_AMBIGUOUS"
+      },
+      "multi_tick_3": {
+        "envelopeOn": 987542,
+        "envelopeOff": 3652112,
+        "evaluationsOn": 3,
+        "status": "EXACT_UNIQUE"
+      },
+      "empty_candidate_set": {
+        "envelopeOn": 93632,
+        "envelopeOff": 1164088,
+        "evaluationsOn": 0,
+        "status": "NO_MODELLED_CANDIDATE"
+      }
+    },
+    "perPlayerRetained": 0
+  },
+  "jmh": {
+    "artifact": "docs/phase6-artifacts/benchmarks.json",
+    "recipe": "JMH 1.37, Temurin 25, 3 forks, 5x1s warmup, 10x1s measurement, -prof gc",
+    "kernels": {
+      "idleUnique": {
+        "nsPerOp": 19632.8,
+        "error": 331.1,
+        "allocBytesPerOp": 34077
+      },
+      "idleAmbiguous": {
+        "nsPerOp": 71106.1,
+        "error": 7903.2,
+        "allocBytesPerOp": 132638
+      },
+      "walkW": {
+        "nsPerOp": 33096.7,
+        "error": 595.8,
+        "allocBytesPerOp": 84870
+      },
+      "strafeD": {
+        "nsPerOp": 31904.8,
+        "error": 2924.2,
+        "allocBytesPerOp": 84851
+      },
+      "diagonalWA": {
+        "nsPerOp": 33065.7,
+        "error": 982.1,
+        "allocBytesPerOp": 85824
+      },
+      "sprint": {
+        "nsPerOp": 32163.4,
+        "error": 525.6,
+        "allocBytesPerOp": 83744
+      },
+      "jump": {
+        "nsPerOp": 46090.3,
+        "error": 4043.4,
+        "allocBytesPerOp": 101827
+      },
+      "airborneAmbiguity": {
+        "nsPerOp": 25120.3,
+        "error": 4435.7,
+        "allocBytesPerOp": 82262
+      },
+      "wallCollision": {
+        "nsPerOp": 1057706.5,
+        "error": 19854,
+        "allocBytesPerOp": 1280539
+      },
+      "stepUpSlab": {
+        "nsPerOp": 906594.6,
+        "error": 97829.8,
+        "allocBytesPerOp": 1430854
+      },
+      "stairs": {
+        "nsPerOp": 963485.2,
+        "error": 14114.8,
+        "allocBytesPerOp": 1433471
+      },
+      "iceWalk": {
+        "nsPerOp": 30706.5,
+        "error": 3282.8,
+        "allocBytesPerOp": 84848
+      },
+      "rawCandidates36": {
+        "nsPerOp": 18483.7,
+        "error": 3147.1,
+        "allocBytesPerOp": 42171
+      },
+      "rawCandidates72": {
+        "nsPerOp": 28120,
+        "error": 1585.6,
+        "allocBytesPerOp": 56368
+      },
+      "fullDomain144": {
+        "nsPerOp": 33665.4,
+        "error": 632.5,
+        "allocBytesPerOp": 84894
+      },
+      "fullDomain144ConcreteOnly": {
+        "nsPerOp": 788208,
+        "error": 15084.7,
+        "allocBytesPerOp": 1224547
+      },
+      "walkWConcreteOnly": {
+        "nsPerOp": 784807.1,
+        "error": 15125.5,
+        "allocBytesPerOp": 1222627
+      },
+      "multiTick2": {
+        "nsPerOp": 95089.2,
+        "error": 755.1,
+        "allocBytesPerOp": 261611
+      },
+      "multiTick3": {
+        "nsPerOp": 412548.1,
+        "error": 40841.6,
+        "allocBytesPerOp": 1384475
+      },
+      "multiTick3UnobservedMiddle": {
+        "nsPerOp": 42928267.1,
+        "error": 264732.7,
+        "allocBytesPerOp": 160094974
+      },
+      "emptyCandidateSet": {
+        "nsPerOp": 25344.7,
+        "error": 130.6,
+        "allocBytesPerOp": 76568
+      },
+      "worstBoundedSearch": {
+        "nsPerOp": 5389923.9,
+        "error": 657648,
+        "allocBytesPerOp": 6689803
+      },
+      "enumerate144": {
+        "nsPerOp": 921,
+        "error": 20.3,
+        "allocBytesPerOp": 5224
+      },
+      "envelopePrepare": {
+        "nsPerOp": 8918.6,
+        "error": 124.7,
+        "allocBytesPerOp": 8024
+      },
+      "envelopeApplyOne": {
+        "nsPerOp": 76.4,
+        "error": 0.6,
+        "allocBytesPerOp": 296
+      },
+      "envelopeStepAllInputs": {
+        "nsPerOp": 31053.8,
+        "error": 525.4,
+        "allocBytesPerOp": 98800
+      },
+      "observationCompare": {
+        "nsPerOp": 1.4,
+        "error": 0.2,
+        "allocBytesPerOp": 0
+      },
+      "onePhysicsStep": {
+        "nsPerOp": 3100.1,
+        "error": 435.2,
+        "allocBytesPerOp": 7187
+      }
+    }
+  },
+  "diagnosticCommand": "IMPLEMENTED: /papea2ac reconstruct <player> [arm [declared] | report | cancel] (declared input checked for membership only) + reconstruction line in /papea2ac status",
+  "realClientInputReconstruction": {
+    "status": "PASS",
+    "date": "2026-09-20/21 (UTC)",
+    "player": "Emojiado",
+    "server": "127.0.0.1:25576 pinned Paper 26.2 build 124 offline mode, difficulty peaceful after S3",
+    "finalJar": "d9b5f0f96cac0c92 (P6-F1)",
+    "evidence": "docs/phase6-artifacts/real-client-evidence.log (92 blocks, git-ignored *.log, RCON password scanned absent)",
+    "successCondition": "declared input PRESENT in the candidate set of every counted transition (uniqueness not required); release tails explained by idle; membership only, never assumed",
+    "qualifyingReports": 21,
+    "scenarios": {
+      "S1_rest": {
+        "declared": "release_all",
+        "result": "QUALIFYING",
+        "present": 5,
+        "absent": 0,
+        "note": "camera nudges give countable transitions; pure rest is silent closures only (S1/S1b NOT QUALIFYING by the >= 3 rule; S1b hit the 64-sample cap)"
+      },
+      "S2_W": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 30,
+        "unique": 29,
+        "releaseIdle": 8,
+        "recheckFinalJar": {
+          "present": 43,
+          "unique": 42
+        }
+      },
+      "S3_S": {
+        "declared": "hold_s",
+        "result": "QUALIFYING",
+        "present": 36,
+        "unique": 35,
+        "releaseIdle": 8,
+        "note": "first attempt: creeper in the entity neighbourhood -> all candidates UNKNOWN_ENTITY_NEIGHBORHOOD, chain stopped honestly"
+      },
+      "S4_A": {
+        "declared": "hold_a",
+        "result": "QUALIFYING",
+        "present": 27,
+        "unique": 26
+      },
+      "S5_D": {
+        "declared": "hold_d",
+        "result": "QUALIFYING",
+        "present": 37,
+        "unique": 36
+      },
+      "S6_W_A": {
+        "declared": "w_a",
+        "result": "QUALIFYING after P6-F1",
+        "present": 36,
+        "unique": 35,
+        "releaseIdle": 8,
+        "beforeFix": "NO MODELLED CANDIDATE on the first moving tick; nearest WA---- residual 1.014e-8 -> P6-F1"
+      },
+      "S7_W_D": {
+        "declared": "w_d",
+        "result": "QUALIFYING",
+        "present": 46,
+        "unique": 45
+      },
+      "S8_W_sprint": {
+        "declared": "w_sprint",
+        "result": "QUALIFYING",
+        "present": 41,
+        "unique": 40,
+        "releaseIdle": 8
+      },
+      "S9_jump": {
+        "declared": "jump_stationary",
+        "result": "QUALIFYING",
+        "present": 24,
+        "absent": 0,
+        "note": "two full arcs, every tick exact; airborne jump-key ambiguity"
+      },
+      "S10_W_jump": {
+        "declared": "w_jump",
+        "result": "QUALIFYING",
+        "present": 47,
+        "absent": 0
+      },
+      "S11_W_sprint_jump": {
+        "declared": "w_sprint_jump",
+        "result": "QUALIFYING",
+        "present": 43,
+        "absent": 0,
+        "note": "all one-tick aligned (Phase 5 marked this timing-ambiguous)"
+      },
+      "S12_W_shift": {
+        "declared": "w_shift",
+        "result": "QUALIFYING",
+        "present": 53,
+        "unique": 52
+      },
+      "S13_W_use": {
+        "declared": "w_use (shield raised)",
+        "result": "QUALIFYING",
+        "present": 41,
+        "unique": 40,
+        "firstTrace": {
+          "present": 5,
+          "note": "sample cap filled during item selection"
+        }
+      },
+      "S14_airborne_change": {
+        "declared": null,
+        "result": "covered (partial)",
+        "transitions": [
+          35,
+          31
+        ],
+        "noCandidate": 0,
+        "note": "W released mid-air reconstructed exactly as airborne idle; A registered after landing; W->A within the airtime not achieved by the operator (human timing)"
+      },
+      "S15_wall": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 13,
+        "note": "contact tick x=10.700 EXACT_AMBIGUOUS over 21 clamped histories"
+      },
+      "S16_slab": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 24,
+        "note": "step-up y=67.5 exact"
+      },
+      "S17_stairs": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 25,
+        "note": "67.5 then 68.0 exact"
+      },
+      "S18_ice": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 21,
+        "releaseIdle": 30,
+        "note": "whole slide explained by idle"
+      },
+      "S19_ladder": {
+        "declared": "hold_w",
+        "result": "QUALIFYING",
+        "present": 46,
+        "note": "x clamped 0.5125, +0.1176/tick exact"
+      },
+      "S20_negative": {
+        "declared": "hold_s while W held",
+        "result": "ABSENT 44/44 (not a verdict)",
+        "present": 0,
+        "absent": 44
+      }
+    },
+    "declaredInputIncluded": "every declared scenario: PRESENT in every counted held transition (18 declared traces QUALIFYING)",
+    "timingAmbiguousTraces": 0,
+    "timingNote": "every counted transition explained by the one-tick hypothesis (gapHypotheses=0 in every report); three traces expired (60 s arm lifetime) and were re-armed, never shifted",
+    "verdictVocabulary": "none (no VALID/INVALID/CHEATING/VIOLATION in any report line)",
+    "tracerFindings": [
+      "empty exact frontier crash on incomplete-only closures (fixed, tested)",
+      "release-tail accounting (fixed, tested)",
+      "nearest-input diagnostic on NO CANDIDATE (added, tested)",
+      "P6-F1 (Phase 5 forward model, fixed, regression-tested, re-qualified in game)"
+    ]
+  },
+  "paperSmoke": {
+    "status": "PASS",
+    "finalJar": "d9b5f0f96cac0c92",
+    "done": "Done (7.519s)",
+    "jarsCycled": [
+      "3839ef366f20836c",
+      "88e9137074a64169",
+      "3bd4b86d69aaadf8",
+      "589674560dc02e6a",
+      "d9b5f0f96cac0c92"
+    ],
+    "stopWithPlayerConnected": "Disabling Papea2AC (line 227) before Emojiado lost connection (line 229)",
+    "exceptionsFinalInstance": 0,
+    "exceptionsSession": "1 in the first instance (the tracer empty-frontier defect, fixed); 0 in every later instance",
+    "finalStatus": "reconstruction rawDomain=144 classes=136 caps=256nodes/4096evals/3ticks diagnosticRequests=1151 diagnosticDeclaredPresent=508 diagnosticSamples=1582; world 213/213 complete; collision 1375783 queries all COMPLETE"
+  },
+  "gates": {
+    "gitDiffCheck": "clean",
+    "todoFixmeHack": 0,
+    "architectureTest": "10/10",
+    "noFalseExclusion": "PASS",
+    "roundTrip": "PASS",
+    "fixtureDeterminism": "PASS"
+  },
+  "phase7Implementation": "NONE",
+  "phase8Validation": "NONE",
+  "knownLimitations": [
+    "tick alignment / latency / ACK / velocity / teleport timing: Phase 7 (caller hypotheses <= 3 ticks; TIMING_UNRESOLVED, DISCONTINUITY otherwise)",
+    "client-side legality rules unverified and opt-in; raw domain is the full 144",
+    "envelope pilot domain: flat contact / free flight over plain air; other contexts run the concrete lane (~144 physics steps per node per tick)",
+    "two fully unobserved ticks from an arbitrary state often exceed the 256-node cap (SEARCH_LIMIT)",
+    "position-send threshold is client-documented behaviour, version-scoped",
+    "Phase 5 deferrals (fluids, elytra, flight, vehicles, swimming, entity pushing beyond the explicit list, border state, moveTowardsClosestSpace) reported as statuses",
+    "reported input (PlayerInput packet) supported as witness proposal by the engine, not yet fed by the tracer",
+    "envelope-lane allocation ~0.6 KB per input: optimization target"
+  ]
+}

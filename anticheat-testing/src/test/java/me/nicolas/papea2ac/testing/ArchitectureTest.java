@@ -63,9 +63,9 @@ class ArchitectureTest {
         }
         assertEquals(27,count);
     }
-    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4 and "physics" in Phase 5 (their approved phases); each is held to its own boundary test below instead. */
+    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5 and "simulation" in Phase 6 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("simulation","combat","checks","evidence","mitigation","interaction")){
+        for(String name:List.of("combat","checks","evidence","mitigation","interaction")){
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -105,6 +105,26 @@ class ArchitectureTest {
         }
         assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/mth-sin-paper-26.2-124.bin")),"pinned sine table resource");
         assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/block-movement-paper-26.2-124.tsv")),"pinned block movement table resource");
+    }
+    /** Phase 6 boundary: the simulation module reconstructs INPUT HYPOTHESES only - no verdicts (VALID/INVALID/CHEATING), no violations/alerts/setbacks/punishments (Phase 8+), no latency/ping/ACK/teleport timing logic (Phase 7), no live-world reads, no NMS/Bukkit, no reflection, no wall clock or randomness, no hash-order iteration over candidates, and no engine-forbidden transcendental Math. */
+    @Test void simulationModuleStaysWithinThePhase6Boundary()throws Exception{
+        Path dir=ROOT.resolve("anticheat-simulation/src/main/java");
+        var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|Timer|ping|Ping|rtt|RTT|latency|Latency|acknowledg|Acknowledg|teleportConfirm|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet|HashMap)\\b");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        try(var files=Files.walk(dir)){
+            var sources=files.filter(p->p.toString().endsWith(".java")).toList();
+            assertTrue(sources.size()>=7,"Phase 6 simulation module must exist");
+            for(Path file:sources){
+                String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+                var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains a Phase 7/8 concept, a live-world access, a non-deterministic source or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+                assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+                assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+            }
+        }
+        // the simulation module never re-implements a physics kernel: the impulse scaling and the input vector come from anticheat-physics
+        String transfer=Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java"));
+        assertTrue(transfer.contains("PhysicsKernels.clientMoveVector(")&&transfer.contains("simulator.inputVector("),"one authoritative input-processing implementation");
+        assertFalse(transfer.contains("* 0.98")||transfer.contains("0.98F")||transfer.contains("0.2F"),"no duplicated input constants in the abstract lane");
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{

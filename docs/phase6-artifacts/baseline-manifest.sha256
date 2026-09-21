@@ -1,0 +1,83 @@
+# Phase 6 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes over the committed Git blob content (not the
+# Windows checkout bytes), covering the complete Phase 6 implementation baseline set: the input reconstruction
+# production sources (anticheat-simulation: InputDomain, TickObservation, ReconstructionRequest/Result,
+# InputReconstructor, Interval, AbstractState, AbstractTransfer), the P6-F1 forward correction of the Phase 5 client
+# input pipeline (PhysicsKernels.clientMoveVector, PhysicsSimulator, MovementProfile constants) with the oracle glue
+# that mirrors it, the version-scoped observation profile, core composition (PacketEngine, PhysicsQualification
+# scenarios, ReconstructionEngineStatus, ReconstructionTracer), the platform diagnostic command, tests (domain,
+# observation, reconstructor, M3 containment, round trip, multi-tick, native reconstruction gate, property, fixtures,
+# tracer, ArchitectureTest), the native lane change, benchmarks, the memory/distribution/fixture harnesses, Gradle
+# task changes, the Phase 6 report, the human approval record, and the artifacts (input domain, candidate
+# distribution, native reconstruction results, native differential + multi-tick drift + pinned trajectories re-pinned
+# under P6-F1, reconstruction fixtures, benchmarks (final-code run and the pre-P6-F1 run), memory results,
+# verification.json, and the real-client evidence log).
+# The frozen Phase 0-5 documents and docs/phase5-artifacts are intentionally NOT part of this manifest: P6-F1 is a
+# forward correction; the Phase 5 historical baseline and its artifacts are unchanged.
+# Parent commit: 8494857bbefd071b50f3d88fb1a3f925b0971c39
+# Phase 5 implementation baseline (unchanged in history): 03a538c4496df92df16b7e0ce503bb61750847ae
+# Phase 4 implementation baseline (unchanged in history): 1685e96519f2eaec3f5b28c12d687e8118809b64
+# Phase 3 implementation baseline (unchanged in history): 92159ec5ef8524c5953ecaa22f663c1f556d52ac
+# Phase 2 implementation baseline (unchanged in history): f24824f9f5e009b835195f9d5b7ef7d5cb4ceb24
+# Phase 1 implementation baseline (unchanged in history): 35c44f9bf7694363d284c646e881351d887cf0bf
+# Generated: 2026-09-21
+dfabd98a36661c9d482834bacaedc1f98ef2078eeed93e15f2ab5b145511d146  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+e7451291ff48cd0f9c26ac3bd2894d0ddd62a31b02797badd118464acaccbf5e  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PhysicsQualification.java
+ce57c4d2a2b22d553dd6a8daa7515c1093b36794f68778abe5b6ff9989f5ad52  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ReconstructionEngineStatus.java
+ea71e4bb0e96e105680ea935b7c99805d2f369dd48a2b7c4f4f8d477ef279ce7  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ReconstructionTracer.java
+a484f83ff346e434e6e46cfe460c1762c3ed713cc437dd9682243ac952dcacc6  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsKernels.java
+80c2c9f17e56614b12b5230b47a3445b9041c285c35bf83b34952f698ed05b9e  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsSimulator.java
+8b80eb26d817a101f3385244ce1e483a6cc9559a1df899dc54798021477a2711  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+d7acd721e459afa2664a23ef1e760e91bc3ec4dc6d0d8bc042ad5c64e2421d39  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractState.java
+7382bd4e5b44a65d417b2a252cd666e0d91594deb8126496e93d306e86731cde  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java
+8621ca035138b0666a6203353ac581090821f7803d97b5207d4efb2143330453  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputDomain.java
+01b753aa1d500e3815358e1c45e4bedb665a7306b054ecfb6931c7c27291fcff  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java
+4a7b19709d1f39e1ed1ace5550ef85867a6a834764f80110d68fdf3bfe069883  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/Interval.java
+c9854d6fc4ab1886757ef3a0f4d47902ec6a7d1a3096ae1b7dd634de481b03d7  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionRequest.java
+fdcabb4e427016fbfce2573b12aa9cf64caee76b001aeb27fa1beb3ded088884  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/ReconstructionResult.java
+ff7036c084fabc1b94b86ecb2ff5191b54547641dedb658b609ccd653033a2ff  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TickObservation.java
+06423e9208395a6ed57cf25c5dad415612fad3eae8f4b7269233bcbfd111d98c  anticheat-testing/build.gradle.kts
+2d9902498a6025305c11f81151346848b02b7b4c88aba04d1d00aeb7e2662c0a  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ReconstructionBenchmarks.java
+5a16d09b95956f34dd73ecc93d33997d56440f182f5a3ac67032568d1a563ba7  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/PhysicsOracleMain.java
+4ca035f777e4741347c512f6bc416c4c5d572c99f328f3aac9ffae7716ae2c2b  anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/OraclePlayer.java
+7e3b579c9d4f46c6e2b93fd479037ca6028943500c2d3b3341cc8be6a1633c16  anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/PhysicsOraclePlugin.java
+cb4d6bc0ff7eae9e1d595802091938f52bd95aebb913df66cfbb5bd31abe82dd  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AbstractTransferTest.java
+7d5d5eb1e3abf4b4f3c1db42dda8f5b799c2a5817c3b5d3ab3ce5d31c6ff549a  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+066e52e0eb6deb6de4d9c6f62409adbb7b91401e3428cc7a9b0e4b48897c548f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/InputDomainTest.java
+869d66e51ea27631a461b8f8dfba08a9977e92e147dcadee6d5c9578ab6e6592  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/InputReconstructorTest.java
+f1e4e0a2162a9a8f140723f4965f693847a1ddc36cc663be83f6273d3b624377  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MultiTickReconstructionTest.java
+da834e07a8894d911da1d3705b6e4cc077de83bc2d842ce89f4b5fb95fab801d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/NativeReconstructionGate.java
+b725489e663c5d783055d4b33b31201c667fdff335286f458e0cadbb5cf047b5  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/NativeTrajectoryReconstructionTest.java
+c0c07aa33865d27d7474b5427f7a57e2b896631c4cc288da0e312671c28060fb  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsOracleFixtureTest.java
+ae12bef5e5b990816dfef5f324824382c9703b54da07a9aebb9ae5650db7ebc4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionDistributionMain.java
+28739ff5f351604610f12fd3a985543f0e97aaa81e86db2cf0b0aeaddd5acc9b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionFixtureMain.java
+171ab25f83a5200009b84b14695e0511eaeba272286ffaef1facd19ba5ec1046  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionFixtureTest.java
+e606963c8a5ceef8bca9baefab39609b0129990e2636b35fe160328598bd5fe3  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionFixtures.java
+cb2422e45d347e609df0d0dbb31c87713831cc0e40be364a9306683e9ade58a7  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionMemoryMain.java
+eb390dfce8a7048e03b0bf40983b9d5ba6f152970e466c89d6254af66319f6d4  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionPropertyTest.java
+813a0741a23c7efe7e3002cb1f670dcaf540e03ae0804d2695104c6ae9f8d3ec  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionRoundTripTest.java
+132e0a4434975ba83a3e91e84f7b3591d9c56407f1967744ed62b723b15de2b1  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionTestSupport.java
+a1fff8ebaf8a979b5d59bd8b54c85f5764946de1bb7415daddb5234b395f9ea7  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionTracerTest.java
+343f751dd06521fed9d29d9cf20f75b91dae42cc254725f041a755b42859a574  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TickObservationTest.java
+917dadd360b7587f983f57570de5ae8d4e55c26fc1710358e514cc3785b15866  anticheat-version/src/main/java/me/nicolas/papea2ac/version/MovementObservationProfile.java
+a813650178efd883d074fa387bddf8e9b97b117a65ff5e8bb6be95343d13fa6e  anticheat-version/src/main/java/me/nicolas/papea2ac/version/MovementProfile.java
+de68d01ff4ff3750d742cc4a3fae9bae4a0b8039ff52988f3d86d5d408ca1ffc  docs/PHASE_6_HUMAN_APPROVAL.md
+ec84da82256706714a0df6e572f267a4c51d76f17eca8721b7d6478713cdc2f3  docs/PHASE_6_IMPLEMENTATION.md
+1b7ede7bd3cebc5803647160591251be6d3e894e2f2a9b9bc8a9da1c8aa1e37b  docs/phase6-artifacts/benchmarks-pre-p6f1.json
+5c3bebce1db1aafad0393143da307d7daa1953ffa1f509f8a4413dc5ad2e5067  docs/phase6-artifacts/benchmarks.json
+c1e4e844d7e0fdad04cfd6fa6f500fdbd6f444db135756d9904295801d7e6b33  docs/phase6-artifacts/candidate-distribution.json
+c29d84d32d99c13a3570ef45cd297240895086ab648a38403006521dcdc4b483  docs/phase6-artifacts/input-domain.json
+e77ff1c18d69cdcf95c5ac4f860654c80a75daac6ca8592042d41991d0f51c0c  docs/phase6-artifacts/memory-results.json
+1d88f7cc5a6140ba47c3d4c2a87662d88cf406e0fceb7b767f832a8916351c40  docs/phase6-artifacts/multi-tick-drift-results.json
+a531d3cee80024811a2a5298fbab4795f01f24f0f173b6cba62ee07f8d79d06f  docs/phase6-artifacts/native-differential-results.json
+37e20101b61b8ab4050a7997ffb8176f9a5732cf903d0a07c7bd192b517163d8  docs/phase6-artifacts/native-reconstruction-oracle-results.json
+6fc10f41cb2e3ebc66cb0498464b0bb4fd780a01e9dd72e7a8f395bafedf8edb  docs/phase6-artifacts/native-reconstruction-results.json
+6edd527d1f0a9a2ebc1e714a4d0b704dae9d1730c0ee10678324b9db8168074d  docs/phase6-artifacts/physics-fixtures/README.md
+2f15234c08ccde5e81843d93dbe6595dcfa5c5b3fa908dc7c3c445d06c26cd7f  docs/phase6-artifacts/physics-fixtures/native-trajectories.json
+72b0ad65217c4b6a0890d2345fb2cffacb194a32a732cf78955217022bb3155f  docs/phase6-artifacts/real-client-evidence.log
+b5db07ab4016ab994e86b9d77718587e4e400162fdf67c7ee2771f8cd24a03da  docs/phase6-artifacts/reconstruction-fixtures/README.md
+15b9963278f8edb5313bd3142313e52c9147f93cc91e0eb49fdf833543308ae1  docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json
+520ef19c5f8702a13cf1700dda1c7eeb06afbac8bd453de29c8e660ecfdf7a0f  docs/phase6-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 57 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# 4ef5d810f18bd9481d9ffd4d1d1feb831271b59f9ab30ac979591dc37cb2b57b

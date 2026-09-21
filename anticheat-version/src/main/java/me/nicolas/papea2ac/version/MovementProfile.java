@@ -25,8 +25,27 @@ public final class MovementProfile {
     public static final float KEY_IMPULSE = 1.0f;
     /** {@code LocalPlayer.aiStep}: move impulses are multiplied by {@code 0.2F} while using an item (and not riding). */
     public static final float USE_ITEM_INPUT_FACTOR = 0.2f;
-    /** {@code LivingEntity.applyInput}: {@code xxa *= 0.98F; zza *= 0.98F} before travel. */
+    /**
+     * The {@code 0.98F} input factor. Server-side {@code LivingEntity.applyInput} is {@code xxa *= 0.98F; zza *= 0.98F};
+     * the local client overrides it and applies the same factor INSIDE its own input pipeline (see
+     * {@link #VEC2_NORMALIZE_EPSILON}): once, before the square-movement rescale. P6-F1.
+     */
     public static final float INPUT_FRICTION = 0.98f;
+    /**
+     * P6-F1 (real-client qualification, Phase 6): the local client's key vector is processed in FLOAT before the shared
+     * double-precision {@code Entity.getInputVector}: {@code Vec2(strafe, forward).normalized()} (float length via
+     * {@code Mth.sqrt}, a length below {@code 1.0E-4F} normalizes to ZERO, per-component division), then {@code scale(0.98F)},
+     * {@code scale(0.2F)} while using an item, {@code scale(sneakingSpeed)} while moving slowly, then the square-movement
+     * rescale: {@code u = v.scale(1.0F / |v|)}, {@code |v| * distanceToUnitSquare(u)} capped at {@code 1.0F}, where
+     * {@code distanceToUnitSquare(u) = Mth.sqrt(1 + (min(|u.x|,|u.y|) / max(|u.x|,|u.y|))^2)}. Straight keys are
+     * bit-identical to the per-axis impulse the Phase 5 model used; on a diagonal the result is {@code 0.7071067F} per
+     * component (one float ulp BELOW {@code 1/sqrt(2)}, length {@code 1 - 1.014E-7}), which the double normalization no
+     * longer touches - measured on the pinned client as a {@code 1.0E-8} block/tick shortfall against the Phase 5 model.
+     * Client-only code: not observable by the server-side oracle, established by controlled real-client measurement.
+     */
+    public static final float VEC2_NORMALIZE_EPSILON = 1.0E-4f;
+    /** The square-movement cap: the rescaled key vector never exceeds unit length. */
+    public static final float SQUARE_MOVEMENT_CAP = 1.0f;
     /** {@code Entity.getInputVector}: an input with {@code lengthSqr < 1.0E-7} contributes nothing. */
     public static final double INPUT_LENGTH_SQR_EPSILON = 1.0E-7;
     /** {@code Vec3.normalize}: a length below {@code 1.0E-4F} (widened) normalizes to ZERO. */

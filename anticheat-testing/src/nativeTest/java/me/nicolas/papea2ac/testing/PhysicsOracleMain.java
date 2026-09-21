@@ -149,6 +149,35 @@ public final class PhysicsOracleMain {
         fixtures.put("scenarios", perFixture);
         Files.createDirectories(artifacts.resolve("physics-fixtures"));
         Files.writeString(artifacts.resolve("physics-fixtures").resolve("native-trajectories.json"), MiniJson.write(fixtures) + "\n", StandardCharsets.UTF_8);
+        // ---- Phase 6: input reconstruction against the ORACLE's own per-tick states (start = the server's state before the tick, observation = the server's
+        //      state after it, declared input hidden): the declared input must be an exact witness on every tick. The plain-test gate replays the same
+        //      trajectories through the digest-verified chain; this pass uses the server's states directly.
+        Map<String, Object> rec = new LinkedHashMap<>(); List<Object> recRows = new ArrayList<>(); int recTicks = 0, recIncluded = 0, recWitness = 0, recUnique = 0, recEquivalent = 0, recDistinct = 0, recIncomplete = 0; List<String> recFailures = new ArrayList<>();
+        for (PhysicsScenarios.Scenario sc : scenarios) {
+            Map<String, Object> or = MiniJson.obj(byId.get(sc.id()));
+            if (or == null || or.get("error") != null || sc.fluidDeferred()) continue;
+            List<Object> oracleTicks = MiniJson.arr(or.get("ticks"));
+            ScenarioWorld w = new ScenarioWorld(sc); PhysicsEnvironment env = w.environment(); me.nicolas.papea2ac.simulation.InputReconstructor reconstructor = new me.nicolas.papea2ac.simulation.InputReconstructor(w.simulator);
+            PhysicsState start = sc.start().state(); int sInc = 0, sUnique = 0, sEq = 0, sDist = 0, sInc2 = 0;
+            for (int i = 0; i < oracleTicks.size(); i++) {
+                PhysicsState next = fromOracle(MiniJson.obj(oracleTicks.get(i))); MovementInput declared = sc.input(sc.ticks().get(i));
+                me.nicolas.papea2ac.simulation.TickObservation obs = me.nicolas.papea2ac.simulation.TickObservation.exact(next.position().x(), next.position().y(), next.position().z(), declared.yaw(), next.onGround() ? me.nicolas.papea2ac.simulation.TickObservation.GroundClaim.TRUE : me.nicolas.papea2ac.simulation.TickObservation.GroundClaim.FALSE, i + 1);
+                me.nicolas.papea2ac.simulation.ReconstructionResult r = reconstructor.reconstruct(me.nicolas.papea2ac.simulation.ReconstructionRequest.of(start, obs, env));
+                recTicks++; boolean adm = r.admits(List.of(declared)), wit = r.witnesses(List.of(declared));
+                if (adm) { recIncluded++; sInc++; } if (wit) recWitness++;
+                if (!adm) recFailures.add(sc.id() + " tick " + (i + 1) + ": declared " + me.nicolas.papea2ac.simulation.InputDomain.describe(declared) + " EXCLUDED: " + String.join(" | ", r.describe(4)));
+                if (!r.complete()) { recIncomplete++; sInc2++; } else switch (r.ambiguity()) { case UNIQUE -> { recUnique++; sUnique++; } case EQUIVALENT_INPUTS -> { recEquivalent++; sEq++; } case DISTINCT_STATES -> { recDistinct++; sDist++; } case NONE -> { } }
+                start = next; // continue from the SERVER's state, never from the simulator's
+            }
+            Map<String, Object> row = new LinkedHashMap<>(); row.put("id", sc.id()); row.put("ticks", oracleTicks.size()); row.put("declaredIncluded", sInc); row.put("unique", sUnique); row.put("equivalentInputs", sEq); row.put("distinctStates", sDist); row.put("incomplete", sInc2); recRows.add(row);
+        }
+        rec.put("phase", "6 - Input Reconstruction"); rec.put("oracle", "per-tick states of the pinned Paper 26.2 build 124 server process (this run), start = server state before the tick, observation = server state after it, declared input hidden");
+        rec.put("ticksChecked", recTicks); rec.put("declaredInputIncluded", recIncluded); rec.put("declaredInputExactWitness", recWitness); rec.put("falseExclusions", recTicks - recIncluded);
+        rec.put("uniqueTicks", recUnique); rec.put("equivalentInputTicks", recEquivalent); rec.put("distinctStateTicks", recDistinct); rec.put("incompleteTicks", recIncomplete); rec.put("perScenario", recRows); rec.put("failures", new ArrayList<Object>(recFailures));
+        Path phase6 = artifacts; Files.createDirectories(phase6); // since P6-F1 the artifacts directory IS docs/phase6-artifacts
+        Files.writeString(phase6.resolve("native-reconstruction-oracle-results.json"), MiniJson.write(rec) + "\n", StandardCharsets.UTF_8);
+        System.out.println("INPUT RECONSTRUCTION vs ORACLE STATES: ticks=" + recTicks + " declaredIncluded=" + recIncluded + " witness=" + recWitness + " unique=" + recUnique + " equivalentInputs=" + recEquivalent + " distinctStates=" + recDistinct + " incomplete=" + recIncomplete + " falseExclusions=" + (recTicks - recIncluded));
+        for (String f : recFailures) System.out.println("  FALSE EXCLUSION " + f);
         System.out.println("PHYSICS NATIVE DIFFERENTIAL: scenarios=" + scenarios.size() + " compared=" + scenariosCompared + " exactSingleStep=" + scenariosExactSingle + " exactChained=" + scenariosExactChained + " deferredFluid=" + deferred + " oracleErrors=" + oracleErrors);
         System.out.println("  ticks compared=" + ticksCompared + " exactSingle=" + ticksExactSingle + " exactChained=" + ticksExactChained + " worstSingle=" + worstSingle + " (" + worstSingleId + ") worstChained=" + worstChained + " (" + worstChainedId + ") server=" + Math.round(serverSeconds) + "s");
         for (Object o : perScenario) { Map<String, Object> r = MiniJson.obj(o); if (!Boolean.TRUE.equals(r.get("pass"))) System.out.println("  MISMATCH " + r.get("id") + ": " + r); }

@@ -190,6 +190,9 @@ public final class PacketEngine implements AutoCloseable {
     public final me.nicolas.papea2ac.physics.PhysicsSimulator physics=new me.nicolas.papea2ac.physics.PhysicsSimulator(movementProfile);
     /** Bounded real-client qualification tracer (declared-input scenarios replayed against observed samples); reads published snapshots only. */
     public final PhysicsQualification physicsQualification=new PhysicsQualification(physics,collision,blockBehaviors,this::timelineStatus);
+    /** Phase 6: the stateless input reconstructor over the Phase 5 simulator (ARCHITECTURE path 1: core constructs simulation; platform-paper only displays primitives) and its bounded diagnostic / real-client tracer. */
+    public final me.nicolas.papea2ac.simulation.InputReconstructor reconstruction=new me.nicolas.papea2ac.simulation.InputReconstructor(physics);
+    public final ReconstructionTracer reconstructionTracer=new ReconstructionTracer(reconstruction,collision,blockBehaviors,this::timelineStatus);
     /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
@@ -374,6 +377,21 @@ public final class PacketEngine implements AutoCloseable {
         return new PhysicsEngineStatus(movementProfile.id(),movementProfile.digest(),movementProfile.sineDigest(),b.digest(),b.blockCount(),b.fluidStateCount(),movementProfile.effects().size(),movementProfile.attributes().size(),
             physicsQualification.steps.sum(),physicsQualification.exact.sum(),physicsQualification.activeTraces());
     }
+    /** Engine-wide input-reconstruction identity and diagnostic counters, projected to primitives for platform-paper (no simulation edge there). */
+    public ReconstructionEngineStatus reconstructionEngineStatus(){
+        return new ReconstructionEngineStatus(me.nicolas.papea2ac.simulation.InputDomain.RAW_SIZE,me.nicolas.papea2ac.simulation.InputDomain.CLASS_COUNT,me.nicolas.papea2ac.version.MovementObservationProfile.PAPER_26_2.id(),
+            me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxNodes(),me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxEvaluations(),me.nicolas.papea2ac.simulation.ReconstructionRequest.SearchBudget.DEFAULT.maxTicks(),
+            reconstructionTracer.requests.sum(),reconstructionTracer.witnessed.sum(),reconstructionTracer.samplesRecorded.sum(),reconstructionTracer.activeTraces());
+    }
+    /** Arms an input-reconstruction trace for a session against its PUBLISHED world snapshot (see ReconstructionTracer); {@code declared} may be null. */
+    public synchronized String reconstructArm(UUID player,PhysicsQualification.Scenario declared,PhysicsQualification.ArmFacts facts){
+        Session s=active.get(player);
+        if(s==null)return "REFUSED: no admitted session";
+        var w=s.world.snapshot();
+        return reconstructionTracer.arm(player,declared,w.view(blockStates),w.worldEpoch(),s.key.epoch(),facts);
+    }
+    public java.util.List<String> reconstructReport(UUID player){return reconstructionTracer.report(player);}
+    public String reconstructCancel(UUID player){return reconstructionTracer.cancel(player);}
     /** Arms a controlled-input physics qualification trace for a session against its PUBLISHED world snapshot (see PhysicsQualification). */
     public synchronized String physicsArm(UUID player,PhysicsQualification.Scenario scenario,PhysicsQualification.ArmFacts facts){
         Session s=active.get(player);

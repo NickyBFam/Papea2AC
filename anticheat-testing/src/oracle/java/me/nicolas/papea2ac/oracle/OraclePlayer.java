@@ -43,6 +43,8 @@ public final class OraclePlayer extends ServerPlayer {
     @Override public boolean isClientAuthoritative() { return false; }
     @Override public boolean canSimulateMovement() { return true; }
     @Override public boolean isEffectiveAi() { return true; }
+    /** P6-F1: the local client overrides {@code applyInput} with its own float input pipeline (the driver sets the resulting {@code xxa/zza}); the shared {@code 0.98F} must not be applied on top. */
+    @Override protected void applyInput() { /* xxa/zza already hold the client's final move vector */ }
     @Override public void resendPossiblyDesyncedDataValues(List<EntityDataAccessor<?>> accessors, ServerPlayer player) { /* no connection */ }
     /** LivingEntity.onEffectAdded without the ServerPlayer packet send (no connection): the attribute modifiers are what movement reads. */
     @Override protected void onEffectAdded(net.minecraft.world.effect.MobEffectInstance effect, net.minecraft.world.entity.Entity source) { effect.getEffect().value().addAttributeModifiers(getAttributes(), effect.getAmplifier()); }

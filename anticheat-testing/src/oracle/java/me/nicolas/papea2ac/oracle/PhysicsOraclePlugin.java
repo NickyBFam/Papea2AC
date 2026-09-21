@@ -20,6 +20,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -137,10 +139,14 @@ public final class PhysicsOraclePlugin extends JavaPlugin {
             p.setYRot(yaw);
             boolean crouching = !p.getAbilities().flying && !p.isSwimming() && !p.isPassenger() && p.fits(Pose.CROUCHING) && (shift || (!p.isSleeping() && !p.fits(Pose.STANDING)));
             boolean movingSlowly = crouching || (p.hasPose(Pose.SWIMMING) && !p.isInWater());
-            float fwd = forward, left = strafe;
-            if (movingSlowly) { float m = (float) p.getAttributeValue(Attributes.SNEAKING_SPEED); fwd *= m; left *= m; }
-            if (use) { fwd *= 0.2F; left *= 0.2F; }
-            p.setInput(left, fwd, jump);
+            // P6-F1: the local client's input pipeline (client-only LocalPlayer code, established by real-client measurement): the key vector
+            // normalized in float (the jar's Vec2.normalized), scaled by 0.98F, by 0.2F while using an item, by the sneaking speed while moving
+            // slowly, then the square-movement rescale; the shared applyInput 0.98F is NOT applied on top (OraclePlayer.applyInput is a no-op).
+            Vec2 move = new Vec2(strafe, forward).normalized().scale(0.98F);
+            if (use) move = move.scale(0.2F);
+            if (movingSlowly) move = move.scale((float) p.getAttributeValue(Attributes.SNEAKING_SPEED));
+            move = squareMovement(move);
+            p.setInput(move.x, move.y, jump);
             p.resetPaperJumpGate();
             p.aiStep();
             p.updatePlayerPose();
@@ -148,6 +154,15 @@ public final class PhysicsOraclePlugin extends JavaPlugin {
         }
         try { p.discard(); } catch (RuntimeException ignored) { /* connection-less removal side effects are irrelevant to the recorded motion */ }
         return out;
+    }
+    /** The client's {@code modifyInputSpeedForSquareMovement}: {@code u = v.scale(1/|v|)}, length {@code min(|v| * sqrt(1 + (min/max)^2), 1)} - float, {@code Mth.sqrt}. */
+    private static Vec2 squareMovement(Vec2 v) {
+        float f = v.length();
+        if (f <= 0.0F) return v;
+        Vec2 u = v.scale(1.0F / f);
+        float ax = Math.abs(u.x), ay = Math.abs(u.y), h = ay > ax ? ax / ay : ay / ax;
+        float g = Mth.sqrt(1.0F + h * h);
+        return u.scale(Math.min(f * g, 1.0F));
     }
     private static JsonObject record(OraclePlayer p, boolean crouching) {
         JsonObject o = new JsonObject();

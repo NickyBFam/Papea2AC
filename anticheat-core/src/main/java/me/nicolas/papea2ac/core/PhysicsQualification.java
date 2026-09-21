@@ -30,10 +30,13 @@ public final class PhysicsQualification {
     /** Controlled input scenarios the operator can declare (INPUT_RECONSTRUCTION.md: inputs are hypotheses; here they are declared, not reconstructed). */
     public enum Scenario {
         RELEASE_ALL(0, 0, false, false, false), HOLD_W(1, 0, false, false, false), HOLD_S(-1, 0, false, false, false), HOLD_A(0, 1, false, false, false), HOLD_D(0, -1, false, false, false),
-        W_SPRINT(1, 0, false, false, true), JUMP_STATIONARY(0, 0, true, false, false), W_JUMP(1, 0, true, false, false), W_SHIFT(1, 0, false, true, false), W_SPRINT_JUMP(1, 0, true, false, true);
-        final int forward, strafe; final boolean jump, shift, sprint;
-        Scenario(int forward, int strafe, boolean jump, boolean shift, boolean sprint) { this.forward = forward; this.strafe = strafe; this.jump = jump; this.shift = shift; this.sprint = sprint; }
-        MovementInput input(float yaw) { return new MovementInput(forward, strafe, jump, shift, sprint, false, yaw); }
+        W_SPRINT(1, 0, false, false, true), JUMP_STATIONARY(0, 0, true, false, false), W_JUMP(1, 0, true, false, false), W_SHIFT(1, 0, false, true, false), W_SPRINT_JUMP(1, 0, true, false, true),
+        /** Phase 6 additions (diagonals and item use; additive, the Phase 5 scenarios are unchanged). */
+        W_A(1, 1, false, false, false), W_D(1, -1, false, false, false), W_USE(1, 0, false, false, false, true);
+        final int forward, strafe; final boolean jump, shift, sprint, use;
+        Scenario(int forward, int strafe, boolean jump, boolean shift, boolean sprint) { this(forward, strafe, jump, shift, sprint, false); }
+        Scenario(int forward, int strafe, boolean jump, boolean shift, boolean sprint, boolean use) { this.forward = forward; this.strafe = strafe; this.jump = jump; this.shift = shift; this.sprint = sprint; this.use = use; }
+        MovementInput input(float yaw) { return new MovementInput(forward, strafe, jump, shift, sprint, use, yaw); }
         public static Scenario parse(String s) { try { return valueOf(s.trim().toUpperCase(Locale.ROOT).replace('+', '_').replace('-', '_')); } catch (IllegalArgumentException e) { return null; } }
     }
     public record Sample(long movementSequence, double x, double y, double z, boolean onGround, float yaw, float pitch, long nanos) {}

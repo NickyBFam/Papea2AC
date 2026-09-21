@@ -85,10 +85,9 @@ public final class PhysicsSimulator {
         boolean crouching = fitsCrouching && (input.shift() || !fitsStanding);
         boolean crawling = state.pose() == PlayerBox.Pose.SWIMMING; // isVisuallyCrawling: swimming pose while not in water
         boolean movingSlowly = crouching || crawling;
-        float forwardImpulse = input.forward() * MovementProfile.KEY_IMPULSE, leftImpulse = input.strafe() * MovementProfile.KEY_IMPULSE;
-        if (movingSlowly) { float f = (float) a.sneakingSpeed; forwardImpulse *= f; leftImpulse *= f; }
-        if (input.usingItem()) { forwardImpulse *= MovementProfile.USE_ITEM_INPUT_FACTOR; leftImpulse *= MovementProfile.USE_ITEM_INPUT_FACTOR; }
-        float xxa = leftImpulse * MovementProfile.INPUT_FRICTION, zza = forwardImpulse * MovementProfile.INPUT_FRICTION; // applyInput
+        // LocalPlayer input pipeline (P6-F1: float normalize, 0.98F, item use, sneaking, square-movement rescale): one authoritative implementation (PhysicsKernels.clientMoveVector), shared with the Phase 6 abstract lane
+        float[] move = PhysicsKernels.clientMoveVector(input.forward(), input.strafe(), movingSlowly, input.usingItem(), (float) a.sneakingSpeed);
+        float xxa = move[0], zza = move[1];
         boolean jumping = input.jump();
         // block position / supporting block lookups (pre-move)
         int bx = floor(pos.x()), by = floor(pos.y()), bz = floor(pos.z());
@@ -234,6 +233,20 @@ public final class PhysicsSimulator {
         return new PhysicsResult(u.status(), next, u.reasons(), work(geo), prov, trace);
     }
 
+    /**
+     * Phase 6 forward addition (additive; the step's own arithmetic is unchanged): the movement attribute values this step
+     * would resolve for the environment ({@code AttributeInstance.calculateValue} with effect templates and the sprint
+     * modifier folded in by id, exactly as {@link #simulate}), so the abstract/interval lane never re-implements the folding.
+     * Returns {@code null} when any movement attribute is UNKNOWN or non-finite (the step would abort with the same reason).
+     */
+    public ResolvedAttributes resolveAttributes(PhysicsEnvironment env, boolean sprinting) {
+        Attrs a = new Attrs(env, sprinting, new Uncertainty());
+        if (!a.ok) return null;
+        return new ResolvedAttributes(a.speed, a.speedD, a.gravity, a.jumpStrength, a.stepHeight, a.sneakingSpeed, a.movementEfficiency, a.airDragModifier, a.frictionModifier, a.bounciness, a.scale, a.canWalkOnPowderSnow);
+    }
+    /** The ten resolved movement attributes ({@code speed} is the {@code (float)} the client reads; {@code speedValue} the double before narrowing) plus the powder-snow boots fact. */
+    public record ResolvedAttributes(float speed, double speedValue, double gravity, double jumpStrength, double stepHeight, double sneakingSpeed, double movementEfficiency, double airDragModifier, double frictionModifier, double bounciness, double scale, boolean canWalkOnPowderSnow) {}
+
     // ---- helpers (each mirrors one vanilla method)
 
     /** Resolved movement attributes (vanilla {@code AttributeInstance.calculateValue} with the client's modifier set, effect templates folded in by id, sprint modifier when sprinting). */
@@ -270,7 +283,7 @@ public final class PhysicsSimulator {
     private static double effectiveGravity(double deltaY, boolean slowFalling, double gravity) { return deltaY <= 0.0 && slowFalling ? Math.min(gravity, MovementProfile.SLOW_FALLING_GRAVITY) : gravity; }
 
     /** {@code Entity.getInputVector(input, speed, yaw)}: normalize when longer than 1, scale by speed, rotate by the sine-table basis. */
-    Vec3d inputVector(double x, double y, double z, float speed, float yaw) {
+    public Vec3d inputVector(double x, double y, double z, float speed, float yaw) {
         Vec3d in = new Vec3d(x, y, z);
         double d = in.lengthSqr();
         if (d < MovementProfile.INPUT_LENGTH_SQR_EPSILON) return Vec3d.ZERO;

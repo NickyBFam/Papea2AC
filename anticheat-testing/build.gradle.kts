@@ -213,13 +213,13 @@ tasks.register<Jar>("physicsOracleJar") {
     manifest { attributes("paperweight-mappings-namespace" to "mojang") }
 }
 tasks.register<JavaExec>("physicsNativeDifferential") {
-    description = "Phase 5 native differential: starts an isolated pinned Paper server with the oracle plugin, runs the scenario catalog through the server's own movement code, then compares every tick against the Papea2AC simulator. Writes docs/phase5-artifacts/native-differential-results.json and multi-tick-drift-results.json."
+    description = "Native differential: starts an isolated pinned Paper server with the oracle plugin, runs the scenario catalog through the server's own movement code, then compares every tick against the Papea2AC simulator. Since P6-F1 (client input pipeline) it writes docs/phase6-artifacts/native-differential-results.json, multi-tick-drift-results.json and physics-fixtures/native-trajectories.json; the Phase 5 artifacts are the frozen pre-P6-F1 record."
     dependsOn(tasks.named(nativeTest.classesTaskName), tasks.named("physicsOracleJar"))
     classpath = nativeTest.runtimeClasspath
     mainClass.set("me.nicolas.papea2ac.testing.PhysicsOracleMain")
     args(rootProject.file(".phase1-runtime").absolutePath, layout.buildDirectory.dir("physics-oracle").get().asFile.absolutePath,
-         rootProject.file("docs/phase5-artifacts").absolutePath, tasks.named<Jar>("physicsOracleJar").get().archiveFile.get().asFile.absolutePath)
-    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; rootProject.file("docs/phase5-artifacts").mkdirs() }
+         rootProject.file("docs/phase6-artifacts").absolutePath, tasks.named<Jar>("physicsOracleJar").get().archiveFile.get().asFile.absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; rootProject.file("docs/phase6-artifacts").mkdirs() }
 }
 // the nativeTest lane reuses the test lane's scenario catalog / world builders (same package, package-private access)
 dependencies { add(nativeTest.implementationConfigurationName, sourceSets.test.get().output) }
@@ -247,4 +247,42 @@ tasks.register<JavaExec>("physicsMemoryHarness") {
     minHeapSize = "1g"; maxHeapSize = "1g"
     args(rootProject.file("docs/phase5-artifacts/memory-results.json").absolutePath)
     doFirst { rootProject.file("docs/phase5-artifacts").mkdirs() }
+}
+
+// ---- Phase 6: input reconstruction harnesses (test lane; no server needed)
+tasks.register<JavaExec>("reconstructionFixtures") {
+    description = "Regenerates the pinned Phase 6 reconstruction fixture summaries (docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json). A changed digest is a reviewed event."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ReconstructionFixtureMain")
+    args(rootProject.file("docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json").absolutePath, rootProject.file("docs/phase6-artifacts/input-domain.json").absolutePath)
+    doFirst { rootProject.file("docs/phase6-artifacts/reconstruction-fixtures").mkdirs() }
+}
+tasks.register<JavaExec>("reconstructionDistribution") {
+    description = "Phase 6 candidate-count distribution over the 88 pinned native trajectories and a deterministic random corpus (docs/phase6-artifacts/candidate-distribution.json + native-reconstruction-results.json); fails on any false exclusion."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ReconstructionDistributionMain")
+    args(rootProject.file("docs/phase6-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase6-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("reconstructionMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 6 reconstruction memory estimate: reconstructor, retained results, per-request allocation with the envelope prefilter on/off. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ReconstructionMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase6-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase6-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkReconstruction") {
+    description = "Phase 6 JMH kernels: one reconstruction request per family (idle unique/ambiguous, walk, strafe, diagonal, sprint, jump, airborne, wall, step, stairs, ice, 36/72/144 raw candidates, multi-tick 2/3, empty set, worst bounded search) plus breakdown kernels. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    // -PjmhInclude=<regex> re-runs a subset into -PjmhOut=<file> (partial re-measurement after a targeted change; the full file stays the record)
+    val include = project.findProperty("jmhInclude")?.toString() ?: "ReconstructionBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase6-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    doFirst { rootProject.file("docs/phase6-artifacts").mkdirs() }
 }

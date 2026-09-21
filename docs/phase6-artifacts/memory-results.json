@@ -1,0 +1,19 @@
+{
+  "methodology": "forced GC + Runtime used-heap diff, 3 trials, median; per-request allocation = ThreadMXBean allocated bytes over 50 requests after 300 warm-up requests; estimates, not supported capacity",
+  "reconstructorBytes": 16,
+  "retainedBytesPer100ResultsIdleAmbiguous": 153352,
+  "retainedBytesPer100ResultsWalkUnique": 80440,
+  "perRequestAllocationBytes": {
+    "idle_unique_constrained": {"envelopeOn": 38096, "envelopeOff": 153168, "evaluationsOn": 1, "status": "EXACT_UNIQUE"},
+    "idle_ambiguous": {"envelopeOn": 139464, "envelopeOff": 1173288, "evaluationsOn": 8, "status": "EXACT_AMBIGUOUS"},
+    "walk": {"envelopeOn": 85896, "envelopeOff": 1170832, "evaluationsOn": 1, "status": "EXACT_UNIQUE"},
+    "sprint": {"envelopeOn": 86024, "envelopeOff": 1161616, "evaluationsOn": 1, "status": "EXACT_UNIQUE"},
+    "jump": {"envelopeOn": 103328, "envelopeOff": 1162760, "evaluationsOn": 4, "status": "EXACT_AMBIGUOUS"},
+    "airborne": {"envelopeOn": 104528, "envelopeOff": 1050296, "evaluationsOn": 2, "status": "EXACT_AMBIGUOUS"},
+    "wall_collision_concrete_lane": {"envelopeOn": 1281464, "envelopeOff": 1264608, "evaluationsOn": 144, "status": "EXACT_AMBIGUOUS"},
+    "multi_tick_3": {"envelopeOn": 987542, "envelopeOff": 3652112, "evaluationsOn": 3, "status": "EXACT_UNIQUE"},
+    "empty_candidate_set": {"envelopeOn": 93632, "envelopeOff": 1164088, "evaluationsOn": 0, "status": "NO_MODELLED_CANDIDATE"}
+  },
+  "perPlayerRetained": "nothing: the reconstructor is stateless; requests and results are values the caller owns and drops (frontier continuation keeps only the exact-witness states of the last result)",
+  "bounds": "256 live nodes, 256 materialized histories per node, 64 reported candidates, 32 coverage reasons, 16 notes, 4096 envelope cells per scan (ReconstructionRequest.SearchBudget.DEFAULT)"
+}

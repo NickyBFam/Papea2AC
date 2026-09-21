@@ -1,0 +1,807 @@
+{
+  "phase": "6 - Input Reconstruction",
+  "oracle": "per-tick states of the pinned Paper 26.2 build 124 server process (this run), start = server state before the tick, observation = server state after it, declared input hidden",
+  "ticksChecked": 3105,
+  "declaredInputIncluded": 3105,
+  "declaredInputExactWitness": 3105,
+  "falseExclusions": 0,
+  "uniqueTicks": 1324,
+  "equivalentInputTicks": 250,
+  "distinctStateTicks": 1531,
+  "incompleteTicks": 0,
+  "perScenario": [
+    {
+      "id": "idle_ground",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_forward",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 40,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_backward",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "strafe_left",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "strafe_right",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "diagonal_forward_left",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "diagonal_back_right",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "sprint_forward",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 40,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_yaw_37",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_yaw_neg123",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_yaw_90",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_yaw_180_strafe",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "use_item_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "sneak_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "sprint_stop_transition",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 15,
+      "equivalentInputs": 0,
+      "distinctStates": 25,
+      "incomplete": 0
+    },
+    {
+      "id": "jump_stationary",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "jump_forward",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 3,
+      "equivalentInputs": 4,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "sprint_jump",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 3,
+      "equivalentInputs": 4,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "sprint_jump_yaw",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 3,
+      "equivalentInputs": 4,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "jump_tap_then_release",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "fall_20",
+      "ticks": 60,
+      "declaredIncluded": 60,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 60,
+      "incomplete": 0
+    },
+    {
+      "id": "fall_100_ticks",
+      "ticks": 100,
+      "declaredIncluded": 100,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 100,
+      "incomplete": 0
+    },
+    {
+      "id": "air_strafe",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 25,
+      "equivalentInputs": 15,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "air_sprint_forward",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 25,
+      "equivalentInputs": 15,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "wall_forward",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 11,
+      "equivalentInputs": 0,
+      "distinctStates": 19,
+      "incomplete": 0
+    },
+    {
+      "id": "wall_diagonal_corner",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "ceiling_jump",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "ceiling_slab_jump",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "step_up_block",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 6,
+      "equivalentInputs": 1,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "step_up_slab",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 26,
+      "equivalentInputs": 3,
+      "distinctStates": 1,
+      "incomplete": 0
+    },
+    {
+      "id": "step_up_stairs",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 24,
+      "equivalentInputs": 4,
+      "distinctStates": 2,
+      "incomplete": 0
+    },
+    {
+      "id": "step_fail_two_high",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 6,
+      "equivalentInputs": 1,
+      "distinctStates": 13,
+      "incomplete": 0
+    },
+    {
+      "id": "fence_blocks",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 8,
+      "equivalentInputs": 0,
+      "distinctStates": 12,
+      "incomplete": 0
+    },
+    {
+      "id": "wall_block_blocks",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 7,
+      "equivalentInputs": 1,
+      "distinctStates": 12,
+      "incomplete": 0
+    },
+    {
+      "id": "step_while_sprinting",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 9,
+      "equivalentInputs": 0,
+      "distinctStates": 21,
+      "incomplete": 0
+    },
+    {
+      "id": "step_height_attribute_two_blocks",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 6,
+      "equivalentInputs": 1,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "crouch_under_slab_ceiling",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 19,
+      "equivalentInputs": 0,
+      "distinctStates": 11,
+      "incomplete": 0
+    },
+    {
+      "id": "crawl_gap",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 20,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "sneak_edge_backoff",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 32,
+      "equivalentInputs": 0,
+      "distinctStates": 8,
+      "incomplete": 0
+    },
+    {
+      "id": "sneak_edge_diagonal",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "walk_off_edge",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 11,
+      "equivalentInputs": 19,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "ice_walk",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 20,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "blue_ice_sprint",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 20,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "packed_ice_strafe",
+      "ticks": 25,
+      "declaredIncluded": 25,
+      "unique": 25,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "slime_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "slime_bounce",
+      "ticks": 60,
+      "declaredIncluded": 60,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 60,
+      "incomplete": 0
+    },
+    {
+      "id": "slime_bounce_suppressed",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "bed_bounce",
+      "ticks": 50,
+      "declaredIncluded": 50,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 50,
+      "incomplete": 0
+    },
+    {
+      "id": "honey_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "honey_jump",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "honey_wall_slide",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 5,
+      "distinctStates": 35,
+      "incomplete": 0
+    },
+    {
+      "id": "soul_sand_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 29,
+      "equivalentInputs": 1,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "soul_sand_sprint_jump",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 3,
+      "equivalentInputs": 4,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "cobweb_walk_in",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 40,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "cobweb_fall_through",
+      "ticks": 80,
+      "declaredIncluded": 80,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 80,
+      "incomplete": 0
+    },
+    {
+      "id": "berry_bush_walk",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 40,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "powder_snow_fall_in",
+      "ticks": 50,
+      "declaredIncluded": 50,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 50,
+      "incomplete": 0
+    },
+    {
+      "id": "powder_snow_boots_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "powder_snow_boots_walk_in_climb",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 3,
+      "equivalentInputs": 8,
+      "distinctStates": 29,
+      "incomplete": 0
+    },
+    {
+      "id": "magma_walk",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 20,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "ladder_climb",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 4,
+      "equivalentInputs": 2,
+      "distinctStates": 34,
+      "incomplete": 0
+    },
+    {
+      "id": "ladder_hold_shift",
+      "ticks": 20,
+      "declaredIncluded": 20,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 20,
+      "incomplete": 0
+    },
+    {
+      "id": "ladder_slide_down",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "ladder_jump_up",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 1,
+      "equivalentInputs": 0,
+      "distinctStates": 29,
+      "incomplete": 0
+    },
+    {
+      "id": "vine_climb",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 4,
+      "equivalentInputs": 4,
+      "distinctStates": 22,
+      "incomplete": 0
+    },
+    {
+      "id": "trapdoor_ladder",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 4,
+      "equivalentInputs": 6,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "scaffolding_climb",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 1,
+      "distinctStates": 29,
+      "incomplete": 0
+    },
+    {
+      "id": "scaffolding_descend",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "speed_2_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "speed_1_sprint",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "slowness_1_walk",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "jump_boost_2",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "slow_falling",
+      "ticks": 60,
+      "declaredIncluded": 60,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 60,
+      "incomplete": 0
+    },
+    {
+      "id": "levitation",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "weaving_cobweb",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_speed_0_2",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_gravity_0_04_jump",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_jump_strength_0_6",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_sneaking_speed_0_5",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_scale_0_5_walk_gap",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 29,
+      "equivalentInputs": 0,
+      "distinctStates": 1,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_bounciness_0_5_wall",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 11,
+      "equivalentInputs": 0,
+      "distinctStates": 19,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_air_drag_modifier_0_5",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 3,
+      "equivalentInputs": 4,
+      "distinctStates": 23,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_friction_modifier_0_5_ice",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 30,
+      "equivalentInputs": 0,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "attr_movement_efficiency_0_5_soul_sand",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 29,
+      "equivalentInputs": 1,
+      "distinctStates": 0,
+      "incomplete": 0
+    },
+    {
+      "id": "knockback_applied",
+      "ticks": 40,
+      "declaredIncluded": 40,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 40,
+      "incomplete": 0
+    },
+    {
+      "id": "knockback_into_wall",
+      "ticks": 30,
+      "declaredIncluded": 30,
+      "unique": 0,
+      "equivalentInputs": 0,
+      "distinctStates": 30,
+      "incomplete": 0
+    },
+    {
+      "id": "explosion_launch",
+      "ticks": 80,
+      "declaredIncluded": 80,
+      "unique": 2,
+      "equivalentInputs": 77,
+      "distinctStates": 1,
+      "incomplete": 0
+    },
+    {
+      "id": "mixed_course_random_100",
+      "ticks": 100,
+      "declaredIncluded": 100,
+      "unique": 28,
+      "equivalentInputs": 45,
+      "distinctStates": 27,
+      "incomplete": 0
+    }
+  ],
+  "failures": []
+}

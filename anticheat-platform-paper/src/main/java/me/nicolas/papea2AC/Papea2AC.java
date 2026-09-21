@@ -168,8 +168,22 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             if(op.equals("arm")){sender.sendMessage(engine.physicsArm(player.getUniqueId(),scenario,facts));return true;}
             for(String line:engine.physicsOneStep(player.getUniqueId(),scenario,facts))sender.sendMessage(line);
             return true;
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("reconstruct")){
+            // Phase 6 diagnostic + real-client qualification tracer: which LEGAL inputs could explain each observed transition. An optional
+            // declared scenario is checked for MEMBERSHIP in the candidate set only (never assumed); nothing here is a verdict.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            String op=args.length>=3?args[2].toLowerCase(Locale.ROOT):"report";
+            if(op.equals("report")){for(String line:engine.reconstructReport(player.getUniqueId()))sender.sendMessage(line);return true;}
+            if(op.equals("cancel")){sender.sendMessage(engine.reconstructCancel(player.getUniqueId()));return true;}
+            if(op.equals("arm")){
+                me.nicolas.papea2ac.core.PhysicsQualification.Scenario declared=null;
+                if(args.length>=4){declared=me.nicolas.papea2ac.core.PhysicsQualification.Scenario.parse(args[3]);if(declared==null){sender.sendMessage("Unknown scenario; one of "+Arrays.toString(me.nicolas.papea2ac.core.PhysicsQualification.Scenario.values()));return true;}}
+                sender.sendMessage(engine.reconstructArm(player.getUniqueId(),declared,armFacts(player)));return true;
+            }
+            sender.sendMessage("Usage: /papea2ac reconstruct <name> [arm [declared-scenario] | report | cancel]");return true;
         }else if(args.length>0&&!args[0].equalsIgnoreCase("status")){
-            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
+            sender.sendMessage("Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]");return true;
         }
         sender.sendMessage("capture="+engine.captureEnabled()+" effectsSuspended="+engine.effectsSuspended()+" correlation=UNSUPPORTED");
         sender.sendMessage("Papea2AC OBSERVE_ONLY sessions="+engine.sessions()+" reservedBytes="+engine.reservedBytes());
@@ -192,6 +206,9 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         var phy=engine.physicsEngineStatus();
         sender.sendMessage("physics profile="+phy.profile()+" sha256="+phy.profileDigest().substring(0,16)+" sine="+phy.sineDigest().substring(0,16)+" blockTable="+phy.blockTableDigest().substring(0,16)+" blocks="+phy.blocks()+" fluidStates="+phy.fluidStates()
             +" effects="+phy.effects()+" attributes="+phy.attributes()+" diagnosticSteps="+phy.diagnosticSteps()+" diagnosticExact="+phy.diagnosticExact()+" activeTraces="+phy.activeTraces());
+        var rec=engine.reconstructionEngineStatus();
+        sender.sendMessage("reconstruction rawDomain="+rec.rawDomain()+" classes="+rec.contextFreeClasses()+" observation="+rec.observationProfile()+" caps="+rec.maxNodes()+"nodes/"+rec.maxEvaluations()+"evals/"+rec.maxTicks()+"ticks diagnosticRequests="+rec.diagnosticRequests()
+            +" diagnosticDeclaredPresent="+rec.diagnosticDeclaredPresent()+" diagnosticSamples="+rec.diagnosticSamples()+" activeTraces="+rec.activeTraces());
         var col=engine.collisionEngineStatus();
         sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
             +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()
