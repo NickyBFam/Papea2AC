@@ -19,22 +19,33 @@ import java.util.Objects;
  * ("Losing correlations widens the set and creates false negatives/UNCERTAIN, never permission to shrink it").
  */
 public record AbstractState(List<Box> boxes, boolean top, String topReason) {
-    /** One tagged box. Pose set and ground set are bit masks: {@link #GROUND_ON} / {@link #GROUND_OFF}, {@link #POSE_STANDING} / {@link #POSE_CROUCHING}. */
-    public record Box(Interval x, Interval y, Interval z, Interval vx, Interval vy, Interval vz, int ground, int poses, int noJumpDelayLo, int noJumpDelayHi) {
+    /**
+     * One tagged box. Pose set, ground set and sprint-modifier class set are bit masks: {@link #GROUND_ON} / {@link #GROUND_OFF}, {@link #POSE_STANDING} /
+     * {@link #POSE_CROUCHING}, {@link #SPRINT_FOLLOWS} / {@link #SPRINT_STUCK_ON} / {@link #SPRINT_STUCK_OFF} (P9-F1: {@link PhysicsState.SprintModifier}).
+     */
+    public record Box(Interval x, Interval y, Interval z, Interval vx, Interval vy, Interval vz, int ground, int poses, int noJumpDelayLo, int noJumpDelayHi, int sprintModes) {
         public Box {
             Objects.requireNonNull(x); Objects.requireNonNull(y); Objects.requireNonNull(z); Objects.requireNonNull(vx); Objects.requireNonNull(vy); Objects.requireNonNull(vz);
-            if (ground == 0 || (ground & ~3) != 0 || poses == 0 || (poses & ~3) != 0 || noJumpDelayLo < 0 || noJumpDelayHi < noJumpDelayLo) throw new IllegalArgumentException("box tags");
+            if (ground == 0 || (ground & ~3) != 0 || poses == 0 || (poses & ~3) != 0 || noJumpDelayLo < 0 || noJumpDelayHi < noJumpDelayLo || sprintModes == 0 || (sprintModes & ~7) != 0) throw new IllegalArgumentException("box tags");
         }
+        /** The Phase 6 tag set: the sprint modifier FOLLOWS the sprint input. */
+        public Box(Interval x, Interval y, Interval z, Interval vx, Interval vy, Interval vz, int ground, int poses, int noJumpDelayLo, int noJumpDelayHi) { this(x, y, z, vx, vy, vz, ground, poses, noJumpDelayLo, noJumpDelayHi, SPRINT_FOLLOWS); }
+        public boolean mayBe(PhysicsState.SprintModifier m) { return (sprintBit(m) & sprintModes) != 0; }
+        /** Whether every member of the state's class is represented (a MAYBE state needs both of its bits). */
+        boolean coversClass(PhysicsState.SprintModifier m) { return (sprintBit(m) & ~sprintModes) == 0; }
+        /** Equal in every tag and interval but the sprint-modifier class set. */
+        public boolean sameGeometry(Box o) { return x.equals(o.x) && y.equals(o.y) && z.equals(o.z) && vx.equals(o.vx) && vy.equals(o.vy) && vz.equals(o.vz) && ground == o.ground && poses == o.poses && noJumpDelayLo == o.noJumpDelayLo && noJumpDelayHi == o.noJumpDelayHi; }
+        public Box withSprintModes(int modes) { return new Box(x, y, z, vx, vy, vz, ground, poses, noJumpDelayLo, noJumpDelayHi, modes); }
         public boolean mayBeOnGround() { return (ground & GROUND_ON) != 0; }
         public boolean mayBeAirborne() { return (ground & GROUND_OFF) != 0; }
         public boolean mayBeStanding() { return (poses & POSE_STANDING) != 0; }
         public boolean mayBeCrouching() { return (poses & POSE_CROUCHING) != 0; }
         public boolean contains(PhysicsState s) {
             return x.contains(s.position().x()) && y.contains(s.position().y()) && z.contains(s.position().z()) && vx.contains(s.velocity().x()) && vy.contains(s.velocity().y()) && vz.contains(s.velocity().z())
-                && ((s.onGround() ? GROUND_ON : GROUND_OFF) & ground) != 0 && (poseBit(s.pose()) & poses) != 0 && s.noJumpDelay() >= noJumpDelayLo && s.noJumpDelay() <= noJumpDelayHi;
+                && ((s.onGround() ? GROUND_ON : GROUND_OFF) & ground) != 0 && (poseBit(s.pose()) & poses) != 0 && s.noJumpDelay() >= noJumpDelayLo && s.noJumpDelay() <= noJumpDelayHi && coversClass(s.sprintModifier());
         }
         public Box hull(Box o) {
-            return new Box(x.hull(o.x), y.hull(o.y), z.hull(o.z), vx.hull(o.vx), vy.hull(o.vy), vz.hull(o.vz), ground | o.ground, poses | o.poses, Math.min(noJumpDelayLo, o.noJumpDelayLo), Math.max(noJumpDelayHi, o.noJumpDelayHi));
+            return new Box(x.hull(o.x), y.hull(o.y), z.hull(o.z), vx.hull(o.vx), vy.hull(o.vy), vz.hull(o.vz), ground | o.ground, poses | o.poses, Math.min(noJumpDelayLo, o.noJumpDelayLo), Math.max(noJumpDelayHi, o.noJumpDelayHi), sprintModes | o.sprintModes);
         }
         /** Whether the position box meets the observation set (a point, or the outer cube of the silence ball - a sound superset of the ball). */
         public boolean intersectsPosition(TickObservation.Position p, MovementObservationProfile profile) {
@@ -46,7 +57,9 @@ public record AbstractState(List<Box> boxes, boolean top, String topReason) {
         }
         public boolean bounded() { return x.bounded() && y.bounded() && z.bounded() && vx.bounded() && vy.bounded() && vz.bounded(); }
     }
-    public static final int GROUND_ON = 1, GROUND_OFF = 2, GROUND_ANY = 3, POSE_STANDING = 1, POSE_CROUCHING = 2, POSE_ANY = 3;
+    public static final int GROUND_ON = 1, GROUND_OFF = 2, GROUND_ANY = 3, POSE_STANDING = 1, POSE_CROUCHING = 2, POSE_ANY = 3, SPRINT_FOLLOWS = 1, SPRINT_STUCK_ON = 2, SPRINT_STUCK_OFF = 4;
+    /** The bit set of a class (a MAYBE class is the union of its members' bits). */
+    public static int sprintBit(PhysicsState.SprintModifier m) { return switch (m) { case FOLLOWS -> SPRINT_FOLLOWS; case STUCK_ON -> SPRINT_STUCK_ON; case STUCK_OFF -> SPRINT_STUCK_OFF; case MAYBE_STUCK_ON -> SPRINT_FOLLOWS | SPRINT_STUCK_ON; case MAYBE_STUCK_OFF -> SPRINT_FOLLOWS | SPRINT_STUCK_OFF; }; }
     /** Maximum boxes retained before the union is hulled into fewer boxes (bounded representation; hulling is sound). */
     public static final int MAX_BOXES = 16;
     public static final AbstractState TOP = new AbstractState(List.of(), true, "top");
@@ -66,7 +79,7 @@ public record AbstractState(List<Box> boxes, boolean top, String topReason) {
         if (s.stuck().lengthSqr() != 0.0 || s.inPowderSnow()) return top("stuck multiplier / powder snow");
         if (!s.finite()) return top("non-finite state");
         Vec3d p = s.position(), v = s.velocity();
-        return of(new Box(Interval.point(p.x()), Interval.point(p.y()), Interval.point(p.z()), Interval.point(v.x()), Interval.point(v.y()), Interval.point(v.z()), s.onGround() ? GROUND_ON : GROUND_OFF, poseBit(s.pose()), s.noJumpDelay(), s.noJumpDelay()));
+        return of(new Box(Interval.point(p.x()), Interval.point(p.y()), Interval.point(p.z()), Interval.point(v.x()), Interval.point(v.y()), Interval.point(v.z()), s.onGround() ? GROUND_ON : GROUND_OFF, poseBit(s.pose()), s.noJumpDelay(), s.noJumpDelay(), sprintBit(s.sprintModifier())));
     }
     /** Whether the concrete state is represented (TOP represents everything). */
     public boolean contains(PhysicsState s) {

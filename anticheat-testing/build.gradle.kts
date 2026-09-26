@@ -218,8 +218,8 @@ tasks.register<JavaExec>("physicsNativeDifferential") {
     classpath = nativeTest.runtimeClasspath
     mainClass.set("me.nicolas.papea2ac.testing.PhysicsOracleMain")
     args(rootProject.file(".phase1-runtime").absolutePath, layout.buildDirectory.dir("physics-oracle").get().asFile.absolutePath,
-         rootProject.file("docs/phase6-artifacts").absolutePath, tasks.named<Jar>("physicsOracleJar").get().archiveFile.get().asFile.absolutePath)
-    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; rootProject.file("docs/phase6-artifacts").mkdirs() }
+         rootProject.file("docs/phase9-artifacts").absolutePath, tasks.named<Jar>("physicsOracleJar").get().archiveFile.get().asFile.absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; rootProject.file("docs/phase9-artifacts").mkdirs() }
 }
 // the nativeTest lane reuses the test lane's scenario catalog / world builders (same package, package-private access)
 dependencies { add(nativeTest.implementationConfigurationName, sourceSets.test.get().output) }
@@ -255,7 +255,7 @@ tasks.register<JavaExec>("reconstructionFixtures") {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("me.nicolas.papea2ac.testing.ReconstructionFixtureMain")
-    args(rootProject.file("docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json").absolutePath, rootProject.file("docs/phase6-artifacts/input-domain.json").absolutePath)
+    args(rootProject.file("docs/phase9-artifacts/reconstruction-fixtures/reconstruction-fixtures.json").absolutePath, rootProject.file("docs/phase9-artifacts/input-domain.json").absolutePath) // P9-F3 re-pin; docs/phase6-artifacts keeps the P6 pin
     doFirst { rootProject.file("docs/phase6-artifacts/reconstruction-fixtures").mkdirs() }
 }
 tasks.register<JavaExec>("reconstructionDistribution") {
@@ -292,8 +292,8 @@ tasks.register<JavaExec>("timingFixtures") {
     dependsOn(tasks.named("testClasses"))
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("me.nicolas.papea2ac.testing.TimingFixtureMain")
-    args(rootProject.file("docs/phase7-artifacts").absolutePath)
-    doFirst { rootProject.file("docs/phase7-artifacts").mkdirs() }
+    args(rootProject.file("docs/phase9-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
 }
 tasks.register<JavaExec>("timingMemoryHarness") {
     description = "Empirical (forced-GC heap diff + thread allocation) Phase 7 memory estimate: per-session ledger/estimator/marker state, retained resolutions, per-resolution allocation, timing-only versus timing + reconstruction. Not a supported-capacity claim."
@@ -316,6 +316,36 @@ tasks.register<JavaExec>("benchmarkTiming") {
 }
 
 // ---- Phase 8: validation fixtures/corpora artifacts, memory harness, JMH
+// ---- Phase 9: evidence artifacts, memory harness, JMH
+tasks.register<JavaExec>("evidenceFixtures") {
+    description = "Phase 9 evidence artifacts under docs/phase9-artifacts: the false-evidence gate over the Phase 8 legitimate corpus, the impossible-movement evidence corpus, duplicate-delivery, window/ordering/epoch results and the deterministic evidence fixtures. Fails on any positive evidence from a legitimate transition."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.EvidenceFixtureMain")
+    maxHeapSize = "2g"
+    args(rootProject.file("docs/phase9-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("evidenceMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 9 memory estimate: empty / typical / full bounded session evidence state, per event, per snapshot, 100 retained snapshots, per-ingest allocation. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.EvidenceMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase9-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkEvidence") {
+    description = "Phase 9 JMH kernels: evidence-only (VALID/UNCERTAIN/INVALID/duplicate ingest, snapshots 0/1/many/full, window expiry, world-epoch segment, session replacement, mixed 100-record stream, full bounded ingest) and end to end (Phase 8 validation + projection + ingest). Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "EvidenceBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase9-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms")
+    doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
+}
 tasks.register<JavaExec>("validationMemoryHarness") {
     description = "Empirical (forced-GC heap diff + thread allocation) Phase 8 memory estimate: validator, live runner empty/anchored, context ledger empty/at bounds, retained results, per-result allocation classifier-only versus end to end. Not a supported-capacity claim."
     dependsOn(tasks.named("testClasses"))
@@ -342,6 +372,6 @@ tasks.register<JavaExec>("validationFixtures") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("me.nicolas.papea2ac.testing.ValidationFixtureMain")
     maxHeapSize = "2g"
-    args(rootProject.file("docs/phase8-artifacts").absolutePath)
-    doFirst { rootProject.file("docs/phase8-artifacts").mkdirs() }
+    args(rootProject.file("docs/phase9-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
 }

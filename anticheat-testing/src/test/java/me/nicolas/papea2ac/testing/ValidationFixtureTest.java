@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import org.junit.jupiter.api.Test;
-/** Deterministic replay of the pinned validation fixtures (docs/phase8-artifacts/validation-fixtures/validation-fixtures.json): identical classification, reasons, completeness, counts and digest per case; every case meets its declared expectation. */
+/** Deterministic replay of the pinned validation fixtures (docs/phase9-artifacts/validation-fixtures/validation-fixtures.json - the P9-F3 re-pin; docs/phase8-artifacts keeps the Phase 8 pin): identical classification, reasons, completeness, counts and digest per case; every case meets its declared expectation. */
 class ValidationFixtureTest {
-    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase8-artifacts/validation-fixtures/validation-fixtures.json");
+    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase9-artifacts/validation-fixtures/validation-fixtures.json");
 
     @Test void everyFixtureCaseReproducesItsPinnedSummaryAndMeetsItsExpectation() throws Exception {
         assertTrue(Files.exists(FIXTURES), "run gradlew.bat validationFixtures first");

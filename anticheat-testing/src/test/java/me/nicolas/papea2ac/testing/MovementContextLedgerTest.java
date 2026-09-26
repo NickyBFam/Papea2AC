@@ -52,7 +52,7 @@ class MovementContextLedgerTest {
     }
     @Test void onlyPhysicsRelevantEntitiesAreTrackedAndTheBoundIsHonest() {
         MovementContextLedger l = new MovementContextLedger(KEY); long seq = 1;
-        for (int i = 0; i < 5000; i++) l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 100 + i, i % 2 == 0 ? "minecraft:item" : "minecraft:cow", i, 64, 0)); // P8-F3: an ordinary world
+        for (int i = 0; i < 5000; i++) l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 100 + i, i % 2 == 0 ? "minecraft:item" : "minecraft:arrow", i, 64, 0)); // P8-F3: an ordinary world (P9-F5: animals push in 26.2 - EntityPushClassificationTest)
         assertTrue(l.view().entitiesComplete()); assertEquals(0, l.view().trackedEntities()); assertTrue(l.view().relevantEntities().isEmpty());
         l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 7, "minecraft:player", 3, 64, 0)); l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 8, "minecraft:oak_boat", 9, 64, 0)); l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 9, "minecraft:shulker", 20, 64, 0)); l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 10, "minecraft:bamboo_raft", 30, 64, 0));
         assertEquals(4, l.view().trackedEntities()); assertTrue(l.view().anyRelevantEntityNear(0, 64, 0, 4, 4)); assertFalse(l.view().anyRelevantEntityNear(0, 70, 0, 4, 4)); assertFalse(l.view().anyRelevantEntityNear(15, 64, 0, 4, 4));
@@ -81,6 +81,9 @@ class MovementContextLedgerTest {
         assertTrue(other.isEmpty(), "another entity's attributes are not this player's context");
         var spawn = ContextObservationMapper.map(ob(5, new SemanticPayload.EntitySpawn(77, UUID.randomUUID(), "minecraft:player", new PacketPayload.Position(1, 2, 3), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f), 0f, 0)), self);
         assertTrue(spawn.stream().anyMatch(e -> e instanceof ContextEvent.EntitySpawned s && s.entityId() == 77 && s.type().equals("minecraft:player")), spawn.toString());
+        // P9-F5: vanilla sends every spawn inside ServerEntity.addPairing's bundle; its children are mapped in order under the bundle's sequence
+        var bundled = ContextObservationMapper.map(ob(9, new PacketPayload.Bundle(List.of(new SemanticPayload.Attributes(78, List.of()), new SemanticPayload.EntitySpawn(78, UUID.randomUUID(), "minecraft:rabbit", new PacketPayload.Position(1, 2, 3), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f), 0f, 0)))), self);
+        assertEquals(1, bundled.size(), bundled.toString()); assertTrue(bundled.get(0) instanceof ContextEvent.EntitySpawned s && s.entityId() == 78 && s.type().equals("minecraft:rabbit") && s.sequence() == 9, bundled.toString());
         var selfSpawn = ContextObservationMapper.map(ob(6, new SemanticPayload.EntitySpawn(self, UUID.randomUUID(), "minecraft:player", new PacketPayload.Position(1, 2, 3), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f), 0f, 0)), self);
         assertTrue(selfSpawn.isEmpty(), "the player's own entity is never a neighbour");
         var border = ContextObservationMapper.map(ob(7, new SemanticPayload.BorderInitialize(0, 0, 100, 100, 0, 29999984, 5, 15)), self);

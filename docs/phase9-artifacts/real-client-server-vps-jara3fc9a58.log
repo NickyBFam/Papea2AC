@@ -1,0 +1,120 @@
+Starting org.bukkit.craftbukkit.Main
+[03:57:06 INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM <redacted-ip>+1-LTS; Eclipse Adoptium Temurin-<redacted-ip>+1) on Linux 6.8.0-138-generic (amd64)
+[03:57:06 INFO]: [bootstrap] Loading Paper 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) for Minecraft 26.2
+[03:57:06 INFO]: [PluginInitializerManager] Initializing plugins...
+[03:57:07 INFO]: [PluginInitializerManager] Initialized 1 plugin
+[03:57:07 INFO]: [PluginInitializerManager] Bukkit plugins (1):
+ - Papea2AC (1.0-SNAPSHOT)
+[03:57:17 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[03:57:17 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[03:57:18 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 1,027.3ms
+[03:57:23 INFO]: Loaded 1585 recipes
+[03:57:23 INFO]: Loaded 1688 advancements
+[03:57:23 INFO]: Starting minecraft server version 26.2
+[03:57:23 INFO]: Loading properties
+[03:57:23 INFO]: This server is running Paper version 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) (Implementing API version 26.2.build.124-stable)
+[03:57:23 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[03:57:24 INFO]: Server Ping Player Sample Count: 12
+[03:57:24 INFO]: Using 4 threads for Netty based IO
+[03:57:25 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[03:57:25 INFO]: Default game type: SURVIVAL
+[03:57:25 INFO]: Generating keypair
+[03:57:25 INFO]: Starting Minecraft server on *:25565
+[03:57:25 INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[03:57:25 INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[03:57:26 INFO]: [Papea2AC] Loading server plugin Papea2AC v1.0-SNAPSHOT
+[03:57:26 INFO]: Preparing level "world"
+[03:57:28 INFO]: Loading 36 persistent chunks for level 'minecraft:overworld'...
+[03:57:28 INFO]: Preparing spawn area: 21%
+[03:57:28 INFO]: Preparing spawn area: 21%
+[03:57:30 INFO]: Prepared spawn area in 2042 ms
+[03:57:30 INFO]: Loading 0 persistent chunks for level 'minecraft:the_nether'...
+[03:57:30 INFO]: Prepared spawn area in 1 ms
+[03:57:30 INFO]: Loading 0 persistent chunks for level 'minecraft:the_end'...
+[03:57:30 INFO]: Prepared spawn area in 1 ms
+[03:57:30 INFO]: Done preparing level "world" (3.813s)
+[03:57:30 INFO]: [Papea2AC] Enabling Papea2AC v1.0-SNAPSHOT
+[03:57:30 WARN]: [Papea2AC] DEVELOPMENT OBSERVE_ONLY: authoritative outcomes and complete packet inventory are unqualified.
+[03:57:31 INFO]: [spark] Starting background profiler...
+[03:57:32 INFO]: Starting remote control listener
+[03:57:32 INFO]: RCON running on <redacted-ip>
+[03:57:32 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[03:57:33 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[03:57:33 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[03:57:33 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[03:57:33 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[03:57:33 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[03:57:33 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[03:57:33 INFO]: Running delayed init tasks
+[03:57:33 INFO]: Done (29.992s)! For help, type "help"
+[03:57:33 INFO]: *** Currently you are 5 builds behind ***
+[03:57:33 INFO]: *** It is highly recommended to download the latest build from https://papermc.io/downloads/paper ***
+[04:07:08 INFO]: UUID of player iDTR is d89977fd-3de6-4ab4-82d0-ff52f7564c44
+[04:07:10 INFO]: iDTR joined the game
+[04:07:10 INFO]: iDTR[<redacted-ip>] logged in with entity id 28 at ([minecraft:overworld]-293.2980790565837, 73.0, -446.69999998807907)
+[04:07:14 INFO]: [Not Secure] [Rcon] Welcome back iDTR! New build is live (animals no longer confuse it). Keep playing normally - mixed movement, near animals is great too.
+[04:08:20 INFO]: [Papea2AC] P9-F2 forensic capture frozen for session=1 seq=72591->72682 (762 lines; /papea2ac validate <name> forensic report)
+[04:08:20 INFO]: [Papea2AC] live INVALID session=1 seq=72682 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=576 obs h=0.0604 rise=0.0000 legal h<=0.3274 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+  validation INVALID seq=72591->72682 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 4->0 (incomplete)
+    completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+    residual observed h=0.060364 rise=0.000000 | legal h<=0.327400 rise in [0.000000, 0.420000] (ENVELOPE) excess h=0.000000 v=0.000000
+    nearest h1 S---R- d=(-1.544e-02,0.000e+00,1.587e-02) outside=2.215e-02
+    nearest h1 S--CR- d=(-1.544e-02,0.000e+00,1.587e-02) outside=2.215e-02
+    nearest h1 S----- d=(-2.166e-02,0.000e+00,2.213e-02) outside=3.096e-02
+    nearest h1 S--C-- d=(-2.166e-02,0.000e+00,2.213e-02) outside=3.096e-02
+    proof: hypotheses=1 [h1] reconstructions=1 evaluations=576 enumerated=576 excludedExact=576 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@735
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+    note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+[04:08:26 INFO]: [Papea2AC] live INVALID session=1 seq=79990 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=2 eval=1152 obs h=0.0554 rise=0.0000 legal h<=0.3274 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+  validation INVALID seq=79148->79990 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=2 legal=0/0 frontier 2->0 (incomplete)
+    completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+    residual observed h=0.055369 rise=0.000000 | legal h<=0.327400 rise in [0.000000, 0.420000] (SIMULATED_COMPLETE) excess h=0.000000 v=0.000000
+    nearest h3 ------>---C-->S---R- d=(-1.156e-02,0.000e+00,1.314e-02) outside=1.750e-02
+    nearest h3 ------>---C-->S--CR- d=(-1.156e-02,0.000e+00,1.314e-02) outside=1.750e-02
+    nearest h3 ------>---C-->S----- d=(-1.880e-02,0.000e+00,1.817e-02) outside=2.615e-02
+    nearest h3 ------>---C-->S--C-- d=(-1.880e-02,0.000e+00,1.817e-02) outside=2.615e-02
+    proof: hypotheses=1 [h3] reconstructions=2 evaluations=1152 enumerated=864 excludedExact=832 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@735
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+    note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+[04:08:47 INFO]: iDTR has made the advancement [Stone Age]
+[04:08:59 INFO]: iDTR has made the advancement [Getting an Upgrade]
+[04:09:15 INFO]: [Not Secure] [Rcon] HOLD please iDTR - stand still for a moment, analysing
+[04:11:38 INFO]: [Rcon: Summoned new Pig]
+[04:11:41 INFO]: [Rcon: Killed Pig]
+[04:14:58 INFO]: [Not Secure] [Rcon] Found it: the plugin could not see mobs/animals at all (they arrive bundled). Fixing now, new build in ~10 min - you can keep playing meanwhile.
+[04:17:56 INFO]: [Not Secure] [Rcon] Restarting in 10s with the new build - rejoin right after please!
+[04:18:07 INFO]: Stopping server
+[04:18:07 INFO]: [Papea2AC] Disabling Papea2AC v1.0-SNAPSHOT
+[04:18:07 INFO]: Saving players
+[04:18:07 INFO]: iDTR lost connection: Server closed
+[04:18:07 INFO]: iDTR left the game
+[04:18:07 INFO]: Saving worlds
+[04:18:07 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[04:18:07 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:overworld'
+[04:18:07 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:overworld'
+[04:18:07 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:overworld'
+[04:18:08 INFO]: [ChunkHolderManager] Saved 778 block chunks, 152 entity chunks, 0 poi chunks in world 'minecraft:overworld' in 1.05s
+[04:18:08 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:overworld'
+[04:18:08 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:overworld'
+[04:18:08 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[04:18:08 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_nether'
+[04:18:08 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_nether'
+[04:18:08 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_nether'
+[04:18:08 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_nether' in 0.00s
+[04:18:08 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_nether'
+[04:18:08 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_nether'
+[04:18:08 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[04:18:08 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_end'
+[04:18:08 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_end'
+[04:18:08 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_end'
+[04:18:08 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_end' in 0.00s
+[04:18:08 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_end'
+[04:18:08 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_end'
+[04:18:08 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[04:18:08 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[04:18:08 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[04:18:08 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[04:18:08 INFO]: Waiting for all RegionFile I/O tasks to complete...
+[04:18:08 INFO]: All RegionFile I/O tasks to complete
+[04:18:08 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+[04:18:08 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...

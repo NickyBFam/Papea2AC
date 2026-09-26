@@ -174,7 +174,7 @@ public final class PhysicsOracleMain {
         rec.put("phase", "6 - Input Reconstruction"); rec.put("oracle", "per-tick states of the pinned Paper 26.2 build 124 server process (this run), start = server state before the tick, observation = server state after it, declared input hidden");
         rec.put("ticksChecked", recTicks); rec.put("declaredInputIncluded", recIncluded); rec.put("declaredInputExactWitness", recWitness); rec.put("falseExclusions", recTicks - recIncluded);
         rec.put("uniqueTicks", recUnique); rec.put("equivalentInputTicks", recEquivalent); rec.put("distinctStateTicks", recDistinct); rec.put("incompleteTicks", recIncomplete); rec.put("perScenario", recRows); rec.put("failures", new ArrayList<Object>(recFailures));
-        Path phase6 = artifacts; Files.createDirectories(phase6); // since P6-F1 the artifacts directory IS docs/phase6-artifacts
+        Path phase6 = artifacts; Files.createDirectories(phase6); // since P9-F3 the artifacts directory IS docs/phase9-artifacts (P6-F1 pinned docs/phase6-artifacts; both kept as history)
         Files.writeString(phase6.resolve("native-reconstruction-oracle-results.json"), MiniJson.write(rec) + "\n", StandardCharsets.UTF_8);
         System.out.println("INPUT RECONSTRUCTION vs ORACLE STATES: ticks=" + recTicks + " declaredIncluded=" + recIncluded + " witness=" + recWitness + " unique=" + recUnique + " equivalentInputs=" + recEquivalent + " distinctStates=" + recDistinct + " incomplete=" + recIncomplete + " falseExclusions=" + (recTicks - recIncluded));
         for (String f : recFailures) System.out.println("  FALSE EXCLUSION " + f);

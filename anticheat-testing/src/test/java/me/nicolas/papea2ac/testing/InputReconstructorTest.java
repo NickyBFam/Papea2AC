@@ -19,10 +19,31 @@ import org.junit.jupiter.api.Test;
  */
 class InputReconstructorTest {
     // ---- outcomes
+    /**
+     * P9-F3 (pinned 26.2 client, LocalPlayer.aiStep): the sneak scaling of a tick follows the pose the tick STARTS in, so the sneak key of the
+     * LAST observed tick changes nothing that tick moves - only the pose it ends in. A reconstruction whose movement is unique therefore ends in
+     * exactly two states that differ in nothing but that pose, from two histories that differ in nothing but that final key. Asserted exactly.
+     */
+    static void assertUniqueUpToFinalSneak(ReconstructionResult r, String expectedKeysWithoutFinalShift) {
+        assertEquals(Status.EXACT_AMBIGUOUS, r.status(), dump(r)); assertEquals(ReconstructionResult.Ambiguity.DISTINCT_STATES, r.ambiguity(), dump(r));
+        assertEquals(2, r.counts().matchingStates(), "standing and crouching end states only: " + dump(r));
+        List<PhysicsState> ends = new ArrayList<>(); Set<String> keysNoShift = new LinkedHashSet<>(); Set<Boolean> finalShift = new LinkedHashSet<>();
+        for (ReconstructionResult.Candidate c : r.candidates()) {
+            ends.add(c.predicted());
+            List<MovementInput> h = c.input(); MovementInput last = h.get(h.size() - 1);
+            finalShift.add(last.shift());
+            List<MovementInput> norm = new ArrayList<>(h.subList(0, h.size() - 1)); norm.add(new MovementInput(last.forward(), last.strafe(), last.jump(), false, last.sprinting(), last.usingItem(), last.yaw()));
+            keysNoShift.add(keys(norm));
+        }
+        assertEquals(Set.of(expectedKeysWithoutFinalShift), keysNoShift, "every other input dimension is unique: " + dump(r));
+        assertEquals(Set.of(true, false), finalShift, "the two histories differ exactly in the final sneak key: " + dump(r));
+        assertEquals(2, ends.size());
+        assertEquals(ends.get(0).withPose(PlayerBox.Pose.STANDING), ends.get(1).withPose(PlayerBox.Pose.STANDING), "the end states differ in nothing but the pose: " + dump(r));
+        assertNotEquals(ends.get(0).pose(), ends.get(1).pose());
+    }
     @Test void holdingWFromRestIsUniquelyReconstructed() {
         PhysicsScene ps = new PhysicsScene(); ReconstructionResult r = reconstruct(ps, settled(ps, 8.5, SURFACE, 8.5), W);
-        assertEquals(Status.EXACT_UNIQUE, r.status(), dump(r)); assertTrue(r.complete()); assertEquals(ReconstructionResult.Ambiguity.UNIQUE, r.ambiguity());
-        assertEquals("W-----", keys(r.candidates().get(0).input())); assertEquals(1, r.counts().matchingHistories()); assertEquals(144, r.counts().rawEnumerated());
+        assertUniqueUpToFinalSneak(r, "W-----"); assertTrue(r.complete()); assertEquals(2, r.counts().matchingHistories()); assertEquals(144, r.counts().rawEnumerated());
         assertEquals(ReconstructionResult.Match.EXACT_WITNESS, r.candidates().get(0).match()); assertEquals(PhysicsResult.Status.EXACT, r.candidates().get(0).physicsStatus());
         assertEquals(0.0, r.candidates().get(0).residual().outsideDistance()); assertTrue(r.candidates().get(0).residual().groundClaimAgrees());
     }
@@ -37,7 +58,7 @@ class InputReconstructorTest {
     @Test void jumpKeyInMidAirIsAnEquivalentInputNotAGuess() {
         PhysicsScene ps = new PhysicsScene(); PhysicsState air = ps.step(settled(ps, 8.5, SURFACE, 8.5), JUMP).next();
         ReconstructionResult r = reconstruct(ps, air, W);
-        assertEquals(Status.EXACT_AMBIGUOUS, r.status(), dump(r)); assertEquals(2, r.counts().matchingStates(), "jump held vs released differ only in noJumpDelay");
+        assertEquals(Status.EXACT_AMBIGUOUS, r.status(), dump(r)); assertEquals(4, r.counts().matchingStates(), "jump held vs released differ only in noJumpDelay, and each ends standing or crouching (P9-F3: the final sneak key moves nothing)");
         assertTrue(r.admits(List.of(W))); assertTrue(r.admits(List.of(W_JUMP))); assertFalse(r.admits(List.of(W_SPRINT)), "air sprint speed is observable");
     }
     @Test void anUnreachableObservationIsNoModelledCandidateNotAVerdict() {
@@ -53,11 +74,11 @@ class InputReconstructorTest {
         PhysicsScene ps = new PhysicsScene(); PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5); PhysicsEnvironment env = ps.env();
         List<TickObservation> obs = observations(ps, env, rest, List.of(W_SPRINT));
         ReconstructionResult r = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, obs, env).withConstraints(InputDomain.Constraints.NONE.withSprinting(true).withStrafe(0)));
-        assertEquals(24, r.counts().rawCandidatesPerTick()); assertEquals(Status.EXACT_UNIQUE, r.status(), dump(r)); assertEquals("W---R-", keys(r.candidates().get(0).input()));
+        assertEquals(24, r.counts().rawCandidatesPerTick()); assertUniqueUpToFinalSneak(r, "W---R-");
         ReconstructionResult w = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, obs, env).withWitness(W_SPRINT).withEnvelopePruning(false));
-        assertTrue(w.candidates().get(0).witnessProposal(), "the reported input is tried first and flagged"); assertEquals(Status.EXACT_UNIQUE, w.status());
+        assertTrue(w.candidates().get(0).witnessProposal(), "the reported input is tried first and flagged"); assertUniqueUpToFinalSneak(w, "W---R-");
         ReconstructionResult lie = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, obs, env).withWitness(W));
-        assertFalse(lie.candidates().get(0).witnessProposal(), "a reported input that does not explain the observation is simply not a witness (no verdict)"); assertEquals(Status.EXACT_UNIQUE, lie.status());
+        assertFalse(lie.candidates().get(0).witnessProposal(), "a reported input that does not explain the observation is simply not a witness (no verdict)"); assertUniqueUpToFinalSneak(lie, "W---R-");
     }
     @Test void aWrongInputConstraintYieldsAnEmptyCompleteSet() {
         PhysicsScene ps = new PhysicsScene(); PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5); PhysicsEnvironment env = ps.env();
@@ -153,7 +174,7 @@ class InputReconstructorTest {
     // ---- multi-tick
     @Test void twoAndThreeTickHypothesesReconstructTheHistory() {
         PhysicsScene ps = new PhysicsScene(); PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5);
-        ReconstructionResult two = reconstruct(ps, rest, List.of(W, W_A)); assertEquals(Status.EXACT_UNIQUE, two.status(), dump(two)); assertEquals("W----->WA----", keys(two.candidates().get(0).input()));
+        ReconstructionResult two = reconstruct(ps, rest, List.of(W, W_A)); assertUniqueUpToFinalSneak(two, "W----->WA----");
         ReconstructionResult three = reconstruct(ps, rest, List.of(W, JUMP, W_SPRINT)); assertTrue(three.complete(), dump(three)); assertTrue(three.witnesses(List.of(W, JUMP, W_SPRINT)), dump(three));
         assertEquals(3, three.provenance().ticks());
     }
@@ -161,7 +182,7 @@ class InputReconstructorTest {
         PhysicsScene ps = new PhysicsScene(); PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5); PhysicsEnvironment env = ps.env();
         List<TickObservation> obs = observations(ps, env, rest, List.of(W, W));
         ReconstructionResult r = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, List.of(TickObservation.unobserved(0f, 100), obs.get(1)), env));
-        assertEquals(Status.EXACT_UNIQUE, r.status(), dump(r)); assertEquals("W----->W-----", keys(r.candidates().get(0).input())); assertTrue(r.counts().excludedEnvelope() > 100 && r.work().evaluations() < 300, "the sound one-tick lookahead excludes the tick-1 inputs that cannot reach the tick-2 observation: " + dump(r));
+        assertUniqueUpToFinalSneak(r, "W----->W-----"); assertTrue(r.counts().excludedEnvelope() > 100 && r.work().evaluations() < 300, "the sound one-tick lookahead excludes the tick-1 inputs that cannot reach the tick-2 observation: " + dump(r));
         ReconstructionResult off = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, List.of(TickObservation.unobserved(0f, 100), obs.get(1)), env).withEnvelopePruning(false));
         assertEquals(Status.SEARCH_LIMIT, off.status(), "without the sound envelope the Cartesian expansion exhausts the 4096-evaluation cap and says so"); assertFalse(off.complete());
     }
@@ -185,7 +206,7 @@ class InputReconstructorTest {
         PhysicsResult w = ps.step(rest, W, env);
         TickObservation lying = TickObservation.exact(w.next().position().x(), w.next().position().y(), w.next().position().z(), 0f, TickObservation.GroundClaim.FALSE, 1);
         ReconstructionResult r = reconstructor(ps).reconstruct(ReconstructionRequest.of(rest, lying, env));
-        assertEquals(Status.EXACT_UNIQUE, r.status()); assertTrue(r.candidates().get(0).residual().groundClaimPresent()); assertFalse(r.candidates().get(0).residual().groundClaimAgrees(), "disagreement is data for Phase 8, not an exclusion");
+        assertUniqueUpToFinalSneak(r, "W-----"); assertTrue(r.candidates().get(0).residual().groundClaimPresent()); assertFalse(r.candidates().get(0).residual().groundClaimAgrees(), "disagreement is data for Phase 8, not an exclusion");
     }
     @Test void sameRequestSameResult() {
         PhysicsScene ps = new PhysicsScene(); PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5); PhysicsEnvironment env = ps.env();

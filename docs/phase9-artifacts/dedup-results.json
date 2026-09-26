@@ -1,0 +1,9 @@
+{
+  "phase": "9",
+  "method": "every record of every impossible-corpus chain delivered twice in a row into a fresh ledger",
+  "chains": 3290,
+  "singleDeliveryEvents": 3290,
+  "doubleDeliveryEvents": 3290,
+  "duplicatesReported": 3290,
+  "gate": "doubleDeliveryEvents == singleDeliveryEvents and duplicatesReported == singleDeliveryEvents"
+}

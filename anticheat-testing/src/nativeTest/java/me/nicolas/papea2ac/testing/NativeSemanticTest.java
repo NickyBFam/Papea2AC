@@ -83,6 +83,18 @@ class NativeSemanticTest {
             5,new UUID(1,2),1d,64d,3d,15f,45f,value("net.minecraft.world.entity.EntityTypes","PIG"),7,vec(.1,.2,.3),90d);
         var spawn=(EntitySpawn)check(p);assertEquals(5,spawn.entityId());assertEquals(new UUID(1,2),spawn.uuid());assertEquals(7,spawn.data());assertEquals(.2,spawn.delta().y());
     }
+    /** P9-F5: vanilla pairs a tracked entity as ONE bundle (ServerEntity.addPairing); the spawn inside it must reach the neighbourhood tracker as a pusher. */
+    @Test void aBundledNativeSpawnReachesTheNeighbourhoodTracker()throws Exception{
+        Object spawn=create(GAME+"ClientboundAddEntityPacket",new Class<?>[]{int.class,UUID.class,double.class,double.class,double.class,float.class,float.class,type("net.minecraft.world.entity.EntityType"),int.class,type("net.minecraft.world.phys.Vec3"),double.class},
+            9,new UUID(3,4),10d,64d,-3d,0f,0f,value("net.minecraft.world.entity.EntityTypes","LLAMA"),0,vec(0,0,0),0d);
+        var bundle=(PacketPayload.Bundle)check(create(GAME+"ClientboundBundlePacket",new Class<?>[]{Iterable.class},List.of(spawn)));
+        var key=new me.nicolas.papea2ac.model.SessionKey(new UUID(5,6),1);
+        var events=me.nicolas.papea2ac.core.ContextObservationMapper.map(new Observation(key,11,11,0,new Observation.Outbound(11,bundle)),42);
+        assertEquals(1,events.size(),events.toString());
+        var s=(me.nicolas.papea2ac.player.ContextEvent.EntitySpawned)events.get(0);assertEquals(9,s.entityId());assertEquals("minecraft:llama",s.type());assertEquals(11,s.sequence());
+        var ledger=new me.nicolas.papea2ac.player.MovementContextLedger(key);events.forEach(e->ledger.apply(key,e));
+        assertTrue(ledger.view().anyRelevantEntityNear(10,64,-2,4,4),"the bundled llama is a pusher next to that position");
+    }
     @Test void worldBorderCopiesEveryCommunicatedPrimitive()throws Exception{
         Object border=create("net.minecraft.world.level.border.WorldBorder",new Class<?>[]{});
         border.getClass().getMethod("setCenter",double.class,double.class).invoke(border,12d,-9d);

@@ -1,0 +1,41 @@
+diff --git a/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java b/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
+index 1435fa1..498cd78 100644
+--- a/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
++++ b/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
+@@ -52,6 +52,14 @@ final class PhysicsScenarios {
+         for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = -PLATFORM_HALF; z <= PLATFORM_HALF; z++) b.add(new Block(x, PLATFORM_Y, z, x >= x0 && x <= x1 && z >= z0 && z <= z1 ? state : STONE));
+         return b;
+     }
++    /** Walking forward with the sneak key toggled every {@code period} ticks (P9-F2 probe: the transition ticks, not a held key). */
++    private static List<Tick> toggle(float yaw, int n, int period) { List<Tick> l = new ArrayList<>(n); for (int i = 0; i < n; i++) l.add(new Tick(1, 0, false, (i / period) % 2 == 1, false, false, yaw)); return l; }
++    /** Walking forward with the sprint key toggled every {@code period} ticks. */
++    private static List<Tick> toggleSprint(float yaw, int n, int period) { List<Tick> l = new ArrayList<>(n); for (int i = 0; i < n; i++) l.add(new Tick(1, 0, false, false, (i / period) % 2 == 0, false, yaw)); return l; }
++    /** A bottom-slab strip on top of the platform over z in [z0, z1] (a half-block ledge). */
++    private static List<Block> slabStrip(int z0, int z1) { List<Block> b = new ArrayList<>(); for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = z0; z <= z1; z++) b.add(new Block(x, PLATFORM_Y + 1, z, "minecraft:oak_slab[type=bottom,waterlogged=false]")); return b; }
++    /** A stair strip on top of the platform over z in [z0, z1] (a half-block ledge with a non-cube shape). */
++    private static List<Block> stairStrip(int z0, int z1) { List<Block> b = new ArrayList<>(); for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = z0; z <= z1; z++) b.add(new Block(x, PLATFORM_Y + 1, z, "minecraft:oak_stairs[facing=north,half=bottom,shape=straight,waterlogged=false]")); return b; }
+     private static List<Tick> repeat(Tick t, int n) { List<Tick> l = new ArrayList<>(n); for (int i = 0; i < n; i++) l.add(t); return l; }
+     private static List<Tick> concat(List<Tick> a, List<Tick> b) { List<Tick> l = new ArrayList<>(a); l.addAll(b); return l; }
+     private static Scenario sc(String id, String group, List<Block> blocks, Start start, List<Tick> ticks) { return new Scenario(id, group, blocks, start, Map.of(), List.of(), false, ticks, false); }
+@@ -107,6 +115,21 @@ final class PhysicsScenarios {
+         s.add(sc("sneak_edge_backoff", "sneak", platform(), Start.resting(0.5, 11.5, 0f), repeat(new Tick(1, 0, false, true, false, false, 0f), 40)));
+         s.add(sc("sneak_edge_diagonal", "sneak", platform(), Start.resting(11.2, 11.2, 45f), repeat(new Tick(1, 0, false, true, false, false, 45f), 30)));
+         s.add(sc("walk_off_edge", "fall", platform(), Start.resting(0.5, 11.5, 0f), repeat(Tick.fwd(0f), 30)));
++        // ---- P9-F2 probe: the sneak / sprint TRANSITIONS the constant-input scenarios above cannot reach (live false INVALIDs whose residual is
++        // exactly one sneak-scaled impulse, ground 0.0294 / air 0.00588), at flat ground, at a full-block ledge and at a half-block (slab/stair) ledge
++        s.add(sc("sneak_toggle_walk", "sneak", platform(), rest, toggle(0f, 30, 1)));
++        s.add(sc("sneak_toggle_walk_alternating", "sneak", platform(), rest, toggle(0f, 30, 2)));
++        s.add(sc("sneak_toggle_at_edge", "sneak", platform(), Start.resting(0.5, 11.2, 0f), toggle(0f, 30, 1)));
++        s.add(sc("sneak_toggle_at_edge_slow", "sneak", platform(), Start.resting(0.5, 11.2, 0f), toggle(0f, 40, 3)));
++        s.add(sc("sneak_toggle_at_slab_ledge", "sneak", plus(platform(), slabStrip(11, 12)), Start.resting(0.5, 10.2, 0f), toggle(0f, 40, 2)));
++        s.add(sc("sneak_toggle_at_stair_ledge", "sneak", plus(platform(), stairStrip(11, 12)), Start.resting(0.5, 10.2, 0f), toggle(0f, 40, 2)));
++        s.add(sc("sneak_release_off_edge", "sneak", platform(), Start.resting(0.5, 11.2, 0f), concat(repeat(new Tick(1, 0, false, true, false, false, 0f), 12), repeat(Tick.fwd(0f), 18))));
++        s.add(sc("sneak_press_before_edge", "sneak", platform(), Start.resting(0.5, 9.5, 0f), concat(repeat(Tick.fwd(0f), 12), repeat(new Tick(1, 0, false, true, false, false, 0f), 18))));
++        s.add(sc("sprint_stop_to_strafe", "sneak", platform(), rest.withSprinting(true), concat(repeat(Tick.sprint(0f), 10), repeat(new Tick(0, 1, false, false, false, false, 0f), 20))));
++        s.add(sc("sprint_stop_to_sneak", "sneak", platform(), rest.withSprinting(true), concat(repeat(Tick.sprint(0f), 10), repeat(new Tick(1, 0, false, true, false, false, 0f), 20))));
++        s.add(sc("sprint_toggle_midair", "sneak", platform(), rest.withSprinting(true), concat(concat(repeat(Tick.sprint(0f), 6), List.of(new Tick(1, 0, true, false, true, false, 0f))), toggleSprint(0f, 20, 2))));
++        s.add(sc("sneak_toggle_midair", "sneak", platform(), rest, concat(concat(repeat(Tick.fwd(0f), 6), List.of(new Tick(1, 0, true, false, false, false, 0f))), toggle(0f, 20, 1))));
++        s.add(sc("sneak_toggle_on_slab_surface", "sneak", plus(platform(), slabStrip(-12, 12)), new Start(0.5, FLOOR + 0.5, 0.5, 0, REST_VY, 0, 0f, true, PlayerBox.Pose.STANDING, 0, Vec3d.ZERO, false, 0, new int[] { 0, PLATFORM_Y + 1, 0 }, false, false), toggle(0f, 30, 2)));
+         // ---- special blocks
+         s.add(sc("ice_walk", "friction", platformSurface("minecraft:ice", -12, -12, 12, 12), rest, concat(repeat(Tick.fwd(0f), 20), repeat(Tick.idle(), 20))));
+         s.add(sc("blue_ice_sprint", "friction", platformSurface("minecraft:blue_ice", -12, -12, 12, 12), rest.withSprinting(true), concat(repeat(Tick.sprint(0f), 20), repeat(Tick.idle(), 20))));

@@ -40,7 +40,7 @@ class MovementValidationRunnerTest {
         h.rec.tickEnd(); h.rec.advance(TICK_NANOS); h.rec.movement(8.5, SURFACE, 8.5, 0f, true); h.feed(); // before any anchor: unanchored
         assertFalse(h.status().anchored()); assertEquals(1, h.metrics.uncertainUnanchored.sum());
         correction(h, 1, 12.5, SURFACE, 12.5, 0f); h.feed();
-        assertTrue(h.status().anchored(), h.status().anchorKind()); assertTrue(h.status().anchorKind().startsWith("correction 1")); assertEquals(6, h.status().frontierNodes()); assertTrue(h.status().frontierComplete());
+        assertTrue(h.status().anchored(), h.status().anchorKind()); assertTrue(h.status().anchorKind().startsWith("correction 1")); assertEquals(6, h.status().frontierNodes(), "3 poses x 2 ground claims (P9-F1: the unknown sprint flag is one MAYBE class per node, never a second node)"); assertTrue(h.status().frontierComplete());
         // P8-F1 (found live): outbound write outcomes are ledger business, never slice events - thousands of them between two transmissions must not exhaust the slice bound
         for (int i = 0; i < 2 * MovementValidationRunner.MAX_SLICE; i++) h.runner.onEvent(new TimingEvent.WriteResolved(h.rec.events.get(h.rec.events.size() - 1).sequence() + 1 + i, h.rec.nanos, 5000 + i, true), h.timing.view(), h.context.view(), ps.scene.world.currentView(), ps.scene.world.worldEpoch());
         assertTrue(h.status().anchored(), "write outcomes never fill the slice: " + h.status().anchorKind());
@@ -107,10 +107,16 @@ class MovementValidationRunnerTest {
         correction(g, 1, 8.5, SURFACE, 8.5, 0f); g.feed();
         g.rec.advance(TICK_NANOS); g.rec.movement(10.0, SURFACE + 2, 8.5, 0f, false); g.rec.advance(1_000_000L); g.rec.tickEnd(); g.feed();
         assertEquals("UNCERTAIN", g.status().lastClassification(), String.join("\n", g.status().lastResult())); assertTrue(String.join("\n", g.status().lastResult()).contains("ENTITY_NEIGHBORHOOD_UNKNOWN"), String.join("\n", g.status().lastResult()));
-        // a cow next to the player is irrelevant to client-side physics: complete context, INVALID stands
+        // P9-F5: a rabbit next to the player pushes it on the 26.2 client (ClientLevel.getPushableEntities): neighbourhood UNKNOWN, never INVALID
+        PhysicsScene ps4 = new PhysicsScene(); Harness r = new Harness(ps4);
+        r.ctx(new ContextEvent.GameModeChanged(1, "survival")); r.ctx(new ContextEvent.EntitySpawned(2, 79, "minecraft:rabbit", 9.5, SURFACE, 8.5));
+        correction(r, 1, 8.5, SURFACE, 8.5, 0f); r.feed();
+        r.rec.advance(TICK_NANOS); r.rec.movement(10.0, SURFACE + 2, 8.5, 0f, false); r.rec.advance(1_000_000L); r.rec.tickEnd(); r.feed();
+        assertEquals("UNCERTAIN", r.status().lastClassification(), String.join("\n", r.status().lastResult())); assertTrue(String.join("\n", r.status().lastResult()).contains("ENTITY_NEIGHBORHOOD_UNKNOWN"), String.join("\n", r.status().lastResult()));
+        // an item next to the player is irrelevant to client-side physics: complete context, INVALID stands
         PhysicsScene ps3 = new PhysicsScene(); Harness k = new Harness(ps3);
         List<String> sink = new ArrayList<>(); k.metrics.invalidSink = sink::add; // P8-F7: every live INVALID reaches the platform sink in full
-        k.ctx(new ContextEvent.GameModeChanged(1, "survival")); k.ctx(new ContextEvent.EntitySpawned(2, 78, "minecraft:cow", 9.5, SURFACE, 8.5));
+        k.ctx(new ContextEvent.GameModeChanged(1, "survival")); k.ctx(new ContextEvent.EntitySpawned(2, 78, "minecraft:item", 9.5, SURFACE, 8.5));
         correction(k, 1, 8.5, SURFACE, 8.5, 0f); k.feed();
         k.rec.advance(TICK_NANOS); k.rec.movement(10.0, SURFACE + 2, 8.5, 0f, false); k.rec.advance(1_000_000L); k.rec.tickEnd(); k.feed();
         assertEquals("INVALID", k.status().lastClassification(), String.join("\n", k.status().lastResult()));
@@ -150,5 +156,37 @@ class MovementValidationRunnerTest {
         correction(h, 2, 20.5, SURFACE, 20.5, 0f); h.feed(); assertTrue(h.status().anchored(), h.status() + " teleports=" + h.timing.view().teleports()); assertEquals(2, h.metrics.anchors.sum());
         h.rec.advance(TICK_NANOS); h.rec.coverageBreak("OVERLOADED"); h.feed();
         assertFalse(h.status().anchored()); assertTrue(h.status().anchorKind().contains("coverage break"));
+    }
+    /**
+     * P9-F1 (found live in the Phase 9 qualification): the server syncs its transient sprint modifier into the client's MOVEMENT_SPEED snapshot
+     * (START_SPRINTING echo); the client stops sprinting and strafes at plain walking speed before the STOP echo arrives. The runner's frontier
+     * must carry the client's sprint flag through the sprint so that the stop tick drops the modifier, and a newly applied snapshot must
+     * re-synchronise the overlays. Before the fix this exact sequence was a complete INVALID (nearest candidate 0.02940 short).
+     */
+    @Test void aSprintStopUnderASyncedSprintModifierIsValidAndASnapshotResyncsTheFrontier() {
+        PhysicsScene ps = new PhysicsScene(); Harness h = new Harness(ps);
+        h.ctx(new ContextEvent.GameModeChanged(1, "survival"));
+        PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5);
+        h.rec.tickEnd(); h.rec.advance(TICK_NANOS); h.rec.movement(8.5, SURFACE, 8.5, 0f, true);
+        List<MovementInput> idle = new ArrayList<>(); for (int i = 0; i < 20; i++) idle.add(MovementInput.idle(0f));
+        simulate(ps, ps.env(), rest, idle, List.of(), h.rec, true); h.feed();
+        assertTrue(h.status().anchored(), h.status().anchorKind()); assertTrue(h.status().anchorKind().startsWith("rest"), h.status().anchorKind()); int restNodes = h.status().frontierNodes();
+        // the server's START_SPRINTING echo: the snapshot now carries minecraft:sprinting (the client itself already added it locally when it started)
+        PhysicsEnvironment synced = SprintModifierTest.withSyncedSprint(ps); double speedBase = ps.env().attributes().get(me.nicolas.papea2ac.version.MovementProfile.ATTR_MOVEMENT_SPEED).base(); // the server sends the widened float 0.1f, never 0.1
+        ContextEvent.ModifierValue sprintMod = new ContextEvent.ModifierValue(PROFILE.sprintModifier().id(), PROFILE.sprintModifier().amount(), PROFILE.sprintModifier().operation().name());
+        h.ctx(new ContextEvent.AttributeUpdated(h.rec.events.get(h.rec.events.size() - 1).sequence(), me.nicolas.papea2ac.version.MovementProfile.ATTR_MOVEMENT_SPEED, speedBase, List.of(sprintMod)));
+        // the client (a clean local set, not sprinting) sprints 6 ticks, then strafes without sprinting for 3 ticks: exactly the live seq 235287->235357 shape
+        List<MovementInput> in = new ArrayList<>(); for (int i = 0; i < 6; i++) in.add(MovementInput.forward(0f, true)); for (int i = 0; i < 3; i++) in.add(new MovementInput(0, 1, false, false, false, false, 0f));
+        Truth truth = simulate(ps, synced, rest, in, List.of(), h.rec, true, false); h.feed();
+        ValidationStatus st = h.status();
+        assertEquals(0, st.invalid(), String.join("\n", st.recent())); assertEquals(st.transitions(), st.valid(), String.join("\n", st.recent())); assertTrue(st.transitions() >= 9, st.toString());
+        assertTrue(st.anchorKind().startsWith("rest"), st.anchorKind()); assertTrue(restNodes >= 1);
+        // the STOP echo: a snapshot without the modifier re-synchronises every overlay; walking on stays VALID and the frontier does not grow
+        h.ctx(new ContextEvent.AttributeUpdated(h.rec.events.get(h.rec.events.size() - 1).sequence(), me.nicolas.papea2ac.version.MovementProfile.ATTR_MOVEMENT_SPEED, speedBase, List.of()));
+        PhysicsState after = truth.ticks().get(truth.ticks().size() - 1).after(); assertEquals(PhysicsState.SprintModifier.FOLLOWS, after.sprintModifier());
+        simulate(ps, ps.env(), after, List.of(new MovementInput(0, 1, false, false, false, false, 0f), new MovementInput(0, 1, false, false, false, false, 0f)), List.of(), h.rec, true, false); h.feed();
+        st = h.status();
+        assertEquals(0, st.invalid(), String.join("\n", st.recent())); assertEquals("VALID", st.lastClassification(), String.join("\n", st.recent())); assertTrue(st.frontierNodes() <= 4, "no overlay explosion after the resync: " + st.frontierNodes());
+        for (String l : st.recent()) { String lo = l.toLowerCase(Locale.ROOT); assertFalse(lo.contains("invalid ["), l); }
     }
 }

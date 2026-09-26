@@ -22,7 +22,7 @@ import java.util.*;
  *     applies it"; the consumption decision is Phase 7's): SET replaces the velocity ({@code lerpMotion} for a velocity
  *     packet), ADD adds to it (explosion knockback);</li>
  * <li>{@code entities} - the bounded neighbourhood (WORLD_MODEL.md NearbyMotionEntities): hard colliders (boats, shulkers)
- *     and pushable players; UNKNOWN makes the step incomplete, never empty;</li>
+ *     and pushers (players, and in 26.2 every other pushing entity - P9-F5); UNKNOWN makes the step incomplete, never empty;</li>
  * <li>{@code border} - the world border; UNKNOWN is a coverage gap;</li>
  * <li>{@code equipment} - whether the player can walk on powder snow (leather boots), needed only when powder snow is touched;</li>
  * <li>{@code budget} - the per-step work bounds (PERFORMANCE.md rows "Movement geometry", "Block inside sampling", "Entity motion neighborhood").</li>
@@ -88,9 +88,9 @@ public record PhysicsEnvironment(WorldView view, long worldEpoch, CollisionEngin
         public ExternalMotion { Objects.requireNonNull(operation); Objects.requireNonNull(vector); Objects.requireNonNull(sourceId); if (!vector.isFinite()) throw new IllegalArgumentException("non-finite external motion"); }
         public static ExternalMotion unresolved(String sourceId) { return new ExternalMotion(Operation.UNRESOLVED, Vec3d.ZERO, sourceId); }
     }
-    /** A pushable player near the simulated one (client-side {@code pushEntities} pushes only players): its position and box, and whether it is pushable (alive, not spectator, not on a ladder, team rule allows). */
+    /** A pusher near the simulated player (26.2 client: any other entity whose {@code pushEntities} reaches the local player - P9-F5): its position and box, and whether the push applies (alive, not spectator, not on a ladder, team rule allows). */
     public record Pusher(double x, double z, Aabb box, boolean pushable) { public Pusher { Objects.requireNonNull(box); } }
-    /** Bounded entity neighbourhood: hard colliders (entities with {@code canBeCollidedWith}: boats, shulkers) and pushable players. */
+    /** Bounded entity neighbourhood: hard colliders (entities with {@code canBeCollidedWith}: boats, shulkers) and pushers. */
     public record EntityNeighborhood(Knowledge knowledge, List<Aabb> hardColliders, List<Pusher> pushers) {
         public EntityNeighborhood { Objects.requireNonNull(knowledge); hardColliders = List.copyOf(hardColliders); pushers = List.copyOf(pushers); }
         public static final EntityNeighborhood NONE = new EntityNeighborhood(Knowledge.KNOWN, List.of(), List.of()), UNKNOWN = new EntityNeighborhood(Knowledge.UNKNOWN, List.of(), List.of());

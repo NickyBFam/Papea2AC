@@ -5,9 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import org.junit.jupiter.api.Test;
-/** Deterministic replay of the pinned timing fixtures (docs/phase7-artifacts/timing-fixtures/timing-fixtures.json): identical statuses, hypothesis ids, truth retention and digest per case. */
+/** Deterministic replay of the pinned timing fixtures (docs/phase9-artifacts/timing-fixtures/timing-fixtures.json - the P9-F3 re-pin; docs/phase7-artifacts keeps the Phase 7 pin): identical statuses, hypothesis ids, truth retention and digest per case. */
 class TimingFixtureTest {
-    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase7-artifacts/timing-fixtures/timing-fixtures.json");
+    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase9-artifacts/timing-fixtures/timing-fixtures.json");
 
     @Test void everyFixtureCaseReproducesItsPinnedSummary() throws Exception {
         assertTrue(Files.exists(FIXTURES), "run gradlew.bat timingFixtures first");

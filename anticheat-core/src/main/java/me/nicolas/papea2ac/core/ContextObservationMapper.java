@@ -25,7 +25,17 @@ public final class ContextObservationMapper {
             return List.of();
         }
         if (!(o.event() instanceof Observation.Outbound out)) return List.of();
-        PacketPayload p = out.payload();
+        return outbound(out.payload(), seq, selfEntityId);
+    }
+    private static List<ContextEvent> outbound(PacketPayload p, long seq, int selfEntityId) {
+        // P9-F5: vanilla pairs every tracked entity (ServerEntity.addPairing) as ONE ClientboundBundlePacket - AddEntity, data, attributes,
+        // equipment - so a spawn only ever arrives as a bundle child. Children are mapped in wire order under the bundle's sequence (the
+        // normalizer rejects nesting); dropping them left the neighbourhood tracker blind to every entity the client was shown.
+        if (p instanceof PacketPayload.Bundle bundle) {
+            List<ContextEvent> events = new ArrayList<>();
+            for (PacketPayload child : bundle.children()) events.addAll(outbound(child, seq, selfEntityId));
+            return events;
+        }
         if (p instanceof SemanticPayload.Attributes at) {
             if (selfEntityId < 0 || at.entityId() != selfEntityId) return List.of();
             List<ContextEvent> events = new ArrayList<>();

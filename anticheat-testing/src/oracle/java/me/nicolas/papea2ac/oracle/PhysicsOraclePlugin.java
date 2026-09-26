@@ -134,10 +134,13 @@ public final class PhysicsOraclePlugin extends JavaPlugin {
             // ---- one client tick around the jar's shared code
             p.setOldPosAndRot();
             p.baseTickFluidsAndPowderSnow();
+            // P9-F3 (pinned 26.2 client, LocalPlayer.aiStep): `crouching` is computed from isShiftKeyDown() BEFORE ClientInput.tick() reads the
+            // keyboard, i.e. from the key of the PREVIOUS tick; the fresh key then drives edge back-off and updatePlayerPose. Replicated literally.
+            boolean previousShift = p.isShiftKeyDown();
             p.setShiftKeyDown(shift);
             if (p.isSprinting() != sprinting) p.setSprinting(sprinting);
             p.setYRot(yaw);
-            boolean crouching = !p.getAbilities().flying && !p.isSwimming() && !p.isPassenger() && p.fits(Pose.CROUCHING) && (shift || (!p.isSleeping() && !p.fits(Pose.STANDING)));
+            boolean crouching = !p.getAbilities().flying && !p.isSwimming() && !p.isPassenger() && p.fits(Pose.CROUCHING) && (previousShift || (!p.isSleeping() && !p.fits(Pose.STANDING)));
             boolean movingSlowly = crouching || (p.hasPose(Pose.SWIMMING) && !p.isInWater());
             // P6-F1: the local client's input pipeline (client-only LocalPlayer code, established by real-client measurement): the key vector
             // normalized in float (the jar's Vec2.normalized), scaled by 0.98F, by 0.2F while using an item, by the sneaking speed while moving

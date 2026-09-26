@@ -72,15 +72,55 @@ public final class MovementValidationRunner {
 
     private static final class Chain {
         TimingReconstruction.Frontier frontier; boolean complete; String anchorKind = "none"; long anchorSequence, anchorNanos; boolean anchorInTick = true;
+        long speedSnapshot = -1; // P9-F1: the sequence of the MOVEMENT_SPEED snapshot the frontier's sprint-modifier overlays are relative to
         Vector3 lastSent; float lastYaw; boolean lastGround; long lastPositionSequence, tickEndsSincePosition;
         final List<TimingEvent> slice = new ArrayList<>(); final Map<String, TimingEvent.ExternalMotionSent> influences = new LinkedHashMap<>();
         int transitions, valid, uncertain, invalid;
-        Chain copy() { Chain c = new Chain(); c.frontier = frontier; c.complete = complete; c.anchorKind = anchorKind; c.anchorSequence = anchorSequence; c.anchorNanos = anchorNanos; c.anchorInTick = anchorInTick; c.lastSent = lastSent; c.lastYaw = lastYaw; c.lastGround = lastGround; c.lastPositionSequence = lastPositionSequence; c.tickEndsSincePosition = tickEndsSincePosition; c.slice.addAll(slice); c.influences.putAll(influences); return c; }
+        Chain copy() { Chain c = new Chain(); c.frontier = frontier; c.complete = complete; c.anchorKind = anchorKind; c.anchorSequence = anchorSequence; c.anchorNanos = anchorNanos; c.anchorInTick = anchorInTick; c.speedSnapshot = speedSnapshot; c.lastSent = lastSent; c.lastYaw = lastYaw; c.lastGround = lastGround; c.lastPositionSequence = lastPositionSequence; c.tickEndsSincePosition = tickEndsSincePosition; c.slice.addAll(slice); c.influences.putAll(influences); return c; }
         boolean anchored() { return frontier != null && !frontier.isEmpty(); }
     }
     private final SessionKey key; private final MovementValidator validator; private final PhysicsSimulator simulator; private final CollisionEngine collision; private final BlockBehaviorQuery behaviors; private final TimingProfile profile; private final Metrics metrics;
     private final Chain live = new Chain();
+    /**
+     * P9-F4 (pinned 26.2 client): {@code ClientPacketListener.handleLogin/handleRespawn} clear {@code clientLoaded}, and {@code LocalPlayer.tick}
+     * returns at once until it is set again - no movement, no position packet - while {@code Minecraft.tick} still sends a
+     * {@code ServerboundClientTickEnd} every tick. {@code ClientPacketListener.tick} runs AFTER that tick end: when the level is ready it sends
+     * {@code ServerboundPlayerLoaded} and sets the flag, so the player ticks again from the next client tick. Every tick end between the login/respawn
+     * and the player-loaded packet therefore closes a tick in which the player did not move, and is not a physics tick.
+     */
+    private boolean awaitingClientLoaded; private int frozenTickEnds;
+    /** Phase 9: the session's evidence runner (set by the engine); every completed result is handed over once, live or side chain. */
+    private EvidenceRunner evidence;
+    public void attachEvidence(EvidenceRunner e) { this.evidence = e; }
+    /** P9-F2: the session's block-dispute ledger (set by the engine); a disputed cell in reach makes the transition's world knowledge incomplete. */
+    private BlockDisputeLedger disputes;
+    public void attachDisputes(BlockDisputeLedger d) { this.disputes = d; }
+    /**
+     * P9-F2: whether a cell whose state the client and this observer may disagree about lies within the transition's reach (the same region
+     * the climbable gate uses: every frontier start and the observed target, one cell of margin horizontally, -1/+2 vertically for the body).
+     */
+    private boolean worldDisputed(MovementValidationRequest req, long nanos) {
+        if (disputes == null) return false;
+        double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY, maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY; boolean any = false;
+        for (TimingReconstruction.Node n : req.frontier().nodes()) { var p = n.state().position(); minX = Math.min(minX, p.x()); minY = Math.min(minY, p.y()); minZ = Math.min(minZ, p.z()); maxX = Math.max(maxX, p.x()); maxY = Math.max(maxY, p.y()); maxZ = Math.max(maxZ, p.z()); any = true; }
+        if (req.timing().target().hasPosition()) { Vector3 p = req.timing().target().position(); minX = Math.min(minX, p.x()); minY = Math.min(minY, p.y()); minZ = Math.min(minZ, p.z()); maxX = Math.max(maxX, p.x()); maxY = Math.max(maxY, p.y()); maxZ = Math.max(maxZ, p.z()); any = true; }
+        if (!any) return false;
+        return disputes.disputed((int) Math.floor(minX - 1.0), (int) Math.floor(minY - 1.0), (int) Math.floor(minZ - 1.0),
+            (int) Math.floor(maxX + 1.0), (int) Math.floor(maxY + 2.0), (int) Math.floor(maxZ + 1.0), nanos);
+    }
     private Chain side; private int sideTicksLeft, sideDone; private Vector3 sideStep; private final ArrayDeque<String> recent = new ArrayDeque<>(), injected = new ArrayDeque<>(), notable = new ArrayDeque<>();
+    // ---- P9-F2 forensic capture (diagnostic only; off unless armed, frozen at the first live INVALID, never overwritten, never an evidence input)
+    private static final int FORENSIC_HISTORY = 8;
+    private volatile boolean forensicArmed;
+    private volatile List<String> forensicReport = List.of();
+    private final ArrayDeque<ForensicCapture.History> forensicHistory = new ArrayDeque<>();
+    /** Arms the one-shot forensic capture for the next live INVALID of this session (diagnostic only). */
+    public void armForensic() { forensicArmed = true; }
+    /** The frozen capture of the first armed live INVALID (empty when nothing triggered). */
+    public List<String> forensicReport() { return forensicReport; }
+    public boolean forensicArmed() { return forensicArmed; }
+    /** Clears the frozen capture and disarms. */
+    public void clearForensic() { forensicArmed = false; forensicReport = List.of(); }
     private MovementValidationResult last; private MovementContextLedger.View lastContext; private boolean notablePropagated; private String anchorDiagnosis = "";
     private Thread owner;
     private volatile ValidationStatus status;
@@ -103,7 +143,22 @@ public final class MovementValidationRunner {
             publish();
         }
     }
+    /** The server sent a login or respawn: the client stops ticking its player until its player-loaded packet (P9-F4). */
+    public void clientLoadReset() { assertOwner(); awaitingClientLoaded = true; frozenTickEnds = 0; }
+    /** The client's player-loaded packet: its player ticks again from the next client tick (P9-F4). */
+    public void clientLoaded() { assertOwner(); awaitingClientLoaded = false; frozenTickEnds = 0; }
+
     private void handle(TimingEvent e, TimingLedger.View timing, MovementContextLedger.View context, WorldView view, long worldEpoch) {
+        if (awaitingClientLoaded) {
+            if (e instanceof TimingEvent.ClientTickEnd end) { // a tick in which LocalPlayer.tick returned at once: not a physics tick (P9-F4)
+                frozenTickEnds++; if (evidence != null) evidence.advance(end.nanos()); lastContext = context; publish(); return;
+            }
+            if (e instanceof TimingEvent.TeleportConfirmed) frozenTickEnds = 0; // the confirm and its position echo come from one packet handler
+            if (e instanceof TimingEvent.MovementObserved m && m.hasPosition() && frozenTickEnds > 0) {
+                // a position after a frozen tick contradicts the not-loaded state (a vanilla client sends none): never guess, re-anchor
+                awaitingClientLoaded = false; frozenTickEnds = 0; dropAnchor("movement while the client was not loaded"); live.slice.clear(); live.influences.clear();
+            }
+        }
         switch (e) {
             case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); endSide("world change"); }
             case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); live.influences.clear(); endSide("coverage break"); }
@@ -113,7 +168,7 @@ public final class MovementValidationRunner {
                 live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); live.influences.clear(); }
                 if (e instanceof TimingEvent.ExternalMotionSent m) { live.influences.put(m.id(), m); endSide("live influence " + m.id()); }
                 if (e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed) endSide("live correction");
-                if (e instanceof TimingEvent.ClientTickEnd end) { live.tickEndsSincePosition++; sideTick(end, timing, context, view, worldEpoch); }
+                if (e instanceof TimingEvent.ClientTickEnd end) { live.tickEndsSincePosition++; sideTick(end, timing, context, view, worldEpoch); if (evidence != null) evidence.advance(end.nanos()); }
                 if (e instanceof TimingEvent.MovementObserved m) { if (side != null && !m.hasPosition() && m.hasRotation()) side.slice.add(new TimingEvent.MovementObserved(2 * m.sequence(), m.nanos(), false, m.position(), true, m.rotation(), m.onGround())); movement(m, timing, context, view, worldEpoch); }
             }
         }
@@ -131,11 +186,15 @@ public final class MovementValidationRunner {
         }
 
         if (live.lastSent == null) { track(m); return; }
+        resyncSprintModifier(live, context, env);
         TimingRequest tr = new TimingRequest(new ArrayList<>(live.slice), live.anchorSequence, live.anchorNanos, live.anchorInTick, live.lastSent, live.lastYaw, m, new ArrayList<>(live.influences.values()), timing.teleports(), timing.rtt(), timing.tickEndCapable(), timing.counters().coverageBreaks() > 0, timing.worldEpoch(), m.nanos(), profile, TimingBudget.DEFAULT);
-        MovementValidationRequest req = new MovementValidationRequest(tr, live.frontier, env, ReconstructionRequest.SearchBudget.DEFAULT, live.complete, true);
+        MovementValidationRequest req = new MovementValidationRequest(tr, live.frontier, env, ReconstructionRequest.SearchBudget.DEFAULT, live.complete, true).withWorldDisputed(false);
+        req = req.withWorldDisputed(worldDisputed(req, m.nanos()));
         MovementValidationResult r = context.locomotionSupported() ? validator.validate(req) : MovementValidator.refuse(req, MovementValidation.UncertainReason.UNSUPPORTED_LOCOMOTION, "flight/creative/spectator context: " + context.gameMode() + (context.flying() ? " flying" : context.canFly() ? " can fly" : ""));
         count(r, false); live.transitions++; switch (r.classification()) { case VALID -> live.valid++; case UNCERTAIN -> live.uncertain++; case INVALID -> live.invalid++; }
+        forensic(m, req, r, context);
         last = r; remember(summary(m.sequence(), r), r);
+        if (evidence != null) evidence.onResult(r, m.nanos(), false); // Phase 9: one hand-over per completed live result (never throws)
         // chain
         if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); live.influences.clear(); }
         else {
@@ -148,6 +207,33 @@ public final class MovementValidationRunner {
             if (!live.complete && live.influences.isEmpty() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
         }
         track(m);
+    }
+    /**
+     * P9-F2 diagnostic: retains the last {@link #FORENSIC_HISTORY} transitions of the live chain and, when armed, freezes ONE complete
+     * forensic record at the first live INVALID (never overwritten, never published as evidence, never affecting the classification).
+     */
+    private void forensic(TimingEvent.MovementObserved m, MovementValidationRequest req, MovementValidationResult r, MovementContextLedger.View context) {
+        try {
+            if (forensicArmed && forensicReport.isEmpty() && r.classification() == MovementValidation.Classification.INVALID) {
+                List<String> out = new ArrayList<>(ForensicCapture.capture(key, live.anchorKind, live.anchorSequence, live.anchorNanos, live.anchorInTick, live.speedSnapshot,
+                    live.transitions, req, r, context, simulator, behaviors, disputes == null ? "no dispute ledger attached" : disputes.describe(m.nanos()) + " regionDisputed=" + worldDisputed(req, m.nanos()),
+                    new ArrayList<>(forensicHistory)));
+                out.addAll(ForensicCapture.impulses(simulator, req.environment(), m.hasRotation() ? m.rotation().yaw() : live.lastYaw,
+                    req.frontier().nodes().isEmpty() ? me.nicolas.papea2ac.collision.PlayerBox.Pose.STANDING : req.frontier().nodes().get(0).state().pose()));
+                forensicReport = List.copyOf(out);
+                if (metrics.invalidSink != null) metrics.invalidSink.accept("P9-F2 forensic capture frozen for session=" + key.epoch() + " seq=" + r.startSequence() + "->" + r.endSequence() + " (" + out.size() + " lines; /papea2ac validate <name> forensic report)");
+            }
+            List<String> witnesses = new ArrayList<>();
+            for (var w : r.witnesses()) { if (witnesses.size() >= 4) break; witnesses.add(w.hypothesisId() + " " + me.nicolas.papea2ac.simulation.InputDomain.describeHistory(w.input()) + " x" + w.historyCount()); }
+            List<PhysicsState> next = new ArrayList<>();
+            for (TimingReconstruction.Node n : r.next().nodes()) { if (next.size() >= 4) break; next.add(n.state()); }
+            forensicHistory.addLast(new ForensicCapture.History(r.startSequence(), r.endSequence(), r.classification().name(), r.counts().legalCandidates(), r.counts().legalHistories(),
+                r.counts().continuationNodes(), r.work().evaluations(), r.proof().rawEnumerated(), r.proof().excludedExact(), r.proof().excludedEnvelope(), witnesses, next, r.nextFrontierComplete(),
+                m.hasPosition() ? "pos=(" + ForensicCapture.bits(m.position().x()) + ", " + ForensicCapture.bits(m.position().y()) + ", " + ForensicCapture.bits(m.position().z()) + ") ground=" + m.onGround() : "rotation-only"));
+            while (forensicHistory.size() > FORENSIC_HISTORY) forensicHistory.removeFirst();
+        } catch (RuntimeException ex) {
+            forensicReport = List.of("forensic capture failed: " + ex);
+        }
     }
     /** Why the last unanchored transmission did not anchor (diagnostic only): the rest conditions and the fixed-point verdict per pose. */
     private String anchorDiagnosis(TimingEvent.MovementObserved m, MovementContextLedger.View context, PhysicsEnvironment env) {
@@ -168,8 +254,42 @@ public final class MovementValidationRunner {
             if (s != null && nodes.stream().noneMatch(n -> n.state().equals(s))) nodes.add(new TimingReconstruction.Node(s, Set.of(), "rest/" + pose.name().toLowerCase(Locale.ROOT)));
         }
         if (nodes.isEmpty()) return false;
-        live.frontier = new TimingReconstruction.Frontier(nodes); live.complete = true; live.anchorKind = "rest (" + nodes.size() + " pose state" + (nodes.size() == 1 ? "" : "s") + ")"; live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true;
+        int poses = nodes.size(); nodes = restSprintVariants(nodes, env);
+        live.frontier = new TimingReconstruction.Frontier(nodes); live.complete = true; live.anchorKind = "rest (" + poses + " pose state" + (poses == 1 ? "" : "s") + (nodes.get(0).state().sprintModifier() != PhysicsState.SprintModifier.FOLLOWS ? ", sprint modifier " + nodes.get(0).state().sprintModifier().name().toLowerCase(Locale.ROOT).replace('_', '-') : "") + ")"; live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true; live.speedSnapshot = speedSnapshot(context);
         return true;
+    }
+    // ---- P9-F1: the client's sprint speed modifier (PhysicsState.SprintModifier): the last synced MOVEMENT_SPEED snapshot sets its presence, the client's own sprint transitions move it
+    private static long speedSnapshot(MovementContextLedger.View context) { MovementContextLedger.AttributeValue v = context.attributes().get(MovementProfile.ATTR_MOVEMENT_SPEED); return v == null ? -1 : v.sequence(); }
+    private static List<TimingReconstruction.Node> withSprintModifier(List<TimingReconstruction.Node> nodes, PhysicsState.SprintModifier m) {
+        List<TimingReconstruction.Node> out = new ArrayList<>(nodes.size());
+        for (TimingReconstruction.Node n : nodes) out.add(new TimingReconstruction.Node(n.state().withSprintModifier(m), n.pendingInfluences(), n.label()));
+        return out;
+    }
+    /** A resting client (20 ticks without moving) is not sprinting: FOLLOWS under a bare snapshot; under one that carries the modifier the stop that preceded the rest may still be unsynced (MAYBE_STUCK_ON). */
+    private List<TimingReconstruction.Node> restSprintVariants(List<TimingReconstruction.Node> nodes, PhysicsEnvironment env) {
+        return simulator.snapshotCarriesSprintModifier(env) ? withSprintModifier(nodes, PhysicsState.SprintModifier.MAYBE_STUCK_ON) : nodes;
+    }
+    /** After a confirmed correction the client's sprint flag is unknown (a teleport changes neither the flag nor the modifiers): the MAYBE class of what the snapshot carries. */
+    private List<TimingReconstruction.Node> correctionSprintVariants(List<TimingReconstruction.Node> nodes, PhysicsEnvironment env) {
+        return withSprintModifier(nodes, simulator.snapshotCarriesSprintModifier(env) ? PhysicsState.SprintModifier.MAYBE_STUCK_ON : PhysicsState.SprintModifier.MAYBE_STUCK_OFF);
+    }
+    /**
+     * A newly applied MOVEMENT_SPEED snapshot (any update, identical content included) replaces the client's modifier set: the presence becomes
+     * the snapshot's. The server syncs the snapshot together with its sprint flag whenever ITS sprint state changed (the client's flag then
+     * becomes the snapshot's: FOLLOWS); a snapshot sent for another reason leaves the flag alone (STUCK when it disagrees). Both readings
+     * are one MAYBE class ({@link PhysicsState.SprintModifier#afterSnapshot}); equal states merge.
+     */
+    private void resyncSprintModifier(Chain c, MovementContextLedger.View context, PhysicsEnvironment env) {
+        long seq = speedSnapshot(context);
+        if (seq == c.speedSnapshot || c.frontier == null) return;
+        boolean carried = simulator.snapshotCarriesSprintModifier(env);
+        List<TimingReconstruction.Node> out = new ArrayList<>();
+        for (TimingReconstruction.Node n : c.frontier.nodes()) {
+            TimingReconstruction.Node m = new TimingReconstruction.Node(n.state().withSprintModifier(n.state().sprintModifier().afterSnapshot(carried)), n.pendingInfluences(), n.label());
+            boolean dup = false; for (TimingReconstruction.Node o : out) if (o.state().equals(m.state()) && o.pendingInfluences().equals(m.pendingInfluences())) { dup = true; break; }
+            if (!dup) out.add(m);
+        }
+        c.frontier = new TimingReconstruction.Frontier(out); c.speedSnapshot = seq;
     }
     private void track(TimingEvent.MovementObserved m) {
         if (m.hasPosition()) { live.lastSent = m.position(); live.lastPositionSequence = m.sequence(); live.tickEndsSincePosition = 0; live.lastGround = m.onGround(); }
@@ -189,7 +309,7 @@ public final class MovementValidationRunner {
                 PhysicsState s = PhysicsState.resting(p.x(), p.y(), p.z(), pose, ground).withVelocity(vel);
                 nodes.add(new TimingReconstruction.Node(s, Set.of(), "correction-" + pt.teleportId() + "/" + pose.name().toLowerCase(Locale.ROOT) + (ground ? "/ground" : "/air")));
             }
-            live.frontier = new TimingReconstruction.Frontier(nodes); live.complete = true; live.anchorKind = "correction " + pt.teleportId(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = false; live.lastSent = m.position(); live.lastYaw = yaw;
+            live.frontier = new TimingReconstruction.Frontier(correctionSprintVariants(nodes, env)); live.complete = true; live.anchorKind = "correction " + pt.teleportId(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = false; live.lastSent = m.position(); live.lastYaw = yaw; live.speedSnapshot = speedSnapshot(context);
             return;
         }
         // (2) an observed rest: the 20-tick reminder at the same position with the ground claim, a resting fixed point of the simulator
@@ -202,7 +322,8 @@ public final class MovementValidationRunner {
             if (s != null && nodes.stream().noneMatch(n -> n.state().equals(s))) nodes.add(new TimingReconstruction.Node(s, Set.of(), "rest/" + pose.name().toLowerCase(Locale.ROOT)));
         }
         if (nodes.isEmpty()) return;
-        live.frontier = new TimingReconstruction.Frontier(nodes); live.complete = true; live.anchorKind = "rest (" + nodes.size() + " pose state" + (nodes.size() == 1 ? "" : "s") + ")"; live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true; live.lastSent = m.position(); live.lastYaw = yaw;
+        int poses = nodes.size(); nodes = restSprintVariants(nodes, env);
+        live.frontier = new TimingReconstruction.Frontier(nodes); live.complete = true; live.anchorKind = "rest (" + poses + " pose state" + (poses == 1 ? "" : "s") + (nodes.get(0).state().sprintModifier() != PhysicsState.SprintModifier.FOLLOWS ? ", sprint modifier " + nodes.get(0).state().sprintModifier().name().toLowerCase(Locale.ROOT).replace('_', '-') : "") + ")"; live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true; live.lastSent = m.position(); live.lastYaw = yaw; live.speedSnapshot = speedSnapshot(context);
     }
 
     /** The physics environment as the client sees it, from the observer world and the context ledger; every unknown dimension is UNKNOWN, never a default. */
@@ -251,11 +372,14 @@ public final class MovementValidationRunner {
             TimingEvent.MovementObserved m = new TimingEvent.MovementObserved(2 * end.sequence() - 1, end.nanos() - 1, true, p, true, new Rotation(c.lastYaw, 0f), sideStep.y() == 0 && c.lastGround);
             c.slice.add(m);
             PhysicsEnvironment env = environment(context, view, worldEpoch, p);
+            resyncSprintModifier(c, context, env);
             // no live correction or influence is in scope on the side chain (injection is refused while one is pending and the side chain ends when one arrives)
             TimingRequest tr = new TimingRequest(new ArrayList<>(c.slice), c.anchorSequence, c.anchorNanos, c.anchorInTick, c.lastSent, c.lastYaw, m, List.of(), List.of(), timing.rtt(), timing.tickEndCapable(), timing.counters().coverageBreaks() > 0, timing.worldEpoch(), m.nanos(), profile, TimingBudget.DEFAULT);
             MovementValidationRequest req = new MovementValidationRequest(tr, c.frontier, env, ReconstructionRequest.SearchBudget.DEFAULT, c.complete, true);
+            req = req.withWorldDisputed(worldDisputed(req, m.nanos()));
             MovementValidationResult r = context.locomotionSupported() ? validator.validate(req) : MovementValidator.refuse(req, MovementValidation.UncertainReason.UNSUPPORTED_LOCOMOTION, "flight/creative/spectator context");
             metrics.injectedRequests.increment(); sideTicksLeft--; sideDone++;
+            if (evidence != null) evidence.onResult(r, m.nanos(), true); // Phase 9 qualification: side-chain results feed the SIDE ledger only
             injected.addLast("injected +" + (sideStep.x() != 0 || sideStep.z() != 0 ? String.format(Locale.ROOT, "h%.3f ", Math.sqrt(sideStep.x() * sideStep.x() + sideStep.z() * sideStep.z())) : "") + String.format(Locale.ROOT, "y%.3f", sideStep.y()) + " -> " + summary(end.sequence(), r)); while (injected.size() > RECENT) injected.removeFirst();
             if (r.next().isEmpty()) { endSide(r.classification() + " without continuation after " + sideDone + " transmission(s)"); return; }
             c.frontier = r.next(); c.complete = r.nextFrontierComplete(); c.anchorSequence = m.sequence(); c.anchorNanos = m.nanos(); c.anchorInTick = true; c.slice.clear(); c.slice.add(new TimingEvent.ClientTickEnd(2 * end.sequence(), end.nanos())); c.lastSent = p; c.lastGround = m.onGround();

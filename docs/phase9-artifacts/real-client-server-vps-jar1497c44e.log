@@ -1,0 +1,158 @@
+Starting org.bukkit.craftbukkit.Main
+[03:04:13 INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM <redacted-ip>+1-LTS; Eclipse Adoptium Temurin-<redacted-ip>+1) on Linux 6.8.0-138-generic (amd64)
+[03:04:13 INFO]: [bootstrap] Loading Paper 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) for Minecraft 26.2
+[03:04:13 INFO]: [PluginInitializerManager] Initializing plugins...
+[03:04:14 INFO]: [PluginInitializerManager] Initialized 1 plugin
+[03:04:14 INFO]: [PluginInitializerManager] Bukkit plugins (1):
+ - Papea2AC (1.0-SNAPSHOT)
+[03:04:31 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[03:04:31 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[03:04:32 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 1,359.4ms
+[03:04:37 INFO]: Loaded 1585 recipes
+[03:04:38 INFO]: Loaded 1688 advancements
+[03:04:38 INFO]: Starting minecraft server version 26.2
+[03:04:38 INFO]: Loading properties
+[03:04:38 INFO]: This server is running Paper version 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) (Implementing API version 26.2.build.124-stable)
+[03:04:38 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[03:04:38 INFO]: Server Ping Player Sample Count: 12
+[03:04:38 INFO]: Using 4 threads for Netty based IO
+[03:04:39 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[03:04:40 INFO]: Default game type: SURVIVAL
+[03:04:40 INFO]: Generating keypair
+[03:04:40 INFO]: Starting Minecraft server on *:25565
+[03:04:40 INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[03:04:40 INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[03:04:41 INFO]: [Papea2AC] Loading server plugin Papea2AC v1.0-SNAPSHOT
+[03:04:41 INFO]: Preparing level "world"
+[03:04:42 INFO]: Loading 36 persistent chunks for level 'minecraft:overworld'...
+[03:04:42 INFO]: Preparing spawn area: 21%
+[03:04:42 INFO]: Preparing spawn area: 21%
+[03:04:43 INFO]: Preparing spawn area: 21%
+[03:04:43 INFO]: Preparing spawn area: 21%
+[03:04:44 INFO]: Preparing spawn area: 21%
+[03:04:44 INFO]: Preparing spawn area: 21%
+[03:04:45 INFO]: Preparing spawn area: 21%
+[03:04:45 INFO]: Preparing spawn area: 21%
+[03:04:46 INFO]: Preparing spawn area: 21%
+[03:04:46 INFO]: Preparing spawn area: 21%
+[03:04:47 INFO]: Preparing spawn area: 21%
+[03:04:47 INFO]: Preparing spawn area: 21%
+[03:04:48 INFO]: Preparing spawn area: 21%
+[03:04:48 INFO]: Preparing spawn area: 21%
+[03:04:49 INFO]: Preparing spawn area: 21%
+[03:04:49 INFO]: Preparing spawn area: 21%
+[03:04:50 INFO]: Preparing spawn area: 21%
+[03:04:50 INFO]: Preparing spawn area: 21%
+[03:04:51 INFO]: Preparing spawn area: 21%
+[03:04:51 INFO]: Preparing spawn area: 21%
+[03:04:52 INFO]: Preparing spawn area: 21%
+[03:04:52 INFO]: Preparing spawn area: 21%
+[03:04:53 INFO]: Preparing spawn area: 21%
+[03:04:53 INFO]: Preparing spawn area: 21%
+[03:04:54 INFO]: Preparing spawn area: 21%
+[03:04:54 INFO]: Preparing spawn area: 21%
+[03:04:55 INFO]: Preparing spawn area: 21%
+[03:04:55 INFO]: Preparing spawn area: 21%
+[03:04:56 INFO]: Preparing spawn area: 21%
+[03:04:56 INFO]: Preparing spawn area: 21%
+[03:04:57 INFO]: Preparing spawn area: 21%
+[03:04:57 INFO]: Preparing spawn area: 21%
+[03:04:58 INFO]: Preparing spawn area: 30%
+[03:04:58 INFO]: Preparing spawn area: 30%
+[03:04:59 INFO]: Preparing spawn area: 30%
+[03:04:59 INFO]: Preparing spawn area: 30%
+[03:05:00 INFO]: Preparing spawn area: 30%
+[03:05:00 INFO]: Preparing spawn area: 30%
+[03:05:01 INFO]: Preparing spawn area: 30%
+[03:05:01 INFO]: Preparing spawn area: 52%
+[03:05:03 INFO]: Preparing spawn area: 56%
+[03:05:03 INFO]: Preparing spawn area: 56%
+[03:05:03 INFO]: Preparing spawn area: 56%
+[03:05:03 INFO]: Preparing spawn area: 56%
+[03:05:04 INFO]: Preparing spawn area: 56%
+[03:05:04 INFO]: Preparing spawn area: 56%
+[03:05:05 INFO]: Preparing spawn area: 56%
+[03:05:05 INFO]: Preparing spawn area: 56%
+[03:05:06 INFO]: Prepared spawn area in 24436 ms
+[03:05:06 INFO]: Loading 0 persistent chunks for level 'minecraft:the_nether'...
+[03:05:06 INFO]: Prepared spawn area in 1 ms
+[03:05:06 INFO]: Loading 0 persistent chunks for level 'minecraft:the_end'...
+[03:05:06 INFO]: Preparing spawn area: 100%
+[03:05:06 INFO]: Prepared spawn area in 2 ms
+[03:05:06 INFO]: Done preparing level "world" (25.577s)
+[03:05:06 INFO]: [Papea2AC] Enabling Papea2AC v1.0-SNAPSHOT
+[03:05:07 WARN]: [Papea2AC] DEVELOPMENT OBSERVE_ONLY: authoritative outcomes and complete packet inventory are unqualified.
+[03:05:07 INFO]: [spark] Starting background profiler...
+[03:05:08 INFO]: Starting remote control listener
+[03:05:08 INFO]: RCON running on <redacted-ip>
+[03:05:08 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[03:05:09 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[03:05:09 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[03:05:09 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[03:05:09 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[03:05:09 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[03:05:09 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[03:05:09 INFO]: Running delayed init tasks
+[03:05:09 INFO]: Done (59.420s)! For help, type "help"
+[03:05:09 INFO]: *** Currently you are 5 builds behind ***
+[03:05:09 INFO]: *** It is highly recommended to download the latest build from https://papermc.io/downloads/paper ***
+[03:09:03 INFO]: UUID of player iDTR is d89977fd-3de6-4ab4-82d0-ff52f7564c44
+[03:09:05 INFO]: iDTR joined the game
+[03:09:05 INFO]: iDTR[<redacted-ip>] logged in with entity id 59 at ([minecraft:overworld]2.5, 68.0, 2.5)
+[03:09:24 INFO]: [Not Secure] [Rcon] Welcome iDTR! Keep moving continuously: sprint, sneak, jumps, 1-block falls, ladder, water, ice/slime/honey/soul sand strips, shield, place/break/toggle blocks, slabs, stairs, edges. Thanks!
+[03:15:07 WARN]: Skipping Entity with id minecraft:creeper
+[03:15:11 WARN]: Skipping Entity with id minecraft:skeleton
+[03:15:11 WARN]: Skipping Entity with id minecraft:skeleton
+[03:15:11 WARN]: Skipping Entity with id minecraft:skeleton
+[03:15:21 WARN]: Skipping Entity with id minecraft:zombie
+[03:16:34 INFO]: [Papea2AC] P9-F2 forensic capture frozen for session=1 seq=559948->560037 (763 lines; /papea2ac validate <name> forensic report)
+[03:16:34 INFO]: [Papea2AC] live INVALID session=1 seq=560037 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=576 obs h=0.0405 rise=-0.3739 legal h<=0.0910 rise[-0.3739,-0.3739] excess h=0.0000 v=0.0000
+  validation INVALID seq=559948->560037 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 4->0 (incomplete)
+    completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+    residual observed h=0.040506 rise=-0.373904 | legal h<=0.090998 rise in [-0.373904, -0.373904] (ENVELOPE) excess h=0.000000 v=0.000000
+    nearest h1 S---R- d=(-1.264e-02,0.000e+00,3.701e-04) outside=1.264e-02
+    nearest h1 S--CR- d=(-1.264e-02,0.000e+00,3.701e-04) outside=1.264e-02
+    nearest h1 S-J-R- d=(-1.264e-02,0.000e+00,3.701e-04) outside=1.264e-02
+    nearest h1 S-JCR- d=(-1.264e-02,0.000e+00,3.701e-04) outside=1.264e-02
+    proof: hypotheses=1 [h1] reconstructions=1 evaluations=576 enumerated=576 excludedExact=576 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@3784
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+    note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+[03:18:03 INFO]: [Not Secure] [Rcon] HOLD please - stand still for a moment, analysing
+[03:44:24 INFO]: [Rcon: Marked chunk [-13, -14] in minecraft:overworld to be force loaded]
+[03:44:28 INFO]: [Rcon: Unmarked chunk [-13, -14] in minecraft:overworld for force loading]
+[03:56:45 INFO]: [Not Secure] [Rcon] Server restarting in 10s with the fix (animals pushing you). Please rejoin right after - thanks iDTR!
+[03:56:55 INFO]: Stopping server
+[03:56:55 INFO]: [Papea2AC] Disabling Papea2AC v1.0-SNAPSHOT
+[03:56:55 INFO]: Saving players
+[03:56:55 INFO]: iDTR lost connection: Server closed
+[03:56:56 INFO]: iDTR left the game
+[03:56:56 INFO]: Saving worlds
+[03:56:56 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[03:56:56 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:overworld'
+[03:56:56 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:overworld'
+[03:56:56 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:overworld'
+[03:56:59 INFO]: [ChunkHolderManager] Saved 1581 block chunks, 163 entity chunks, 1 poi chunks in world 'minecraft:overworld' in 2.93s
+[03:56:59 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:overworld'
+[03:56:59 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:overworld'
+[03:56:59 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[03:56:59 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_nether'
+[03:56:59 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_nether'
+[03:56:59 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_nether'
+[03:56:59 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_nether' in 0.00s
+[03:56:59 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_nether'
+[03:56:59 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_nether'
+[03:56:59 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[03:56:59 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_end'
+[03:56:59 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_end'
+[03:56:59 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_end'
+[03:56:59 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_end' in 0.00s
+[03:56:59 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_end'
+[03:56:59 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_end'
+[03:56:59 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[03:56:59 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[03:56:59 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[03:56:59 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[03:56:59 INFO]: Waiting for all RegionFile I/O tasks to complete...
+[03:56:59 INFO]: All RegionFile I/O tasks to complete
+[03:56:59 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+[03:56:59 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...

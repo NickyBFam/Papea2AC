@@ -1,0 +1,85 @@
+{
+  "phase": "8",
+  "gate": "every supported legitimate transition validates VALID or UNCERTAIN, never INVALID; >= 95% VALID per supported benign class (TESTING.md)",
+  "classes": {
+    "timing-fuzz": {
+      "cases": 1981,
+      "transmissions": 13743,
+      "VALID": 13743,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 1162066,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "velocity": {
+      "cases": 1500,
+      "transmissions": 11561,
+      "VALID": 11561,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 857644,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "velocity-no-tick-ends": {
+      "cases": 200,
+      "transmissions": 1549,
+      "VALID": 1549,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 442378,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "teleport": {
+      "cases": 500,
+      "transmissions": 2898,
+      "VALID": 2898,
+      "UNCERTAIN": 0,
+      "INVALID": 0,
+      "validShare": 100.0,
+      "truthLost": 0,
+      "evaluations": 47410,
+      "uncertainReasons": {},
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    },
+    "native-trajectories": {
+      "cases": 88,
+      "transmissions": 2700,
+      "VALID": 2698,
+      "UNCERTAIN": 2,
+      "INVALID": 0,
+      "validShare": 99.93,
+      "truthLost": 0,
+      "evaluations": 480428,
+      "uncertainReasons": {
+        "SEARCH_LIMIT": 2
+      },
+      "invalidReasons": {},
+      "invalidCases": [],
+      "lostCases": []
+    }
+  },
+  "totals": {
+    "cases": 4269,
+    "transmissions": 32451,
+    "VALID": 32449,
+    "UNCERTAIN": 2,
+    "INVALID": 0
+  }
+}

@@ -23,7 +23,7 @@ import java.util.List;
  *     {@code handleOnClimbable}, {@code Entity.move} (stuck multiplier, sneak edge back-off, {@code collide} with step-up,
  *     ground/collision flags, supporting block, fall distance, bounce restitution, block speed factor), climb-up,
  *     levitation / gravity, air and ground drag; then {@code applyEffectsFromBlocks} ({@code stepOn}, inside-block effects),
- *     {@code pushEntities} (players only on the client);</li>
+ *     the entity pushes (26.2 client: every other pushing entity's {@code pushEntities} shoves the local player - P9-F5);</li>
  * <li>{@code Player.tick} tail: the +-2.9999999E7 X/Z clamp and {@code updatePlayerPose}.</li>
  * </ol>
  * The simulator never infers input, never enumerates candidates and never judges: it returns what the vanilla client
@@ -50,8 +50,11 @@ public final class PhysicsSimulator {
         if (state.pose() != PlayerBox.Pose.STANDING && state.pose() != PlayerBox.Pose.CROUCHING && state.pose() != PlayerBox.Pose.SWIMMING) return abort(u, PhysicsResult.Reason.Code.POSE_UNSUPPORTED, state.pose().name(), geo, prov);
         if (env.view().availability() != BlockLookup.Status.KNOWN) return abort(u, PhysicsResult.Reason.Code.VIEW_UNAVAILABLE, env.view().availability().name(), geo, prov);
         if (env.view().worldEpoch() != env.worldEpoch()) return abort(u, PhysicsResult.Reason.Code.WRONG_WORLD_EPOCH, "view epoch " + env.view().worldEpoch() + " != " + env.worldEpoch(), geo, prov);
-        // ---- attributes and effects
-        Attrs a = new Attrs(env, input.sprinting(), u);
+        // ---- attributes and effects (P9-F1: the sprint modifier's presence is the state's class applied to this tick's sprint input, never the snapshot's own copy)
+        Boolean present = state.sprintModifierPresent(input.sprinting());
+        if (present == null && state.speedMatters(input)) return abort(u, PhysicsResult.Reason.Code.SPRINT_MODIFIER_UNRESOLVED, state.sprintModifier().name() + " not split for " + (input.sprinting() ? "a sprinting" : "a walking") + " ground input", geo, prov);
+        boolean sprintModifier = present != null && present; // otherwise the speed attribute is never read this tick (no horizontal input, or airborne: constant air acceleration)
+        Attrs a = new Attrs(env, sprintModifier, u);
         if (!a.ok) return abort(u, null, null, geo, prov);
         if (env.effects().knowledge() == PhysicsEnvironment.Knowledge.UNKNOWN) u.add(PhysicsResult.Reason.Code.EFFECTS_INCOMPLETE, "effect list may be incomplete");
         for (PhysicsEnvironment.EffectInstance e : env.effects().active()) if (profile.effect(e.id()) == null) u.add(PhysicsResult.Reason.Code.EFFECT_UNKNOWN, e.id());
@@ -82,7 +85,12 @@ public final class PhysicsSimulator {
         // LocalPlayer input glue: crouching (isMovingSlowly) needs the pose-fit tests at the pre-move position
         ShapeContext ctx = ShapeContext.of(pos.y(), input.shift(), state.fallDistance(), a.canWalkOnPowderSnow);
         boolean fitsCrouching = fits(geo, PlayerBox.Pose.CROUCHING, scale, pos, ctx, "crouch-fit"), fitsStanding = fits(geo, PlayerBox.Pose.STANDING, scale, pos, ctx, "stand-fit");
-        boolean crouching = fitsCrouching && (input.shift() || !fitsStanding);
+        // P9-F3 (pinned 26.2 client, LocalPlayer.aiStep): `crouching` is assigned from isShiftKeyDown() BEFORE ClientInput.tick() reads the
+        // keyboard, so the sneak scaling of tick T uses the key sampled at T-1, while maybeBackOffFromEdge and updatePlayerPose read the fresh key.
+        // updatePlayerPose applies the same rule - fits(CROUCHING) && (key || !fits(STANDING)) - at the same position at the end of T-1, so the
+        // stale-key crouch state is exactly "the pose this tick starts in is CROUCHING". The fit probes above stay: LocalPlayer makes these calls
+        // and an unknown cell they touch must still make the step uncertain.
+        boolean crouching = state.pose() == PlayerBox.Pose.CROUCHING;
         boolean crawling = state.pose() == PlayerBox.Pose.SWIMMING; // isVisuallyCrawling: swimming pose while not in water
         boolean movingSlowly = crouching || crawling;
         // LocalPlayer input pipeline (P6-F1: float normalize, 0.98F, item use, sneaking, square-movement rescale): one authoritative implementation (PhysicsKernels.clientMoveVector), shared with the Phase 6 abstract lane
@@ -216,7 +224,7 @@ public final class PhysicsSimulator {
         if (sampler.stuck != null) stuck = sampler.stuck;
         if (sampler.resetFall) fallDistance = 0.0;
         inPowderSnow = sampler.inPowderSnow;
-        // pushEntities (client: players only)
+        // entity pushes (26.2 client: other entities' pushEntities push the local player; P9-F5)
         v = pushPlayers(geo, u, env, newPos, newBox, v, onClimbableAfter);
         // ---- Player.tick tail: coordinate clamp, updatePlayerPose
         double cxp = clamp(newPos.x(), -MovementProfile.COORDINATE_CLAMP, MovementProfile.COORDINATE_CLAMP), czp = clamp(newPos.z(), -MovementProfile.COORDINATE_CLAMP, MovementProfile.COORDINATE_CLAMP);
@@ -228,7 +236,7 @@ public final class PhysicsSimulator {
             if (fits(geo, desired, scale, newPos, ctxAfter, "pose-fit")) pose = desired;
             else pose = fits(geo, PlayerBox.Pose.CROUCHING, scale, newPos, ctxAfter, "pose-crouch-fit") ? PlayerBox.Pose.CROUCHING : PlayerBox.Pose.SWIMMING;
         }
-        PhysicsState next = new PhysicsState(newPos, v, pose, onGround, horizontalCollision, verticalCollision, verticalCollisionBelow, fallDistance, stuck, inPowderSnow, support, noJumpDelay, PhysicsState.Locomotion.WALKING);
+        PhysicsState next = new PhysicsState(newPos, v, pose, onGround, horizontalCollision, verticalCollision, verticalCollisionBelow, fallDistance, stuck, inPowderSnow, support, noJumpDelay, PhysicsState.Locomotion.WALKING, state.sprintModifierAfter(input));
         PhysicsResult.Trace trace = new PhysicsResult.Trace(inputVector, speed, friction, velocityBeforeMove, movement, collided, steppedUp, jumped, crouching, false);
         return new PhysicsResult(u.status(), next, u.reasons(), work(geo), prov, trace);
     }
@@ -237,10 +245,12 @@ public final class PhysicsSimulator {
      * Phase 6 forward addition (additive; the step's own arithmetic is unchanged): the movement attribute values this step
      * would resolve for the environment ({@code AttributeInstance.calculateValue} with effect templates and the sprint
      * modifier folded in by id, exactly as {@link #simulate}), so the abstract/interval lane never re-implements the folding.
+     * {@code sprintModifier} is the PRESENCE of the client's sprint modifier (P9-F1: {@link PhysicsState#sprintModifierPresent}), which
+     * {@link #simulate} derives from the state's class and the input's sprint flag; the snapshot's own copy of the modifier is ignored.
      * Returns {@code null} when any movement attribute is UNKNOWN or non-finite (the step would abort with the same reason).
      */
-    public ResolvedAttributes resolveAttributes(PhysicsEnvironment env, boolean sprinting) {
-        Attrs a = new Attrs(env, sprinting, new Uncertainty());
+    public ResolvedAttributes resolveAttributes(PhysicsEnvironment env, boolean sprintModifier) {
+        Attrs a = new Attrs(env, sprintModifier, new Uncertainty());
         if (!a.ok) return null;
         return new ResolvedAttributes(a.speed, a.speedD, a.gravity, a.jumpStrength, a.stepHeight, a.sneakingSpeed, a.movementEfficiency, a.airDragModifier, a.frictionModifier, a.bounciness, a.scale, a.canWalkOnPowderSnow);
     }
@@ -249,10 +259,21 @@ public final class PhysicsSimulator {
 
     // ---- helpers (each mirrors one vanilla method)
 
-    /** Resolved movement attributes (vanilla {@code AttributeInstance.calculateValue} with the client's modifier set, effect templates folded in by id, sprint modifier when sprinting). */
+    /** P9-F1: whether the last applied MOVEMENT_SPEED snapshot carries {@code LivingEntity.SPEED_MODIFIER_SPRINTING} (the server syncs its own transient copy to the client). */
+    public boolean snapshotCarriesSprintModifier(PhysicsEnvironment env) {
+        PhysicsEnvironment.Attribute at = env.attributes().get(MovementProfile.ATTR_MOVEMENT_SPEED);
+        if (at == null || at.knowledge() == PhysicsEnvironment.Knowledge.UNKNOWN) return false;
+        for (MovementProfile.Modifier m : at.modifiers()) if (m.id().equals(profile.sprintModifier().id())) return true;
+        return false;
+    }
+    /**
+     * Resolved movement attributes (vanilla {@code AttributeInstance.calculateValue} with the client's modifier set, effect templates folded in
+     * by id). {@code sprintModifier} is the presence of the sprint modifier in the CLIENT's set: the snapshot's own copy is dropped and the
+     * modifier re-added iff present, so a snapshot synced while the server still saw the player sprinting cannot make a walking candidate 30% faster (P9-F1).
+     */
     private final class Attrs {
         final double speedD, gravity, jumpStrength, stepHeight, sneakingSpeed, movementEfficiency, airDragModifier, frictionModifier, bounciness, scale; final float speed; final boolean canWalkOnPowderSnow, ok;
-        Attrs(PhysicsEnvironment env, boolean sprinting, Uncertainty u) {
+        Attrs(PhysicsEnvironment env, boolean sprintModifier, Uncertainty u) {
             boolean good = true;
             double[] vals = new double[MovementProfile.MOVEMENT_ATTRIBUTES.size()];
             for (int i = 0; i < vals.length; i++) {
@@ -267,7 +288,11 @@ public final class PhysicsSimulator {
                     if (ef == null) continue;
                     for (MovementProfile.EffectTemplate t : ef.templates()) if (t.attribute().equals(id) && !hasId(mods, t.modifierId())) { if (mods == at.modifiers()) mods = new ArrayList<>(mods); mods.add(t.create(e.amplifier())); }
                 }
-                if (sprinting && id.equals(MovementProfile.ATTR_MOVEMENT_SPEED) && !hasId(mods, profile.sprintModifier().id())) { if (mods == at.modifiers()) mods = new ArrayList<>(mods); mods.add(profile.sprintModifier()); }
+                if (id.equals(MovementProfile.ATTR_MOVEMENT_SPEED)) {
+                    boolean carried = hasId(mods, profile.sprintModifier().id());
+                    if (sprintModifier && !carried) { if (mods == at.modifiers()) mods = new ArrayList<>(mods); mods.add(profile.sprintModifier()); }
+                    else if (!sprintModifier && carried) { mods = new ArrayList<>(mods); mods.removeIf(m -> m.id().equals(profile.sprintModifier().id())); } // P9-F1: the client removed it at its sprint stop
+                }
                 vals[i] = MovementProfile.calculateValue(def, at.base(), mods);
             }
             ok = good;
@@ -402,7 +427,7 @@ public final class PhysicsSimulator {
         }
         return new Fluid(water, lava, height);
     }
-    /** Client-side {@code LivingEntity.pushEntities}: other players intersecting the body box push this player by {@code Entity.push(Entity)}. */
+    /** Client-side entity pushes: every known pusher whose box intersects the body box pushes this player by {@code Entity.push(Entity)} (26.2: it runs in the PUSHER's {@code pushEntities}, via {@code ClientLevel.getPushableEntities} - P9-F5). */
     private static Vec3d pushPlayers(MovementGeometry geo, Uncertainty u, PhysicsEnvironment env, Vec3d pos, Aabb box, Vec3d v, boolean onClimbable) {
         PhysicsEnvironment.EntityNeighborhood n = env.entities();
         if (n.knowledge() == PhysicsEnvironment.Knowledge.UNKNOWN) { u.add(PhysicsResult.Reason.Code.ENTITIES_UNKNOWN, "nearby players unknown"); return v; }

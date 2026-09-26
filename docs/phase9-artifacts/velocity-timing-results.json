@@ -1,0 +1,24 @@
+{
+  "phase": "7",
+  "gate": "hidden application tick / input never excluded: the true client state is in the union frontier at every transmission and the true application tick is among the explaining hypotheses",
+  "withTickEnds": {
+    "cases": 1500,
+    "transmissions": 11561,
+    "resolvedUnique": 11561,
+    "resolvedAmbiguous": 0,
+    "influences": 2893,
+    "maxHypotheses": 9,
+    "evaluations": 857644
+  },
+  "withoutTickEnds": {
+    "cases": 200,
+    "transmissions": 1549,
+    "resolvedUnique": 0,
+    "resolvedAmbiguous": 0,
+    "influences": 369,
+    "maxHypotheses": 16,
+    "evaluations": 442378
+  },
+  "failures": 0,
+  "seeds": "7000.. and 9000.. (SplittableRandom, deterministic)"
+}

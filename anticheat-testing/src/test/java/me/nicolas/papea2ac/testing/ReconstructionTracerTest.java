@@ -35,7 +35,10 @@ class ReconstructionTracerTest {
         Thread.sleep(30);
         List<String> report = t.report(u); String text = String.join("\n", report);
         assertTrue(report.get(report.size() - 1).startsWith("QUALIFYING: the declared input is in the candidate set of every reconstructed transition (8)"), text);
-        assertTrue(text.contains("unique=8"), text); assertTrue(text.contains("alignedH1=8"), text);
+        // P9-F3 (pinned client): the sneak key of the observed tick moves nothing that tick (it only sets the pose the tick ends in), so every
+        // transition is the pair {W-----, W--C--} - ambiguous only in that key, with the declared input present in all of them
+        assertTrue(text.contains("unique=0 ambiguous=8"), text); assertTrue(text.contains("alignedH1=8"), text);
+        assertEquals(8, report.stream().filter(l -> l.contains("[W----- W--C--]")).count(), text);
         for (String l : report) { String lo = l.toLowerCase(Locale.ROOT); assertFalse(lo.contains("cheat") || lo.contains("invalid") || lo.contains("violation"), l); }
         assertEquals("trace cancelled", t.cancel(u));
     }

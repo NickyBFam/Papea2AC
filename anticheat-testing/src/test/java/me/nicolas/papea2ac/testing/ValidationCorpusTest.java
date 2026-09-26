@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * only ever with a complete proof.
  */
 class ValidationCorpusTest {
-    static final Path NATIVE = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase6-artifacts/physics-fixtures/native-trajectories.json");
+    static final Path NATIVE = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase9-artifacts/physics-fixtures/native-trajectories.json");
 
     @Test void theLegitimateFuzzCorpusHasZeroFalseInvalid() {
         ValidationCorpus.Tally t = ValidationCorpus.fuzzCorpus(90_000, 2_000);

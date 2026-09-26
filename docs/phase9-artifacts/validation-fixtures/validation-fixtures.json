@@ -1,0 +1,524 @@
+{
+  "phase": "8 - Movement Validation",
+  "source": "ValidationFixtures catalog (anticheat-testing): synthetic ordered traces over the Phase 3/4/5 test scene with observation mutations / environment overrides, validated as chains through Phase 7 -> 6 -> 5 -> 8; summaries only",
+  "cases": {
+    "valid_unique": {
+      "description": "one-tick forward walk, unique legal input",
+      "expected": "VALID",
+      "transmissions": 1,
+      "classifications": {
+        "VALID": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        }
+      ],
+      "digest": "db03d4c82671551b588a6f3dc7fd75dd2735ab0ad6541cc86d37be0c9713e36a",
+      "expectedMet": true
+    },
+    "valid_ambiguous": {
+      "description": "a standing client's 20-tick reminder: several equivalent legal inputs",
+      "expected": "VALID",
+      "transmissions": 1,
+      "classifications": {
+        "VALID": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 121,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        }
+      ],
+      "digest": "9ab8378615fb3714529885e3f950b2156aee66415bd62768306980bb101aae68",
+      "expectedMet": true
+    },
+    "valid_external_velocity": {
+      "description": "velocity SET applied one tick after it left: the union carries apply@j and later",
+      "expected": "VALID",
+      "transmissions": 4,
+      "classifications": {
+        "VALID": 4
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 104,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND", "EXTERNAL_MOTION_EXPLAINS", "LEGAL_TIMING_BRANCH_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 3,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        },
+        {
+          "sequence": 106,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        },
+        {
+          "sequence": 108,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        },
+        {
+          "sequence": 110,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        }
+      ],
+      "digest": "09b7e29fd0df6e905dcee2a6f013d66ba6654e38a1cf95bd96b229921f50f064",
+      "expectedMet": true
+    },
+    "valid_teleport_application": {
+      "description": "a correction's application point then walking from it",
+      "expected": "VALID",
+      "transmissions": 3,
+      "classifications": {
+        "VALID": 3
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 104,
+          "classification": "VALID",
+          "valid": ["TELEPORT_APPLICATION_POINT"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 1,
+          "witnesses": 1,
+          "continuation": 2
+        },
+        {
+          "sequence": 105,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        },
+        {
+          "sequence": 107,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        }
+      ],
+      "digest": "1af104434ecbf85314f12bd8b8f43629236b5699cc8cfe4744a227d50821965d",
+      "expectedMet": true
+    },
+    "uncertain_incomplete_world": {
+      "description": "an impossible observation validated against a world whose chunk was never observed",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["WORLD_INCOMPLETE", "CLIMBABLE_CONTACT"],
+          "invalid": [],
+          "completeness": "reconstruction,world,mechanicSupported",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "32d0849c3781f7d686cc7dd19f659c9573c0d43a5042144c78f10a58c5300d24",
+      "expectedMet": true
+    },
+    "uncertain_unknown_attribute": {
+      "description": "an impossible observation with unknown movement attributes",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["ATTRIBUTE_UNKNOWN"],
+          "invalid": [],
+          "completeness": "reconstruction,attributes",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "6ebe81bb5d2eaecfdaab7d90f09f9cdc15914329fecee916fc6588c72e4157cb",
+      "expectedMet": true
+    },
+    "uncertain_search_limit": {
+      "description": "an impossible observation with a Phase 6 node budget the frontier cannot fit",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["SEARCH_LIMIT"],
+          "invalid": [],
+          "completeness": "reconstruction,search",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "a61a48084d4b7e2c1932810380811bdcccc048ce09fd03f7613ad457ab171a16",
+      "expectedMet": true
+    },
+    "uncertain_unsupported_fluid": {
+      "description": "a transition through water",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["UNSUPPORTED_FLUID"],
+          "invalid": [],
+          "completeness": "reconstruction,mechanicSupported",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "3a3f41505a6e0dfd63722980a289e23ace444a5692965f9f615a4f359f2e9ca2",
+      "expectedMet": true
+    },
+    "uncertain_climbable_contact": {
+      "description": "an impossible observation next to a ladder: the exact model is not qualified for INVALID within reach of a climbable (P8-F2)",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["CLIMBABLE_CONTACT"],
+          "invalid": [],
+          "completeness": "mechanicSupported",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "a7063859f7468ab3f47ba03b7b02b6fc54802c8708766cf09c394c4c4af2ac97",
+      "expectedMet": true
+    },
+    "uncertain_teleport_discontinuity": {
+      "description": "a respawn discontinuity inside the interval",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 103,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["DISCONTINUITY"],
+          "invalid": [],
+          "completeness": "timing,observation",
+          "timingHypotheses": 0,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "2a19450a1fff05062c47ac1838b6a0c0d4a670b16e5e790125c8569d5ece8e19",
+      "expectedMet": true
+    },
+    "valid_pre_application_reminder": {
+      "description": "a correction sent but not yet confirmed while the client stands: its reminder is ordinary pre-application movement (never bridged across the correction)",
+      "expected": "VALID",
+      "transmissions": 1,
+      "classifications": {
+        "VALID": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 122,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        }
+      ],
+      "digest": "5861041f6ea48ee1d9071662a92524572d37b2f7b0c7545d2b1d065c07558294",
+      "expectedMet": true
+    },
+    "invalid_horizontal_excess": {
+      "description": "1.5 blocks in one tick from rest: beyond every legal input and the M3 envelope",
+      "expected": "INVALID",
+      "transmissions": 1,
+      "classifications": {
+        "INVALID": 1
+      },
+      "invalidWithProof": 1,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "INVALID",
+          "valid": [],
+          "uncertain": [],
+          "invalid": ["NO_LEGAL_INPUT", "HORIZONTAL_EXCESS"],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0,
+          "proof": "1 hypotheses, 144 enumerated, 0+144 excluded, 0 remaining",
+          "residual": "h=1.503198 rise=0.000000 excessH=1.175798 excessV=0.000000 ENVELOPE"
+        }
+      ],
+      "digest": "fbe1279bde8f875a68d78497ad073ff9b40308c777f7067b743fd0f8bc079872",
+      "expectedMet": true
+    },
+    "invalid_vertical_excess": {
+      "description": "+1.0 in one tick from rest: no jump, effect or support explains the ascent",
+      "expected": "INVALID",
+      "transmissions": 1,
+      "classifications": {
+        "INVALID": 1
+      },
+      "invalidWithProof": 1,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "INVALID",
+          "valid": [],
+          "uncertain": [],
+          "invalid": ["NO_LEGAL_INPUT", "VERTICAL_EXCESS", "IMPOSSIBLE_ASCENT"],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0,
+          "proof": "1 hypotheses, 144 enumerated, 0+144 excluded, 0 remaining",
+          "residual": "h=0.098000 rise=1.000000 excessH=0.000000 excessV=0.580000 ENVELOPE"
+        }
+      ],
+      "digest": "70633642743ef8c676de54ddde539cb163002e69124da74dc7440d043524a1fc",
+      "expectedMet": true
+    },
+    "invalid_collision_penetration": {
+      "description": "the observed feet half a block inside the stone floor",
+      "expected": "INVALID",
+      "transmissions": 1,
+      "classifications": {
+        "INVALID": 1
+      },
+      "invalidWithProof": 1,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "INVALID",
+          "valid": [],
+          "uncertain": [],
+          "invalid": ["NO_LEGAL_INPUT", "VERTICAL_EXCESS", "IMPOSSIBLE_DESCENT", "COLLISION_PENETRATION"],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0,
+          "proof": "1 hypotheses, 144 enumerated, 0+144 excluded, 0 remaining",
+          "residual": "h=0.098000 rise=-0.500000 excessH=0.000000 excessV=-0.500000 ENVELOPE"
+        }
+      ],
+      "digest": "567fb682e348a48e4c7aabdf63e82a0adeabb4e786fb461d16f0e2a5eac505c2",
+      "expectedMet": true
+    },
+    "invalid_hover": {
+      "description": "airborne after a jump, the observation holds the previous height",
+      "expected": "INVALID",
+      "transmissions": 3,
+      "classifications": {
+        "INVALID": 1,
+        "VALID": 2
+      },
+      "invalidWithProof": 1,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 2,
+          "witnesses": 2,
+          "continuation": 2
+        },
+        {
+          "sequence": 104,
+          "classification": "VALID",
+          "valid": ["LEGAL_INPUT_FOUND"],
+          "uncertain": [],
+          "invalid": [],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 4,
+          "witnesses": 4,
+          "continuation": 4
+        },
+        {
+          "sequence": 106,
+          "classification": "INVALID",
+          "valid": [],
+          "uncertain": [],
+          "invalid": ["NO_LEGAL_INPUT", "VERTICAL_EXCESS", "IMPOSSIBLE_DESCENT"],
+          "completeness": "ALL",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0,
+          "proof": "1 hypotheses, 576 enumerated, 0+576 excluded, 0 remaining",
+          "residual": "h=0.000000 rise=0.000000 excessH=0.000000 excessV=-0.248136 ENVELOPE"
+        }
+      ],
+      "digest": "367e0ae6e47ebb7a14aec221da97c118ffbb4227a9a66d89fb9750404ef9335c",
+      "expectedMet": true
+    },
+    "world_epoch_mismatch": {
+      "description": "the environment belongs to another world epoch than the observation",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["DISCONTINUITY"],
+          "invalid": [],
+          "completeness": "reconstruction,observation",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "294042bb8583489c574f5505ad8177c9da018eb82abd9943969571e8fd24faca",
+      "expectedMet": true
+    },
+    "frontier_incomplete": {
+      "description": "an impossible observation on a chain whose earlier step was incomplete",
+      "expected": "UNCERTAIN",
+      "transmissions": 1,
+      "classifications": {
+        "UNCERTAIN": 1
+      },
+      "invalidWithProof": 0,
+      "steps": [
+        {
+          "sequence": 102,
+          "classification": "UNCERTAIN",
+          "valid": [],
+          "uncertain": ["FRONTIER_INCOMPLETE"],
+          "invalid": [],
+          "completeness": "frontier",
+          "timingHypotheses": 1,
+          "legal": 0,
+          "witnesses": 0,
+          "continuation": 0
+        }
+      ],
+      "digest": "a9ed5f74c537f3a57eb5d8cf3cf174b55af198052dded25b379c2a5853765298",
+      "expectedMet": true
+    }
+  }
+}

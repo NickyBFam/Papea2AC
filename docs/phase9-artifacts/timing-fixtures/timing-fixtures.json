@@ -1,0 +1,878 @@
+{
+  "phase": "7 - Latency / Acknowledgement / External-Motion Timing",
+  "source": "TimingFixtures catalog (anticheat-testing): synthetic ordered traces over the Phase 3/4/5 test scene, walked through TimingResolver + TimingReconstruction; summaries only",
+  "cases": {
+    "stable_rtt_walk": {
+      "description": "three 1-tick walking transmissions with 20 ms marker answers",
+      "events": 19,
+      "steps": [
+        {
+          "sequence": 114,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 116,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 118,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 3,
+      "truthRetained": 3,
+      "evaluations": 6,
+      "rttSamples": 6,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 20000000,
+      "rttJitterNanos": 2373048,
+      "digest": "37fe5c1a9bf766c485352307fccc544befd18fce2081fb8a2383d22a35962ed5"
+    },
+    "rtt_jitter": {
+      "description": "walking with 10-80 ms jittered marker answers",
+      "events": 19,
+      "steps": [
+        {
+          "sequence": 114,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 116,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 118,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 3,
+      "truthRetained": 3,
+      "evaluations": 6,
+      "rttSamples": 6,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 63252594,
+      "rttJitterNanos": 17009827,
+      "digest": "37fe5c1a9bf766c485352307fccc544befd18fce2081fb8a2383d22a35962ed5"
+    },
+    "rtt_outlier": {
+      "description": "walking with one 900 ms answer among 20 ms answers",
+      "events": 19,
+      "steps": [
+        {
+          "sequence": 114,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 116,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 118,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 3,
+      "truthRetained": 3,
+      "evaluations": 6,
+      "rttSamples": 6,
+      "rttOutliers": 1,
+      "rttSmoothedNanos": 20000000,
+      "rttJitterNanos": 3164063,
+      "digest": "37fe5c1a9bf766c485352307fccc544befd18fce2081fb8a2383d22a35962ed5"
+    },
+    "velocity_immediate": {
+      "description": "velocity SET applied at the next tick",
+      "events": 12,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 111,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 5,
+      "truthRetained": 5,
+      "evaluations": 18,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "d90ab569c7d8612568a0a380b057a544f256cc0fdea167273ed4100ba0044939"
+    },
+    "velocity_delayed_1": {
+      "description": "velocity SET applied one tick late (network lead 1)",
+      "events": 12,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@later"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 111,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 5,
+      "truthRetained": 5,
+      "evaluations": 16,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "bff54ebd8781d6f0f212242fc95fac31b79e9582336bbe1eb1b09388d506232e"
+    },
+    "velocity_delayed_2": {
+      "description": "velocity SET applied two ticks late",
+      "events": 12,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@later"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@later"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 111,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 5,
+      "truthRetained": 5,
+      "evaluations": 14,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "f30c470c95cc9e9fe33f2f235c697139e4ff2a09358260be0800d9f321b6e68a"
+    },
+    "explosion_impulse": {
+      "description": "explosion ADD applied at the next tick",
+      "events": 9,
+      "steps": [
+        {
+          "sequence": 104,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h2-m11@2", "h2-m11@later"],
+          "explaining": ["h2-m11@2"],
+          "frontier": 4,
+          "truthRetained": true
+        },
+        {
+          "sequence": 106,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 4,
+          "truthRetained": true
+        },
+        {
+          "sequence": 108,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 4,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 3,
+      "truthRetained": 3,
+      "evaluations": 160,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "28ff3a912df0edc78847b292b864dfe344abacb8f7fc9b91cb341d44145c7b55"
+    },
+    "multiple_velocities": {
+      "description": "two velocities in wire order, applied at consecutive ticks",
+      "events": 13,
+      "steps": [
+        {
+          "sequence": 102,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 108,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h1-m12@1", "h1-m12@later"],
+          "explaining": ["h1-m12@1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 110,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 112,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 5,
+      "truthRetained": 5,
+      "evaluations": 16,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "b5da1d8aa5656809d7a4a919261d16aba27e828e47b6b28b8e41702a3fb56f6a"
+    },
+    "silent_client_velocity": {
+      "description": "a standing client receives a velocity after two silent ticks",
+      "events": 12,
+      "steps": [
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_AMBIGUOUS",
+          "hypotheses": ["h3-m11@2", "h3-m11@3", "h3-m11@later"],
+          "explaining": ["h3-m11@3"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 111,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 4,
+      "truthRetained": 4,
+      "evaluations": 136,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "d4bab12e87f1abe663dae315939b1298256113c91c2d06a7dca469e63fa66159"
+    },
+    "teleport_immediate_confirm": {
+      "description": "correction applied before the next tick",
+      "events": 10,
+      "steps": [
+        {
+          "sequence": 104,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h0-teleport-7"],
+          "explaining": ["h0-teleport-7"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 4,
+      "truthRetained": 4,
+      "evaluations": 8,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "48445ed8aa4b5cb9bbbdd6d6e6af5c5b3b51d80e9aae24bbf8789f15126869fb"
+    },
+    "teleport_delayed_confirm": {
+      "description": "correction applied after two pre-application ticks",
+      "events": 14,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 108,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h0-teleport-7"],
+          "explaining": ["h0-teleport-7"],
+          "frontier": 4,
+          "truthRetained": true
+        },
+        {
+          "sequence": 109,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 111,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 113,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 6,
+      "truthRetained": 6,
+      "evaluations": 12,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "c2c2a802fefc6750fadc0b0c1db98276d3e82e7c4c00480ea63197e18c52a106"
+    },
+    "teleport_supersession": {
+      "description": "two corrections, the older confirmed first, then the newer",
+      "events": 11,
+      "steps": [
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h0-teleport-1"],
+          "explaining": ["h0-teleport-1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 107,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h0-teleport-2"],
+          "explaining": ["h0-teleport-2"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 108,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 110,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 4,
+      "truthRetained": 4,
+      "evaluations": 6,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "bafefede0e1e5861b64618c7e22373295333437b4305a51140fd07f6f1545aed"
+    },
+    "silent_closure_reminder": {
+      "description": "a standing client's 20-tick position reminder then a move (silent closure)",
+      "events": 26,
+      "steps": [
+        {
+          "sequence": 121,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h3"],
+          "explaining": ["h3"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 125,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h3"],
+          "explaining": ["h3"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 2,
+      "truthRetained": 2,
+      "evaluations": 98,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "2dd631f307f077fd3e0881179c716e4aa5809ed6f257fc93b0987d9d1703f287"
+    },
+    "rotation_only_ticks": {
+      "description": "rotation-only packets inside a 3-tick interval",
+      "events": 6,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h2"],
+          "explaining": ["h2"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 105,
+          "status": "RESOLVED_UNIQUE",
+          "complete": true,
+          "timing": "RESOLVED_UNIQUE",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 2,
+      "truthRetained": 2,
+      "evaluations": 26,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "1849542444cc192776904228a66f48a6edc635db8144bf98e5630b627edf6305"
+    },
+    "no_tick_end_fallback": {
+      "description": "a session without tick ends: bounded fallback",
+      "events": 3,
+      "steps": [
+        {
+          "sequence": 101,
+          "status": "INCOMPLETE",
+          "complete": false,
+          "timing": "TIMING_GAP",
+          "hypotheses": ["h1", "h2", "h3"],
+          "explaining": ["h1", "h2", "h3"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 102,
+          "status": "INCOMPLETE",
+          "complete": false,
+          "timing": "TIMING_GAP",
+          "hypotheses": ["h1", "h2", "h3"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        },
+        {
+          "sequence": 103,
+          "status": "INCOMPLETE",
+          "complete": false,
+          "timing": "TIMING_GAP",
+          "hypotheses": ["h1", "h2", "h3"],
+          "explaining": ["h1"],
+          "frontier": 2,
+          "truthRetained": true
+        }
+      ],
+      "truthClaimed": 3,
+      "truthRetained": 3,
+      "evaluations": 30,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "2b268506bf19fcc18abf40a5095edd7a49b1be8af669bf04c8736874b686c1cb"
+    },
+    "world_discontinuity": {
+      "description": "a respawn boundary inside the interval",
+      "events": 4,
+      "steps": [
+        {
+          "sequence": 104,
+          "status": "WORLD_DISCONTINUITY",
+          "complete": true,
+          "timing": "WORLD_DISCONTINUITY",
+          "hypotheses": [],
+          "explaining": [],
+          "frontier": 0
+        }
+      ],
+      "truthClaimed": 0,
+      "truthRetained": 0,
+      "evaluations": 0,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unresolved_motion": {
+      "description": "a declared-unknown influence in scope",
+      "events": 3,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "INCOMPLETE",
+          "complete": false,
+          "timing": "EXTERNAL_MOTION_UNRESOLVED",
+          "hypotheses": ["h1-m11@1", "h1-m11@later"],
+          "explaining": ["h1-m11@later"],
+          "frontier": 2
+        }
+      ],
+      "truthClaimed": 0,
+      "truthRetained": 0,
+      "evaluations": 146,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "b47ed4e69d84310c3b774fa975b651eca800b083dc7d7ffa2f52221c8a7b0b24"
+    },
+    "influence_overflow": {
+      "description": "nine simultaneously unresolved influences",
+      "events": 11,
+      "steps": [
+        {
+          "sequence": 111,
+          "status": "UNSUPPORTED",
+          "complete": false,
+          "timing": "UNSUPPORTED",
+          "hypotheses": [],
+          "explaining": [],
+          "frontier": 0
+        }
+      ],
+      "truthClaimed": 0,
+      "truthRetained": 0,
+      "evaluations": 0,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "expired_influence": {
+      "description": "an influence older than the application horizon",
+      "events": 3,
+      "steps": [
+        {
+          "sequence": 103,
+          "status": "INCOMPLETE",
+          "complete": false,
+          "timing": "EXPIRED",
+          "hypotheses": ["h1"],
+          "explaining": ["h1"],
+          "frontier": 2
+        }
+      ],
+      "truthClaimed": 0,
+      "truthRetained": 0,
+      "evaluations": 2,
+      "rttSamples": 0,
+      "rttOutliers": 0,
+      "rttSmoothedNanos": 0,
+      "rttJitterNanos": 0,
+      "digest": "55d16cbc923b42235bd963ea66b1fe5c1a5b87b01f2716ac6eab2ef0dc68953a"
+    }
+  }
+}

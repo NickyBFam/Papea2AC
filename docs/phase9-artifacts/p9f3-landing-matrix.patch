@@ -1,0 +1,64 @@
+diff --git a/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java b/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
+index 1435fa1..657e8d4 100644
+--- a/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
++++ b/anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsScenarios.java
+@@ -52,6 +52,48 @@ final class PhysicsScenarios {
+         for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = -PLATFORM_HALF; z <= PLATFORM_HALF; z++) b.add(new Block(x, PLATFORM_Y, z, x >= x0 && x <= x1 && z >= z0 && z <= z1 ? state : STONE));
+         return b;
+     }
++    /**
++     * P9-F3: one-block falls onto every surface family, with the input held through the landing and the first grounded ticks. The start is
++     * airborne at FLOOR + 1 with a horizontal velocity of the given magnitude, so tick 1-2 fall, one tick lands, and the rest are grounded.
++     */
++    private static List<Scenario> landingMatrix() {
++        List<Scenario> out = new ArrayList<>();
++        record Surface(String id, List<Block> blocks) {}
++        List<Surface> surfaces = List.of(
++            new Surface("stone", platform()),
++            new Surface("ice", platformSurface("minecraft:ice", -12, -12, 12, 12)),
++            new Surface("slime", platformSurface("minecraft:slime_block", -12, -12, 12, 12)),
++            new Surface("honey", platformSurface("minecraft:honey_block", -12, -12, 12, 12)),
++            new Surface("soul_sand", platformSurface("minecraft:soul_sand", -12, -12, 12, 12)),
++            new Surface("slab", plus(platform(), slabStrip(-12, 12))),
++            new Surface("stairs", plus(platform(), stairStrip(-12, 12))),
++            new Surface("mixed_friction", platformSurface("minecraft:ice", 0, -12, 12, 12)));
++        record Motion(String id, Tick tick, double vx, double vz, float yaw) {}
++        List<Motion> motions = List.of(
++            new Motion("idle", Tick.idle(), 0.16, 0.0, 0f),
++            new Motion("walk", Tick.fwd(90f), 0.16, 0.0, 90f),
++            new Motion("sprint", Tick.sprint(90f), 0.21, 0.0, 90f),
++            new Motion("sneak", new Tick(1, 0, false, true, false, false, 90f), 0.16, 0.0, 90f),
++            new Motion("sneak_sprint_back", new Tick(-1, 0, false, true, true, false, 90f), 0.065, -0.008, 90f),
++            new Motion("back", new Tick(-1, 0, false, false, false, false, 90f), 0.16, 0.0, 90f),
++            new Motion("diagonal", new Tick(1, 1, false, false, false, false, 45f), 0.12, 0.12, 45f),
++            new Motion("use_item", new Tick(1, 0, false, false, false, true, 90f), 0.16, 0.0, 90f),
++            new Motion("release", Tick.idle(), 0.16, 0.0, 90f));
++        for (Surface surface : surfaces) for (Motion m : motions) {
++            double y = surface.id().equals("slab") || surface.id().equals("stairs") ? FLOOR + 1.5 : FLOOR + 1.0;
++            Start start = new Start(0.5, y, 0.5, m.vx(), 0.0, m.vz(), m.yaw(), false, PlayerBox.Pose.STANDING, 0.0, Vec3d.ZERO, false, 0, null, m.id().contains("sprint"), m.tick().shift());
++            out.add(sc("land_" + surface.id() + "_" + m.id(), "p9f3-landing", surface.blocks(), start, repeat(m.tick(), 12)));
++        }
++        // landing exactly on a block boundary and on the edge of a ledge (support selection is the suspect)
++        out.add(sc("land_boundary_x", "p9f3-landing", platform(), new Start(1.0, FLOOR + 1.0, 0.5, 0.16, 0.0, 0.0, 90f, false, PlayerBox.Pose.STANDING, 0.0, Vec3d.ZERO, false, 0, null, false, false), repeat(Tick.fwd(90f), 12)));
++        out.add(sc("land_ledge_edge", "p9f3-landing", platform(), new Start(11.7, FLOOR + 1.0, 0.5, 0.16, 0.0, 0.0, 90f, false, PlayerBox.Pose.STANDING, 0.0, Vec3d.ZERO, false, 0, null, false, false), repeat(Tick.fwd(90f), 12)));
++        out.add(sc("land_ice_boundary", "p9f3-landing", platformSurface("minecraft:ice", 0, -12, 12, 12), new Start(0.02, FLOOR + 1.0, 0.5, 0.16, 0.0, 0.0, 90f, false, PlayerBox.Pose.STANDING, 0.0, Vec3d.ZERO, false, 0, null, false, false), repeat(Tick.fwd(90f), 12)));
++        return out;
++    }
++    /** A bottom-slab strip on top of the platform over z in [z0, z1]. */
++    private static List<Block> slabStrip(int z0, int z1) { List<Block> b = new ArrayList<>(); for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = z0; z <= z1; z++) b.add(new Block(x, PLATFORM_Y + 1, z, "minecraft:oak_slab[type=bottom,waterlogged=false]")); return b; }
++    /** A stair strip on top of the platform over z in [z0, z1]. */
++    private static List<Block> stairStrip(int z0, int z1) { List<Block> b = new ArrayList<>(); for (int x = -PLATFORM_HALF; x <= PLATFORM_HALF; x++) for (int z = z0; z <= z1; z++) b.add(new Block(x, PLATFORM_Y + 1, z, "minecraft:oak_stairs[facing=north,half=bottom,shape=straight,waterlogged=false]")); return b; }
+     private static List<Tick> repeat(Tick t, int n) { List<Tick> l = new ArrayList<>(n); for (int i = 0; i < n; i++) l.add(t); return l; }
+     private static List<Tick> concat(List<Tick> a, List<Tick> b) { List<Tick> l = new ArrayList<>(a); l.addAll(b); return l; }
+     private static Scenario sc(String id, String group, List<Block> blocks, Start start, List<Tick> ticks) { return new Scenario(id, group, blocks, start, Map.of(), List.of(), false, ticks, false); }
+@@ -107,6 +149,10 @@ final class PhysicsScenarios {
+         s.add(sc("sneak_edge_backoff", "sneak", platform(), Start.resting(0.5, 11.5, 0f), repeat(new Tick(1, 0, false, true, false, false, 0f), 40)));
+         s.add(sc("sneak_edge_diagonal", "sneak", platform(), Start.resting(11.2, 11.2, 45f), repeat(new Tick(1, 0, false, true, false, false, 45f), 30)));
+         s.add(sc("walk_off_edge", "fall", platform(), Start.resting(0.5, 11.5, 0f), repeat(Tick.fwd(0f), 30)));
++        // ---- P9-F3 probe (docs/phase9-artifacts/p9f3-landing-matrix.patch): the LANDING tick and the first grounded tick after it, which is
++        // where the live carried velocity diverged. Every case starts one block above the surface with a horizontal velocity, so the chain is
++        // air -> land -> grounded move; the differential compares BOTH ticks (and the whole tail) against the real server.
++        s.addAll(landingMatrix());
+         // ---- special blocks
+         s.add(sc("ice_walk", "friction", platformSurface("minecraft:ice", -12, -12, 12, 12), rest, concat(repeat(Tick.fwd(0f), 20), repeat(Tick.idle(), 20))));
+         s.add(sc("blue_ice_sprint", "friction", platformSurface("minecraft:blue_ice", -12, -12, 12, 12), rest.withSprinting(true), concat(repeat(Tick.sprint(0f), 20), repeat(Tick.idle(), 20))));

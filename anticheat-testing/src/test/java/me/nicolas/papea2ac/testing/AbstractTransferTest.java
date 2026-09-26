@@ -81,7 +81,9 @@ class AbstractTransferTest {
         PhysicsScene ps = new PhysicsScene(); PhysicsEnvironment env = ps.env(); SplittableRandom r = new SplittableRandom(SEED ^ 0x5eedL);
         AbstractTransfer t = new AbstractTransfer(ps.simulator, env, OBS, 4096); InputReconstructor rec = new InputReconstructor(ps.simulator);
         int checked = 0, landedSkips = 0;
-        for (int c = 0; c < 40; c++) {
+        // P9-F3: only a tick that STARTS crouched is sneak-scaled (pinned client), so the skip - a velocity cancelled by a tiny sneak-scaled air
+        // impulse - now needs a crouching start; the sample is widened so both poses and the skip branch stay exercised
+        for (int c = 0; c < 120; c++) {
             PlayerBox.Pose pose = r.nextBoolean() ? PlayerBox.Pose.STANDING : PlayerBox.Pose.CROUCHING;
             double vx = (r.nextInt(21) - 10) * 1e-5, vz = (r.nextInt(21) - 10) * 1e-3 * (r.nextBoolean() ? 1 : 0.01);
             PhysicsState s = PhysicsState.resting(8.5 + r.nextDouble() * 0.01, SURFACE, 8.5 + r.nextDouble() * 0.01, pose, false).withVelocity(new Vec3d(vx, r.nextBoolean() ? 0.0 : -0.0784000015258789, vz)).withSupport(PhysicsState.Support.NONE);

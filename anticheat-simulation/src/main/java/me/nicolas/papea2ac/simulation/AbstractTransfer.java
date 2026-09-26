@@ -34,6 +34,7 @@ import java.util.Objects;
 public final class AbstractTransfer {
     private static final double LANDING_EPSILON = 1.0E-6, BORDER_MARGIN = 3.0;
     private final PhysicsSimulator simulator; private final PhysicsEnvironment env; private final MovementObservationProfile observation; private final int maxCells;
+    private static final List<PhysicsState.SprintModifier> CONCRETE_CLASSES = List.of(PhysicsState.SprintModifier.FOLLOWS, PhysicsState.SprintModifier.STUCK_ON, PhysicsState.SprintModifier.STUCK_OFF);
     private final PhysicsSimulator.ResolvedAttributes walk, sprint;
     private final double halfWidth, height;
     private final boolean slowFalling; private final PhysicsEnvironment.EffectInstance levitation, jumpBoost;
@@ -125,71 +126,94 @@ public final class AbstractTransfer {
     public List<AbstractState.Box> apply(Prepared pre, MovementInput in) {
         AbstractState.Box box = pre.box(); Floor floor = pre.floor(); Interval vx = pre.vx(), vy = pre.vy(), vz = pre.vz();
         List<AbstractState.Box> boxes = new ArrayList<>(2);
-        PhysicsSimulator.ResolvedAttributes a = in.sprinting() ? sprint : walk;
-        // crouching == shift here: the standing box fits everywhere in the region, so isMovingSlowly reduces to the sneak key
-        float[] move = PhysicsKernels.clientMoveVector(in.forward(), in.strafe(), in.shift(), in.usingItem(), (float) a.sneakingSpeed());
-        float xxa = move[0], zza = move[1];
-        int poses = in.shift() ? AbstractState.POSE_CROUCHING : AbstractState.POSE_STANDING;
-        for (int g = 0; g < 2; g++) {
-            boolean onGround = g == 0;
-            if (onGround ? !box.mayBeOnGround() : !box.mayBeAirborne()) continue;
-            float friction = onGround ? MovementProfile.computeModifiedFriction(floor.friction, (float) a.frictionModifier()) : 1.0f;
-            float speed = onGround ? groundSpeed(a, friction) : (in.sprinting() ? MovementProfile.AIR_SPRINT_SPEED : MovementProfile.AIR_SPEED);
-            Vec3d iv = simulator.inputVector((double) xxa, 0.0, (double) zza, speed, in.yaw());
-            // jump cases: fires iff on ground and the decremented delay is 0
-            boolean jumpPossible = in.jump() && onGround && pre.decLo() == 0, noJumpPossible = !in.jump() || !onGround || pre.decHi() > 0;
-            for (int j = 0; j < 2; j++) {
-                boolean jumped = j == 0;
-                if (jumped ? !jumpPossible : !noJumpPossible) continue;
-                Interval jx = vx, jy = vy, jz = vz; int njLo, njHi;
-                if (jumped) {
-                    float power = (float) a.jumpStrength() * 1.0f * 1.0f + (jumpBoost == null ? 0.0f : MovementProfile.JUMP_BOOST_PER_LEVEL * ((float) jumpBoost.amplifier() + 1.0f));
-                    if (power > MovementProfile.JUMP_POWER_EPSILON) {
-                        jy = jy.maxWith((double) power);
-                        if (in.sprinting()) { float yawRad = in.yaw() * MovementProfile.DEG_TO_RAD; jx = jx.add((double) (-simulator.profile().sin(yawRad)) * MovementProfile.SPRINT_JUMP_IMPULSE); jz = jz.add((double) simulator.profile().cos(yawRad) * MovementProfile.SPRINT_JUMP_IMPULSE); }
+        // P9-F1: the sprint modifier's presence is the box's sprint-modifier class applied to this input (FOLLOWS: the input's sprint flag - the only
+        // class of a Phase 6 box; STUCK_ON: present; STUCK_OFF: absent); every class the box may hold is transferred, each to its own successor class,
+        // exactly as the concrete rule (PhysicsState.sprintModifierAfter): an idle input keeps a multi-class set, a moving one resolves per member;
+        // boxes that differ only in their class set are merged below (a MAYBE successor is the union of its members' boxes).
+        boolean idleKeepsSet = !PhysicsState.moving(in) && Integer.bitCount(box.sprintModes()) > 1;
+        for (PhysicsState.SprintModifier mode : CONCRETE_CLASSES) {
+            if (!box.mayBe(mode)) continue;
+            PhysicsSimulator.ResolvedAttributes a = (mode == PhysicsState.SprintModifier.FOLLOWS ? in.sprinting() : mode == PhysicsState.SprintModifier.STUCK_ON) ? sprint : walk;
+            int nextModes = idleKeepsSet ? box.sprintModes() : AbstractState.sprintBit(mode == PhysicsState.SprintModifier.FOLLOWS ? mode : mode == PhysicsState.SprintModifier.STUCK_ON ? (in.sprinting() ? PhysicsState.SprintModifier.FOLLOWS : mode) : (in.sprinting() ? mode : PhysicsState.SprintModifier.FOLLOWS));
+            if (idleKeepsSet && mode != PhysicsState.SprintModifier.FOLLOWS) continue; // no horizontal input: every member transfers identically
+            // P9-F3 (pinned 26.2 client): the sneak scaling of this tick follows the pose the tick STARTS in (LocalPlayer computes `crouching` from the key
+            // sampled one tick earlier, the same key that set that pose), while the pose it ENDS in follows this tick's key. Every start pose the box
+            // may hold is transferred with its own scaling; the standing box fits everywhere in the pilot region, so the end pose is the key's.
+            for (int startPose : new int[] { AbstractState.POSE_STANDING, AbstractState.POSE_CROUCHING }) {
+                if ((box.poses() & startPose) == 0) continue;
+                float[] move = PhysicsKernels.clientMoveVector(in.forward(), in.strafe(), startPose == AbstractState.POSE_CROUCHING, in.usingItem(), (float) a.sneakingSpeed());
+                float xxa = move[0], zza = move[1];
+                int poses = in.shift() ? AbstractState.POSE_CROUCHING : AbstractState.POSE_STANDING;
+                for (int g = 0; g < 2; g++) {
+                    boolean onGround = g == 0;
+                    if (onGround ? !box.mayBeOnGround() : !box.mayBeAirborne()) continue;
+                    float friction = onGround ? MovementProfile.computeModifiedFriction(floor.friction, (float) a.frictionModifier()) : 1.0f;
+                    float speed = onGround ? groundSpeed(a, friction) : (in.sprinting() ? MovementProfile.AIR_SPRINT_SPEED : MovementProfile.AIR_SPEED);
+                    Vec3d iv = simulator.inputVector((double) xxa, 0.0, (double) zza, speed, in.yaw());
+                    // jump cases: fires iff on ground and the decremented delay is 0
+                    boolean jumpPossible = in.jump() && onGround && pre.decLo() == 0, noJumpPossible = !in.jump() || !onGround || pre.decHi() > 0;
+                    for (int j = 0; j < 2; j++) {
+                        boolean jumped = j == 0;
+                        if (jumped ? !jumpPossible : !noJumpPossible) continue;
+                        Interval jx = vx, jy = vy, jz = vz; int njLo, njHi;
+                        if (jumped) {
+                            float power = (float) a.jumpStrength() * 1.0f * 1.0f + (jumpBoost == null ? 0.0f : MovementProfile.JUMP_BOOST_PER_LEVEL * ((float) jumpBoost.amplifier() + 1.0f));
+                            if (power > MovementProfile.JUMP_POWER_EPSILON) {
+                                jy = jy.maxWith((double) power);
+                                if (in.sprinting()) { float yawRad = in.yaw() * MovementProfile.DEG_TO_RAD; jx = jx.add((double) (-simulator.profile().sin(yawRad)) * MovementProfile.SPRINT_JUMP_IMPULSE); jz = jz.add((double) simulator.profile().cos(yawRad) * MovementProfile.SPRINT_JUMP_IMPULSE); }
+                            }
+                            njLo = njHi = MovementProfile.JUMP_DELAY_TICKS;
+                        } else if (in.jump()) { njLo = onGround ? Math.max(pre.decLo(), 1) : pre.decLo(); njHi = pre.decHi(); if (njLo > njHi) njLo = njHi; } else { njLo = njHi = 0; }
+                        Interval px = jx.add(iv.x()), py = jy.add(iv.y()), pz = jz.add(iv.z()); // v = v.add(inputVector)
+                        // ---- Entity.move in free space over (at most) one flat floor: no horizontal collision, no step-up, no edge back-off effect
+                        Interval nx = box.x().add(px), nz = box.z().add(pz), yEnd = box.y().add(py);
+                        boolean landPossible = floor.present && py.lo() < 0.0 && yEnd.lo() <= floor.top + LANDING_EPSILON;
+                        boolean freePossible = !floor.present || py.hi() >= 0.0 || yEnd.hi() >= floor.top - LANDING_EPSILON;
+                        // Shapes.collide zeroes a requested axis movement below SHAPE_EPSILON whenever the swept box has any collider (the floor): a
+                        // tiny non-zero horizontal request then leaves the position unchanged on that axis (union both), a tiny non-zero vertical
+                        // request would count as a landing at the current height - outside the pilot (TOP) rather than approximated.
+                        if (landPossible) {
+                            if (mayBeTinyNonZero(px)) nx = nx.hull(box.x());
+                            if (mayBeTinyNonZero(pz)) nz = nz.hull(box.z());
+                            if (mayBeTinyNonZero(py)) { topReason = "vertical request below the shape epsilon over a floor"; return null; }
+                        }
+                        for (int c = 0; c < 2; c++) {
+                            boolean land = c == 0;
+                            if (land ? !landPossible : !freePossible) continue;
+                            Interval ny, vyAfter, lx = nx, lz = nz;
+                            if (land) {
+                                if (!sterbenz(box.y(), floor.top)) { topReason = "floor landing outside the Sterbenz regime"; return null; }
+                                ny = Interval.point(floor.top); vyAfter = Interval.ZERO;
+                                // P7-F2 - Entity.move: when the COLLIDED move is negligible (lengthSqr <= MOVE_EPSILON_SQR) and the collision absorbed at least that
+                                // much, the position is not updated at all (the simulator models it; a landing from (nearly) floor height with a tiny horizontal
+                                // request is exactly this case). The collided vector is (px, top - y, pz): where its squared length may be within the epsilon,
+                                // the unchanged position is unioned in (sound superset; the velocity is unaffected by the skip).
+                                Interval dy = box.y().sub(floor.top);
+                                Interval collidedSqr = px.square().add(pz.square()).add(dy.square());
+                                if (collidedSqr.lo() <= MovementProfile.MOVE_EPSILON_SQR) { lx = nx.hull(box.x()); lz = nz.hull(box.z()); ny = ny.hull(box.y()); }
+                            }
+                            else { ny = yEnd; vyAfter = py; }
+                            // gravity / levitation, then drag (block speed factor is 1 in the pilot region)
+                            Interval d;
+                            if (levitation != null) { double target = MovementProfile.LEVITATION_TARGET_PER_LEVEL * (double) (levitation.amplifier() + 1); Interval diff = new Interval(target - vyAfter.hi(), target - vyAfter.lo()).mul(MovementProfile.LEVITATION_RATE); d = vyAfter.add(diff).outward(); }
+                            else if (slowFalling) { Interval g1 = vyAfter.sub(Math.min(a.gravity(), MovementProfile.SLOW_FALLING_GRAVITY)), g2 = vyAfter.sub(a.gravity()); d = vyAfter.hi() <= 0.0 ? g1 : vyAfter.lo() > 0.0 ? g2 : g1.hull(g2); }
+                            else d = vyAfter.sub(a.gravity());
+                            float gd = friction * MovementProfile.computeModifiedFriction(MovementProfile.AIR_FRICTION, (float) a.airDragModifier());
+                            float hd = MovementProfile.computeModifiedFriction(MovementProfile.VERTICAL_DRAG, (float) a.airDragModifier());
+                            Interval fx = px.mul((double) gd), fy = d.mul((double) hd), fz = pz.mul((double) gd);
+                            boxes.add(new AbstractState.Box(lx, ny, lz, fx, fy, fz, land ? AbstractState.GROUND_ON : AbstractState.GROUND_OFF, poses, njLo, njHi, nextModes));
+                        }
                     }
-                    njLo = njHi = MovementProfile.JUMP_DELAY_TICKS;
-                } else if (in.jump()) { njLo = onGround ? Math.max(pre.decLo(), 1) : pre.decLo(); njHi = pre.decHi(); if (njLo > njHi) njLo = njHi; } else { njLo = njHi = 0; }
-                Interval px = jx.add(iv.x()), py = jy.add(iv.y()), pz = jz.add(iv.z()); // v = v.add(inputVector)
-                // ---- Entity.move in free space over (at most) one flat floor: no horizontal collision, no step-up, no edge back-off effect
-                Interval nx = box.x().add(px), nz = box.z().add(pz), yEnd = box.y().add(py);
-                boolean landPossible = floor.present && py.lo() < 0.0 && yEnd.lo() <= floor.top + LANDING_EPSILON;
-                boolean freePossible = !floor.present || py.hi() >= 0.0 || yEnd.hi() >= floor.top - LANDING_EPSILON;
-                // Shapes.collide zeroes a requested axis movement below SHAPE_EPSILON whenever the swept box has any collider (the floor): a
-                // tiny non-zero horizontal request then leaves the position unchanged on that axis (union both), a tiny non-zero vertical
-                // request would count as a landing at the current height - outside the pilot (TOP) rather than approximated.
-                if (landPossible) {
-                    if (mayBeTinyNonZero(px)) nx = nx.hull(box.x());
-                    if (mayBeTinyNonZero(pz)) nz = nz.hull(box.z());
-                    if (mayBeTinyNonZero(py)) { topReason = "vertical request below the shape epsilon over a floor"; return null; }
-                }
-                for (int c = 0; c < 2; c++) {
-                    boolean land = c == 0;
-                    if (land ? !landPossible : !freePossible) continue;
-                    Interval ny, vyAfter, lx = nx, lz = nz;
-                    if (land) {
-                        if (!sterbenz(box.y(), floor.top)) { topReason = "floor landing outside the Sterbenz regime"; return null; }
-                        ny = Interval.point(floor.top); vyAfter = Interval.ZERO;
-                        // P7-F2 - Entity.move: when the COLLIDED move is negligible (lengthSqr <= MOVE_EPSILON_SQR) and the collision absorbed at least that
-                        // much, the position is not updated at all (the simulator models it; a landing from (nearly) floor height with a tiny horizontal
-                        // request is exactly this case). The collided vector is (px, top - y, pz): where its squared length may be within the epsilon,
-                        // the unchanged position is unioned in (sound superset; the velocity is unaffected by the skip).
-                        Interval dy = box.y().sub(floor.top);
-                        Interval collidedSqr = px.square().add(pz.square()).add(dy.square());
-                        if (collidedSqr.lo() <= MovementProfile.MOVE_EPSILON_SQR) { lx = nx.hull(box.x()); lz = nz.hull(box.z()); ny = ny.hull(box.y()); }
-                    }
-                    else { ny = yEnd; vyAfter = py; }
-                    // gravity / levitation, then drag (block speed factor is 1 in the pilot region)
-                    Interval d;
-                    if (levitation != null) { double target = MovementProfile.LEVITATION_TARGET_PER_LEVEL * (double) (levitation.amplifier() + 1); Interval diff = new Interval(target - vyAfter.hi(), target - vyAfter.lo()).mul(MovementProfile.LEVITATION_RATE); d = vyAfter.add(diff).outward(); }
-                    else if (slowFalling) { Interval g1 = vyAfter.sub(Math.min(a.gravity(), MovementProfile.SLOW_FALLING_GRAVITY)), g2 = vyAfter.sub(a.gravity()); d = vyAfter.hi() <= 0.0 ? g1 : vyAfter.lo() > 0.0 ? g2 : g1.hull(g2); }
-                    else d = vyAfter.sub(a.gravity());
-                    float gd = friction * MovementProfile.computeModifiedFriction(MovementProfile.AIR_FRICTION, (float) a.airDragModifier());
-                    float hd = MovementProfile.computeModifiedFriction(MovementProfile.VERTICAL_DRAG, (float) a.airDragModifier());
-                    Interval fx = px.mul((double) gd), fy = d.mul((double) hd), fz = pz.mul((double) gd);
-                    boxes.add(new AbstractState.Box(lx, ny, lz, fx, fy, fz, land ? AbstractState.GROUND_ON : AbstractState.GROUND_OFF, poses, njLo, njHi));
                 }
             }
+        }
+        if (boxes.size() > 1 && Integer.bitCount(box.sprintModes()) > 1) { // members that transferred to the same geometry: one box, the union of their successor classes
+            List<AbstractState.Box> merged = new ArrayList<>(boxes.size());
+            outer: for (AbstractState.Box b : boxes) {
+                for (int k = 0; k < merged.size(); k++) { AbstractState.Box m = merged.get(k); if (m.sameGeometry(b)) { merged.set(k, m.withSprintModes(m.sprintModes() | b.sprintModes())); continue outer; } }
+                merged.add(b);
+            }
+            return merged;
         }
         return boxes;
     }

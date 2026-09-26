@@ -28,8 +28,11 @@ final class ValidationCorpus {
     static final class Tally {
         final String name; int cases, transmissions, valid, uncertain, invalid, truthLost; long evaluations; final Map<String, Integer> uncertainReasons = new TreeMap<>(), invalidReasons = new TreeMap<>(); final List<String> invalidCases = new ArrayList<>(), lostCases = new ArrayList<>();
         Tally(String name) { this.name = name; }
+        /** Phase 9 hook: an optional per-thread consumer of every validated chain (the evidence corpus feeds it into evidence ledgers); unset = none. Thread-local so that parallel test classes never share it. */
+        static final ThreadLocal<java.util.function.BiConsumer<String, List<Validated>>> SINK = new ThreadLocal<>();
         void add(String caseId, List<Validated> chain) {
             cases++;
+            var sink = SINK.get(); if (sink != null) sink.accept(caseId, chain);
             for (Validated v : chain) {
                 transmissions++; evaluations += v.result().work().evaluations();
                 switch (v.result().classification()) { case VALID -> valid++; case UNCERTAIN -> { uncertain++; for (var r : v.result().uncertainReasons()) uncertainReasons.merge(r.name(), 1, Integer::sum); } case INVALID -> { invalid++; for (var r : v.result().invalidReasons()) invalidReasons.merge(r.name(), 1, Integer::sum); if (invalidCases.size() < 50) invalidCases.add(caseId + "@" + v.target().sequence() + ": " + String.join(" | ", v.result().describe())); } }

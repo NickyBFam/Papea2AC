@@ -8,7 +8,7 @@ import me.nicolas.papea2ac.physics.PhysicsResult;
 import org.junit.jupiter.api.Test;
 
 /**
- * Offline replay of the pinned NATIVE trajectories (docs/phase6-artifacts/physics-fixtures/native-trajectories.json - the P6-F1 re-pin; docs/phase5-artifacts holds the frozen pre-P6-F1 record,
+ * Offline replay of the pinned NATIVE trajectories (docs/phase9-artifacts/physics-fixtures/native-trajectories.json - the P9-F3 re-pin; docs/phase6-artifacts holds the P6-F1 pin; docs/phase5-artifacts holds the frozen pre-P6-F1 record,
  * recorded by the pinned server through {@code physicsNativeDifferential}): every catalogued walking scenario, run
  * chained on the simulator from its start state, must reproduce the server's trajectory digest bit for bit, and the
  * fluid scenarios must be refused as UNSUPPORTED_FLUID. TESTING.md: "Expected physics values must cite an independent
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * side here is the server's own movement code. A changed digest is a reviewed event, never a re-pin.
  */
 class PhysicsOracleFixtureTest {
-    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase6-artifacts/physics-fixtures/native-trajectories.json");
+    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase9-artifacts/physics-fixtures/native-trajectories.json");
 
     @Test void everyCatalogScenarioReproducesThePinnedNativeTrajectory() throws Exception {
         Map<String, Object> root = MiniJson.obj(MiniJson.parse(Files.readString(FIXTURES, StandardCharsets.UTF_8)));

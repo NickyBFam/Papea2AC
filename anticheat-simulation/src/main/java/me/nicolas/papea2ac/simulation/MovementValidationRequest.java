@@ -15,10 +15,16 @@ import java.util.Objects;
  * </ul>
  * Every field is caller-supplied; nothing is read from a live server or a clock.
  */
-public record MovementValidationRequest(TimingRequest timing, TimingReconstruction.Frontier frontier, PhysicsEnvironment environment, ReconstructionRequest.SearchBudget reconstructionBudget, boolean frontierComplete, boolean contentRetained) {
+public record MovementValidationRequest(TimingRequest timing, TimingReconstruction.Frontier frontier, PhysicsEnvironment environment, ReconstructionRequest.SearchBudget reconstructionBudget, boolean frontierComplete, boolean contentRetained, boolean worldDisputed) {
+    /** The Phase 8 field set: the world of the transition is not in dispute (P9-F2). */
+    public MovementValidationRequest(TimingRequest timing, TimingReconstruction.Frontier frontier, PhysicsEnvironment environment, ReconstructionRequest.SearchBudget reconstructionBudget, boolean frontierComplete, boolean contentRetained) {
+        this(timing, frontier, environment, reconstructionBudget, frontierComplete, contentRetained, false);
+    }
     public MovementValidationRequest { Objects.requireNonNull(timing); Objects.requireNonNull(frontier); Objects.requireNonNull(environment); Objects.requireNonNull(reconstructionBudget); }
     public static MovementValidationRequest of(TimingRequest timing, TimingReconstruction.Frontier frontier, PhysicsEnvironment environment) { return new MovementValidationRequest(timing, frontier, environment, ReconstructionRequest.SearchBudget.DEFAULT, true, true); }
-    public MovementValidationRequest withFrontierComplete(boolean c) { return new MovementValidationRequest(timing, frontier, environment, reconstructionBudget, c, contentRetained); }
-    public MovementValidationRequest withContentRetained(boolean c) { return new MovementValidationRequest(timing, frontier, environment, reconstructionBudget, frontierComplete, c); }
-    public MovementValidationRequest withBudget(ReconstructionRequest.SearchBudget b) { return new MovementValidationRequest(timing, frontier, environment, b, frontierComplete, contentRetained); }
+    public MovementValidationRequest withFrontierComplete(boolean c) { return new MovementValidationRequest(timing, frontier, environment, reconstructionBudget, c, contentRetained, worldDisputed); }
+    public MovementValidationRequest withContentRetained(boolean c) { return new MovementValidationRequest(timing, frontier, environment, reconstructionBudget, frontierComplete, c, worldDisputed); }
+    /** P9-F2: whether a cell within the transition's reach is in dispute between the client and this observer (see {@code BlockDisputeLedger}). */
+    public MovementValidationRequest withWorldDisputed(boolean d) { return new MovementValidationRequest(timing, frontier, environment, reconstructionBudget, frontierComplete, contentRetained, d); }
+    public MovementValidationRequest withBudget(ReconstructionRequest.SearchBudget b) { return new MovementValidationRequest(timing, frontier, environment, b, frontierComplete, contentRetained, worldDisputed); }
 }

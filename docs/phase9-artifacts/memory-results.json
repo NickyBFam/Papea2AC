@@ -1,0 +1,23 @@
+{
+  "phase": "9 - Evidence Engine",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-ingest garbage; estimates on one host, not capacity",
+  "emptyLedgerBytes": 760,
+  "typicalLedgerBytes": 11160,
+  "fullBoundedLedgerBytes": 188816,
+  "bounds": "events <= 256, groups <= 128, dedup ids <= 512, gap records <= 32, supporting ids <= 16; window 30000 ms; no per-player unbounded history, nothing keyed by UUID beyond the session map",
+  "eventBytes": 392,
+  "snapshotEmptyBytes": 208,
+  "snapshotTypicalBytes": 1600,
+  "snapshotFullBytes": 3736,
+  "retainedBytesPer100TypicalSnapshots": 160480,
+  "runnerEmptyBytes": 3128,
+  "perOperationAllocationBytes": {
+    "validIngestBytes": 304,
+    "uncertainIngestBytes": 568,
+    "invalidIngestBytes(newEvent)": 4718,
+    "duplicateIngestBytes": 3872,
+    "snapshotTypicalAllocBytes": 5048,
+    "snapshotFullAllocBytes": 21128
+  },
+  "perSessionRetained": "one EvidenceRunner = live + side EvidenceLedger (above) + two 16-line rings + the published EvidenceStatus; events, records and snapshots are values the caller drops"
+}

@@ -1,0 +1,1308 @@
+
+=== 2026-09-22T00:46:46.630Z E0 smoke: Phase 9 jar (sha256 488111bca1bd0ed8) started; status before the human session
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-22T00:52:18.487Z E1 join: survival, arena (course at -37 67 20, strips z 28..30, pool at -21..-19 66 33..35), entities cleared
+> gamemode survival Emojiado
+
+> tp Emojiado -36.5 67 25.5 -90 0
+Teleported Emojiado to -36.500000, 67.000000, 25.500000
+> execute positioned -20 67 25 run kill @e[type=!player,distance=..64]
+Killed 28 entities
+> effect give Emojiado minecraft:resistance 600 4 true
+Applied effect Resistance to Emojiado
+
+=== 2026-09-22T00:52:23.137Z E1b anchored, idle
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=37 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=37 UNCERTAIN=0 last=VALID
+
+> papea2ac evidence Emojiado recent
+recent evidence ingests (16):
+  seq=23767->24716 VALID -> LEGITIMATE_WITNESS
+  seq=24716->25655 VALID -> LEGITIMATE_WITNESS
+  seq=25655->26779 VALID -> LEGITIMATE_WITNESS
+  seq=26779->27920 VALID -> LEGITIMATE_WITNESS
+  seq=27920->28975 VALID -> LEGITIMATE_WITNESS
+  seq=28975->30208 VALID -> LEGITIMATE_WITNESS
+  seq=30208->31237 VALID -> LEGITIMATE_WITNESS
+  seq=31237->32240 VALID -> LEGITIMATE_WITNESS
+  seq=32240->33403 VALID -> LEGITIMATE_WITNESS
+  seq=33403->34159 VALID -> LEGITIMATE_WITNESS
+  seq=34159->34163 VALID -> LEGITIMATE_WITNESS
+  seq=34163->34616 VALID -> LEGITIMATE_WITNESS
+  seq=34616->37445 VALID -> LEGITIMATE_WITNESS
+  seq=37445->39713 VALID -> LEGITIMATE_WITNESS
+  seq=39713->42092 VALID -> LEGITIMATE_WITNESS
+  seq=42092->44317 VALID -> LEGITIMATE_WITNESS
+
+> papea2ac validate Emojiado view
+validation session=1 anchored=true (correction 1 seq=44317) frontier=2 complete transitions=37 VALID=37 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=13 effects=1 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=42092->44317
+  validation VALID seq=42092->44317 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-36.500000,67.000000,25.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-36.500000,67.000000,25.500000) ground=true
+
+
+=== 2026-09-22T00:55:36.392Z E2 after round 1 (walk, sprint, jumps, sprint-jump, diagonal, slab, stairs)
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=0 longest=1 groups=1/1 segments=0
+  observed VALID=1034 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=14 UNCERTAIN=0 last=VALID
+  active seq 235287..235357 newestAge=21082ms oldestActiveAge=21082ms byCategory=[CategoryCount[category=UNEXPLAINED_DISPLACEMENT, count=1]]
+  UNEXPLAINED_DISPLACEMENT: events=1 maxExcess h=0.0000 v=0.0000 maxObservedH=0.2141 penetrations=0
+  group f9d6bd27691c members=1 seq=235287..235357 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000
+  supporting=[f9d6bd27691c]
+
+> papea2ac evidence Emojiado recent
+recent evidence ingests (16):
+  seq=235287->235357 INVALID -> POSITIVE_EVENT evidence f9d6bd27691c seq=235287->235357 epoch=0 [UNEXPLAINED_DISPLACEMENT] reasons=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] excess h=0.0000 v=0.0000 (ENVELOPE) proof: hyp=1 enum=144 exact=144 env=0 remaining=0
+  seq=241564->242561 VALID -> LEGITIMATE_WITNESS
+  seq=242561->243568 VALID -> LEGITIMATE_WITNESS
+  seq=243568->244505 VALID -> LEGITIMATE_WITNESS
+  seq=244505->245458 VALID -> LEGITIMATE_WITNESS
+  seq=245458->246356 VALID -> LEGITIMATE_WITNESS
+  seq=246356->247237 VALID -> LEGITIMATE_WITNESS
+  seq=247237->248196 VALID -> LEGITIMATE_WITNESS
+  seq=248196->249112 VALID -> LEGITIMATE_WITNESS
+  seq=249112->250093 VALID -> LEGITIMATE_WITNESS
+  seq=250093->251086 VALID -> LEGITIMATE_WITNESS
+  seq=251086->252133 VALID -> LEGITIMATE_WITNESS
+  seq=252133->253126 VALID -> LEGITIMATE_WITNESS
+  seq=253126->254169 VALID -> LEGITIMATE_WITNESS
+  seq=254169->255194 VALID -> LEGITIMATE_WITNESS
+  seq=255194->256166 VALID -> LEGITIMATE_WITNESS
+
+> papea2ac validate Emojiado view
+validation session=1 anchored=true (rest (1 pose state) seq=256166) frontier=2 complete transitions=1036 VALID=1035 UNCERTAIN=0 INVALID=1
+context complete=true mode=survival attributes=13 effects=1 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=255194->256166
+  validation VALID seq=255194->256166 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-20.293403,67.000000,20.525678) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-20.293403,67.000000,20.525678) ground=true
+
+
+=== 2026-09-22T00:55:48.029Z E2b the live INVALID in full (validation notable + evidence view)
+> papea2ac validate Emojiado notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=1 UNCERTAIN=0; last 11 lines):
+  seq=235357 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.2141 rise=0.0000 legal h<=0.4706 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+    validation INVALID seq=235287->235357 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.214056 rise=0.000000 | legal h<=0.470639 rise in [0.000000, 0.420000] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 -A---- d=(-2.738e-02,0.000e+00,-1.070e-02) outside=2.940e-02
+      nearest h1 -A--R- d=(-2.738e-02,0.000e+00,-1.070e-02) outside=2.940e-02
+      nearest h1 -A-C-- d=(5.568e-02,0.000e+00,2.175e-02) outside=5.978e-02
+      nearest h1 -A-CR- d=(5.568e-02,0.000e+00,2.175e-02) outside=5.978e-02
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@604
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=0
+  observed VALID=1049 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=29 UNCERTAIN=0 last=VALID
+  group f9d6bd27691c members=1 seq=235287..235357 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+
+
+=== 2026-09-22T01:01:09.210Z E3-pre sneak-toggle experiment baseline
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=515574) frontier=2 complete transitions=1371 VALID=1370 UNCERTAIN=0 INVALID=1
+context complete=true mode=survival attributes=13 effects=1 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=514853->515574
+  validation VALID seq=514853->515574 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-35.500000,67.000000,29.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-35.500000,67.000000,29.500000) ground=true
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=0
+  observed VALID=1370 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=350 UNCERTAIN=0 last=VALID
+  group f9d6bd27691c members=1 seq=235287..235357 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+
+
+=== 2026-09-22T01:06:21.472Z E3 sneak-toggle walk (W held, shift tapped ~10x, flat lane)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=725550) frontier=2 complete transitions=2000 VALID=1999 UNCERTAIN=0 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=724862->725550
+  validation VALID seq=724862->725550 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(1.157039,67.000000,26.110617) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(1.157039,67.000000,26.110617) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=0
+  observed VALID=1999 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=979 UNCERTAIN=0 last=VALID
+  group f9d6bd27691c members=1 seq=235287..235357 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+
+
+=== 2026-09-22T02:18:31.408Z P9-F1 requalification: server restarted on jar 14a4964110c7d60e567f5ce448594bec8e26a2c94b0ee957de7b508f599e3b51 (sprint-modifier class model)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac evidence
+Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | validate <name> [view | recent | notable | inject dx dy dz [ticks]] | evidence <name> [view | recent | side | reingest] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]
+
+
+=== 2026-09-22T12:39:20.102Z P9-F1 REQUALIFICATION start (jar 14a4964110c7d60e567f5ce448594bec8e26a2c94b0ee957de7b508f599e3b51)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-22T12:43:21.189Z R1 sprint-stop rounds (sprint->strafe, sprint->sneak, sprint-jump->walk)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=139082) frontier=2 complete transitions=1681 VALID=1681 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=138429->139082
+  validation VALID seq=138429->139082 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-34.006255,67.000000,25.924732) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-34.006255,67.000000,25.924732) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=1681 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=1681 UNCERTAIN=0 last=VALID
+
+
+=== 2026-09-22T12:43:30.107Z R2 cue
+> say Round 2: the ice/slime/honey/soul-sand strip (sprint + a sprint-stop on each), then the ladder up and down, then shield-walk, then stand - go
+
+
+=== 2026-09-22T12:45:39.413Z R2 terrain strip + ladder + shield
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=245765) frontier=2 complete transitions=2399 VALID=2399 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=244901->245765
+  validation VALID seq=244901->245765 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(3.853191,67.000000,22.376697) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(3.853191,67.000000,22.376697) ground=true
+
+> papea2ac validate Emojiado notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=0 UNCERTAIN=0; last 96 lines):
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=235825 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235770->235825 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.006606,67.000000,21.843925) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=235852 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235825->235852 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.048259,67.000000,21.855270) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=235895 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235852->235895 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.089982,67.000000,21.866357) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=235944 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235895->235944 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.131802,67.000000,21.877064) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=235971 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235944->235971 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.173747,67.000000,21.887260) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236019 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=235971->236019 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.215822,67.000000,21.896896) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236062 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236019->236062 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.258022,67.000000,21.905958) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236087 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236062->236087 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.300311,67.000000,21.914611) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236136 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missi
+ng=[mechanicSupported]
+    validation VALID seq=236087->236136 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.342647,67.000000,21.923039) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236187 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236136->236187 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.385010,67.000000,21.931344) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236216 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236187->236216 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.427387,67.000000,21.939583) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236265 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236216->236265 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.469771,67.000000,21.947785) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236314 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236265->236314 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.512160,67.000000,21.955967) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236345 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236314->236345 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.554551,67.000000,21.964139) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236384 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236345->236384 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.596943,67.000000,21.972304) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236433 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236384->236433 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.639337,67.000000,21.980467) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236464 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236433->236464 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.681733,67.000000,21.9
+88612) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236520 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236464->236520 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.724131,67.000000,21.996749) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236559 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236520->236559 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.766530,67.000000,22.004881) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=2399 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2399 UNCERTAIN=0 last=VALID
+
+
+=== 2026-09-22T12:45:48.180Z R3 cue
+> say Round 3: walk into the water, swim ~5s, come out, walk a bit, then stand - go
+
+
+=== 2026-09-22T12:48:03.115Z R3 water (UNCERTAIN case)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=408825) frontier=2 complete transitions=2904 VALID=2903 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=407802->408825
+  validation VALID seq=407802->408825 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-20.414705,67.000000,25.712859) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-20.414705,67.000000,25.712859) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=2903 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2903 UNCERTAIN=1 last=VALID
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+
+
+=== 2026-09-22T12:48:13.639Z E1 injection: one impossible side-chain transition
+> say STAND STILL please - console injections now
+
+> papea2ac validate Emojiado inject 0.5 0 0 1
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=-20.414704967068396, y=67.0, z=25.712859382435997] (side chain from anchor rest (1 pose state) seq=416234); the live chain and the timeline are untouched
+
+
+=== 2026-09-22T12:48:16.096Z E1 result
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 832468..833995 newestAge=2270ms oldestActiveAge=2270ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=1]]
+  HORIZONTAL_EXCESS: events=1 maxExcess h=0.1726 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group 22666b3b9394 members=1 seq=832468..833995 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  supporting=[22666b3b9394]
+  seq=832468->833995 INVALID -> POSITIVE_EVENT evidence 22666b3b9394 seq=832468->833995 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=832 env=0 remaining=0
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=2916 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2916 UNCERTAIN=1 last=VALID
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+
+
+=== 2026-09-22T12:48:21.457Z E2 re-delivery of the same result (dedup)
+> papea2ac evidence Emojiado reingest
+SCHEDULED: the last side-chain record (seq=832468->833995) is re-delivered to the side ledger at the next tick end; expect DUPLICATE
+
+
+=== 2026-09-22T12:48:23.768Z E2 result
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=2 proofRejected=0 duplicates=1 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 832468..833995 newestAge=10069ms oldestActiveAge=10069ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=1]]
+  HORIZONTAL_EXCESS: events=1 maxExcess h=0.1726 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group 22666b3b9394 members=1 seq=832468..833995 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  supporting=[22666b3b9394]
+  seq=832468->833995 INVALID -> POSITIVE_EVENT evidence 22666b3b9394 seq=832468->833995 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=832 env=0 remaining=0
+  seq=832468->833995 INVALID -> DUPLICATE
+  re-delivery of seq=832468->833995 -> DUPLICATE
+
+
+=== 2026-09-22T12:48:30.794Z E3 multiple distinct injections
+> papea2ac validate Emojiado inject 0 0.8 0 1
+INJECTING 1 synthetic transmission(s) at +(0.0,0.8,0.0) per tick from Vector3[x=-20.414704967068396, y=67.0, z=25.712859382435997] (side chain from anchor rest (1 pose state) seq=430641); the live chain and the timeline are untouched
+
+
+=== 2026-09-22T12:48:33.103Z E3b
+> papea2ac validate Emojiado inject 0.9 0 0.4 1
+INJECTING 1 synthetic transmission(s) at +(0.9,0.0,0.4) per tick from Vector3[x=-20.414704967068396, y=67.0, z=25.712859382435997] (side chain from anchor rest (1 pose state) seq=431953); the live chain and the timeline are untouched
+
+
+=== 2026-09-22T12:48:35.578Z E3 result
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=3/3 (evicted 0, expired 0) window=30000ms run=3 longest=3 groups=3/3 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=4 proofRejected=0 duplicates=1 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 832468..864539 newestAge=2250ms oldestActiveAge=21719ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=2], CategoryCount[category=VERTICAL_EXCESS, count=1], CategoryCount[category=IMPOSSIBLE_ASCENT, count=1]]
+  HORIZONTAL_EXCESS: events=2 maxExcess h=0.6575 v=0.0000 maxObservedH=0.9849 penetrations=0
+  VERTICAL_EXCESS: events=1 maxExcess h=0.0000 v=0.3800 maxObservedH=0.0000 penetrations=0
+  IMPOSSIBLE_ASCENT: events=1 maxExcess h=0.0000 v=0.3800 maxObservedH=0.0000 penetrations=0
+  group 22666b3b9394 members=1 seq=832468..833995 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  group e591faf56760 members=1 seq=861282..861539 [VERTICAL_EXCESS, IMPOSSIBLE_ASCENT] maxExcess h=0.0000 v=0.3800
+  group d38e790abd25 members=1 seq=863906..864539 [HORIZONTAL_EXCESS] maxExcess h=0.6575 v=0.0000
+  supporting=[22666b3b9394, e591faf56760, d38e790abd25]
+  seq=832468->833995 INVALID -> POSITIVE_EVENT evidence 22666b3b9394 seq=832468->833995 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=832 env=0 remaining=0
+  seq=832468->833995 INVALID -> DUPLICATE
+  re-delivery of seq=832468->833995 -> DUPLICATE
+  seq=861282->861539 INVALID -> POSITIVE_EVENT evidence e591faf56760 seq=861282->861539 epoch=0 [VERTICAL_EXCESS, IMPOSSIBLE_ASCENT] reasons=[NO_LEGAL_INPUT, VERTICAL_EXCESS, IMPOSSIBLE_ASCENT] excess h=0.0000 v=0.3800 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=832 env=0 remaining=0
+  seq=863906->864539 INVALID -> POSITIVE_EVENT evidence d38e790abd25 seq=863906->864539 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.6575 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=832 env=0 remaining=0
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=2935 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2935 UNCERTAIN=1 last=VALID
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+
+
+=== 2026-09-22T12:48:40.577Z E4 live chain untouched by every injection
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=437228) frontier=2 complete transitions=2941 VALID=2940 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=436389->437228
+  validation VALID seq=436389->437228 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-20.414705,67.000000,25.712859) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-20.414705,67.000000,25.712859) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=2940 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2940 UNCERTAIN=1 last=VALID
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+
+> papea2ac evidence
+Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | validate <name> [view | recent | notable | inject dx dy dz [ticks]] | evidence <name> [view | recent | side | reingest] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]
+
+
+=== 2026-09-22T12:48:51.301Z R4 cue
+> say Round 4: sprint+attack a few times, sprint then walk backwards, sprint into a wall, sprint up the stairs/slab, then stand - go
+
+
+=== 2026-09-22T12:50:10.721Z R4 sprint+attack, sprint->backwards, wall, stairs
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=502914) frontier=2 complete transitions=3618 VALID=3616 UNCERTAIN=1 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=502179->502914
+  validation VALID seq=502179->502914 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-22.797663,68.000000,20.515249) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-22.797663,68.000000,20.515249) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=0 longest=1 groups=1/1 segments=0
+  observed VALID=3616 UNCERTAIN=1 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=15 UNCERTAIN=0 last=VALID
+  active seq 493453..493492 newestAge=13867ms oldestActiveAge=13867ms byCategory=[CategoryCount[category=UNEXPLAINED_DISPLACEMENT, count=1]]
+  UNEXPLAINED_DISPLACEMENT: events=1 maxExcess h=0.0000 v=0.0000 maxObservedH=0.0071 penetrations=0
+  group baf99bdc38a3 members=1 seq=493453..493492 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+  supporting=[baf99bdc38a3]
+
+> papea2ac evidence
+Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | validate <name> [view | recent | notable | inject dx dy dz [ticks]] | evidence <name> [view | recent | side | reingest] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]
+
+
+=== 2026-09-22T12:50:16.652Z R4 INVALID detail
+> papea2ac validate Emojiado notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=1 UNCERTAIN=1; last 96 lines):
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236062 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236019->236062 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.258022,67.000000,21.905958) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236087 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236062->236087 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.300311,67.000000,21.914611) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236136 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236087->236136 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.342647,67.000000,21.923039) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236187 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236136->236187 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.385010,67.000000,21.931344) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236216 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236187->236216 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.427387,67.000000,21.939583) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236265 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236216->236265 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.469771,67.000000,21.947785) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236314 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236265->236314 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.512160,67.000000,21.955967) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236345 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236314->236345 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.554551,67.000000,21.964139) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236384 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missi
+ng=[mechanicSupported]
+    validation VALID seq=236345->236384 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.596943,67.000000,21.972304) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236433 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236384->236433 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.639337,67.000000,21.980467) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236464 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236433->236464 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.681733,67.000000,21.988612) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236520 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236464->236520 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.724131,67.000000,21.996749) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236559 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236520->236559 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.766530,67.000000,22.004881) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=352421 UNCERTAIN [UNSUPPORTED_FLUID] hyp=1 legal=0 recon=1 eval=144 missing=[reconstruction, mechanicSupported] obs h=0.1516 rise=-0.2305 legal h<=0.0000 rise[0.0000,0.0000] excess h=0.0000 v=0.0000
+    validation UNCERTAIN seq=352296->352421 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness missing [reconstruction, mechanicSupported] uncertain=[UNSUPPORTED_FLUID]
+      residual observed h=0.151568 rise=-0.230527 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+  seq=483448 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=7 recon=2 eval=5824 missing=[reconstruction, search]
+    validation VALID seq=482735->483448 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=7/8547 frontier 12->7 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 S----U>S----U>S----U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S---RU (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-- (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+  seq=489917 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=8 recon=2 eval=5968 missing=[reconstruction, search]
+    validation VALID seq=489333->489917 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=8/18424 frontier 13->8 (incomplete)
+      completeness missing [reconstruction, s
+earch] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>---C-- (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W----U (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W---RU (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+  seq=493492 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.0071 rise=-0.0358 legal h<=0.0293 rise[-0.0358,-0.0358] excess h=0.0000 v=0.0000
+    validation INVALID seq=493453->493492 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.007085 rise=-0.035841 | legal h<=0.029297 rise in [-0.035841, -0.035841] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 W--C-- d=(-5.878e-03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W-JC-- d=(-5.878e-03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W---RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      nearest h1 W-J-RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@1480
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+
+
+=== 2026-09-22T12:51:58.109Z R4 INVALID context (recent ring)
+> papea2ac validate Emojiado recent
+recent (48):
+  seq=541263 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=541878 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=542527 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=543104 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=543645 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=544250 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=544857 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=545437 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=546078 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=546636 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=547147 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=547685 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=548281 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=548820 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=549417 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=549938 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=550469 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=551022 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=551522 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=552019 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=552546 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=553031 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=553610 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=554164 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=554779 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=555507 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=556231 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=557021 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=557772 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=558427 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=559052 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=559745 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=560466 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=561139 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=561732 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=562471 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=563146 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=563818 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=564540 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=565267 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=565935 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=566642 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=567288 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=567877 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=568492 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=569075 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=569844 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+  seq=570327 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1152
+injected:
+  injected +h0.985 y0.000 -> seq=432270 INVALID [NO_LEGAL_INPUT, HORIZONTAL_EXCESS] hyp=1 legal=0 recon=2 eval=1152 obs h=0.9849 rise=0.0000 legal h<=0.3274 rise[0.0000,0.4200] excess h=0.6575 v=0.0000
+  side chain ended (INVALID without continuation after 1 transmission(s))
+
+
+=== 2026-09-22T12:52:26.521Z BISECT A cue: sprint+attack only
+> say BISECT A: sprint forward and left-click attack while sprinting, ~8 times, then stand still
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=587853) frontier=2 complete transitions=3754 VALID=3752 UNCERTAIN=1 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=587178->587853
+  validation VALID seq=587178->587853 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-22.797663,68.000000,20.515249) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-22.797663,68.000000,20.515249) ground=true
+
+
+=== 2026-09-22T12:54:11.877Z BISECT A result (sprint+attack x9)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=671494) frontier=2 complete transitions=4190 VALID=4188 UNCERTAIN=1 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=670849->671494
+  validation VALID seq=670849->671494 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-9.282745,67.000000,24.640467) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-9.282745,67.000000,24.640467) ground=true
+
+
+=== 2026-09-22T13:00:09.075Z BISECT B result (sprint->backwards x6)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=955620) frontier=4 complete transitions=5148 VALID=5146 UNCERTAIN=1 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=954823->955620
+  validation VALID seq=954823->955620 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/2048 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+959 equivalent) pos=(-10.084665,67.000000,24.611623) ground=true
+    witness h3 ------>------>---C-- (+959 equivalent) pos=(-10.084665,67.000000,24.611623) ground=true
+    witness h3 ----R->----R->----R- (+63 equivalent) pos=(-10.084665,67.000000,24.611623) ground=true
+    witness h3 ----R->----R->---CR- (+63 equivalent) pos=(-10.084665,67.000000,24.611623) ground=true
+
+
+=== 2026-09-22T13:03:24.898Z BISECT C result (sprint into wall x5)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1118455) frontier=4 complete transitions=5971 VALID=5969 UNCERTAIN=1 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1117558->1118455
+  validation VALID seq=1117558->1118455 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/2048 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+959 equivalent) pos=(-25.466033,67.000000,24.553759) ground=true
+    witness h3 ------>------>---C-- (+959 equivalent) pos=(-25.466033,67.000000,24.553759) ground=true
+    witness h3 ----R->----R->----R- (+63 equivalent) pos=(-25.466033,67.000000,24.553759) ground=true
+    witness h3 ----R->----R->---CR- (+63 equivalent) pos=(-25.466033,67.000000,24.553759) ground=true
+
+
+=== 2026-09-22T13:05:30.383Z BISECT D result (sprint stairs/slab + off the edge x6)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1216626) frontier=2 complete transitions=6248 VALID=6245 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1216017->1216626
+  validation VALID seq=1216017->1216626 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-25.081035,67.000000,22.380637) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-25.081035,67.000000,22.380637) ground=true
+
+
+=== 2026-09-22T13:05:38.207Z D INVALID detail
+> papea2ac validate Emojiado notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=2 UNCERTAIN=1; last 96 lines):
+  seq=236136 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236087->236136 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.342647,67.000000,21.923039) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236187 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236136->236187 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.385010,67.000000,21.931344) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236216 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236187->236216 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.427387,67.000000,21.939583) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236265 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236216->236265 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.469771,67.000000,21.947785) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236314 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236265->236314 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.512160,67.000000,21.955967) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236345 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236314->236345 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.554551,67.000000,21.964139) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236384 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236345->236384 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.596943,67.000000,21.972304) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236433 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236384->236433 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.639337,67.000000,21.980467) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236464 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236433->236464 worldEpoch=0 timingHypotheses=1
+ (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.681733,67.000000,21.988612) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236520 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236464->236520 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.724131,67.000000,21.996749) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236559 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236520->236559 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.766530,67.000000,22.004881) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=352421 UNCERTAIN [UNSUPPORTED_FLUID] hyp=1 legal=0 recon=1 eval=144 missing=[reconstruction, mechanicSupported] obs h=0.1516 rise=-0.2305 legal h<=0.0000 rise[0.0000,0.0000] excess h=0.0000 v=0.0000
+    validation UNCERTAIN seq=352296->352421 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness missing [reconstruction, mechanicSupported] uncertain=[UNSUPPORTED_FLUID]
+      residual observed h=0.151568 rise=-0.230527 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+  seq=483448 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=7 recon=2 eval=5824 missing=[reconstruction, search]
+    validation VALID seq=482735->483448 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=7/8547 frontier 12->7 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 S----U>S----U>S----U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S---RU (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-- (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+  seq=489917 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=8 recon=2 eval=5968 missing=[reconstruction, search]
+    validation VALID seq=489333->489917 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=8/18424 frontier 13->8 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>---C-- (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W----U (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W---RU (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+  seq=493492 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.0071 rise=-0.0358 legal h<=0.0293 rise[-0.0358,-0.0358] excess h=0.0000 v=0.0000
+    validation INVALID seq=493453->493492 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.007085 rise=-0.035841 | legal h<=0.029297 rise in [-0.035841, -0.035841] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 W--C-- d=(-5.878e-
+03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W-JC-- d=(-5.878e-03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W---RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      nearest h1 W-J-RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@1480
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+  seq=1184476 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.0294 rise=0.0000 legal h<=0.1300 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+    validation INVALID seq=1184445->1184476 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.029400 rise=0.000000 | legal h<=0.130000 rise in [0.000000, 0.420000] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 ------ d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 -----U d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 ----R- d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 ----RU d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@2024
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+
+
+=== 2026-09-22T13:06:01.812Z BISECT D1 cue (stairs only)
+> say BISECT D1: sprint UP and DOWN the stairs only - no jumping, do not run off any edge - 8 times, then stand still
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1239460) frontier=2 complete transitions=6280 VALID=6277 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1238709->1239460
+  validation VALID seq=1238709->1239460 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-25.081035,67.000000,22.380637) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-25.081035,67.000000,22.380637) ground=true
+
+
+=== 2026-09-22T13:11:08.686Z BISECT D1 result (stairs only)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1468357) frontier=2 complete transitions=6967 VALID=6964 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1467722->1468357
+  validation VALID seq=1467722->1468357 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-25.241281,67.000000,20.423165) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-25.241281,67.000000,20.423165) ground=true
+
+
+=== 2026-09-22T13:14:51.061Z BISECT D2 result (sprint off the edge)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1636532) frontier=2 complete transitions=7687 VALID=7684 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1635705->1636532
+  validation VALID seq=1635705->1636532 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-22.788190,68.000000,20.437199) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-22.788190,68.000000,20.437199) ground=true
+
+
+=== 2026-09-22T13:15:12.083Z BISECT D3 cue (slab only)
+> say BISECT D3: sprint back and forth over the SLAB - onto it and off it - 10 times, then stand still
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1651889) frontier=2 complete transitions=7708 VALID=7705 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1651216->1651889
+  validation VALID seq=1651216->1651889 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-22.788190,68.000000,20.437199) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-22.788190,68.000000,20.437199) ground=true
+
+
+=== 2026-09-22T13:20:30.762Z BISECT D3 result (slab only)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1904186) frontier=2 complete transitions=8463 VALID=8460 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1903465->1904186
+  validation VALID seq=1903465->1904186 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-31.068563,67.000000,20.459806) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-31.068563,67.000000,20.459806) ground=true
+
+
+=== 2026-09-22T13:21:54.695Z BISECT E cue (sneak-walk at a ledge)
+> say BISECT E: go to the edge of the slab/stairs, HOLD SHIFT and walk into the edge - shuffle along the ledge ~10s - then stand still
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1962582) frontier=2 complete transitions=8547 VALID=8544 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1961969->1962582
+  validation VALID seq=1961969->1962582 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-31.068563,67.000000,20.459806) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-31.068563,67.000000,20.459806) ground=true
+
+
+=== 2026-09-22T13:23:34.939Z BISECT E result (sneak-walk at a ledge)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=2041589) frontier=2 complete transitions=9254 VALID=9251 UNCERTAIN=1 INVALID=2
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=2040702->2041589
+  validation VALID seq=2040702->2041589 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-29.055177,67.500000,20.543081) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-29.055177,67.500000,20.543081) ground=true
+
+
+=== 2026-09-22T13:24:34.291Z RECORDING on for free-play reproduction
+> papea2ac recording Emojiado on
+Recording control accepted; applies at this session's next ordered position.
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=2091663
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=2091663 totalDelayNanos=316818225100
+delayP95UpperNanos=131071 delayP99UpperNanos=1048575
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=1/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4049816/100663296 sharedSections=1865 sharedHits=18436 privateTier=786432 revisions=2024 historyEvictions=21610 evicted=0 unloaded=900 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=2594 sendFailures=0 answered=5124 rttSamples=5124 outliers=297 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=10263 VALID=9310 UNCERTAIN=951 INVALID=2 uncertain{searchLimit=0 unsupported=1 worldIncomplete=0 externalMotion=0 unanchored=950 other=0} timingBranches=9313 reconstructions=11585 evaluations=3718748 anchors=9/lost=3 internalErrors=0 injected=3
+evidence consumed=9313 witness=9310 unresolved=1 positiveEvents=2 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=4 positive=3 duplicates=1} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=23314531 complete=23314531 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=1035283225 hits=18106506 cacheHits=1035283191 cacheMisses=34 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-22T13:26:00.422Z FREE-PLAY INVALID detail (recorded)
+> papea2ac validate Emojiado notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=3 UNCERTAIN=1; last 96 lines):
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236464 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236433->236464 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.681733,67.000000,21.988612) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236520 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236464->236520 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.724131,67.000000,21.996749) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=236559 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=1 recon=1 eval=144 missing=[mechanicSupported]
+    validation VALID seq=236520->236559 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=1/1 frontier 1->1
+      completeness missing [mechanicSupported] valid=[LEGAL_INPUT_FOUND]
+      witness h1 W----U pos=(1.766530,67.000000,22.004881) ground=true
+      note: climbable block within reach of the transition: not qualified for INVALID (P8-F2)
+  seq=352421 UNCERTAIN [UNSUPPORTED_FLUID] hyp=1 legal=0 recon=1 eval=144 missing=[reconstruction, mechanicSupported] obs h=0.1516 rise=-0.2305 legal h<=0.0000 rise[0.0000,0.0000] excess h=0.0000 v=0.0000
+    validation UNCERTAIN seq=352296->352421 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness missing [reconstruction, mechanicSupported] uncertain=[UNSUPPORTED_FLUID]
+      residual observed h=0.151568 rise=-0.230527 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+  seq=483448 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=7 recon=2 eval=5824 missing=[reconstruction, search]
+    validation VALID seq=482735->483448 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=7/8547 frontier 12->7 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 S----U>S----U>S----U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S---RU (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-- (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+      witness h3 S----U>S----U>S--C-U (+734 equivalent) pos=(-28.700000,67.000000,24.990229) ground=true
+  seq=489917 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=8 recon=2 eval=5968 missing=[reconstruction, search]
+    validation VALID seq=489333->489917 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=8/18424 frontier 13->8 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>---C-- (+5263 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W----U (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+      witness h3 ------>------>W---RU (+1315 equivalent) pos=(-28.700000,67.000000,24.392908) ground=true
+  seq=493492 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.0071 rise=-0.0358 legal h<=0.0293 rise[-0.0358,-0.0358] excess h=0.0000 v=0.0000
+    validation INVALID 
+seq=493453->493492 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.007085 rise=-0.035841 | legal h<=0.029297 rise in [-0.035841, -0.035841] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 W--C-- d=(-5.878e-03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W-JC-- d=(-5.878e-03,0.000e+00,0.000e+00) outside=5.878e-03
+      nearest h1 W---RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      nearest h1 W-J-RU d=(-5.878e-03,0.000e+00,1.834e-05) outside=5.878e-03
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@1480
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+  seq=1184476 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=144 obs h=0.0294 rise=0.0000 legal h<=0.1300 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+    validation INVALID seq=1184445->1184476 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.029400 rise=0.000000 | legal h<=0.130000 rise in [0.000000, 0.420000] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 ------ d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 -----U d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 ----R- d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      nearest h1 ----RU d=(-2.940e-02,0.000e+00,-1.917e-04) outside=2.940e-02
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=144 enumerated=144 excludedExact=144 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@2024
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+  seq=1881825 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=9 recon=3 eval=6368 missing=[reconstruction, search]
+    validation VALID seq=1881560->1881825 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=3 legal=9/6112 frontier 5->9 (incomplete)
+      completeness missing [reconstruction, search] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+511 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>---C-- (+511 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>W--C-U (+287 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>W--CRU (+287 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+  seq=1881869 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=9 recon=1 eval=1424 missing=[frontier]
+    validation VALID seq=1881825->1881869 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=9/79 frontier 9->9 (incomplete)
+      completeness missing [frontier] valid=[LEGAL_INPUT_FOUND]
+      witness h1 ------ (+7 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 ---C-- (+7 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 W--C-U (+2 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 W--CRU (+1 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+  seq=1882129 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=9 recon=2 eval=5520 missing=[reconstruction, search, f
+rontier]
+    validation VALID seq=1881964->1882129 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=9/6112 frontier 9->9 (incomplete)
+      completeness missing [reconstruction, search, frontier] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+511 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>---C-- (+511 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>W--C-U (+287 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h3 ------>------>W--CRU (+287 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+  seq=1882154 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=9 recon=1 eval=1424 missing=[frontier]
+    validation VALID seq=1882129->1882154 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=9/79 frontier 9->9 (incomplete)
+      completeness missing [frontier] valid=[LEGAL_INPUT_FOUND]
+      witness h1 ------ (+7 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 ---C-- (+7 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 W--C-U (+2 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+      witness h1 W--CRU (+1 equivalent) pos=(-27.300000,67.000000,20.576962) ground=true
+  seq=2158735 INVALID [NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] hyp=1 legal=0 recon=1 eval=208 obs h=0.0315 rise=0.0000 legal h<=0.1534 rise[0.0000,0.4200] excess h=0.0000 v=0.0000
+    validation INVALID seq=2158656->2158735 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 1->0 (incomplete)
+      completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+      residual observed h=0.031517 rise=0.000000 | legal h<=0.153407 rise in [0.000000, 0.420000] (ENVELOPE) excess h=0.000000 v=0.000000
+      nearest h1 W--C-- d=(2.929e-02,0.000e+00,0.000e+00) outside=2.929e-02
+      nearest h1 W--CR- d=(2.929e-02,0.000e+00,0.000e+00) outside=2.929e-02
+      nearest h1 W---RU d=(2.929e-02,0.000e+00,-3.412e-04) outside=2.929e-02
+      nearest h1 W--CR- d=(2.929e-02,0.000e+00,7.677e-04) outside=2.930e-02
+      proof: hypotheses=1 [h1] reconstructions=1 evaluations=208 enumerated=144 excludedExact=208 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=0@2174
+      note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+      note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+
+
+=== 2026-09-22T14:03:14.153Z P9-F2 forensic round: arm
+> papea2ac validate Emojiado forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=13965
+NORMALIZED=4
+PROVISIONAL=3
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=13965 totalDelayNanos=39199728300
+delayP95UpperNanos=131071 delayP99UpperNanos=134217727
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4110940/100663296 sharedSections=1891 sharedHits=3221 privateTier=786432 revisions=214 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=10 sendFailures=0 answered=19 rttSamples=19 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=15 VALID=15 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=15 reconstructions=27 evaluations=1632 anchors=1/lost=0 internalErrors=0 injected=0
+evidence consumed=15 witness=15 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=11162 complete=11162 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=995194 hits=50304 cacheHits=995184 cacheMisses=10 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-22T14:11:01.169Z forensic round progress
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=457406) frontier=2 complete transitions=2890 VALID=2889 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=456261->457406
+  validation VALID seq=456261->457406 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(9.880461,67.000000,16.174172) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(9.880461,67.000000,16.174172) ground=true
+
+
+=== 2026-09-22T14:27:07.205Z P9-F2 targeted reproduction: clear + re-arm, trapdoor at (-3,67,20) facing=east half=bottom open=false
+> papea2ac validate Emojiado forensic clear
+CLEARED
+
+> papea2ac validate Emojiado forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> say REPRO TEST: stand WEST of the oak trapdoor near x=-3 z=20 and SPRINT EAST into/onto it, 6 times
+
+
+=== 2026-09-22T14:27:50.303Z P9-F2 targeted reproduction result
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1246351) frontier=2 complete transitions=5388 VALID=5385 UNCERTAIN=2 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1245506->1246351
+  validation VALID seq=1245506->1246351 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-4.780880,67.000000,20.509599) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-4.780880,67.000000,20.509599) ground=true
+
+
+=== 2026-09-22T14:28:22.298Z P9-F2 mechanism test: toggle the trapdoor and immediately move onto it
+> say TOGGLE TEST: right-click the trapdoor and IMMEDIATELY sprint east onto it - 8 times
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1271797) frontier=2 complete transitions=5423 VALID=5420 UNCERTAIN=2 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1271756->1271797
+  validation VALID seq=1271756->1271797 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=2/32 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 ------ (+15 equivalent) pos=(-4.500000,67.000000,20.500000) ground=true
+    witness h1 ---C-- (+15 equivalent) pos=(-4.500000,67.000000,20.500000) ground=true
+
+
+=== 2026-09-22T14:29:09.098Z P9-F2 toggle test result
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1307941) frontier=4 complete transitions=5724 VALID=5721 UNCERTAIN=2 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1307248->1307941
+  validation VALID seq=1307248->1307941 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/2048 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+959 equivalent) pos=(-4.807010,67.000000,20.383341) ground=true
+    witness h3 ------>------>---C-- (+959 equivalent) pos=(-4.807010,67.000000,20.383341) ground=true
+    witness h3 ----R->----R->----R- (+63 equivalent) pos=(-4.807010,67.000000,20.383341) ground=true
+    witness h3 ----R->----R->---CR- (+63 equivalent) pos=(-4.807010,67.000000,20.383341) ground=true
+
+
+=== 2026-09-22T14:31:54.682Z P9-F2 plain closed-trapdoor step-up test (facing east)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1430585) frontier=2 complete transitions=6144 VALID=6141 UNCERTAIN=2 INVALID=1
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1429922->1430585
+  validation VALID seq=1429922->1430585 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-3.980649,67.000000,20.487927) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-3.980649,67.000000,20.487927) ground=true
+
+
+=== 2026-09-22T14:53:25.570Z P9-F2 requalification start (jar 65ed19f0902a7d93320a2a4a656515aebed558251efd6a28d5b46ef4362e909f)
+> papea2ac validate Emojiado forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> papea2ac validate Emojiado
+validation session=1 anchored=true (correction 1 seq=12151) frontier=2 complete transitions=49 VALID=49 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=11534->12151
+  validation VALID seq=11534->12151 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-3.980649,67.000000,20.487927) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-3.980649,67.000000,20.487927) ground=true
+
+
+=== 2026-09-22T14:54:59.352Z P9-F2 targeted requalification result
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=103256) frontier=4 complete transitions=492 VALID=491 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=13 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=102373->103256
+  validation VALID seq=102373->103256 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/2048 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+959 equivalent) pos=(-4.571580,67.000000,22.427326) ground=true
+    witness h3 ------>------>---C-- (+959 equivalent) pos=(-4.571580,67.000000,22.427326) ground=true
+    witness h3 ----R->----R->----R- (+63 equivalent) pos=(-4.571580,67.000000,22.427326) ground=true
+    witness h3 ----R->----R->---CR- (+63 equivalent) pos=(-4.571580,67.000000,22.427326) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=492 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=492 UNCERTAIN=1 last=VALID
+  gaps=[GapCount[reason=SEARCH_LIMIT, count=1]]
+
+
+=== 2026-09-22T16:20:15.361Z P9-F2 requalification round 2 (jar 17468cdeb2143f90bb04bdd51a852205bbcace13a6f15ceacf27b268f144aea2)
+> papea2ac validate Emojiado forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> give Emojiado minecraft:oak_planks 64
+Gave 64 [Oak Planks] to Emojiado
+> say GO: mixed free-form movement, and keep placing/breaking/toggling blocks and walking on them immediately
+
+
+=== 2026-09-22T16:34:51.455Z P9-F2 persistent-staleness test (place a plank, wait 5s, walk on it 30s)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1181510) frontier=2 complete transitions=6266 VALID=6258 UNCERTAIN=7 INVALID=1
+context complete=true mode=survival attributes=15 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1180704->1181510
+  validation VALID seq=1180704->1181510 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(193.616607,72.000000,-217.977124) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(193.616607,72.000000,-217.977124) ground=true
+
+
+=== 2026-09-22T16:35:41.749Z P9-F2 requalification final counts (jar 17468cde)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (1 pose state) seq=1228608) frontier=2 complete transitions=6316 VALID=6308 UNCERTAIN=7 INVALID=1
+context complete=true mode=survival attributes=15 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1227757->1228608
+  validation VALID seq=1227757->1228608 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(193.616607,72.000000,-217.977124) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(193.616607,72.000000,-217.977124) ground=true
+
+> papea2ac evidence Emojiado view
+evidence session=1 worldEpoch=0 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=0
+  observed VALID=6308 UNCERTAIN=7 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=1327 UNCERTAIN=0 last=VALID
+  group 3928397af85e members=1 seq=948924..948999 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=7], GapCount[reason=SEARCH_LIMIT, count=1], GapCount[reason=FRONTIER_INCOMPLETE, count=1]]
+
+> papea2ac evidence
+Usage: /papea2ac [status | player <name> | timeline <name> | world <name> | collision <name> | physics <name> [step <scenario> | arm <scenario> | report | cancel] | reconstruct <name> [arm [scenario] | report | cancel] | timing <name> [view | arm [scenario] | report | cancel | velocity x y z | teleport dx dy dz] | validate <name> [view | recent | notable | forensic [arm|report|clear] | inject dx dy dz [ticks]] | evidence <name> [view | recent | side | reingest] | capture on|off | effects suspend|resume | recording <name> on|off | checkpoint <name>]
+
+
+=== 2026-09-22T16:35:51.598Z P9-F2 requalification: controlled injection + duplicate recheck
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 2470678..2470909 newestAge=2336ms oldestActiveAge=2336ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=1]]
+  HORIZONTAL_EXCESS: events=1 maxExcess h=0.1726 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group df06efed5d9c members=1 seq=2470678..2470909 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  supporting=[df06efed5d9c]
+  seq=2470678->2470909 INVALID -> POSITIVE_EVENT evidence df06efed5d9c seq=2470678->2470909 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=576 exact=560 env=0 remaining=0
+
+> papea2ac evidence Emojiado reingest
+SCHEDULED: the last side-chain record (seq=2470678->2470909) is re-delivered to the side ledger at the next tick end; expect DUPLICATE
+

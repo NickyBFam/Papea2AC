@@ -1,0 +1,41 @@
+{
+ "probe": "P9-F3 landing matrix (two-tick: the landing tick and the first grounded ticks after it)",
+ "date": "2026-09-22",
+ "method": "75 generated scenarios appended to the Phase 5 catalogue and run through physicsNativeDifferential against the pinned Paper 26.2 build 124 server; the patch is kept here because regenerating the differential would modify frozen Phase 5/6 artifacts",
+ "surfaces": [
+  "stone",
+  "ice",
+  "slime",
+  "honey",
+  "soul_sand",
+  "slab",
+  "stairs",
+  "mixed_friction",
+  "block boundary",
+  "ledge edge",
+  "ice boundary"
+ ],
+ "motions": [
+  "idle",
+  "walk",
+  "sprint",
+  "sneak",
+  "sneak_sprint_backward",
+  "backward",
+  "diagonal",
+  "use_item",
+  "release"
+ ],
+ "scenarios": 166,
+ "scenariosCompared": 163,
+ "deferredFluid": 3,
+ "oracleErrors": 0,
+ "scenariosExactSingleStep": 163,
+ "scenariosExactChained": 163,
+ "ticksCompared": 4005,
+ "ticksExactSingleStep": 4005,
+ "ticksExactChained": 4005,
+ "worstSingleStepDrift": 0.0,
+ "worstChainedDrift": 0.0,
+ "verdict": "the landing tick and the grounded ticks after it are bit-exact against the real server for every surface and input family tested, including the live motion family (sneak+sprint backward); the Phase 5 landing step is not responsible for P9-F3"
+}

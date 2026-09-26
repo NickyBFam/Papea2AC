@@ -153,6 +153,11 @@ public final class MovementValidator {
         if (r.steps().isEmpty() && uncertain.isEmpty()) { timingOk = false; uncertain.add(UncertainReason.TIMING_INCOMPLETE); notes.add("no timing hypothesis was enumerated for this interval"); }
         // P8-F2: the exact model is not qualified for INVALID within reach of a climbable block (ladder, vine, scaffolding): the mechanic dimension is incomplete there
         if (climbableInReach(req)) { mechOk = false; uncertain.add(UncertainReason.CLIMBABLE_CONTACT); if (notes.size() < MovementValidationResult.MAX_NOTES - 2) notes.add("climbable block within reach of the transition: not qualified for INVALID (P8-F2)"); }
+        // P9-F2 (found live): a block whose state the client and this observer may legitimately disagree about - a client-predicted interaction
+        // still unacknowledged, or a change this observer applied that the client cannot have seen yet - is an UNKNOWN cell for this transition,
+        // whatever the observer world currently holds. The world dimension is incomplete: an explained transition stays VALID, an unexplained
+        // one is UNCERTAIN. Never a tolerance and never a suppressed result: the missing dimension is named.
+        if (req.worldDisputed()) { worldOk = false; uncertain.add(UncertainReason.WORLD_INCOMPLETE); if (notes.size() < MovementValidationResult.MAX_NOTES - 2) notes.add("a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete"); }
         // safety net (pre-baseline audit): an adapter-level incompleteness that no dimension above named still forbids INVALID
         if (!r.complete() && uncertain.isEmpty()) { searchOk = false; uncertain.add(UncertainReason.SEARCH_LIMIT); notes.add("the union reported incomplete without a named dimension: treated as a search bound"); }
         Completeness comp = new Completeness(timingOk, reconOk, worldOk, attrOk, effOk, equipOk, entOk, borderOk, extOk, mechOk, searchOk, obsOk, frontierOk);
@@ -257,10 +262,19 @@ public final class MovementValidator {
             new Counts(0, 0, 0, 0, 0, 0, 0, req.frontier().nodes().size(), 0), List.of(), Proof.NONE, Residual.NONE, new Work(0, 0, 0, 0, 0, 1), prov, new TimingReconstruction.Frontier(List.of()), false, List.of(note));
     }
 
+    /**
+     * P9-F3: the idle input that KEEPS a resting client in the given pose. A client standing still while holding the sneak key rests in
+     * {@link PlayerBox.Pose#CROUCHING}, whose box is 0.3 shorter; probing every pose with a shift-released input collapses that client to
+     * STANDING and drops the crouching hidden state, after which any later traversal that needs the shorter box (a top slab, a trapdoor
+     * gap, any 1.5 opening) is mis-clipped and the legitimate movement is proven impossible. The pose is an input fact, not a default.
+     */
+    private static MovementInput restingInput(PlayerBox.Pose pose, float yaw) {
+        return pose == PlayerBox.Pose.CROUCHING ? new MovementInput(0, 0, false, true, false, false, yaw) : MovementInput.idle(yaw);
+    }
     /** Why {@link #restFixedPoint} would refuse a position for a pose (diagnostic text; "fixed point" when it would not). */
     public static String restFixedPointReason(me.nicolas.papea2ac.physics.PhysicsSimulator simulator, PhysicsEnvironment env, double x, double y, double z, PlayerBox.Pose pose, float yaw) {
         PhysicsState s = PhysicsState.resting(x, y, z, pose, false);
-        MovementInput idle = MovementInput.idle(yaw);
+        MovementInput idle = restingInput(pose, yaw);
         for (int i = 0; i < 2; i++) { var r = simulator.simulate(s, idle, env); if (r.next() == null || !r.exact()) return "idle tick " + (i + 1) + " not exact: " + r.summary(); s = r.next(); }
         if (!s.onGround()) return "not on ground after two idle ticks: " + s.position();
         if (s.position().x() != x || s.position().y() != y || s.position().z() != z) return "moved to " + s.position();
@@ -271,7 +285,7 @@ public final class MovementValidator {
     /** The resting fixed point of the simulator at a position (idle input twice must reproduce the state): the sound anchor of a chain. Returns null when the position is not a fixed point. */
     public static PhysicsState restFixedPoint(me.nicolas.papea2ac.physics.PhysicsSimulator simulator, PhysicsEnvironment env, double x, double y, double z, PlayerBox.Pose pose, float yaw) {
         PhysicsState s = PhysicsState.resting(x, y, z, pose, false);
-        MovementInput idle = MovementInput.idle(yaw);
+        MovementInput idle = restingInput(pose, yaw);
         for (int i = 0; i < 2; i++) { var r = simulator.simulate(s, idle, env); if (r.next() == null || !r.exact()) return null; s = r.next(); }
         if (!s.onGround() || s.position().x() != x || s.position().y() != y || s.position().z() != z) return null;
         var again = simulator.simulate(s, idle, env);

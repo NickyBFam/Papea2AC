@@ -18,6 +18,10 @@ public final class PacketEngine implements AutoCloseable {
         public final me.nicolas.papea2ac.player.TimingLedger timing;volatile int selfEntityId=-1;
         /** Phase 8: the player-owned movement context (attributes/effects/abilities/border/entity neighbourhood as the client learned them) and the shard-owned live validation runner. */
         public final me.nicolas.papea2ac.player.MovementContextLedger movementContext;public final MovementValidationRunner validation;
+        /** Phase 9: the session's evidence runner (live + side ledgers), fed by the validation runner on the same shard. */
+        public final EvidenceRunner evidence;
+        /** P9-F2: the cells whose state the client and this observer may legitimately disagree about (client prediction / in-flight change). */
+        public final BlockDisputeLedger disputes;
         long lastMarkerNanos,lastTimingExpireNanos,timingBreakGeneration=-1;int markerCounter;boolean bracketMarkerDue;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
@@ -43,6 +47,8 @@ public final class PacketEngine implements AutoCloseable {
             timing=new me.nicolas.papea2ac.player.TimingLedger(key);
             movementContext=new me.nicolas.papea2ac.player.MovementContextLedger(key);
             validation=new MovementValidationRunner(key,validator,physics,collision,blockBehaviors,timingProfile,validationMetrics);
+            evidence=new EvidenceRunner(key,evidenceMetrics);validation.attachEvidence(evidence);
+            disputes=new BlockDisputeLedger(key,disputeMetrics);validation.attachDisputes(disputes);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
@@ -139,6 +145,19 @@ public final class PacketEngine implements AutoCloseable {
                                     // Phase 8 context first (a JoinGame also names the self entity when the platform control has not arrived yet)
                                     if(s.selfEntityId<0&&o.event() instanceof Observation.Outbound jo&&jo.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.JoinGame jg)s.selfEntityId=jg.playerId();
                                     for(var ce:ContextObservationMapper.map(o,s.selfEntityId))s.movementContext.apply(s.key,ce);
+                                    // P9-F2: the block states the client and this observer may legitimately disagree about (client prediction window / in-flight change)
+                                    if(o.event() instanceof Observation.Attempt att2){
+                                        if(att2.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.UseOn u2)s.disputes.clientPrediction(u2,now);
+                                        else if(att2.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Dig d2)s.disputes.clientPrediction(d2,now);
+                                    }
+                                    else if(o.event() instanceof Observation.Outbound ob3){
+                                        if(ob3.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.SequenceAck ack)s.disputes.acknowledged(ack.sequence(),now);
+                                        else if(ob3.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.BlockChange bc)s.disputes.applied(bc.position().x(),bc.position().y(),bc.position().z(),now,s.timing.view().rtt().smoothedNanos());
+                                        else if(ob3.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.SectionBlocksUpdate su){long rtt=s.timing.view().rtt().smoothedNanos();for(var bu:su.updates())s.disputes.applied(bu.position().x(),bu.position().y(),bu.position().z(),now,rtt);}
+                                    }
+                                    // P9-F4: between a login/respawn and the client's player-loaded packet the client never ticks its player (LocalPlayer.tick: hasClientLoaded)
+                                    if(o.event() instanceof Observation.Outbound ob4&&(ob4.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.JoinGame||ob4.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Respawn))s.validation.clientLoadReset();
+                                    else if(o.event() instanceof Observation.Attempt att4&&att4.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Lifecycle lc&&lc.transition()==me.nicolas.papea2ac.protocol.SemanticPayload.LifecycleTransition.PLAYER_LOADED)s.validation.clientLoaded();
                                     var te=TimingObservationMapper.map(o,s.selfEntityId,s.timeline.currentState().worldEpoch()+(o.event() instanceof Observation.Outbound ob&&ob.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Respawn?1:0));
                                     if(te.isPresent()){
                                         var event=te.get();
@@ -242,6 +261,8 @@ public final class PacketEngine implements AutoCloseable {
     /** Phase 8: the movement validator (simulation-owned classification over the Phase 7 adapter; one instance, stateless) and the engine-wide bounded validation counters. */
     public final me.nicolas.papea2ac.simulation.MovementValidator validator=new me.nicolas.papea2ac.simulation.MovementValidator(new me.nicolas.papea2ac.simulation.TimingReconstruction(new me.nicolas.papea2ac.simulation.TimingResolver(),reconstruction));
     final MovementValidationRunner.Metrics validationMetrics=new MovementValidationRunner.Metrics();
+    /** Phase 9: engine-wide bounded evidence counters. */
+    final EvidenceRunner.Metrics evidenceMetrics=new EvidenceRunner.Metrics();
     private volatile MarkerPort markerPort;
     /** Marker cadence: one ping per second per session while the platform port exists, plus one right after an outbound influence/correction (bracketing), never more than one per 50 ms, never with more than 16 pending. */
     public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
@@ -289,6 +310,8 @@ public final class PacketEngine implements AutoCloseable {
     }
     private final long admittedLimit;private final int capacity;private long reservedBytes=GLOBAL_BYTES;
     public final PacketMetrics metrics=new PacketMetrics();
+    /** P9-F2 engine-wide counters (fixed labels). */
+    public final BlockDisputeLedger.Metrics disputeMetrics=new BlockDisputeLedger.Metrics();
     private final java.util.function.Consumer<Throwable> errors;
     public PacketEngine(int workers,long budgetBytes,java.util.function.Consumer<Throwable> errors){
         this(workers,workers*128,budgetBytes,errors);
@@ -481,6 +504,20 @@ public final class PacketEngine implements AutoCloseable {
     public synchronized java.util.Optional<ValidationStatus> validationStatus(UUID player){Session s=active.get(player);return s==null?java.util.Optional.empty():java.util.Optional.of(s.validation.status());}
     /** Controlled impossible-movement injection (qualification only): a side chain, never the live chain or the timeline. */
     public synchronized String validationInject(UUID player,me.nicolas.papea2ac.model.Vector3 step,int ticks){Session s=active.get(player);return s==null?"REFUSED: no admitted session":s.validation.inject(step,ticks);}
+    /** P9-F2 diagnostic only: arms / reads / clears the one-shot forensic capture of the next live INVALID. */
+    public synchronized String validationForensic(UUID player,String action){Session s=active.get(player);if(s==null)return "REFUSED: no admitted session";
+        switch(action){case "arm":s.validation.armForensic();return "ARMED: the next live INVALID of this session freezes one forensic capture";
+            case "clear":s.validation.clearForensic();return "CLEARED";
+            default:{java.util.List<String> r=s.validation.forensicReport();return r.isEmpty()?("no trigger (armed="+s.validation.forensicArmed()+")"):String.join("\n",r);}}}
+    /** The session's published evidence status (thread-safe), empty for an unknown player. */
+    public synchronized java.util.Optional<EvidenceStatus> evidenceStatus(UUID player){Session s=active.get(player);return s==null?java.util.Optional.empty():java.util.Optional.of(s.evidence.status());}
+    /** Qualification only: schedules the re-delivery of the last side-chain record to the side evidence ledger (idempotency demonstration). */
+    public synchronized String evidenceReingest(UUID player){Session s=active.get(player);return s==null?"REFUSED: no admitted session":s.evidence.requestReingestLastSide();}
+    /** Engine-wide Phase 9 counters, primitives only. */
+    public EvidenceEngineStatus evidenceEngineStatus(){
+        var m=evidenceMetrics;
+        return new EvidenceEngineStatus(m.consumed.sum(),m.legitimateWitness.sum(),m.unresolved.sum(),m.positiveEvents.sum(),m.duplicates.sum(),m.proofRejected.sum(),m.outOfOrder.sum(),m.sessionMismatch.sum(),m.internalErrors.sum(),m.sideConsumed.sum(),m.sidePositiveEvents.sum(),m.sideDuplicates.sum(),m.sessionsCreated.sum());
+    }
     /** Engine-wide Phase 8 counters, primitives only. */
     public ValidationEngineStatus validationEngineStatus(){
         var m=validationMetrics;

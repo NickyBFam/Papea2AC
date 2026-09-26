@@ -63,9 +63,9 @@ class ArchitectureTest {
         }
         assertEquals(27,count);
     }
-    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5 and "simulation" in Phase 6 (their approved phases); each is held to its own boundary test below instead. */
+    /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5, "simulation" in Phase 6 and "evidence" in Phase 9 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("combat","checks","evidence","mitigation","interaction")){
+        for(String name:List.of("combat","checks","mitigation","interaction")){
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -203,6 +203,41 @@ class ArchitectureTest {
             String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
             for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
         }
+    }
+    /**
+     * Phase 9 boundary: the evidence module owns evidence accumulation only (approved DAG: it imports model and replay-schema, nothing
+     * else - never the simulation types; core projects the Phase 8 result name-for-name). No mitigation, enforcement, alert, level,
+     * probability or "cheater" vocabulary anywhere in the Phase 9 files; no wall clock, no reflection, no hash-order collection, no
+     * Bukkit/NMS/Netty; positive evidence is constructible only through the proof gate ({@code EvidenceEvent.from}); the snapshot carries
+     * no boolean about the player; the platform prints the projection and never interprets it.
+     */
+    @Test void evidenceStaysWithinThePhase9Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(setback|Setback|teleport|Teleport|kick|Kick|ban|Ban|banned|punish|Punish|punishment|alert|Alert|violationLevel|strike|strikes|isCheater|cheater|Cheater|hacking|hacker|probability|Probability|confidence|Confidence|recommend|Recommend|decay|Decay|threshold|Threshold|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|Instant|LocalDateTime|Random|ThreadLocalRandom|HashMap|HashSet|nanoTime)\\b");
+        java.util.List<Path> files=new java.util.ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-evidence/src/main/java"))){s.filter(p->p.toString().endsWith(".java")).forEach(files::add);}
+        for(String f:new String[]{"EvidenceRunner","ValidationEvidenceMapper","EvidenceStatus","EvidenceEngineStatus"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        assertTrue(files.size()>=9,"Phase 9 evidence files must exist: "+files);
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains an enforcement/policy/level concept, a wall clock, a platform type or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        // the evidence module imports model only (its build also allows replay-schema): never simulation, physics, player, world or core
+        try(var s=Files.walk(ROOT.resolve("anticheat-evidence/src/main/java"))){for(Path p:s.filter(q->q.toString().endsWith(".java")).toList()){for(String line:Files.readString(p).split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.evidence.")||line.startsWith("import me.nicolas.papea2ac.schema."),p+" imports outside model/replay-schema: "+line);}}
+        // positive evidence has one constructor path: the proof gate; the snapshot has no verdict field
+        String event=Files.readString(ROOT.resolve("anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceEvent.java"));
+        assertTrue(event.contains("public static Optional<EvidenceEvent> from(ValidationRecord r)")&&event.contains("if (check(r).isPresent()) return Optional.empty();"),"the proof gate guards the only factory");
+        String snapshot=Files.readString(ROOT.resolve("anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceSnapshot.java")).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","").toLowerCase(java.util.Locale.ROOT);
+        for(String w:new String[]{"ischeater","banrecommended","kickrecommended","setbacknow","hacking","level","score"})assertFalse(snapshot.contains(w),"snapshot field "+w);
+        // core/platform never construct evidence records or events themselves (only the mapper builds the projection) and the platform only prints lines
+        for(String f:new String[]{"anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceRunner.java","anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java","anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java"}){
+            String c=Files.readString(ROOT.resolve(f)).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            assertFalse(c.contains("new EvidenceEvent(")||c.contains("new ValidationRecord("),f+" builds evidence by hand");
+        }
+        String platform=Files.readString(ROOT.resolve("anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java"));
+        assertFalse(platform.contains("import me.nicolas.papea2ac.evidence"),"the platform never touches the evidence module");
+        // the frozen validation engine does not know the evidence types
+        assertFalse(Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java")).contains("papea2ac.evidence"),"Phase 8 is independent of Phase 9");
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{

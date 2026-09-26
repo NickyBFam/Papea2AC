@@ -1,0 +1,126 @@
+# Phase 9 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes over the committed Git blob content (not the
+# Windows checkout bytes), covering the complete Phase 9 implementation baseline set: the evidence engine (anticheat-evidence:
+# EvidenceEvent, EvidenceLedger, EvidenceSnapshot, EvidenceVocabulary, EvidenceBounds, ValidationRecord), its core composition
+# (EvidenceRunner, ValidationEvidenceMapper, EvidenceStatus, EvidenceEngineStatus, PacketEngine, the /papea2ac evidence command) and
+# the forward corrections P9-F1..P9-F5 in anticheat-physics / -simulation / -player / -core (sprint-modifier classes, BlockDisputeLedger,
+# start-pose sneak scaling and the crouching rest anchor, the client-loaded tick rule, the PUSHER entity class and bundle mapping),
+# the diagnostic ForensicCapture; tests, benchmarks, Gradle task changes, the Phase 9 report, the human approval record, and the
+# artifacts under docs/phase9-artifacts/ (regenerated reference data, fixtures, corpora results, JMH, memory, verification, the
+# forensic captures and the force-added qualification logs). The production code is exactly the code of the live-qualified plugin
+# jar 297134a6425c03959ad3342e67b1179dda52e0b5ed4262308e89001e240a99da (byte-identical --rerun-tasks rebuild).
+# This manifest file itself is not listed.
+6b501a5b80bc562fcd40d82ece4a67dc64a930d8f80dab3d08427089503842cd  anticheat-core/src/main/java/me/nicolas/papea2ac/core/BlockDisputeLedger.java
+16fd867d82c03799680e908f69118e663b6e0b434417ef321e28c8564549132b  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ContextObservationMapper.java
+f10849d2c108aa73a48bbfc0354fb3768b547e7e2ed5dcbda7283c29eca00f8f  anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceEngineStatus.java
+fae7d5a1e2922b25b3a67cc43b6120581b6aa650f99537e328ca3fef6276c727  anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceRunner.java
+668de43956bc9a7da33deed78dc14357fc96544f4d9833cc2501cfff209596ae  anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceStatus.java
+48be9723c2ae89713334915eeacf51ada7ab346910ad0254e148b915453c58d5  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ForensicCapture.java
+0b61730725841bf371113589f4af56dcd345600357263e26a280cab0301f6249  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java
+dfdb97ec05c57604582b030a9fa452007469c7f904afad77047d845bdb6f3b2d  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+9efae8782aca3dbf3d5529ad91d16c9d9177a45c759d196a29a4a730f58ae1a0  anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationEvidenceMapper.java
+ffc784857a4952e53dd7f854cf9b84800b0aab173e69d724cf7f7f33543893ca  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceBounds.java
+cc6a7e06b1062654cbbcb8bfefb9313792fe485be7cf5e0710d18382cd0e9b0a  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceEvent.java
+5ec6ebbdc7c272c87b8a102c161e8ef664fd13e10d7cb2a02884ee3fa1a033eb  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceLedger.java
+c69b2dc22daa2a4b47c2c19eeada3ffb0f3f8cb0a96f97c21fda4dbc63e21975  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceSnapshot.java
+e26fb3800ed62096b8f36b9b063ea6934e81af3a1d2dc27890baccfe621b32a4  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/EvidenceVocabulary.java
+bd3291e9a77e971201d3cc8c5a5b9f54e6441966b733d63988c4690d7ca307ef  anticheat-evidence/src/main/java/me/nicolas/papea2ac/evidence/ValidationRecord.java
+b67b742c815c25441143cdf6b4db360e4ef46a55b4a368f84cc84277bbe9c665  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsEnvironment.java
+7e94020295a39625faa72c18ce76781df46122b45c356a23e9befba611d86f27  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsResult.java
+c68e374bbec07e34e8327915452b38f039d5f9b8e6ddb742161d98008929b866  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsSimulator.java
+7e99c63d7ba3b24acb276178e42203e770225d22ab733b045cf0438bcc5ded8e  anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsState.java
+6ff63e807f0d54f4aa5334c77b139494940155b490f8627380d0a49d3546209d  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+aaa20b400ed86188356e6ba6f167c1515625ea7376267250362629617b134069  anticheat-player/src/main/java/me/nicolas/papea2ac/player/MovementContextLedger.java
+98f45529edc02cc0123e35b24183cea53611a9bf936bb5332f2fcdcaf3ae95b6  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractState.java
+fe33231c3f4c7cbb0d4a1a41bce8f0eacbaa833fb96544d505f95a58c7d57099  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java
+63d6c5875206b162f7c67734cc883251c26707c04460f9667e548167b1bb8e68  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java
+b55b3d83c9f26026b98d5e4294dda030fd64b12ef2af431ae56ea99125bd01d8  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationRequest.java
+3029150cad87ea2ba19f34630cf2a7f031e6a8d761c62676a0f76fb698cc1069  anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java
+c0e0d53acea0d5f6fa310b50065e5022b8a8504d04f2d110d0b99e00f2a0ce8d  anticheat-testing/build.gradle.kts
+ff3019a878317f3cb59d2bac713c33008c1e4fdffd53852f0f69ef93e2453357  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/EvidenceBenchmarks.java
+8e9944b4ee072c13828c95beb8c4aeb72d3913bed7510feaab4a60beb99e9473  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ValidationBenchmarks.java
+67b9ce0492bdf918fc62ba22994a519c7e0111df42303926a71b06385c187ae8  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeSemanticTest.java
+5a751f2bd59bd8c477a1816bfc89aeb01ec42a8c0100cf522ca89a7b38145949  anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/PhysicsOracleMain.java
+8acd5c1133bc8b2659ff0eda5afdafa090fa56027a1bc0f27b0437e9e74ccc79  anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/PhysicsOraclePlugin.java
+e7e9c4fcd86ea593d4136e3a021a636678d7b6b8fdcd16e3d870eb120e287c25  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AbstractTransferTest.java
+11ff3756e26bef7b8e7f751f1fa32ab3d76a4b1c42ec4cc4daeca57414599dba  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+589a712eb1439d924325e34549cf7d51e95ab5bc7e76e723c664a58c3731beeb  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/BlockDisputeTest.java
+8e6959a9c7a92b0cd6bb4067bf3183b1c8c0d4371145aded2d1e2f725b03933c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ClientLoadedTicksTest.java
+751e01b4d0c515f027a59e27c443130a0ad8cdd2788ba8bd384e9bd423cc1800  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EntityPushClassificationTest.java
+4211b7b65c95a6fd5b37558beb8adb541a2d2bbbf7422810698dde42b860243b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceCorpus.java
+b60cee1ee290bc108252aaf6b252f7629c3c25a2fbb499d8ac90d20b7dda3576  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceCorpusTest.java
+2d1f26be0ab0e6b9db164ece3a32051d2aee46c24ab00e75ae6104e37e5586d3  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceEventTest.java
+7dc0cc9d378e5c7b143847382245748056614b1c789aabbab524877334d118da  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceFixtureMain.java
+8a5dd1e948ce3f1aaf449729a4f7fd7c16f6c3f29d30b3ce0815f8a661a821a5  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceLedgerTest.java
+77a591e424878b240c5c1409812572bad9aa78873d8bd29691ed57fe79201843  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceMemoryMain.java
+d44fe04cf5403050fecbb62b42414e75b6bd8656804506563a49da418aa8356d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidencePropertyTest.java
+74fd57ecebd7b0fb07cdcc3fdd1a07537017e65a1207a54fb50108e3b4b8a28c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceRunnerTest.java
+cbf742083f54a16e6399d1e385fffbce9ee180749bb40992c30c0ce6390de854  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceTestSupport.java
+40d7b27f798ce73fabc3948595ab0d4d787943e471a362d79470930dff04f72a  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/FrontierContinuationTest.java
+443176513bae52be38acf5fcba16873591dd214946e5d1c192b5e6dfe9f5c5cc  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/InputReconstructorTest.java
+c8ecd996809a30a6c568163725a27c226ae36d0495560c5321c4e8af416d4dbe  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementContextLedgerTest.java
+f7ec4b12b0a2e319e5575fa6efc0e4139c9a2e1babfd80016663ee018bf55130  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidationRunnerTest.java
+e3682f0d010cf139e533bd618ce52db8e9bc9b32d7801488afbad96a83bb3e3f  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/NativeTrajectoryReconstructionTest.java
+7dd6a47ca4892b5aef4321d9eebacf27b3888acfa16e2913e87cac6a1fc5aa68  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsCoreMatrixTest.java
+8c419b200c854abfb19a01752389f89d98a59210a2be522c7927586cd32baee9  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsOracleFixtureTest.java
+1972cb8a6b75cead8e7529811e5f800fb54b02b57c7c04ad71a6a408fc018596  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionFixtureTest.java
+84d00ec1cd9d41bacd88d66344addd537874265f2556c7e3e3382f5c920c8b4d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionTracerTest.java
+fe14e30f0d82a807ae5d72507f420a96f1019b8da22372a075021af89c03fe5d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/RestPoseAnchorTest.java
+5416d6d15076b90b92f8157e31006e9070de051f7b1699bf3069c59b20f09d8b  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/SprintModifierTest.java
+c2bad82b310ccbcaf2c06958993278bb2b36e4344d78635c4a0310852dcbea24  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureTest.java
+492d8a88aaf8f8c4728c65cf7f70bc430334bbf7145dcc57fffb64c9f0df4a1d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpus.java
+c7109e55256a6ae43b5bc5a6932d597cf8317d6d465344fe3a19329c62b6f93d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpusTest.java
+df909dff779a2a68d110eb32f7f7527995242a4a7a125c4d8c28ce3abc0fa115  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureMain.java
+618f4db653d2c2f7ae635be12abcb39de54fd47809a71ace207111aa62174b0d  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureTest.java
+f9fbf243204b5f53ec9182aab8845b2a0f16a7dfb0841d821162dfa2f2665d31  docs/PHASE_9_HUMAN_APPROVAL.md
+da56e7130fe9c9f4454792d2c96b575e590ed5f85c6107388deeb5e4ff165a5a  docs/PHASE_9_IMPLEMENTATION.md
+b38995995c6281daea28ca21b54f9bab9afd5fb0a2b642cc2baa73912254181e  docs/phase9-artifacts/benchmarks.json
+bef01bdb24d33d2b7a53b868bdd495ad903571689e3a5ecd2503448993decef0  docs/phase9-artifacts/dedup-results.json
+b1e42c59e122f93b094579c806788bab5ee9f1b4cc1bdcdb5eb42aac877af63f  docs/phase9-artifacts/detection-results.json
+33f307d35b93a0d0ceaf5a7ea4113262198fabfaab1c2792963a6d6b7b0ee378  docs/phase9-artifacts/entity-push-classes-26.2.json
+c482696bbb16e6f6a80a5a84f79b10675362c6b3b5b105ba22d0dbcbba3861cd  docs/phase9-artifacts/evidence-corpus-results.json
+1ea4eee3652bf1e60aad1c5c76eea8789ec99dd2aefc27a3841df474298680fc  docs/phase9-artifacts/evidence-fixtures/evidence-fixtures.json
+a388b32875b48a5ee177563e8928287a707090dc4aa8e753323de094cfd5a83a  docs/phase9-artifacts/false-evidence-results.json
+f2489046374fb2b7621b8f04b4f086226e8d07ac1fa5aeee54dc22a2494384e7  docs/phase9-artifacts/false-positive-results.json
+c29d84d32d99c13a3570ef45cd297240895086ab648a38403006521dcdc4b483  docs/phase9-artifacts/input-domain.json
+b1e42c59e122f93b094579c806788bab5ee9f1b4cc1bdcdb5eb42aac877af63f  docs/phase9-artifacts/invalid-corpus-results.json
+d4521e9e3d3e9b936f757721b303d2388494ff36f4a477227777416a88949102  docs/phase9-artifacts/legitimate-corpus-results.json
+d2f84ff8f2b6397ade36ce6082796e6da067ded881d3afffdcd879e0bbd873a2  docs/phase9-artifacts/memory-results.json
+1d88f7cc5a6140ba47c3d4c2a87662d88cf406e0fceb7b767f832a8916351c40  docs/phase9-artifacts/multi-tick-drift-results.json
+89300757732fe11701216cac198386f168a7aecc21d5ecc2c2893226e1f9e479  docs/phase9-artifacts/native-differential-results.json
+05c7ac878cd6763aa364d7f02d2a473ee9f12029ce17a6d5ca41c846602e6489  docs/phase9-artifacts/native-reconstruction-oracle-results.json
+f7916ea710ae05d11e7d8f0598376256a5f6ffc79a1a316ac972153fdb8046ce  docs/phase9-artifacts/native-validation-results.json
+d76df425540abc302eda33e95ae9d3bf79173222ef142612d2783e637b32945b  docs/phase9-artifacts/p9f2-differential-probe.patch
+31c0935e08fd77d5c4e75f925f9c5d972558eb0855913e5b16b0640289e55b89  docs/phase9-artifacts/p9f2-forensic-capture-1.log
+1e0e615089bf699a32ea7eb33dbfb0a73a99021e1772d36e6b94e6d26042f59f  docs/phase9-artifacts/p9f2-forensic-capture-3.log
+b8ed40f5eb893d527bc6a0fcee41906d304afd61536d63a693bb056224ebecf6  docs/phase9-artifacts/p9f3-forensic-capture-4.log
+ca4f14a652cb41490aaa0b9323a77e94dce1d286e9ef147821364bd056ba5e21  docs/phase9-artifacts/p9f3-forensic-capture-5.log
+a6eb45b631561f05ba2d7a7a732d6887c08e20a60dddc6b200a0e8a7944a69e1  docs/phase9-artifacts/p9f3-forensic-capture-6.log
+6759df20c8f5530b78f16386e144348333a71fe50500f785b1678c05a289841c  docs/phase9-artifacts/p9f3-forensic-capture-7-vps.log
+27f95226973912ee72d14f01a1540330ae59a04eb1db4093b4a54f4990ecba6d  docs/phase9-artifacts/p9f3-landing-matrix-results.json
+128f89d3656d5ea4aef55cb6bda648890801be273517b999e31bc786b0f644c8  docs/phase9-artifacts/p9f3-landing-matrix.patch
+c07fa5d2cd7d135b96aeaf0de7adb73016f4e9a0db0f79485605e121ff7f18e2  docs/phase9-artifacts/p9f5-forensic-capture-8-vps.log
+7fc962b0f692c86ce47cf1b2b571deb679607b930a305edf11fc8734842bd34a  docs/phase9-artifacts/p9f5-forensic-capture-9-vps.log
+a36b141966b1dc5bd2a0b25ffc3933114be8f0521ec44ca75ec9e45ff0ce9051  docs/phase9-artifacts/physics-fixtures/native-trajectories.json
+9ace350b95bd181d72d88757987bc14d74bd59b1604eca2ca35c777c82991d1f  docs/phase9-artifacts/real-client-evidence-vps.log
+d1e7c500ddfae505539e73298e1fbeefb663b065850c0a19f9b2d14454b5bcb3  docs/phase9-artifacts/real-client-evidence.log
+7faa5b2fee1dc95804829676490589eb2115e9a9b0a84a0c8da6f8be13f7ae31  docs/phase9-artifacts/real-client-server-vps-jar1497c44e.log
+e221afeff9136aac741e695df5e7086e7fc6706fac1d47585b19fc78cd1976f3  docs/phase9-artifacts/real-client-server-vps-jar297134a6.log
+7c9ffd7a5c163d39d71d51204d855abc7417647aa1520830dea6822da4f7bc11  docs/phase9-artifacts/real-client-server-vps-jara3fc9a58.log
+e877d2981309e2f233f84a30cd286aef5c09ff25ec96417c7426a5b0af599213  docs/phase9-artifacts/real-client-server-vps-jarc909ec19.log
+321185a321922b975796b33119f3fd4ff282ba72a2eb1ff3bda2e7b65c5a5c95  docs/phase9-artifacts/real-client-server.log
+068ede12e080ac811f36f00e55a3a052dea40023bd5aaf1e9818bdaca0096ac6  docs/phase9-artifacts/reconstruction-fixtures/reconstruction-fixtures.json
+64a39fe7190bf90fd051d39e67eb877fc3f13ee93b6c42c8d6bdf7953a70cffa  docs/phase9-artifacts/rtt-model-results.json
+67687a2e652a53c987e472a3ddf3112e798d641c721089c671d67be95ce8b16d  docs/phase9-artifacts/teleport-timing-results.json
+5e947b414b12b203970472dcfeb3d4966d882ebf36d9a17d55502fb35e693659  docs/phase9-artifacts/timing-fixtures/timing-fixtures.json
+3425bc7492f9ee2e14c5bcda9947c675deee9b28b7104394aace281ee9b576ad  docs/phase9-artifacts/timing-fuzz-results.json
+0ba0de414cd3bc403123c1dc9075772d56d55903d880648a5acabdad21593c1a  docs/phase9-artifacts/timing-roundtrip-results.json
+98c412faebc76d077bf3e2ab76dcf7cd3d741724aa473691b3302090b2e7c37c  docs/phase9-artifacts/timing-validation-results.json
+d28251170fc930b5e7f3847b309d924c16c859b980d4fe310361a8d9a34f5fac  docs/phase9-artifacts/validation-benchmarks.json
+aad55a77453cf71b76340559a9cd06ff26fbcdc142701aca1c551d511e6e3aec  docs/phase9-artifacts/validation-fixtures/validation-fixtures.json
+a27b6d472ba1058d2ca6a6a20928aef3e6ce490384782e94229ba07d8c5a7f4a  docs/phase9-artifacts/velocity-timing-results.json
+b8c9bd55d6e32c84f99c05028754b6de35da02de57f19550844afccc6dcf1661  docs/phase9-artifacts/verification.json
+58c6fff4584b457b90a505d0dc278ee25e54b3bddf18c0837f5ec928e624f310  docs/phase9-artifacts/window-results.json
+# Composite SHA-256 (computed over the exact byte content of the 111 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# ea67331fd43a67e0290831a7fed9c8b0a1825411c16f7579668124714b60b7bd

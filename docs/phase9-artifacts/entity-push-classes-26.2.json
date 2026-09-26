@@ -1,0 +1,2173 @@
+{
+ "source": "vanilla 26.2 client jar (unobfuscated): net.minecraft.world.entity.EntityTypes field signatures + class hierarchy; pushEntities/doPush overrides read with javap",
+ "finding": "P9-F5",
+ "types": [
+  {
+   "id": "minecraft:acacia_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:acacia_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:allay",
+   "class": "net.minecraft.world.entity.animal.allay.Allay",
+   "hierarchy": [
+    "Allay",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:area_effect_cloud",
+   "class": "net.minecraft.world.entity.AreaEffectCloud",
+   "hierarchy": [
+    "AreaEffectCloud",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:armadillo",
+   "class": "net.minecraft.world.entity.animal.armadillo.Armadillo",
+   "hierarchy": [
+    "Armadillo",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:armor_stand",
+   "class": "net.minecraft.world.entity.decoration.ArmorStand",
+   "hierarchy": [
+    "ArmorStand",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "ArmorStand.pushEntities pushes ridable minecarts only; doPush empty"
+  },
+  {
+   "id": "minecraft:arrow",
+   "class": "net.minecraft.world.entity.projectile.arrow.Arrow",
+   "hierarchy": [
+    "Arrow",
+    "AbstractArrow",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:axolotl",
+   "class": "net.minecraft.world.entity.animal.axolotl.Axolotl",
+   "hierarchy": [
+    "Axolotl",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:bamboo_chest_raft",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestRaft",
+   "hierarchy": [
+    "ChestRaft",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:bamboo_raft",
+   "class": "net.minecraft.world.entity.vehicle.boat.Raft",
+   "hierarchy": [
+    "Raft",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:bat",
+   "class": "net.minecraft.world.entity.ambient.Bat",
+   "hierarchy": [
+    "Bat",
+    "AmbientCreature",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "Bat: empty pushEntities and doPush"
+  },
+  {
+   "id": "minecraft:bee",
+   "class": "net.minecraft.world.entity.animal.bee.Bee",
+   "hierarchy": [
+    "Bee",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:birch_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:birch_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:blaze",
+   "class": "net.minecraft.world.entity.monster.Blaze",
+   "hierarchy": [
+    "Blaze",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:block_display",
+   "class": "net.minecraft.world.entity.Display$BlockDisplay",
+   "hierarchy": [
+    "Display$BlockDisplay",
+    "Display",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:bogged",
+   "class": "net.minecraft.world.entity.monster.skeleton.Bogged",
+   "hierarchy": [
+    "Bogged",
+    "AbstractSkeleton",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:breeze",
+   "class": "net.minecraft.world.entity.monster.breeze.Breeze",
+   "hierarchy": [
+    "Breeze",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:breeze_wind_charge",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.BreezeWindCharge",
+   "hierarchy": [
+    "BreezeWindCharge",
+    "AbstractWindCharge",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:camel",
+   "class": "net.minecraft.world.entity.animal.camel.Camel",
+   "hierarchy": [
+    "Camel",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:camel_husk",
+   "class": "net.minecraft.world.entity.animal.camel.CamelHusk",
+   "hierarchy": [
+    "CamelHusk",
+    "Camel",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:cat",
+   "class": "net.minecraft.world.entity.animal.feline.Cat",
+   "hierarchy": [
+    "Cat",
+    "TamableAnimal",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:cave_spider",
+   "class": "net.minecraft.world.entity.monster.spider.CaveSpider",
+   "hierarchy": [
+    "CaveSpider",
+    "Spider",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:cherry_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:cherry_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:chest_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartChest",
+   "hierarchy": [
+    "MinecartChest",
+    "AbstractMinecartContainer",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:chicken",
+   "class": "net.minecraft.world.entity.animal.chicken.Chicken",
+   "hierarchy": [
+    "Chicken",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:cod",
+   "class": "net.minecraft.world.entity.animal.fish.Cod",
+   "hierarchy": [
+    "Cod",
+    "AbstractSchoolingFish",
+    "AbstractFish",
+    "WaterAnimal",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:copper_golem",
+   "class": "net.minecraft.world.entity.animal.golem.CopperGolem",
+   "hierarchy": [
+    "CopperGolem",
+    "AbstractGolem",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:command_block_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartCommandBlock",
+   "hierarchy": [
+    "MinecartCommandBlock",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:cow",
+   "class": "net.minecraft.world.entity.animal.cow.Cow",
+   "hierarchy": [
+    "Cow",
+    "AbstractCow",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:creaking",
+   "class": "net.minecraft.world.entity.monster.creaking.Creaking",
+   "hierarchy": [
+    "Creaking",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:creeper",
+   "class": "net.minecraft.world.entity.monster.Creeper",
+   "hierarchy": [
+    "Creeper",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:dark_oak_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:dark_oak_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:dolphin",
+   "class": "net.minecraft.world.entity.animal.dolphin.Dolphin",
+   "hierarchy": [
+    "Dolphin",
+    "AgeableWaterCreature",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:donkey",
+   "class": "net.minecraft.world.entity.animal.equine.Donkey",
+   "hierarchy": [
+    "Donkey",
+    "AbstractChestedHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:dragon_fireball",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.DragonFireball",
+   "hierarchy": [
+    "DragonFireball",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:drowned",
+   "class": "net.minecraft.world.entity.monster.zombie.Drowned",
+   "hierarchy": [
+    "Drowned",
+    "Zombie",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:egg",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEgg",
+   "hierarchy": [
+    "ThrownEgg",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:elder_guardian",
+   "class": "net.minecraft.world.entity.monster.ElderGuardian",
+   "hierarchy": [
+    "ElderGuardian",
+    "Guardian",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:enderman",
+   "class": "net.minecraft.world.entity.monster.EnderMan",
+   "hierarchy": [
+    "EnderMan",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:endermite",
+   "class": "net.minecraft.world.entity.monster.Endermite",
+   "hierarchy": [
+    "Endermite",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:ender_dragon",
+   "class": "net.minecraft.world.entity.boss.enderdragon.EnderDragon",
+   "hierarchy": [
+    "EnderDragon",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:ender_pearl",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl",
+   "hierarchy": [
+    "ThrownEnderpearl",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:end_crystal",
+   "class": "net.minecraft.world.entity.boss.enderdragon.EndCrystal",
+   "hierarchy": [
+    "EndCrystal",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:evoker",
+   "class": "net.minecraft.world.entity.monster.illager.Evoker",
+   "hierarchy": [
+    "Evoker",
+    "SpellcasterIllager",
+    "AbstractIllager",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:evoker_fangs",
+   "class": "net.minecraft.world.entity.projectile.EvokerFangs",
+   "hierarchy": [
+    "EvokerFangs",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:experience_bottle",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownExperienceBottle",
+   "hierarchy": [
+    "ThrownExperienceBottle",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:experience_orb",
+   "class": "net.minecraft.world.entity.ExperienceOrb",
+   "hierarchy": [
+    "ExperienceOrb",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:eye_of_ender",
+   "class": "net.minecraft.world.entity.projectile.EyeOfEnder",
+   "hierarchy": [
+    "EyeOfEnder",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:falling_block",
+   "class": "net.minecraft.world.entity.item.FallingBlockEntity",
+   "hierarchy": [
+    "FallingBlockEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:fireball",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball",
+   "hierarchy": [
+    "LargeFireball",
+    "Fireball",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:firework_rocket",
+   "class": "net.minecraft.world.entity.projectile.FireworkRocketEntity",
+   "hierarchy": [
+    "FireworkRocketEntity",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:fox",
+   "class": "net.minecraft.world.entity.animal.fox.Fox",
+   "hierarchy": [
+    "Fox",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:frog",
+   "class": "net.minecraft.world.entity.animal.frog.Frog",
+   "hierarchy": [
+    "Frog",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:furnace_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartFurnace",
+   "hierarchy": [
+    "MinecartFurnace",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:ghast",
+   "class": "net.minecraft.world.entity.monster.Ghast",
+   "hierarchy": [
+    "Ghast",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:happy_ghast",
+   "class": "net.minecraft.world.entity.animal.happyghast.HappyGhast",
+   "hierarchy": [
+    "HappyGhast",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:giant",
+   "class": "net.minecraft.world.entity.monster.Giant",
+   "hierarchy": [
+    "Giant",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:glow_item_frame",
+   "class": "net.minecraft.world.entity.decoration.GlowItemFrame",
+   "hierarchy": [
+    "GlowItemFrame",
+    "ItemFrame",
+    "HangingEntity",
+    "BlockAttachedEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:glow_squid",
+   "class": "net.minecraft.world.entity.animal.squid.GlowSquid",
+   "hierarchy": [
+    "GlowSquid",
+    "Squid",
+    "AgeableWaterCreature",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:goat",
+   "class": "net.minecraft.world.entity.animal.goat.Goat",
+   "hierarchy": [
+    "Goat",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:guardian",
+   "class": "net.minecraft.world.entity.monster.Guardian",
+   "hierarchy": [
+    "Guardian",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:hoglin",
+   "class": "net.minecraft.world.entity.monster.hoglin.Hoglin",
+   "hierarchy": [
+    "Hoglin",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:hopper_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartHopper",
+   "hierarchy": [
+    "MinecartHopper",
+    "AbstractMinecartContainer",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:horse",
+   "class": "net.minecraft.world.entity.animal.equine.Horse",
+   "hierarchy": [
+    "Horse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:husk",
+   "class": "net.minecraft.world.entity.monster.zombie.Husk",
+   "hierarchy": [
+    "Husk",
+    "Zombie",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:illusioner",
+   "class": "net.minecraft.world.entity.monster.illager.Illusioner",
+   "hierarchy": [
+    "Illusioner",
+    "SpellcasterIllager",
+    "AbstractIllager",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:interaction",
+   "class": "net.minecraft.world.entity.Interaction",
+   "hierarchy": [
+    "Interaction",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:iron_golem",
+   "class": "net.minecraft.world.entity.animal.golem.IronGolem",
+   "hierarchy": [
+    "IronGolem",
+    "AbstractGolem",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:item",
+   "class": "net.minecraft.world.entity.item.ItemEntity",
+   "hierarchy": [
+    "ItemEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:item_display",
+   "class": "net.minecraft.world.entity.Display$ItemDisplay",
+   "hierarchy": [
+    "Display$ItemDisplay",
+    "Display",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:item_frame",
+   "class": "net.minecraft.world.entity.decoration.ItemFrame",
+   "hierarchy": [
+    "ItemFrame",
+    "HangingEntity",
+    "BlockAttachedEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:jungle_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:jungle_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:leash_knot",
+   "class": "net.minecraft.world.entity.decoration.LeashFenceKnotEntity",
+   "hierarchy": [
+    "LeashFenceKnotEntity",
+    "BlockAttachedEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:lightning_bolt",
+   "class": "net.minecraft.world.entity.LightningBolt",
+   "hierarchy": [
+    "LightningBolt",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:llama",
+   "class": "net.minecraft.world.entity.animal.equine.Llama",
+   "hierarchy": [
+    "Llama",
+    "AbstractChestedHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:llama_spit",
+   "class": "net.minecraft.world.entity.projectile.LlamaSpit",
+   "hierarchy": [
+    "LlamaSpit",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:magma_cube",
+   "class": "net.minecraft.world.entity.monster.cubemob.MagmaCube",
+   "hierarchy": [
+    "MagmaCube",
+    "AbstractCubeMob",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:mangrove_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:mangrove_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:mannequin",
+   "class": "net.minecraft.world.entity.decoration.Mannequin",
+   "hierarchy": [
+    "Mannequin",
+    "Avatar",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:marker",
+   "class": "net.minecraft.world.entity.Marker",
+   "hierarchy": [
+    "Marker",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.Minecart",
+   "hierarchy": [
+    "Minecart",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:mooshroom",
+   "class": "net.minecraft.world.entity.animal.cow.MushroomCow",
+   "hierarchy": [
+    "MushroomCow",
+    "AbstractCow",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:mule",
+   "class": "net.minecraft.world.entity.animal.equine.Mule",
+   "hierarchy": [
+    "Mule",
+    "AbstractChestedHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:nautilus",
+   "class": "net.minecraft.world.entity.animal.nautilus.Nautilus",
+   "hierarchy": [
+    "Nautilus",
+    "AbstractNautilus",
+    "TamableAnimal",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:oak_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:oak_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:ocelot",
+   "class": "net.minecraft.world.entity.animal.feline.Ocelot",
+   "hierarchy": [
+    "Ocelot",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:ominous_item_spawner",
+   "class": "net.minecraft.world.entity.OminousItemSpawner",
+   "hierarchy": [
+    "OminousItemSpawner",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:painting",
+   "class": "net.minecraft.world.entity.decoration.painting.Painting",
+   "hierarchy": [
+    "Painting",
+    "HangingEntity",
+    "BlockAttachedEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:pale_oak_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:pale_oak_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:panda",
+   "class": "net.minecraft.world.entity.animal.panda.Panda",
+   "hierarchy": [
+    "Panda",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:parched",
+   "class": "net.minecraft.world.entity.monster.skeleton.Parched",
+   "hierarchy": [
+    "Parched",
+    "AbstractSkeleton",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:parrot",
+   "class": "net.minecraft.world.entity.animal.parrot.Parrot",
+   "hierarchy": [
+    "Parrot",
+    "ShoulderRidingEntity",
+    "TamableAnimal",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "Parrot.doPush returns for a Player"
+  },
+  {
+   "id": "minecraft:phantom",
+   "class": "net.minecraft.world.entity.monster.Phantom",
+   "hierarchy": [
+    "Phantom",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:pig",
+   "class": "net.minecraft.world.entity.animal.pig.Pig",
+   "hierarchy": [
+    "Pig",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:piglin",
+   "class": "net.minecraft.world.entity.monster.piglin.Piglin",
+   "hierarchy": [
+    "Piglin",
+    "AbstractPiglin",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:piglin_brute",
+   "class": "net.minecraft.world.entity.monster.piglin.PiglinBrute",
+   "hierarchy": [
+    "PiglinBrute",
+    "AbstractPiglin",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:pillager",
+   "class": "net.minecraft.world.entity.monster.illager.Pillager",
+   "hierarchy": [
+    "Pillager",
+    "AbstractIllager",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:polar_bear",
+   "class": "net.minecraft.world.entity.animal.polarbear.PolarBear",
+   "hierarchy": [
+    "PolarBear",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:splash_potion",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion",
+   "hierarchy": [
+    "ThrownSplashPotion",
+    "AbstractThrownPotion",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:lingering_potion",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownLingeringPotion",
+   "hierarchy": [
+    "ThrownLingeringPotion",
+    "AbstractThrownPotion",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:pufferfish",
+   "class": "net.minecraft.world.entity.animal.fish.Pufferfish",
+   "hierarchy": [
+    "Pufferfish",
+    "AbstractFish",
+    "WaterAnimal",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:rabbit",
+   "class": "net.minecraft.world.entity.animal.rabbit.Rabbit",
+   "hierarchy": [
+    "Rabbit",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:ravager",
+   "class": "net.minecraft.world.entity.monster.Ravager",
+   "hierarchy": [
+    "Ravager",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:salmon",
+   "class": "net.minecraft.world.entity.animal.fish.Salmon",
+   "hierarchy": [
+    "Salmon",
+    "AbstractSchoolingFish",
+    "AbstractFish",
+    "WaterAnimal",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:sheep",
+   "class": "net.minecraft.world.entity.animal.sheep.Sheep",
+   "hierarchy": [
+    "Sheep",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:shulker",
+   "class": "net.minecraft.world.entity.monster.Shulker",
+   "hierarchy": [
+    "Shulker",
+    "AbstractGolem",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:shulker_bullet",
+   "class": "net.minecraft.world.entity.projectile.ShulkerBullet",
+   "hierarchy": [
+    "ShulkerBullet",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:silverfish",
+   "class": "net.minecraft.world.entity.monster.Silverfish",
+   "hierarchy": [
+    "Silverfish",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:skeleton",
+   "class": "net.minecraft.world.entity.monster.skeleton.Skeleton",
+   "hierarchy": [
+    "Skeleton",
+    "AbstractSkeleton",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:skeleton_horse",
+   "class": "net.minecraft.world.entity.animal.equine.SkeletonHorse",
+   "hierarchy": [
+    "SkeletonHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:slime",
+   "class": "net.minecraft.world.entity.monster.cubemob.Slime",
+   "hierarchy": [
+    "Slime",
+    "AbstractCubeMob",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:small_fireball",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.SmallFireball",
+   "hierarchy": [
+    "SmallFireball",
+    "Fireball",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:sniffer",
+   "class": "net.minecraft.world.entity.animal.sniffer.Sniffer",
+   "hierarchy": [
+    "Sniffer",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:snowball",
+   "class": "net.minecraft.world.entity.projectile.throwableitemprojectile.Snowball",
+   "hierarchy": [
+    "Snowball",
+    "ThrowableItemProjectile",
+    "ThrowableProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:snow_golem",
+   "class": "net.minecraft.world.entity.animal.golem.SnowGolem",
+   "hierarchy": [
+    "SnowGolem",
+    "AbstractGolem",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:spawner_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartSpawner",
+   "hierarchy": [
+    "MinecartSpawner",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:spectral_arrow",
+   "class": "net.minecraft.world.entity.projectile.arrow.SpectralArrow",
+   "hierarchy": [
+    "SpectralArrow",
+    "AbstractArrow",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:spider",
+   "class": "net.minecraft.world.entity.monster.spider.Spider",
+   "hierarchy": [
+    "Spider",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:spruce_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.Boat",
+   "hierarchy": [
+    "Boat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:spruce_chest_boat",
+   "class": "net.minecraft.world.entity.vehicle.boat.ChestBoat",
+   "hierarchy": [
+    "ChestBoat",
+    "AbstractChestBoat",
+    "AbstractBoat",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "HARD_COLLIDER",
+   "why": "canBeCollidedWith"
+  },
+  {
+   "id": "minecraft:squid",
+   "class": "net.minecraft.world.entity.animal.squid.Squid",
+   "hierarchy": [
+    "Squid",
+    "AgeableWaterCreature",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:stray",
+   "class": "net.minecraft.world.entity.monster.skeleton.Stray",
+   "hierarchy": [
+    "Stray",
+    "AbstractSkeleton",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:strider",
+   "class": "net.minecraft.world.entity.monster.Strider",
+   "hierarchy": [
+    "Strider",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:sulfur_cube",
+   "class": "net.minecraft.world.entity.monster.cubemob.SulfurCube",
+   "hierarchy": [
+    "SulfurCube",
+    "AbstractCubeMob",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:tadpole",
+   "class": "net.minecraft.world.entity.animal.frog.Tadpole",
+   "hierarchy": [
+    "Tadpole",
+    "AbstractFish",
+    "WaterAnimal",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:text_display",
+   "class": "net.minecraft.world.entity.Display$TextDisplay",
+   "hierarchy": [
+    "Display$TextDisplay",
+    "Display",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:tnt",
+   "class": "net.minecraft.world.entity.item.PrimedTnt",
+   "hierarchy": [
+    "PrimedTnt",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:tnt_minecart",
+   "class": "net.minecraft.world.entity.vehicle.minecart.MinecartTNT",
+   "hierarchy": [
+    "MinecartTNT",
+    "AbstractMinecart",
+    "VehicleEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "AbstractMinecart behaviour pushes entities"
+  },
+  {
+   "id": "minecraft:trader_llama",
+   "class": "net.minecraft.world.entity.animal.equine.TraderLlama",
+   "hierarchy": [
+    "TraderLlama",
+    "Llama",
+    "AbstractChestedHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:trident",
+   "class": "net.minecraft.world.entity.projectile.arrow.ThrownTrident",
+   "hierarchy": [
+    "ThrownTrident",
+    "AbstractArrow",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:tropical_fish",
+   "class": "net.minecraft.world.entity.animal.fish.TropicalFish",
+   "hierarchy": [
+    "TropicalFish",
+    "AbstractSchoolingFish",
+    "AbstractFish",
+    "WaterAnimal",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:turtle",
+   "class": "net.minecraft.world.entity.animal.turtle.Turtle",
+   "hierarchy": [
+    "Turtle",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:vex",
+   "class": "net.minecraft.world.entity.monster.Vex",
+   "hierarchy": [
+    "Vex",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:villager",
+   "class": "net.minecraft.world.entity.npc.villager.Villager",
+   "hierarchy": [
+    "Villager",
+    "AbstractVillager",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:vindicator",
+   "class": "net.minecraft.world.entity.monster.illager.Vindicator",
+   "hierarchy": [
+    "Vindicator",
+    "AbstractIllager",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:wandering_trader",
+   "class": "net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader",
+   "hierarchy": [
+    "WanderingTrader",
+    "AbstractVillager",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:warden",
+   "class": "net.minecraft.world.entity.monster.warden.Warden",
+   "hierarchy": [
+    "Warden",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:wind_charge",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.WindCharge",
+   "hierarchy": [
+    "WindCharge",
+    "AbstractWindCharge",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:witch",
+   "class": "net.minecraft.world.entity.monster.Witch",
+   "hierarchy": [
+    "Witch",
+    "Raider",
+    "PatrollingMonster",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:wither",
+   "class": "net.minecraft.world.entity.boss.wither.WitherBoss",
+   "hierarchy": [
+    "WitherBoss",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:wither_skeleton",
+   "class": "net.minecraft.world.entity.monster.skeleton.WitherSkeleton",
+   "hierarchy": [
+    "WitherSkeleton",
+    "AbstractSkeleton",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:wither_skull",
+   "class": "net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull",
+   "hierarchy": [
+    "WitherSkull",
+    "AbstractHurtingProjectile",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  },
+  {
+   "id": "minecraft:wolf",
+   "class": "net.minecraft.world.entity.animal.wolf.Wolf",
+   "hierarchy": [
+    "Wolf",
+    "TamableAnimal",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zoglin",
+   "class": "net.minecraft.world.entity.monster.Zoglin",
+   "hierarchy": [
+    "Zoglin",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zombie",
+   "class": "net.minecraft.world.entity.monster.zombie.Zombie",
+   "hierarchy": [
+    "Zombie",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zombie_horse",
+   "class": "net.minecraft.world.entity.animal.equine.ZombieHorse",
+   "hierarchy": [
+    "ZombieHorse",
+    "AbstractHorse",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zombie_nautilus",
+   "class": "net.minecraft.world.entity.animal.nautilus.ZombieNautilus",
+   "hierarchy": [
+    "ZombieNautilus",
+    "AbstractNautilus",
+    "TamableAnimal",
+    "Animal",
+    "AgeableMob",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zombie_villager",
+   "class": "net.minecraft.world.entity.monster.zombie.ZombieVillager",
+   "hierarchy": [
+    "ZombieVillager",
+    "Zombie",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:zombified_piglin",
+   "class": "net.minecraft.world.entity.monster.zombie.ZombifiedPiglin",
+   "hierarchy": [
+    "ZombifiedPiglin",
+    "Zombie",
+    "Monster",
+    "PathfinderMob",
+    "Mob",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PUSHER",
+   "why": "LivingEntity.aiStep -> pushEntities -> ClientLevel.getPushableEntities -> local player"
+  },
+  {
+   "id": "minecraft:player",
+   "class": "net.minecraft.world.entity.player.Player",
+   "hierarchy": [
+    "Player",
+    "Avatar",
+    "LivingEntity",
+    "Entity"
+   ],
+   "expected": "PLAYER",
+   "why": "RemotePlayer -> LivingEntity.pushEntities"
+  },
+  {
+   "id": "minecraft:fishing_bobber",
+   "class": "net.minecraft.world.entity.projectile.FishingHook",
+   "hierarchy": [
+    "FishingHook",
+    "Projectile",
+    "Entity"
+   ],
+   "expected": "OTHER",
+   "why": "not a LivingEntity; no push of the local player"
+  }
+ ]
+}

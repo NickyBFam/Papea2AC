@@ -1,0 +1,630 @@
+{
+ "phase": "9 - Evidence Engine",
+ "status": "READY_FOR_HUMAN_REVIEW",
+ "date": "2026-09-26",
+ "head": "3cc327df6edd8b7edf8fcb352e2f21e17c7cd579",
+ "workingTree": {
+  "modifiedTracked": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ContextObservationMapper.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java",
+   "anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsEnvironment.java",
+   "anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsResult.java",
+   "anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsSimulator.java",
+   "anticheat-physics/src/main/java/me/nicolas/papea2ac/physics/PhysicsState.java",
+   "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+   "anticheat-player/src/main/java/me/nicolas/papea2ac/player/MovementContextLedger.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractState.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/AbstractTransfer.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/InputReconstructor.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidationRequest.java",
+   "anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java",
+   "anticheat-testing/build.gradle.kts",
+   "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/ValidationBenchmarks.java",
+   "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeSemanticTest.java",
+   "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/PhysicsOracleMain.java",
+   "anticheat-testing/src/oracle/java/me/nicolas/papea2ac/oracle/PhysicsOraclePlugin.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/AbstractTransferTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/InputReconstructorTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementContextLedgerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MovementValidationRunnerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/NativeTrajectoryReconstructionTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsCoreMatrixTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/PhysicsOracleFixtureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionFixtureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ReconstructionTracerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/TimingFixtureTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpus.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationCorpusTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureMain.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ValidationFixtureTest.java"
+  ],
+  "untrackedRoots": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/BlockDisputeLedger.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceEngineStatus.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceRunner.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceStatus.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ForensicCapture.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/ValidationEvidenceMapper.java",
+   "anticheat-evidence/src/",
+   "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/EvidenceBenchmarks.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/BlockDisputeTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ClientLoadedTicksTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EntityPushClassificationTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceCorpus.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceCorpusTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceEventTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceFixtureMain.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceLedgerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceMemoryMain.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidencePropertyTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceRunnerTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/EvidenceTestSupport.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/FrontierContinuationTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/RestPoseAnchorTest.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/SprintModifierTest.java",
+   "docs/PHASE_9_IMPLEMENTATION.md",
+   "docs/phase9-artifacts/"
+  ],
+  "committed": false,
+  "baselined": false
+ },
+ "phase8Baseline": "0333d13ee8346c3909122405a680c71377c48744",
+ "phase8Receipt": "3cc327df6edd8b7edf8fcb352e2f21e17c7cd579",
+ "build": "PASS",
+ "testCounts": {
+  "test": 697,
+  "testClasses": 90,
+  "testFailed": 0,
+  "nativeTest": 138,
+  "nativeTestClasses": 21,
+  "nativeTestFailed": 0,
+  "uniqueTotal": 835,
+  "phase8": {
+   "test": 647,
+   "nativeTest": 137,
+   "uniqueTotal": 784
+  },
+  "phase9TestClasses": {
+   "EvidenceEventTest": 5,
+   "EvidenceLedgerTest": 10,
+   "EvidencePropertyTest": 6,
+   "EvidenceCorpusTest": 2,
+   "EvidenceRunnerTest": 3
+  },
+  "architectureTestsAdded": 1
+ },
+ "phase1SemanticCoverage": "127/127",
+ "phase1MandatoryGaps": 0,
+ "productionTransport": "CAPTURE-ONLY",
+ "authoritativeOutcomeCorrelation": "UNSUPPORTED",
+ "phase1to8Regression": "NONE for Phases 1-4 and 7 (pinned digests reproduced, docs/phase1..8-artifacts untouched). Forward corrections re-pinned into docs/phase9-artifacts per the P6-F1 precedent: P9-F3 (client sneak timing, verified against the pinned client and the real server: physicsNativeDifferential 88/88 scenarios 3105/3105 ticks bit-exact) and P9-F5 (P8-F3 entity relevance); legitimate corpus 32451/0 INVALID, impossible 3290/3290",
+ "evidenceOwner": {
+  "module": "anticheat-evidence",
+  "inputs": "anticheat-simulation MovementValidationResult projected by anticheat-core ValidationEvidenceMapper into evidence ValidationRecord",
+  "outputs": "EvidenceSnapshot (Phase 10 boundary), core EvidenceStatus / EvidenceEngineStatus (platform display)",
+  "dependencyDirection": "evidence -> model (+ replay-schema allowed); core -> evidence + simulation; platform -> core; no cycle; no Bukkit/NMS/Netty in evidence"
+ },
+ "evidenceEvent": "PASS (immutable; id = SHA-256 content digest without time; typed families from the raw Phase 8 reasons; magnitude = proven excesses with bound kind; proof summary and provenance retained; no candidate graph)",
+ "proofRequirement": "PASS (EvidenceEvent.check/from: INVALID + proof present + exhaustive (hypotheses > 0, enumerated > 0) + 0 candidates remaining + all 13 dimensions + no uncertainty + no legal candidate/explaining hypothesis + no witness + NO_LEGAL_INPUT + every timing hypothesis complete; each variant tested)",
+ "validToPositiveEvidence": 0,
+ "uncertainToPositiveEvidence": 0,
+ "invalidToEvidence": "PASS (one deduplicated event per complete INVALID)",
+ "deduplication": "PASS (content digest identity; DUPLICATE for re-delivery; OUT_OF_ORDER for late re-delivery; 512-id ring)",
+ "branchDeduplication": "inherent (one event per transition proof; the Phase 8 INVALID already is the exhausted union)",
+ "sessionIsolation": "PASS (new SessionKey -> new runner/ledgers; SESSION_MISMATCH for foreign records; digest includes the session)",
+ "worldEpochSegmentation": "PASS (epoch change segments: run and groups restart, older-epoch events leave the active view, totals kept)",
+ "windowModel": "PASS (30 s correlation/active window from the latest ingested monotonic time; sequence ordering; no wall clock)",
+ "expiry": "PASS (deterministic from the records' own times; expired events stay in history and totals)",
+ "decay": "NOT APPLICABLE BY SPEC (EVIDENCE_MODEL defines no decay function for this stage; none invented)",
+ "continuityModel": "PASS (currentRun/longestRun: VALID, UNCERTAIN, rejected INVALID and epoch change end a run; DUPLICATE neither extends nor ends; patterns III/IVI/IUI/VIV/UIU/IIVVI pinned in window-results.json)",
+ "evidenceFamilies": "HORIZONTAL_EXCESS, VERTICAL_EXCESS, IMPOSSIBLE_ASCENT, IMPOSSIBLE_DESCENT, COLLISION_PENETRATION, UNEXPLAINED_DISPLACEMENT, GENERAL_MOVEMENT_IMPOSSIBILITY - one-to-one from the Phase 8 invalid reasons, raw reasons preserved",
+ "magnitudeModel": "PASS (typed horizontal / vertical excess + penetration flag with the Phase 8 bound kind; group = maximum member, never a sum; only complete INVALID residuals)",
+ "evidenceSnapshot": "PASS (immutable, bounded, no verdict field; describe() <= 24 neutral lines)",
+ "legitimateCorpus": {
+  "transitions": 32451,
+  "VALID": 32449,
+  "UNCERTAIN": 2,
+  "INVALID": 0,
+  "positiveEvidenceEvents": 0,
+  "duplicates": 0,
+  "proofRejected": 0,
+  "gapReasons": {
+   "SEARCH_LIMIT": 2
+  }
+ },
+ "impossibleCorpus": {
+  "transitions": 3290,
+  "INVALID": 3290,
+  "expectedEvents": 3290,
+  "actualEvents": 3290,
+  "eventsByCategory": {
+   "COLLISION_PENETRATION": 77,
+   "HORIZONTAL_EXCESS": 610,
+   "IMPOSSIBLE_ASCENT": 1176,
+   "IMPOSSIBLE_DESCENT": 244,
+   "UNEXPLAINED_DISPLACEMENT": 1254,
+   "VERTICAL_EXCESS": 1420
+  },
+  "maxHorizontalExcess": 0.6646281546733863,
+  "maxVerticalExcess": 1.0
+ },
+ "duplicateCorpus": {
+  "singleDeliveryEvents": 3290,
+  "doubleDeliveryEvents": 3290,
+  "duplicatesReported": 3290
+ },
+ "orderingCorpus": {
+  "III": {
+   "activeEvents": 3,
+   "currentRun": 3,
+   "longestRun": 3,
+   "activeGroups": 1,
+   "gapReasons": []
+  },
+  "IVI": {
+   "activeEvents": 2,
+   "currentRun": 1,
+   "longestRun": 1,
+   "activeGroups": 2,
+   "gapReasons": []
+  },
+  "IUI": {
+   "activeEvents": 2,
+   "currentRun": 1,
+   "longestRun": 1,
+   "activeGroups": 2,
+   "gapReasons": [
+    "SEARCH_LIMIT=1"
+   ]
+  },
+  "VIV": {
+   "activeEvents": 1,
+   "currentRun": 0,
+   "longestRun": 1,
+   "activeGroups": 1,
+   "gapReasons": []
+  },
+  "UIU": {
+   "activeEvents": 1,
+   "currentRun": 0,
+   "longestRun": 1,
+   "activeGroups": 1,
+   "gapReasons": [
+    "SEARCH_LIMIT=2"
+   ]
+  },
+  "IIVVI": {
+   "activeEvents": 3,
+   "currentRun": 1,
+   "longestRun": 2,
+   "activeGroups": 2,
+   "gapReasons": []
+  },
+  "IIUUI": {
+   "activeEvents": 3,
+   "currentRun": 1,
+   "longestRun": 2,
+   "activeGroups": 2,
+   "gapReasons": [
+    "SEARCH_LIMIT=2"
+   ]
+  },
+  "VVVVV": {
+   "activeEvents": 0,
+   "currentRun": 0,
+   "longestRun": 0,
+   "activeGroups": 0,
+   "gapReasons": []
+  },
+  "UUUUU": {
+   "activeEvents": 0,
+   "currentRun": 0,
+   "longestRun": 0,
+   "activeGroups": 0,
+   "gapReasons": [
+    "SEARCH_LIMIT=5"
+   ]
+  }
+ },
+ "worldEpochCorpus": {
+  "activeEvents": 1,
+  "totalEvents": 3,
+  "expiredEvents": 2,
+  "evictedEvents": 0,
+  "currentRun": 1,
+  "longestRun": 2,
+  "valid": 0,
+  "uncertain": 0,
+  "invalid": 3,
+  "proofRejected": 0,
+  "duplicates": 0,
+  "outOfOrder": 0,
+  "activeGroups": 1,
+  "totalGroups": 1,
+  "correlationIncomplete": false,
+  "epochSegments": 1,
+  "worldEpoch": 1,
+  "activeByCategory": [
+   "GENERAL_MOVEMENT_IMPOSSIBILITY=1"
+  ],
+  "gapReasons": [],
+  "supportingIdPrefixes": [
+   "6066cdede4307199"
+  ],
+  "newestEventAgeNanos": 0,
+  "oldestActiveAgeNanos": 0,
+  "lastClassification": "INVALID"
+ },
+ "fullBoundedState": {
+  "activeEvents": 256,
+  "totalEvents": 256,
+  "expiredEvents": 0,
+  "evictedEvents": 144,
+  "currentRun": 400,
+  "longestRun": 400,
+  "valid": 0,
+  "uncertain": 0,
+  "invalid": 400,
+  "proofRejected": 0,
+  "duplicates": 0,
+  "outOfOrder": 0,
+  "activeGroups": 128,
+  "totalGroups": 128,
+  "correlationIncomplete": true,
+  "epochSegments": 0,
+  "worldEpoch": 0,
+  "activeByCategory": [
+   "HORIZONTAL_EXCESS=256"
+  ],
+  "gapReasons": [],
+  "supportingIdPrefixes": [
+   "6e586b8bb9904c39",
+   "59689d3b299429b8",
+   "5ba29bf65de74903",
+   "d1eeee621a567e01",
+   "88849bdf750b4f0c",
+   "ac580c34d11e24cb",
+   "31a97b713ec849cb",
+   "17e4d116721032fb",
+   "9bf9d6b42c9ca93e",
+   "d8bdcd172b7499ee",
+   "496d43eb38e76602",
+   "fb36b6514b43be3a",
+   "f7f9d4800d61f78f",
+   "f5e7cda2d5495986",
+   "75f818f52b18c2f9",
+   "f5232694c1997eba"
+  ],
+  "newestEventAgeNanos": 0,
+  "oldestActiveAgeNanos": 12750000000,
+  "lastClassification": "INVALID"
+ },
+ "p8f2ClimbableSafety": "PASS (UNCERTAIN [CLIMBABLE_CONTACT] -> UNRESOLVED, zero positive evidence; ledger/property tests, live ladder)",
+ "p8f5SearchLimitSafety": "PASS (UNCERTAIN [SEARCH_LIMIT] -> UNRESOLVED, zero positive evidence; the two legitimate-corpus cases included)",
+ "unknownWorldSafety": "PASS",
+ "unsupportedMechanicSafety": "PASS (every UncertainCode -> UNRESOLVED)",
+ "internalErrorSafety": "PASS (INTERNAL_ERROR records -> gap; mapper/ledger exceptions contained, counted, no evidence)",
+ "proofCorruptionSafety": "PASS (every corrupted variant PROOF_REJECTED)",
+ "propertyTests": "PASS (6 properties x 60 seeds)",
+ "metamorphicTests": "PASS (VALID/UNCERTAIN streams -> 0; one INVALID -> 1; twice -> 1; INVALID + uncertainty -> history kept, no new evidence; session reset -> fresh; same stream -> same snapshot and events)",
+ "memory": {
+  "status": "PASS",
+  "emptyLedgerBytes": 760,
+  "typicalLedgerBytes": 11160,
+  "fullBoundedLedgerBytes": 188816,
+  "eventBytes": 392,
+  "snapshotEmptyBytes": 208,
+  "snapshotTypicalBytes": 1600,
+  "snapshotFullBytes": 3736,
+  "retainedBytesPer100TypicalSnapshots": 160480,
+  "runnerEmptyBytes": 3128,
+  "perOperationAllocationBytes": {
+   "validIngestBytes": 304,
+   "uncertainIngestBytes": 568,
+   "invalidIngestBytes(newEvent)": 4718,
+   "duplicateIngestBytes": 3872,
+   "snapshotTypicalAllocBytes": 5048,
+   "snapshotFullAllocBytes": 21128
+  },
+  "bounds": "events <= 256, groups <= 128, dedup ids <= 512, gap records <= 32, supporting ids <= 16; window 30000 ms; no per-player unbounded history, nothing keyed by UUID beyond the session map"
+ },
+ "jmh": {
+  "status": "PASS",
+  "setup": "JMH 1.37, Temurin 25, 3 forks, 5x1 s warm-up, 10x1 s measurement, -prof gc, one host, descriptive; re-measured on the final code",
+  "evidenceOnly": {
+   "validIngest": {
+    "nsPerOp": 26.6,
+    "error": 0.6,
+    "allocBytesPerOp": 128,
+    "measurements": 30
+   },
+   "uncertainIngest": {
+    "nsPerOp": 42.3,
+    "error": 0.2,
+    "allocBytesPerOp": 208,
+    "measurements": 30
+   },
+   "invalidIngest": {
+    "nsPerOp": 1612.6,
+    "error": 158.5,
+    "allocBytesPerOp": 3781,
+    "measurements": 30
+   },
+   "duplicateInvalidIngest": {
+    "nsPerOp": 1113.2,
+    "error": 38.7,
+    "allocBytesPerOp": 3304,
+    "measurements": 30
+   },
+   "snapshotEmpty": {
+    "nsPerOp": 69.4,
+    "error": 3.2,
+    "allocBytesPerOp": 477,
+    "measurements": 30
+   },
+   "snapshotOneEvent": {
+    "nsPerOp": 283.4,
+    "error": 4.9,
+    "allocBytesPerOp": 1493,
+    "measurements": 30
+   },
+   "snapshotManyEvents": {
+    "nsPerOp": 2965.5,
+    "error": 93.4,
+    "allocBytesPerOp": 4971,
+    "measurements": 30
+   },
+   "snapshotFullBounded": {
+    "nsPerOp": 7403.6,
+    "error": 79.4,
+    "allocBytesPerOp": 7016,
+    "measurements": 30
+   },
+   "windowExpirySnapshot": {
+    "nsPerOp": 1473.3,
+    "error": 28.1,
+    "allocBytesPerOp": 3784,
+    "measurements": 30
+   },
+   "worldEpochSegment": {
+    "nsPerOp": 19.4,
+    "error": 4.1,
+    "allocBytesPerOp": 128,
+    "measurements": 30
+   },
+   "sessionReplacement": {
+    "nsPerOp": 187.7,
+    "error": 2.8,
+    "allocBytesPerOp": 1304,
+    "measurements": 30
+   },
+   "mixedStream100": {
+    "nsPerOp": 20261.9,
+    "error": 248.1,
+    "allocBytesPerOp": 51432,
+    "measurements": 30
+   },
+   "fullBoundedIngest": {
+    "nsPerOp": 1719.9,
+    "error": 42.3,
+    "allocBytesPerOp": 3760,
+    "measurements": 30
+   }
+  },
+  "endToEnd": {
+   "endToEndValidTransition": {
+    "nsPerOp": 62088.8,
+    "error": 634.7,
+    "allocBytesPerOp": 128968,
+    "measurements": 30
+   },
+   "endToEndInvalidTransition": {
+    "nsPerOp": 46197.7,
+    "error": 5428.8,
+    "allocBytesPerOp": 114430,
+    "measurements": 30
+   }
+  },
+  "validationKernels": {
+   "classifyInvalidHorizontal": {
+    "nsPerOp": 1190.7,
+    "error": 24.2,
+    "allocBytesPerOp": 1856
+   },
+   "classifyUncertainWorld": {
+    "nsPerOp": 232.0,
+    "error": 6.6,
+    "allocBytesPerOp": 1136
+   },
+   "classifyValidSimple": {
+    "nsPerOp": 553.5,
+    "error": 2.3,
+    "allocBytesPerOp": 1384
+   },
+   "classifyValidVelocity": {
+    "nsPerOp": 879.1,
+    "error": 114.8,
+    "allocBytesPerOp": 1680
+   },
+   "classifyWorstBounded": {
+    "nsPerOp": 1073.1,
+    "error": 79.2,
+    "allocBytesPerOp": 1424
+   },
+   "endToEndFourBranch": {
+    "nsPerOp": 130012.7,
+    "error": 7461.5,
+    "allocBytesPerOp": 307425
+   },
+   "endToEndGap2": {
+    "nsPerOp": 510421.3,
+    "error": 9946.5,
+    "allocBytesPerOp": 1032256
+   },
+   "endToEndGap3": {
+    "nsPerOp": 2691653.2,
+    "error": 19198.3,
+    "allocBytesPerOp": 6219064
+   },
+   "endToEndInvalidHorizontal": {
+    "nsPerOp": 46524.5,
+    "error": 355.6,
+    "allocBytesPerOp": 109192
+   },
+   "endToEndInvalidVertical": {
+    "nsPerOp": 46181.2,
+    "error": 450.8,
+    "allocBytesPerOp": 109291
+   },
+   "endToEndTwoBranch": {
+    "nsPerOp": 92759.4,
+    "error": 5742.1,
+    "allocBytesPerOp": 211179
+   },
+   "endToEndUncertainSearchLimit": {
+    "nsPerOp": 3397.0,
+    "error": 323.5,
+    "allocBytesPerOp": 10733
+   },
+   "endToEndUncertainWorldIncomplete": {
+    "nsPerOp": 265904.7,
+    "error": 29569.6,
+    "allocBytesPerOp": 722994
+   },
+   "endToEndValidAmbiguous": {
+    "nsPerOp": 117119.2,
+    "error": 894.4,
+    "allocBytesPerOp": 231945
+   },
+   "endToEndValidSimple": {
+    "nsPerOp": 60045.4,
+    "error": 5662.0,
+    "allocBytesPerOp": 125848
+   },
+   "endToEndValidVelocity": {
+    "nsPerOp": 93314.1,
+    "error": 610.9,
+    "allocBytesPerOp": 210497
+   },
+   "endToEndWorstBounded": {
+    "nsPerOp": 2118806.8,
+    "error": 197603.6,
+    "allocBytesPerOp": 7001270
+   }
+  }
+ },
+ "fixtures": {
+  "status": "PASS",
+  "streams": [
+   "III",
+   "IVI",
+   "IUI",
+   "VIV",
+   "UIU",
+   "IIVVI"
+  ],
+  "proofGate": {
+   "noProof": "PROOF_MISSING",
+   "uncertaintyPresent": "UNCERTAINTY_PRESENT",
+   "frontierIncomplete": "COMPLETENESS_MISSING",
+   "complete": "ACCEPTED"
+  },
+  "digest": "1ea4eee3652bf1e60aad1c5c76eea8789ec99dd2aefc27a3841df474298680fc"
+ },
+ "diagnosticCommand": "/papea2ac evidence <player> [view | recent | side | reingest]; status line evidence consumed/witness/unresolved/positiveEvents/duplicates/proofRejected/outOfOrder/sessionMismatch/internalErrors/side{...}/sessions",
+ "threading": "shard-owned runner and ledgers (ownership asserted); volatile immutable status; side re-delivery scheduled onto the shard; exceptions contained, never evidence",
+ "controlledInjectionIsolation": "side-chain results feed a separate SIDE ledger only; live ledger, live counts and rings untouched (runner test)",
+ "realClient": "VPS, Paper 26.2 build 124, two real players (Emojiado vanilla, iDTR Lunar), final jar 297134a6: 22183 transitions / 0 INVALID / 0 positive evidence; see PHASE_9_IMPLEMENTATION.md REAL-CLIENT QUALIFICATION",
+ "finalJar": "297134a6425c03959ad3342e67b1179dda52e0b5ed4262308e89001e240a99da",
+ "realClientLegitimateGate": "PASS on the exact final jar: 22183 live transitions (VPS, two real players - Emojiado vanilla 15049, iDTR Lunar 7134 incl. a death and a cross-dimension teleport), 22108 VALID, 75 UNCERTAIN, 0 INVALID, 0 positive evidence (evidence consumed=22183 positiveEvents=0 duplicates=0 proofRejected=0 internalErrors=0). Earlier jars found P9-F4/P9-F5 and are kept as history: 1497c44e (1 INVALID -> P9-F5), a3fc9a58 (2 -> P9-F5 bundled spawns), c909ec19 (1 on a death -> P9-F4).",
+ "realClientInjectionGate": "PASS on the final jar (E1 +0.5x -> 1 INVALID -> 1 event 139df203c905 HORIZONTAL_EXCESS 0.1726, proof 864/1216/0; E2 re-delivery -> DUPLICATE, still 1 event; live ledgers untouched)",
+ "paperSmoke": "PASS (final jar ~14 h: clean start and stop, all dimensions saved, 0 exceptions)",
+ "phase10Implementation": "NONE (no mitigation intent, setback, alert, kick, ban, punishment, threshold or level in production code; architecture test)",
+ "exactObservationModelForwardRule": "preserved: one INVALID = one unexplained transition; every event carries the Phase 8 proof summary, completeness (all true by construction) and residual provenance; not sufficient by itself for enforcement policy",
+ "deferred": [
+  "policy/interpretation of the snapshot (Phase 10)",
+  "mitigation intents and actions (Phase 10)",
+  "replay-capsule durability qualification TC25 and global anomaly observation (roadmap evidence-foundation items, preconditions before Phase 10 enables mitigation)",
+  "cross-engine root-set correlation (TC20) once combat/timer evidence exists",
+  "archival replay-schema DTO for evidence events"
+ ],
+ "forensicCapture": {
+  "command": "/papea2ac validate <name> forensic [arm|report|clear]",
+  "scope": "diagnostic only, off unless armed, one capture frozen at the first live INVALID and never overwritten, written to the plugin data folder",
+  "capturesArchived": [
+   "p9f2-forensic-capture-1.log",
+   "p9f2-forensic-capture-3.log",
+   "p9f3-forensic-capture-4.log",
+   "p9f3-forensic-capture-5.log",
+   "p9f3-forensic-capture-6.log",
+   "p9f3-forensic-capture-7-vps.log",
+   "p9f5-forensic-capture-8-vps.log",
+   "p9f5-forensic-capture-9-vps.log"
+  ]
+ },
+ "forwardDefects": {
+  "P9-F1": {
+   "status": "FIXED",
+   "originatingComponent": "Phase 5 attribute model (anticheat-physics) with Phase 6/7/8 consequences",
+   "failure": "the server-synced minecraft:sprinting MOVEMENT_SPEED modifier was read as the client modifier set, so every candidate of a tick on which a moving client stops sprinting was 30 percent too fast; one complete false INVALID and one positive evidence event on a legitimate player (live seq 235287->235357, residuals 0.02940 and 0.05978)",
+   "fix": "PhysicsState.sprintModifier class (FOLLOWS / STUCK_ON / STUCK_OFF / MAYBE_STUCK_ON / MAYBE_STUCK_OFF), snapshot-agnostic attribute resolution, lazy member split in InputReconstructor, class bit mask in AbstractState/AbstractTransfer, snapshot resynchronisation and anchor classes in MovementValidationRunner, applying sequence recorded in MovementContextLedger.AttributeValue",
+   "regression": "SprintModifierTest (4) + MovementValidationRunnerTest.aSprintStopUnderASyncedSprintModifierIsValidAndASnapshotResyncsTheFrontier",
+   "requalified": "yes, on the final jar: 9800 live transitions with explicit sprint-stop patterns, 0 occurrences of this class",
+   "reattribution": "the two Phase 8 P8-F2 live observations (same 0.02940 residual at the ladder) were this defect; Phase 8 documents and artifacts remain frozen and unchanged"
+  },
+  "P9-F2": {
+   "status": "FIXED",
+   "originatingComponent": "Phase 3/8 world knowledge (NOT Phase 5: the step is bit-exact against the real server, and NOT the search: the forensic candidate table and the prefilter-off differential both exclude it)",
+   "failure": "a block state the client and this observer disagree about - the client applies its own predicted block change immediately and moves against it, while the authoritative state reaches this observer only with the chunk broadcast; symmetrically a change this observer applied reaches the client one transport delay later. The model proved transitions impossible against a shape the client was not using (live: an oak trapdoor held open here, closed on the client - step-up 0.1875 blocked, COLLISION_PENETRATION; and an edge back-off against a ledge the client did not have)",
+   "fix": "BlockDisputeLedger (per session, shard-owned, 256 cells / 64 pending, overflow degrades to a whole-world dispute) + additive MovementValidationRequest.worldDisputed -> MovementValidator sets worldOk=false with UncertainReason.WORLD_INCOMPLETE for any transition whose reach region touches a disputed cell",
+   "ackOrdering": "ClientboundBlockChangedAck is sent from the interaction handler before ChunkHolder.broadcastChanges, so the acknowledgement does NOT settle a predicted cell - only the applied change or the 3s horizon does (the first build settled on the ack and a live failure got through)",
+   "regression": "BlockDisputeTest (4): the live failure reproduced offline, the gate result, no weakening away from the dispute, ledger bounds/ack ordering/horizon",
+   "offlineReproduced": true,
+   "prefilterResponsible": false,
+   "equivalenceMergeResponsible": false,
+   "restAnchorResponsible": false,
+   "contextOrderingResponsible": true,
+   "requalified": "6321 live transitions on the fixed jar: zero INVALID of this class, the gate fired 15-16 times per round where the failures used to occur (7 UNCERTAIN [WORLD_INCOMPLETE]); a place-then-walk control past the horizon produced 1215 clean transitions"
+  },
+  "P9-F3": {
+   "status": "FIXED",
+   "originatingComponent": "Phase 5 input pipeline (sneak scaling timing) and Phase 8 rest anchoring",
+   "failure": "captures 3/5/6: a sneak-scaled step the model attributed to the wrong tick, and a resting sneaker anchored STANDING (clipped under a top slab)",
+   "rootCause": "pinned 26.2 client LocalPlayer.aiStep assigns crouching from isShiftKeyDown() before ClientInput.tick(): the sneak scaling of tick T follows the key of T-1 (= the pose the tick starts in), pose and edge back-off read the fresh key; restFixedPoint probed every pose with a shift-released input",
+   "fix": "PhysicsSimulator scales by sneak iff the start pose is CROUCHING; AbstractTransfer transfers each start pose; restingInput(pose) keeps the crouching rest in the anchor union; the oracle harness corrected the same way",
+   "regression": "RestPoseAnchorTest (5, 3 fail pre-fix), PhysicsCoreMatrixTest, InputReconstructorTest (assertUniqueUpToFinalSneak), AbstractTransferTest",
+   "verified": "physicsNativeDifferential 88/88 scenarios 3105/3105 ticks bit-exact; landing matrix 4005 ticks bit-exact; legitimate corpus 32451/0 INVALID"
+  },
+  "P9-F4": {
+   "status": "FIXED",
+   "originatingComponent": "Phase 7/8 correction timing",
+   "failure": "captures 4 (local) and 9 (VPS, a death): after a login/respawn the client sent tick ends without moving, then a normal first step; the model simulated the frozen ticks and declared the first step impossible",
+   "rootCause": "pinned 26.2 client: handleLogin/handleRespawn clear clientLoaded; LocalPlayer.tick returns while it is false; Minecraft.tick sends ClientTickEnd, then ClientPacketListener.tick sends ServerboundPlayerLoaded and sets the flag",
+   "fix": "PacketEngine signals JoinGame/Respawn (clientLoadReset) and the PLAYER_LOADED lifecycle packet (clientLoaded); MovementValidationRunner leaves the tick ends in between out of the physics slice; a position after a frozen tick drops the anchor (never a verdict)",
+   "regression": "ClientLoadedTicksTest (3; the old handling reproduces the live INVALID)",
+   "requalified": "deaths and a cross-dimension teleport in the final live run, 0 INVALID"
+  },
+  "P9-F5": {
+   "status": "FIXED",
+   "originatingComponent": "P8-F3 entity relevance (anticheat-player) and the Phase 8 context mapper (anticheat-core)",
+   "failure": "capture 7: an airborne tick needed 0.0381 horizontal impulse vs 0.0255 max (a rabbit pushing); capture 8: from rest, 0.0604 backward vs 0.098/0.0294 (a nearby mob pushing) while the tracker reported 0 entities",
+   "rootCause": "(1) 26.2 ClientLevel.getPushableEntities returns the local player for every other entity, so every remote living entity pushes the local player, while P8-F3 tracked players only; (2) vanilla sends every entity spawn inside ServerEntity.addPairing ClientboundBundlePacket and ContextObservationMapper ignored bundles, so no spawn ever reached the tracker live",
+   "fix": "EntityClass.PUSHER with an exact NON_PUSHERS set pinned against the jar (95 pushers, 41 non-pushers, 21 hard colliders, 1 player; unknown types are pushers); ContextObservationMapper maps bundle children in wire order",
+   "regression": "EntityPushClassificationTest (3), NativeSemanticTest.aBundledNativeSpawnReachesTheNeighbourhoodTracker, MovementContextLedgerTest bundle case, MovementValidationRunnerTest rabbit case (bundle tests fail pre-fix)",
+   "artifact": "docs/phase9-artifacts/entity-push-classes-26.2.json",
+   "liveProbe": "summoned pig: relevantEntities 29 -> 30 -> 29 (previous jar 0/0)",
+   "precisionCost": "transitions within 4 blocks of an animal/mob are UNCERTAIN ENTITY_NEIGHBORHOOD_UNKNOWN"
+  }
+ },
+ "knownLimitations": [
+  "per-session evidence only",
+  "correlation key = touching observation ranges within 30 s of the same epoch",
+  "no decay/level/strength",
+  "magnitude 0 for bound NONE",
+  "dedup ring 512 ids",
+  "P9-F5 precision: any pushing entity within 4 blocks makes a transition UNCERTAIN",
+  "far, partially retained terrain can leave a chain unanchored (START_UNAVAILABLE UNCERTAIN, never INVALID)"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+  "phase": "8",
+  "gate": "SUPPORTED LEGITIMATE CORPUS: INVALID must be 0",
+  "legitimateCases": 4269,
+  "legitimateTransmissions": 32451,
+  "VALID": 32449,
+  "UNCERTAIN": 2,
+  "INVALID": 0,
+  "invalidCaseIds": [],
+  "nativeFailures": [],
+  "uncertainReasons": {
+    "SEARCH_LIMIT": 2
+  }
+}

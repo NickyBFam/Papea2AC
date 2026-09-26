@@ -211,25 +211,27 @@ public final class InputReconstructor {
                         }
                     }
                     if (acc.evaluations >= budget.maxEvaluations()) { acc.searchLimit = true; acc.unexplored += inputs.size() - idx; acc.reason("SEARCH_LIMIT: " + budget.maxEvaluations() + " physics evaluations reached"); break; }
-                    PhysicsResult r = simulator.simulate(node.state, in, envT); acc.evaluations++; acc.simulated++; acc.physics(r);
-                    if (r.next() == null) { // nothing sound could be computed: undecided, never excluded
-                        acc.undecided++;
-                        if (last) addNode(next, leaves, new Node(null, AbstractState.top(r.status().name()), node.startLabel, true, true, r.status(), r.reasons(), null), node, in, isWitness, budget, acc);
-                        continue;
-                    }
-                    boolean inside = obs.position().contains(r.next().position(), req.observationProfile());
-                    TickObservation.Residual residual = obs.residual(r.next().position(), r.next().onGround(), req.observationProfile());
-                    if (r.exact()) {
-                        if (last && !node.uncertain) acc.reach(node.start, r.next());
-                        if (!inside) { acc.excludedExact++; if (last && !node.uncertain) acc.near(branch.id(), node, in, r.next(), residual); continue; }
-                        Node child = new Node(r.next(), null, node.startLabel, node.uncertain, true, node.uncertain ? node.physicsStatus : r.status(), node.uncertain ? node.reasons : List.of(), residual); child.start = node.start;
-                        addNode(next, leaves, child, node, in, isWitness, budget, acc);
-                    } else {
-                        acc.undecided++;
-                        // inexact prediction: never excluded; continued only while it is inside the observation set, otherwise reported at the end and left unexplored
-                        if (inside) { Node child = new Node(r.next(), null, node.startLabel, true, true, r.status(), r.reasons(), residual); child.start = node.start; addNode(next, leaves, child, node, in, isWitness, budget, acc); }
-                        else if (last) addNode(next, leaves, new Node(null, AbstractState.top("lower-bound prediction outside the observation under " + r.status()), node.startLabel, true, false, r.status(), r.reasons(), null), node, in, isWitness, budget, acc);
-                        else acc.unexplored++;
+                    for (PhysicsState start : node.state.sprintModifierCases(in)) { // P9-F1: a MAYBE sprint-modifier class splits into its members only when they differ for this input
+                        PhysicsResult r = simulator.simulate(start, in, envT); acc.evaluations++; acc.simulated++; acc.physics(r);
+                        if (r.next() == null) { // nothing sound could be computed: undecided, never excluded
+                            acc.undecided++;
+                            if (last) addNode(next, leaves, new Node(null, AbstractState.top(r.status().name()), node.startLabel, true, true, r.status(), r.reasons(), null), node, in, isWitness, budget, acc);
+                            continue;
+                        }
+                        boolean inside = obs.position().contains(r.next().position(), req.observationProfile());
+                        TickObservation.Residual residual = obs.residual(r.next().position(), r.next().onGround(), req.observationProfile());
+                        if (r.exact()) {
+                            if (last && !node.uncertain) acc.reach(node.start, r.next());
+                            if (!inside) { acc.excludedExact++; if (last && !node.uncertain) acc.near(branch.id(), node, in, r.next(), residual); continue; }
+                            Node child = new Node(r.next(), null, node.startLabel, node.uncertain, true, node.uncertain ? node.physicsStatus : r.status(), node.uncertain ? node.reasons : List.of(), residual); child.start = node.start;
+                            addNode(next, leaves, child, node, in, isWitness, budget, acc);
+                        } else {
+                            acc.undecided++;
+                            // inexact prediction: never excluded; continued only while it is inside the observation set, otherwise reported at the end and left unexplored
+                            if (inside) { Node child = new Node(r.next(), null, node.startLabel, true, true, r.status(), r.reasons(), residual); child.start = node.start; addNode(next, leaves, child, node, in, isWitness, budget, acc); }
+                            else if (last) addNode(next, leaves, new Node(null, AbstractState.top("lower-bound prediction outside the observation under " + r.status()), node.startLabel, true, false, r.status(), r.reasons(), null), node, in, isWitness, budget, acc);
+                            else acc.unexplored++;
+                        }
                     }
                 }
                 if (acc.searchLimit) break;

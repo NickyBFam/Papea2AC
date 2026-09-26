@@ -84,6 +84,10 @@ public class ValidationBenchmarks {
         check(invalidHorizontal, MovementValidation.Classification.INVALID); check(invalidVertical, MovementValidation.Classification.INVALID);
         check(fourBranch, MovementValidation.Classification.VALID); check(gap2, MovementValidation.Classification.VALID); check(gap3, MovementValidation.Classification.VALID);
     }
+    // shared with EvidenceBenchmarks (Phase 9 end-to-end kernels reuse the Phase 8 fixtures)
+    MovementValidator validator() { return validator; }
+    MovementValidationRequest validSimple() { return validSimple; }
+    MovementValidationRequest invalidHorizontal() { return invalidHorizontal; }
     private TimingReconstruction.Result run(MovementValidationRequest r) { return timing.run(r.timing(), r.frontier(), r.environment(), r.reconstructionBudget()); }
     private void check(MovementValidationRequest r, MovementValidation.Classification expected) { var v = validator.validate(r); if (v.classification() != expected) throw new IllegalStateException("kernel fixture expected " + expected + " but got " + v.describe()); }
 

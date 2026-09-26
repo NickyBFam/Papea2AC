@@ -61,8 +61,18 @@ class PhysicsCoreMatrixTest {
         assertEquals(0.098 * 0.2, v.z(), 1e-6);
     }
     @Test void sneakingScalesInputBySneakingSpeedAndCrouches() {
+        // P9-F3 (pinned 26.2 client, LocalPlayer.aiStep): `crouching` is assigned from the key sampled one tick EARLIER, so the tick on which
+        // shift is pressed moves at full speed and only ENDS crouched; the sneak factor applies from the next tick, which starts crouched
         PhysicsScene ps = new PhysicsScene(); PhysicsResult r = ps.step(settled(ps, 8.5, SURFACE, 8.5), W_SHIFT);
-        assertEquals(0.098 * 0.3, r.trace().inputVector().z(), 1e-6); assertTrue(r.trace().crouchingInput()); assertEquals(PlayerBox.Pose.CROUCHING, r.next().pose());
+        assertEquals(0.098, r.trace().inputVector().z(), 1e-6, "the press tick is not yet sneak-scaled"); assertFalse(r.trace().crouchingInput());
+        assertEquals(PlayerBox.Pose.CROUCHING, r.next().pose(), "the fresh key sets the pose at the end of the press tick");
+        PhysicsResult r2 = ps.step(r.next(), W_SHIFT);
+        assertEquals(0.098 * 0.3, r2.trace().inputVector().z(), 1e-6, "from the next tick the crouched start scales the input"); assertTrue(r2.trace().crouchingInput());
+        // and releasing: the release tick is still scaled (it starts crouched), the one after is not
+        PhysicsResult r3 = ps.step(r2.next(), new MovementInput(1, 0, false, false, false, false, YAW));
+        assertEquals(0.098 * 0.3, r3.trace().inputVector().z(), 1e-6, "the release tick still starts crouched"); assertEquals(PlayerBox.Pose.STANDING, r3.next().pose());
+        PhysicsResult r4 = ps.step(r3.next(), new MovementInput(1, 0, false, false, false, false, YAW));
+        assertEquals(0.098, r4.trace().inputVector().z(), 1e-6);
     }
     @Test void smallVelocitiesAreZeroedBeforeMovement() {
         PhysicsScene ps = new PhysicsScene(); PhysicsState s = settled(ps, 8.5, SURFACE, 8.5).withVelocity(new Vec3d(0.002, -0.0784, 0.002));

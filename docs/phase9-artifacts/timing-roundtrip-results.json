@@ -1,0 +1,10 @@
+{
+  "phase": "7",
+  "velocityCases": 1700,
+  "velocityTransmissions": 13110,
+  "teleportCases": 500,
+  "fuzzCases": 1981,
+  "fuzzTransmissions": 13743,
+  "truthExcluded": 0,
+  "propertyTests": "TimingPropertyTest (6): determinism, monotone uncertainty, timeouts never certainty, bounded search, large timestamps, actual application tick never excluded"
+}

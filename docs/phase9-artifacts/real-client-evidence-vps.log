@@ -1,0 +1,566 @@
+
+=== 2026-09-26T01:07:35.609263+00:00 VPS server start: jar 1497c44e2f81f80e869d77b628cd5f0ba2b668b36a34621b7479eb9443cefa01, online-mode, whitelist
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> list
+There are 0 of a max of 10 players online: 
+
+=== 2026-09-26T01:08:32.495876+00:00 whitelist the qualifying player iDTR
+> whitelist add iDTR
+Added iDTR to the whitelist
+> whitelist list
+There are 1 whitelisted player(s): iDTR
+
+=== 2026-09-26T01:09:24.706441+00:00 VPS FULL COURSE start: player iDTR (remote, real network), jar 1497c44e
+> gamemode survival iDTR
+
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=32385) frontier=2 complete transitions=19 VALID=19 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=3 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=30632->32385
+  validation VALID seq=30632->32385 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+
+> papea2ac timing iDTR
+timing session=1 worldEpoch=0 tickEndCapable=true tickEnds=374 movements=20 influences=0 teleports=1/1 stale=0 evictions=738
+rtt last=59.015ms min=58.544ms smoothed=63.607ms jitter=5.569ms max=84.890ms samples=39 outliers=0 rejected=0 age=50ms | markers sent=39 acked=39 pending=0 expired=0 late/unknown=0 failedWrites=0
+correction 1 sent@56 -> (2.5,68.0,2.5) relative=0 confirmed@204
+
+> say Welcome iDTR! Keep moving continuously: sprint, sneak, jumps, 1-block falls, ladder, water, ice/slime/honey/soul sand strips, shield, place/break/toggle blocks, slabs, stairs, edges. Thanks!
+
+
+=== 2026-09-26T01:18:03.603953+00:00 FROZEN: first VPS live INVALID captured
+> say HOLD please - stand still for a moment, analysing
+
+> papea2ac validate iDTR forensic report
+forensic capture written to plugins/Papea2AC/p9f2-forensic-iDTR.log (763 lines)
+  === P9-F2 FORENSIC CAPTURE (diagnostic only)
+  session=d89977fd-3de6-4ab4-82d0-ff52f7564c44/1 worldEpoch=0 worldRevision=3784 capturedAtNanos=2344655077565269
+  classification=INVALID seq=559948->560037 completeness=ALL invalidReasons=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT] uncertainReasons=[]
+  --- anchor provenance
+  anchorKind=rest (2 pose states) anchorSequence=559948 anchorNanos=2344655027101368 anchorInTick=true transitionsSinceAnchor=2630 speedSnapshotSequence=559655 frontierComplete=true
+  --- frontier start states (4)
+    node h1/c0 pending=[] pos=(-202.88311190051292/0xc0695c4273e36d2a, 69.495200877005930/0x40515fb15f04ec39, -216.84804749063005/0xc06b1b23347db6c0) vel=(-0.050558698416645814/0xbfa9e2d46874a4ec, -0.37390403646672210/0xbfd7ee0b321de2b8, 0.041433914163050310/0x3fa536d3748d17d0) pose=STANDING onGround=false hColl=false vColl=false vCollBelow=false fall=0.75700245052576070/0x3fe8395d34000000 stuck=(0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000) powderSnow=false support=none/noBlocks=false noJumpDelay=0 locomotion=WALKING sprintModifier=FOLLOWS
+    node h1/c1 pending=[] pos=(-202.88311190051292/0xc0695c4273e36d2a, 69.495200877005930/0x40515fb15f04ec39, -216.84804749063005/0xc06b1b23347db6c0) vel=(-0.050558698416645814/0xbfa9e2d46874a4ec, -0.37390403646672210/0xbfd7ee0b321de2b8, 0.041433914163050310/0x3fa536d3748d17d0) pose=CROUCHING onGround=false hColl=false vColl=false vCollBelow=false fall=0.75700245052576070/0x3fe8395d34000000 stuck=(0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000) powderSnow=false support=none/noBlocks=false noJumpDelay=0 locomotion=WALKING sprintModifier=FOLLOWS
+    node h1/c2 pending=[] pos=(-202.88311190051292/0xc0695c4273e36d2a, 69.495200877005930/0x40515fb15f04ec39, -216.84804749063005/0xc06b1b23347db6c0) vel=(-0.050558698416645814/0xbfa9e2d46874a4ec, -0.37390403646672210/0xbfd7ee0b321de2b8, 0.041433914163050310/0x3fa536d3748d17d0) pose=STANDING onGround=false hColl=false vColl=false vCollBelow=false fall=0.75700245052576070/0x3fe8395d34000000 stuck=(0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000) powderSnow=false support=none/noBlocks=false noJumpDelay=1 locomotion=WALKING sprintModifier=FOLLOWS
+    node h1/c3 pending=[] pos=(-202.88311190051292/0xc0695c4273e36d2a, 69.495200877005930/0x40515fb15f04ec39, -216.84804749063005/0xc06b1b23347db6c0) vel=(-0.050558698416645814/0xbfa9e2d46874a4ec, -0.37390403646672210/0xbfd7ee0b321de2b8, 0.041433914163050310/0x3fa536d3748d17d0) pose=CROUCHING onGround=false hColl=false vColl=false vCollBelow=false fall=0.75700245052576070/0x3fe8395d34000000 stuck=(0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000, 0.0000000000000000/0x0000000000000000) powderSnow=false support=none/noBlocks=false noJumpDelay=1 locomotion=WALKING sprintModifier=FOLLOWS
+  --- observation
+    target seq=560037 nanos=2344655077565269 hasPosition=true pos=(-202.89568383485465/0xc0695ca971254836, 69.121296840539200/0x405147c353d2ce56, -216.80954189415040/0xc06b19e7c46703c6) hasRotation=true yaw=-995.763916/0xc478f0e4 pitch=76.6863861/0x42995f6e onGroundClaim=false
+
+
+=== 2026-09-26T01:40:24.634610+00:00 re-arm forensic after capture 7 (Lunar)
+> papea2ac validate iDTR forensic clear
+CLEARED
+
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=1395955) frontier=2 complete transitions=4018 VALID=4006 UNCERTAIN=11 INVALID=1
+context complete=true mode=survival attributes=6 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1395428->1395955
+  validation VALID seq=1395428->1395955 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+
+
+=== 2026-09-26T01:56:44.903059+00:00 jar 1497c44e final state before the P9-F5 jar
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=1909034) frontier=2 complete transitions=4999 VALID=4987 UNCERTAIN=11 INVALID=1
+context complete=true mode=survival attributes=6 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=1908508->1909034
+  validation VALID seq=1908508->1909034 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=0
+  observed VALID=4987 UNCERTAIN=11 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=2368 UNCERTAIN=1 last=VALID
+  group 0902b8e12455 members=1 seq=559948..560037 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=9], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=UNSUPPORTED_CONTEXT, count=7], GapCount[reason=SEARCH_LIMIT, count=1]]
+
+
+=== 2026-09-26T02:07:13.799245+00:00 P9-F5 jar a3fc9a58: arm forensic on the new session
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=368) frontier=2 complete transitions=2 VALID=2 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=5 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=365->368
+  validation VALID seq=365->368 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=2/16 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 ------ (+7 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+    witness h1 ---C-- (+7 equivalent) pos=(-293.298079,73.000000,-446.700000) ground=true
+
+
+=== 2026-09-26T02:09:15.798870+00:00 P9-F5 jar: 2 INVALID at ~860 transitions
+> papea2ac validate iDTR notable
+notable results (INVALID / UNCERTAIN / VALID under an incomplete context; chain INVALID=2 UNCERTAIN=0; last 96 lines):
+      witness h1 ---C-- (+7 equivalent) pos=(-320.093268,82.000000,-480.480007) ground=true
+      note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+  seq=111362 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=2 recon=2 eval=1664 missing=[world]
+    validation VALID seq=111153->111362 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+      completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>------ (+511 equivalent) pos=(-320.093268,82.000000,-480.480007) ground=true
+      witness h3 ------>------>---C-- (+511 equivalent) pos=(-320.093268,82.000000,-480.480007) ground=true
+      note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+  seq=111477 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=4 recon=2 eval=1664 missing=[world]
+    validation VALID seq=111362->111477 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/256 frontier 2->4
+      completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+      witness h3 ------>------>-D---- (+63 equivalent) pos=(-320.188975,82.000000,-480.501085) ground=true
+      witness h3 ------>------>-D--R- (+63 equivalent) pos=(-320.188975,82.000000,-480.501085) ground=true
+      witness h3 ------>------>-D-C-- (+63 equivalent) pos=(-320.188975,82.000000,-480.501085) ground=true
+      witness h3 ------>------>-D-CR- (+63 equivalent) pos=(-320.188975,82.000000,-480.501085) ground=true
+      note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+  seq=111505 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=4 recon=1 eval=576 missing=[world]
+    validation VALID seq=111477->111505 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/6 frontier 4->4
+      completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+      witness h1 -D---- (+1 equivalent) pos=(-320.338224,82.000000,-480.526601) ground=true
+      witness h1 -D-C-- (+1 equivalent) pos=(-320.338224,82.000000,-480.526601) ground=true
+      witness h1 -D--R- pos=(-320.338224,82.000000,-480.526601) ground=true
+      witness h1 -D-CR- pos=(-320.338224,82.000000,-480.526601) ground=true
+      note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+  seq=111532 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=4 recon=1 eval=576 missing=[world]
+    validation VALID seq=111505->111532 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/32 frontier 4->4
+      completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+      witness h1 ------ (+11 equivalent) pos=(-320.419714,82.000000,-480.540533) ground=true
+      witness h1 ---C-- (+11 equivalent) pos=(-320.419714,82.000000,-480.540533) ground=true
+      witness h1 ----R- (+3 equivalent) pos=(-320.419714,82.000000,-480.540533) ground=true
+      witness h1 ---CR- (+3 equivalent) pos=(-320.419714,82.000000,-480.540533) ground=true
+      note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+  seq=111550 VALID [LEGAL_INPUT_FOUND] hyp=1 legal=4 recon=1 eval=576 missing=[world]
+    validation VALID seq=111532->111550 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/32 frontier 4->4
+      completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+      witness h1 ------ (+11 equivalent) pos=(-320.464208,82.000000,-480.548140) ground=true
+      witness h1 ---C-- (+11 equivalent) pos=(-320.464208,82.000000,-480.548140) ground=true
+
+
+=== 2026-09-26T02:17:56.577651+00:00 jar a3fc9a58 final state before the bundle-fix jar
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=415032) frontier=4 complete transitions=2393 VALID=2386 UNCERTAIN=5 INVALID=2
+context complete=true mode=survival attributes=5 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=414971->415032
+  validation VALID seq=414971->415032 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/4 frontier 2->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W---R- pos=(-309.196048,85.753200,-476.395893) ground=false
+    witness h1 W--CR- pos=(-309.196048,85.753200,-476.395893) ground=false
+    witness h1 W-J-R- pos=(-309.196048,85.753200,-476.395893) ground=false
+    witness h1 W-JCR- pos=(-309.196048,85.753200,-476.395893) ground=false
+
+
+=== 2026-09-26T02:20:03.572104+00:00 bundle-fix jar c909ec19: arm forensic + pig probe
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+
+=== 2026-09-26T02:20:07.020191+00:00 pig probe: tracked?
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=7054) frontier=2 complete transitions=11 VALID=11 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=5 effects=0 border=known relevantEntities=30/30 breaks=0
+last: VALID seq=6315->7054
+  validation VALID seq=6315->7054 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-304.938942,87.000000,-472.670578) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-304.938942,87.000000,-472.670578) ground=true
+
+
+=== 2026-09-26T02:48:18.150632+00:00 targeted milestone >=3000 on c909ec19
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=2052438) frontier=2 complete transitions=3266 VALID=3240 UNCERTAIN=26 INVALID=0
+context complete=true mode=survival attributes=7 effects=0 border=known relevantEntities=49/49 breaks=0
+last: VALID seq=2052418->2052438
+  validation VALID seq=2052418->2052438 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=2/2 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 -D---- pos=(17.712932,70.000000,-343.164276) ground=true
+    witness h1 -D-C-- pos=(17.712932,70.000000,-343.164276) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=3240 UNCERTAIN=26 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=3240 UNCERTAIN=26 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=18], GapCount[reason=CONTENT_NOT_RETAINED, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=3], GapCount[reason=UNSUPPORTED_FLUID, count=7], GapCount[reason=UNSUPPORTED_CONTEXT, count=3], GapCount[reason=SEARCH_LIMIT, count=3], GapCount[reason=FRONTIER_INCOMPLETE, count=2]]
+
+
+=== 2026-09-26T03:03:09.044369+00:00 movement guidance sent to iDTR (Spanish)
+> say iDTR: ¡Todo va perfecto! Solo sigue jugando normal unas 2.5 horas más, variando tus movimientos:
+
+> say 1) Camina, corre y muévete de lado en todas direcciones (también en diagonal) y cambia de dirección rápido.
+
+> say 2) Saltos: saltos corriendo, saltos repetidos, subir bloques y escaleras saltando.
+
+> say 3) Caídas de 1 a 4 bloques y muévete justo al aterrizar (hacia atrás, agachado o soltando el sprint).
+
+> say 4) Agáchate: quieto agachado y luego camina, por bordes, bajo losas y por huecos de 1.5 bloques.
+
+> say 5) Terreno: escaleras, losas, vallas, muros, bordes, esquinas, choca con paredes, escaleras de mano y enredaderas.
+
+> say 6) Hielo, slime, miel y arena de almas si los encuentras o los pones.
+
+> say 7) Pon y rompe bloques mientras te mueves (también debajo de ti / puentes). Usa objetos caminando: comer, escudo, arco.
+
+> say 8) Choca y camina entre animales (vacas, ovejas, cerdos, llamas): eso prueba justo el arreglo.
+
+> say Agua, nadar, barcos o caballos está bien un poco, pero no la mayor parte del tiempo.
+
+> say Puedes tomar descansos; si te desconectas avísale a Nicolas para reactivar todo. Si algo falla te aviso al momento. ¡Gracias!
+
+
+=== 2026-09-26T03:06:12.540638+00:00 pace guidance sent to iDTR (Spanish)
+> say iDTR: ¡Vas muy bien! Para terminar mucho más rápido:
+
+> say Cada movimiento cuenta solo mientras te mueves (20 por segundo). Quieto, en menús o en el chat casi no cuenta.
+
+> say Muévete SIN PARAR: camina, corre, salta, muévete de lado, agáchate, sube y baja bloques... sin quedarte quieto.
+
+> say Evita estar quieto, abrir el inventario o escribir en el chat. Mejor en tierra (el agua no cuenta igual).
+
+> say Así te faltan solo unos 12-15 minutos en vez de 1.5-2 horas. ¡Gracias!
+
+
+=== 2026-09-26T03:08:03.049749+00:00 difficulty -> normal (owner request)
+> difficulty normal
+The difficulty has been set to Normal
+> say iDTR: ¡Dificultad cambiada a Normal! Ya puedes jugar Minecraft normal (mobs, hambre, etc.).
+
+
+=== 2026-09-26T03:09:00.341002+00:00 after iDTR death
+> papea2ac validate iDTR
+validation session=1 anchored=false (none (INVALID without continuation) seq=3864163) frontier=0 INCOMPLETE transitions=7457 VALID=7418 UNCERTAIN=38 INVALID=1
+context complete=true mode=survival attributes=7 effects=1 border=known relevantEntities=126/126 breaks=0
+rest check: ground=false tickEndsSincePosition=1 samePosition=false locomotion=true
+last: INVALID seq=3864163->3864210
+  validation INVALID seq=3864163->3864210 worldEpoch=3 timingHypotheses=1 (complete 1) explaining=0 reconstructions=4 legal=0/0 frontier 6->0 (incomplete)
+    completeness ALL invalid=[NO_LEGAL_INPUT, UNEXPLAINED_DISPLACEMENT]
+    residual observed h=0.019600 rise=0.000000 | legal h<=0.327400 rise in [0.000000, 0.420000] (SIMULATED_COMPLETE) excess h=0.000000 v=0.000000
+    nearest h3 ------>------>-D---U d=(-1.326e-09,0.000e+00,0.000e+00) outside=1.326e-09
+    nearest h3 ------>------>-D-C-U d=(-1.326e-09,0.000e+00,0.000e+00) outside=1.326e-09
+    nearest h3 ------>------>-D---U d=(-5.880e-03,0.000e+00,0.000e+00) outside=5.880e-03
+    nearest h3 ------>------>-D--RU d=(-5.880e-03,0.000e+00,0.000e+00) outside=5.880e-03
+    proof: hypotheses=1 [h3] reconstructions=4 evaluations=4640 enumerated=2304 excludedExact=2712 excludedEnvelope=0 remaining=0 model=paper-26.2-124-movement-observation/paper-26.2-124-movement/paper-26.2-124-collision/paper-26.2-124-timing world=3@92601
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+    note: complete supported hypothesis union is empty: a physical statement about the modelled domain, not a statement of motive
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=3 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=2
+  observed VALID=7418 UNCERTAIN=38 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 3864163..3864210 newestAge=26734ms oldestActiveAge=26734ms byCategory=[CategoryCount[category=UNEXPLAINED_DISPLACEMENT, count=1]]
+  UNEXPLAINED_DISPLACEMENT: events=1 maxExcess h=0.0000 v=0.0000 maxObservedH=0.0196 penetrations=0
+  group 458c9865ea97 members=1 seq=3864163..3864210 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=22], GapCount[reason=CONTENT_NOT_RETAINED, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=10], GapCount[reason=UNSUPPORTED_FLUID, count=11], GapCount[reason=UNSUPPORTED_CONTEXT, count=4], GapCount[reason=SEARCH_LIMIT, count=4], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+  supporting=[458c9865ea97]
+
+
+=== 2026-09-26T03:16:53.765772+00:00 jar c909ec19 final state before the P9-F4 jar
+> papea2ac validate iDTR
+validation session=1 anchored=false (none (UNCERTAIN without continuation) seq=4353443) frontier=0 INCOMPLETE transitions=8265 VALID=8221 UNCERTAIN=43 INVALID=1
+context complete=true mode=survival attributes=7 effects=0 border=known relevantEntities=122/122 breaks=0
+rest check: ground=false tickEndsSincePosition=1 samePosition=false locomotion=true
+last: UNCERTAIN seq=4353443->4353445
+  validation UNCERTAIN seq=4353443->4353445 worldEpoch=3 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 2->0 (incomplete)
+    completeness missing [reconstruction, entities] uncertain=[ENTITY_NEIGHBORHOOD_UNKNOWN]
+    residual observed h=0.572061 rise=0.420000 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=3 active=0/1 (evicted 0, expired 1) window=30000ms run=0 longest=1 groups=0/1 segments=2
+  observed VALID=8221 UNCERTAIN=43 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=803 UNCERTAIN=5 last=UNCERTAIN
+  group 458c9865ea97 members=1 seq=3864163..3864210 [UNEXPLAINED_DISPLACEMENT] maxExcess h=0.0000 v=0.0000 (expired)
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=22], GapCount[reason=CONTENT_NOT_RETAINED, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=14], GapCount[reason=UNSUPPORTED_FLUID, count=12], GapCount[reason=UNSUPPORTED_CONTEXT, count=4], GapCount[reason=SEARCH_LIMIT, count=4], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+
+=== 2026-09-26T16:26:05.843522+00:00 owner Emojiado whitelisted
+> whitelist add Emojiado
+Added Emojiado to the whitelist
+> bossbar remove papea2ac:qual
+Removed custom bossbar [Progreso: 8266 / 20000  |  INVALID: 1]
+
+=== 2026-09-26T16:30:27.108199+00:00 auto-arm forensic for Emojiado (session 1)
+> papea2ac validate Emojiado forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+
+=== 2026-09-26T16:30:51.833261+00:00 auto-arm forensic for iDTR (session 2)
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+
+=== 2026-09-26T16:52:34.647683+00:00 gave 64 golden apples each (owner request)
+> give Emojiado minecraft:golden_apple 64
+Gave 64 [Golden Apple] to Emojiado
+> give iDTR minecraft:golden_apple 64
+Gave 64 [Golden Apple] to iDTR
+
+=== 2026-09-26T17:15:41.648196+00:00 FINAL GATE >=20000 on 297134a6 (both sessions)
+> papea2ac validate Emojiado
+validation session=1 anchored=false (none (UNCERTAIN without continuation) seq=2951612) frontier=0 INCOMPLETE transitions=14882 VALID=14832 UNCERTAIN=50 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=144/144 breaks=0
+rest check: ground=true tickEndsSincePosition=1 samePosition=false locomotion=true
+last: UNCERTAIN seq=2951612->2951649
+  validation UNCERTAIN seq=2951612->2951649 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 4->0 (incomplete)
+    completeness missing [reconstruction, world, entities] uncertain=[WORLD_INCOMPLETE, ENTITY_NEIGHBORHOOD_UNKNOWN]
+    residual observed h=0.000000 rise=0.248136 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+    note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=14832 UNCERTAIN=50 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=14832 UNCERTAIN=50 last=UNCERTAIN
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=31], GapCount[reason=CONTENT_NOT_RETAINED, count=1], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=14], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=12], GapCount[reason=FRONTIER_INCOMPLETE, count=5]]
+
+> papea2ac validate iDTR
+validation session=2 anchored=false (none (UNCERTAIN without continuation) seq=3734631) frontier=0 INCOMPLETE transitions=5777 VALID=5755 UNCERTAIN=22 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=141/141 breaks=0
+rest check: ground=true tickEndsSincePosition=1 samePosition=false locomotion=true
+last: UNCERTAIN seq=3734631->3734841
+  validation UNCERTAIN seq=3734631->3734841 worldEpoch=1 timingHypotheses=1 (complete 1) explaining=0 reconstructions=2 legal=0/0 frontier 2->0 (incomplete)
+    completeness missing [world] uncertain=[WORLD_INCOMPLETE]
+    residual observed h=0.000000 rise=-0.078400 | legal h<=0.327400 rise in [0.000000, 0.420000] (SIMULATED_COMPLETE) excess h=0.000000 v=-0.078400
+    nearest h3 ------>------>------ d=(0.000e+00,7.840e-02,0.000e+00) outside=7.840e-02
+    nearest h3 ------>------>-----U d=(0.000e+00,7.840e-02,0.000e+00) outside=7.840e-02
+    nearest h3 ------>------>----R- d=(0.000e+00,7.840e-02,0.000e+00) outside=7.840e-02
+    nearest h3 ------>------>----RU d=(0.000e+00,7.840e-02,0.000e+00) outside=7.840e-02
+    note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence iDTR
+evidence session=2 worldEpoch=1 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=1
+  observed VALID=5755 UNCERTAIN=22 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=5755 UNCERTAIN=22 last=UNCERTAIN
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=8], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=11], GapCount[reason=UNSUPPORTED_FLUID, count=4], GapCount[reason=SEARCH_LIMIT, count=6], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+
+=== 2026-09-26T17:15:51.993886+00:00 controlled injection +0.5x on final jar
+> papea2ac validate Emojiado inject 0.5 0 0 1
+REFUSED: the live chain is not anchored (none (UNCERTAIN without continuation)) - stand still for a second first
+
+
+=== 2026-09-26T17:15:56.098214+00:00 side ledger after injection
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=UNCERTAIN
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=14832 UNCERTAIN=50 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=14832 UNCERTAIN=50 last=UNCERTAIN
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=31], GapCount[reason=CONTENT_NOT_RETAINED, count=1], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=14], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=12], GapCount[reason=FRONTIER_INCOMPLETE, count=5]]
+
+
+=== 2026-09-26T17:16:57.204678+00:00 controlled injection +0.5x on final jar
+> papea2ac validate Emojiado inject 0.5 0 0 1
+REFUSED: the live chain is not anchored (none (UNCERTAIN without continuation)) - stand still for a second first
+
+
+=== 2026-09-26T17:17:01.342163+00:00 side ledger after injection
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=UNCERTAIN
+
+
+=== 2026-09-26T17:17:24.942286+00:00 anchor via in-place correction for the controlled injection
+> execute as Emojiado at @s run tp @s ~ ~ ~
+Teleported Emojiado to -903.312597, 112.000000, -609.074350
+
+=== 2026-09-26T17:17:26.684377+00:00 controlled injection +0.5x on final jar
+> papea2ac validate Emojiado inject 0.5 0 0 1
+REFUSED: the live chain is not anchored (none (UNCERTAIN without continuation)) - stand still for a second first
+
+
+=== 2026-09-26T17:17:30.782215+00:00 side ledger after injection
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=UNCERTAIN
+
+
+=== 2026-09-26T17:19:14.879020+00:00 teleport both to spawn area for the controlled injection (owner request)
+> execute in minecraft:overworld run tp Emojiado 2.5 68 2.5
+Teleported Emojiado to 2.500000, 68.000000, 2.500000
+> execute in minecraft:overworld run tp iDTR 22.5 68 2.5
+Teleported iDTR to 22.500000, 68.000000, 2.500000
+> say Teletransportados cerca del spawn: quedense QUIETOS 3 segundos, por favor.
+
+
+=== 2026-09-26T17:19:40.962084+00:00 E1 controlled injection +0.5x (final jar)
+> papea2ac validate Emojiado inject 0.5 0 0 1
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=2.5, y=68.0, z=2.5] (side chain from anchor correction 6 seq=3539622); the live chain and the timeline are untouched
+
+
+=== 2026-09-26T17:19:45.088444+00:00 E1 side ledger
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=1 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 7079244..7080641 newestAge=4165ms oldestActiveAge=4165ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=1]]
+  HORIZONTAL_EXCESS: events=1 maxExcess h=0.1726 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group 139df203c905 members=1 seq=7079244..7080641 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  supporting=[139df203c905]
+  seq=7079244->7080641 INVALID -> POSITIVE_EVENT evidence 139df203c905 seq=7079244->7080641 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=1216 env=0 remaining=0
+
+
+=== 2026-09-26T17:19:45.176991+00:00 E2 reingest (duplicate check)
+> papea2ac evidence Emojiado reingest
+SCHEDULED: the last side-chain record (seq=7079244->7080641) is re-delivered to the side ledger at the next tick end; expect DUPLICATE
+
+
+=== 2026-09-26T17:19:47.271489+00:00 E2 side ledger after reingest
+> papea2ac evidence Emojiado side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=1/1 (evicted 0, expired 0) window=30000ms run=1 longest=1 groups=1/1 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=2 proofRejected=0 duplicates=1 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 7079244..7080641 newestAge=6304ms oldestActiveAge=6304ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=1]]
+  HORIZONTAL_EXCESS: events=1 maxExcess h=0.1726 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group 139df203c905 members=1 seq=7079244..7080641 [HORIZONTAL_EXCESS] maxExcess h=0.1726 v=0.0000
+  supporting=[139df203c905]
+  seq=7079244->7080641 INVALID -> POSITIVE_EVENT evidence 139df203c905 seq=7079244->7080641 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.1726 v=0.0000 (SIMULATED_COMPLETE) proof: hyp=1 enum=864 exact=1216 env=0 remaining=0
+  seq=7079244->7080641 INVALID -> DUPLICATE
+  re-delivery of seq=7079244->7080641 -> DUPLICATE
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=14866 UNCERTAIN=50 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=14866 UNCERTAIN=50 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=31], GapCount[reason=CONTENT_NOT_RETAINED, count=1], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=14], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=12], GapCount[reason=FRONTIER_INCOMPLETE, count=5]]
+
+
+=== 2026-09-26T17:20:02.106603+00:00 live ledgers after E1/E2 (must be untouched)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (correction 6 seq=3560413) frontier=2 complete transitions=14931 VALID=14881 UNCERTAIN=50 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=107/107 breaks=0
+last: VALID seq=3559470->3560413
+  validation VALID seq=3559470->3560413 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=14881 UNCERTAIN=50 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=14881 UNCERTAIN=50 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=31], GapCount[reason=CONTENT_NOT_RETAINED, count=1], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=14], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=12], GapCount[reason=FRONTIER_INCOMPLETE, count=5]]
+
+> papea2ac validate iDTR
+validation session=2 anchored=false (none (world change) seq=3924109) frontier=0 INCOMPLETE transitions=7134 VALID=7109 UNCERTAIN=25 INVALID=0
+context complete=true mode=survival attributes=10 effects=1 border=known relevantEntities=115/115 breaks=0
+rest check: ground=true tickEndsSincePosition=20 samePosition=true locomotion=true | standing: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | crouching: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | swimming: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)]
+last: VALID seq=3924079->3924109
+  validation VALID seq=3924079->3924109 worldEpoch=2 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=2/2 frontier 2->2
+    completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- pos=(-352.878128,45.000000,336.647629) ground=true
+    witness h1 W--C-- pos=(-352.878128,45.000000,336.647629) ground=true
+    note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+
+> papea2ac evidence iDTR
+evidence session=2 worldEpoch=2 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=2
+  observed VALID=7109 UNCERTAIN=25 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=7109 UNCERTAIN=25 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=9], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=13], GapCount[reason=UNSUPPORTED_FLUID, count=4], GapCount[reason=SEARCH_LIMIT, count=6], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+
+=== 2026-09-26T17:22:00.947205+00:00 final state before shutdown
+> papea2ac validate Emojiado
+validation session=1 anchored=true (correction 6 seq=3687478) frontier=2 complete transitions=15049 VALID=14999 UNCERTAIN=50 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=128/128 breaks=0
+last: VALID seq=3686317->3687478
+  validation VALID seq=3686317->3687478 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(2.500000,68.000000,2.500000) ground=true
+
+> papea2ac validate iDTR
+validation session=2 anchored=false (none (world change) seq=3924109) frontier=0 INCOMPLETE transitions=7134 VALID=7109 UNCERTAIN=25 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=130/130 breaks=0
+rest check: ground=true tickEndsSincePosition=20 samePosition=true locomotion=true | standing: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | crouching: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | swimming: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)]
+last: VALID seq=3924079->3924109
+  validation VALID seq=3924079->3924109 worldEpoch=2 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=2/2 frontier 2->2
+    completeness missing [world] valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- pos=(-352.878128,45.000000,336.647629) ground=true
+    witness h1 W--C-- pos=(-352.878128,45.000000,336.647629) ground=true
+    note: a block state within the transition's reach is in dispute (client prediction unacknowledged, or a change the client cannot have applied yet): world knowledge incomplete
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=2 reservedBytes=272629760
+CAPTURED=7787269
+NORMALIZED=2
+PROVISIONAL=2
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=2
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=1350
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=1
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=524288
+delaySamples=7787269 totalDelayNanos=144899668419584
+delayP95UpperNanos=67108863 delayP99UpperNanos=536870911
+monitoring activeSessions=2 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/8192 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=524288/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=2 chunks=426 complete=426 partial=0 sections=10224 sharedBytes=4391548/100663296 sharedSections=2021 sharedHits=243288 privateTier=786432 revisions=86495 historyEvictions=369421 evicted=1993 unloaded=15945 coverageBreaks=20 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=6259 sendFailures=0 answered=12210 rttSamples=12210 outliers=256 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=88172 VALID=22108 UNCERTAIN=66064 INVALID=0 uncertain{searchLimit=6 unsupported=6 worldIncomplete=62 externalMotion=0 unanchored=65989 other=1} timingBranches=22552 reconstructions=23843 evaluations=12755216 anchors=92/lost=76 internalErrors=0 injected=1
+evidence consumed=22183 witness=22108 unresolved=75 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=2 positive=1 duplicates=1} sessions=2
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=80304037 complete=80287752 incomplete=16285 unavailable=0 rejected=0 truncated=0 cells=3490351182 hits=57923780 cacheHits=3489900686 cacheMisses=267 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=450229
+

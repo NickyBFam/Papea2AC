@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 /** Replay of the pinned Phase 6 reconstruction fixtures (§57): every catalog case must reproduce its pinned outcome summary and candidate-set digest. */
 class ReconstructionFixtureTest {
-    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase6-artifacts/reconstruction-fixtures/reconstruction-fixtures.json");
+    static final Path FIXTURES = TimelineFixtureDeterminismTest.repoRoot().resolve("docs/phase9-artifacts/reconstruction-fixtures/reconstruction-fixtures.json");
     @Test void everyFixtureCaseReproducesItsPinnedSummary() throws Exception {
         assertTrue(Files.exists(FIXTURES), "run reconstructionFixtures first: " + FIXTURES);
         Map<String, Object> pinned = MiniJson.obj(MiniJson.obj(MiniJson.parse(Files.readString(FIXTURES, StandardCharsets.UTF_8))).get("cases"));
