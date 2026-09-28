@@ -1,0 +1,21 @@
+{
+  "phase": "10 - Mitigation / Setback",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-step garbage; estimates on one host, not capacity",
+  "emptyActorBytes": 3640,
+  "typicalActorBytes": 9360,
+  "atBoundsActorBytes": 46976,
+  "bounds": "anchors <= 64, chain <= 8 groups per policy (2 policies), group families <= 64, member ids <= 8, predecessor ids <= 8, one active intent, bounded decision/outcome/teleport rings",
+  "safeAnchorBytes": 168,
+  "intentBytes": 264,
+  "runnerBytes(excluding actor)": 2576,
+  "proposalGuardReachableMaxBytes": 544,
+  "decisionCaptureFullShareHeapBytes": 62912,
+  "decisionCaptureFullShareChargedBytes": 171288,
+  "rollingShareBudgetBytes": 262144,
+  "perOperationAllocationBytes": {
+    "legitimateStepBytes(ledger+actor)": 1216,
+    "anchorAdmissionBytes(incl. clearance query)": 1472,
+    "observeExportAppendBytes": 1588
+  },
+  "perSessionRetained": "one MitigationRunner + MitigationActor (above) + one DecisionCapture (its rolling share is charged to the global 48 MiB ROLLING pool, q=min(256 KiB, 48 MiB/N)); intents, decisions and capsules are bounded values"
+}

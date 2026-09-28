@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "case": "setback_confirmed_and_recovered",
+      "expected": "RECOVERED RECOVERY",
+      "actual": "RECOVERED RECOVERY",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "PROPOSED -> WAITING_CAPTURE -> QUEUED -> EXECUTING -> SENT_AWAITING_CONFIRM -> CONFIRMED -> RECOVERY -> IDLE"
+    },
+    {
+      "case": "teleport_race",
+      "expected": "SUPERSEDED SUPERSEDED_BY_FOREIGN_TELEPORT",
+      "actual": "SUPERSEDED SUPERSEDED_BY_FOREIGN_TELEPORT",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "a foreign correction before ours executes"
+    },
+    {
+      "case": "velocity_race",
+      "expected": "REJECTED UNRESOLVED_EXTERNAL_MOTION",
+      "actual": "REJECTED UNRESOLVED_EXTERNAL_MOTION",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "legitimate motion registered before application is never erased"
+    },
+    {
+      "case": "world_change",
+      "expected": "SUPERSEDED WORLD_CHANGED",
+      "actual": "SUPERSEDED WORLD_CHANGED",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "the old world's correction never applies in the new one"
+    },
+    {
+      "case": "session_end",
+      "expected": "REJECTED SESSION_ENDED",
+      "actual": "REJECTED SESSION_ENDED",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "nothing of the old session affects a new one"
+    },
+    {
+      "case": "capture_deadline_miss",
+      "expected": "EXPIRED CAPTURE_DEADLINE_MISS",
+      "actual": "EXPIRED CAPTURE_DEADLINE_MISS",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "no durable receipt within 500 ms"
+    },
+    {
+      "case": "capture_unavailable",
+      "expected": "REJECTED CAPTURE_UNAVAILABLE",
+      "actual": "REJECTED CAPTURE_UNAVAILABLE",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "DURABLE_REQUIRED: no capture, no effect"
+    },
+    {
+      "case": "queue_saturated",
+      "expected": "REJECTED QUEUE_SATURATED",
+      "actual": "REJECTED QUEUE_SATURATED",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "the main-thread queue is full: rejected without blocking"
+    },
+    {
+      "case": "execution_deadline",
+      "expected": "EXPIRED DEADLINE_EXPIRED",
+      "actual": "EXPIRED DEADLINE_EXPIRED",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "queued but never executed within 500 ms"
+    },
+    {
+      "case": "platform_cancelled",
+      "expected": "RESYNC_REQUIRED PLATFORM_CANCELLED",
+      "actual": "RESYNC_REQUIRED PLATFORM_CANCELLED",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "another plugin cancelled the teleport: a failed correction, never a fake anchor"
+    },
+    {
+      "case": "confirm_timeout",
+      "expected": "RESYNC_REQUIRED CONFIRM_TIMEOUT",
+      "actual": "RESYNC_REQUIRED CONFIRM_TIMEOUT",
+      "match": true,
+      "action": "09769d4556336dff",
+      "note": "sent, never confirmed within 5 s"
+    }
+  ],
+  "note": "intent lifecycle terminals: RECOVERED, EXPIRED, REJECTED, SUPERSEDED, RESYNC_REQUIRED; exactly one active correction, idempotent action ids, durable capsule before queueing"
+}

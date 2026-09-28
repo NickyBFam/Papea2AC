@@ -92,6 +92,10 @@ public final class MovementValidationRunner {
     /** Phase 9: the session's evidence runner (set by the engine); every completed result is handed over once, live or side chain. */
     private EvidenceRunner evidence;
     public void attachEvidence(EvidenceRunner e) { this.evidence = e; }
+    /** Phase 10: the session's mitigation runner (set by the engine); it sees every completed live/side result after evidence, the unanchored
+     *  transmissions, the tick ends and the correction-relevant timing facts. It decides; it never applies anything from here. */
+    private MitigationRunner mitigation;
+    public void attachMitigation(MitigationRunner m) { this.mitigation = m; }
     /** P9-F2: the session's block-dispute ledger (set by the engine); a disputed cell in reach makes the transition's world knowledge incomplete. */
     private BlockDisputeLedger disputes;
     public void attachDisputes(BlockDisputeLedger d) { this.disputes = d; }
@@ -151,7 +155,7 @@ public final class MovementValidationRunner {
     private void handle(TimingEvent e, TimingLedger.View timing, MovementContextLedger.View context, WorldView view, long worldEpoch) {
         if (awaitingClientLoaded) {
             if (e instanceof TimingEvent.ClientTickEnd end) { // a tick in which LocalPlayer.tick returned at once: not a physics tick (P9-F4)
-                frozenTickEnds++; if (evidence != null) evidence.advance(end.nanos()); lastContext = context; publish(); return;
+                frozenTickEnds++; if (evidence != null) evidence.advance(end.nanos()); if (mitigation != null) mitigation.onTick(end.nanos()); lastContext = context; publish(); return;
             }
             if (e instanceof TimingEvent.TeleportConfirmed) frozenTickEnds = 0; // the confirm and its position echo come from one packet handler
             if (e instanceof TimingEvent.MovementObserved m && m.hasPosition() && frozenTickEnds > 0) {
@@ -160,7 +164,7 @@ public final class MovementValidationRunner {
             }
         }
         switch (e) {
-            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); endSide("world change"); }
+            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); endSide("world change"); if (mitigation != null) mitigation.onTiming(d); }
             case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); live.influences.clear(); endSide("coverage break"); }
             case TimingEvent.ServerTick t -> { return; /* recorded by the ledger; not an alignment source, nothing to publish */ }
             case TimingEvent.WriteResolved w -> { return; /* P8-F1: write outcomes are resolved by the ledger (teleport/velocity write failures reach the request through its pending-teleport and influence views), never part of the slice */ }
@@ -168,7 +172,8 @@ public final class MovementValidationRunner {
                 live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); live.influences.clear(); }
                 if (e instanceof TimingEvent.ExternalMotionSent m) { live.influences.put(m.id(), m); endSide("live influence " + m.id()); }
                 if (e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed) endSide("live correction");
-                if (e instanceof TimingEvent.ClientTickEnd end) { live.tickEndsSincePosition++; sideTick(end, timing, context, view, worldEpoch); if (evidence != null) evidence.advance(end.nanos()); }
+                if (mitigation != null && (e instanceof TimingEvent.ExternalMotionSent || e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed)) mitigation.onTiming(e);
+                if (e instanceof TimingEvent.ClientTickEnd end) { live.tickEndsSincePosition++; sideTick(end, timing, context, view, worldEpoch); if (mitigation != null) mitigation.onTick(end.nanos()); if (evidence != null) evidence.advance(end.nanos()); }
                 if (e instanceof TimingEvent.MovementObserved m) { if (side != null && !m.hasPosition() && m.hasRotation()) side.slice.add(new TimingEvent.MovementObserved(2 * m.sequence(), m.nanos(), false, m.position(), true, m.rotation(), m.onGround())); movement(m, timing, context, view, worldEpoch); }
             }
         }
@@ -181,7 +186,7 @@ public final class MovementValidationRunner {
         if (!live.anchored()) {
             anchor(m, timing, context, env);
             live.slice.clear(); if (live.anchored()) { metrics.anchors.increment(); live.influences.clear(); }
-            else { metrics.requests.increment(); metrics.uncertain.increment(); metrics.uncertainUnanchored.increment(); remember("seq=" + m.sequence() + " UNCERTAIN [START_UNAVAILABLE] not anchored", null); anchorDiagnosis = anchorDiagnosis(m, context, env); }
+            else { metrics.requests.increment(); metrics.uncertain.increment(); metrics.uncertainUnanchored.increment(); remember("seq=" + m.sequence() + " UNCERTAIN [START_UNAVAILABLE] not anchored", null); anchorDiagnosis = anchorDiagnosis(m, context, env); if (mitigation != null) mitigation.onUnanchored(m.nanos()); }
             track(m); return;
         }
 
@@ -194,7 +199,7 @@ public final class MovementValidationRunner {
         count(r, false); live.transitions++; switch (r.classification()) { case VALID -> live.valid++; case UNCERTAIN -> live.uncertain++; case INVALID -> live.invalid++; }
         forensic(m, req, r, context);
         last = r; remember(summary(m.sequence(), r), r);
-        if (evidence != null) evidence.onResult(r, m.nanos(), false); // Phase 9: one hand-over per completed live result (never throws)
+        me.nicolas.papea2ac.evidence.EvidenceLedger.Outcome evidenceOutcome = evidence != null ? evidence.onResult(r, m.nanos(), false) : null; // Phase 9: one hand-over per completed live result (never throws)
         // chain
         if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); live.influences.clear(); }
         else {
@@ -206,6 +211,8 @@ public final class MovementValidationRunner {
             // an incomplete chain re-anchors at the next observed rest (an exact start again) instead of carrying the incompleteness until a correction
             if (!live.complete && live.influences.isEmpty() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
         }
+        if (mitigation != null && evidence != null) mitigation.onLive(r, evidenceOutcome, evidence, m, req, timing, context, view, worldEpoch, live.influences.size(),
+            m.hasRotation() ? m.rotation().yaw() : live.lastYaw, m.hasRotation() ? m.rotation().pitch() : 0f, m.hasPosition() ? m.position() : live.lastSent);
         track(m);
     }
     /**
@@ -379,7 +386,8 @@ public final class MovementValidationRunner {
             req = req.withWorldDisputed(worldDisputed(req, m.nanos()));
             MovementValidationResult r = context.locomotionSupported() ? validator.validate(req) : MovementValidator.refuse(req, MovementValidation.UncertainReason.UNSUPPORTED_LOCOMOTION, "flight/creative/spectator context");
             metrics.injectedRequests.increment(); sideTicksLeft--; sideDone++;
-            if (evidence != null) evidence.onResult(r, m.nanos(), true); // Phase 9 qualification: side-chain results feed the SIDE ledger only
+            me.nicolas.papea2ac.evidence.EvidenceLedger.Outcome sideOutcome = evidence != null ? evidence.onResult(r, m.nanos(), true) : null; // Phase 9 qualification: side-chain results feed the SIDE ledger only
+            if (mitigation != null && evidence != null) mitigation.onSide(sideOutcome, evidence, m, timing, context, view, worldEpoch, live.influences.size(), live.lastSent); // Phase 10 qualification: the SIDE policy; targets are LIVE anchors
             injected.addLast("injected +" + (sideStep.x() != 0 || sideStep.z() != 0 ? String.format(Locale.ROOT, "h%.3f ", Math.sqrt(sideStep.x() * sideStep.x() + sideStep.z() * sideStep.z())) : "") + String.format(Locale.ROOT, "y%.3f", sideStep.y()) + " -> " + summary(end.sequence(), r)); while (injected.size() > RECENT) injected.removeFirst();
             if (r.next().isEmpty()) { endSide(r.classification() + " without continuation after " + sideDone + " transmission(s)"); return; }
             c.frontier = r.next(); c.complete = r.nextFrontierComplete(); c.anchorSequence = m.sequence(); c.anchorNanos = m.nanos(); c.anchorInTick = true; c.slice.clear(); c.slice.add(new TimingEvent.ClientTickEnd(2 * end.sequence(), end.nanos())); c.lastSent = p; c.lastGround = m.onGround();

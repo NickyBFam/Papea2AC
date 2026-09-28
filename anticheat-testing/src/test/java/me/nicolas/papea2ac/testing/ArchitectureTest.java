@@ -65,7 +65,7 @@ class ArchitectureTest {
     }
     /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5, "simulation" in Phase 6 and "evidence" in Phase 9 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("combat","checks","mitigation","interaction")){
+        for(String name:List.of("combat","checks","interaction")){ // "mitigation" left this list in Phase 10 (mitigationStaysWithinThePhase10Boundary)
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -238,6 +238,47 @@ class ArchitectureTest {
         assertFalse(platform.contains("import me.nicolas.papea2ac.evidence"),"the platform never touches the evidence module");
         // the frozen validation engine does not know the evidence types
         assertFalse(Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java")).contains("papea2ac.evidence"),"Phase 8 is independent of Phase 9");
+    }
+    /**
+     * Phase 10 boundary: the mitigation domain decides WHAT is permitted and never applies anything - no Bukkit/NMS/Netty, no reflection, no
+     * wall or monotonic clock read (every time comes from an observation, so decisions replay), no punishment vocabulary (kick/ban/punish/
+     * cheater/violation level/score/confidence), no combat or other Phase 11 checks, no hash-order collection. Only the platform executor
+     * applies a correction, and it never kicks, bans, freezes, changes inventory/health/effects/game mode or applies velocity.
+     */
+    @Test void mitigationStaysWithinThePhase10Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(kick|Kick|ban|Ban|banned|punish|Punish|punishment|cheater|Cheater|isCheater|hacking|violationLevel|vl|VL|score|Score|confidence|Confidence|probability|Probability|KillAura|Reach|reach|SpeedCheck|FlyCheck|TimerCheck|Scaffold|scaffold|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|nanoTime|Instant|LocalDateTime|Clock|Random|ThreadLocalRandom|HashSet)\\b");
+        java.util.List<Path> files=new java.util.ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-mitigation/src/main/java"))){s.filter(p->p.toString().endsWith(".java")).forEach(files::add);}
+        assertTrue(files.size()>=9,"Phase 10 mitigation module must exist: "+files);
+        for(String f:new String[]{"MitigationRunner","MitigationPreconditions"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains a punishment/score concept, a Phase 11 check, a clock, a platform type or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        // the domain imports only its approved edges (model, replay-schema, player, evidence, world, collision) - never simulation, physics, version, core or platform
+        try(var s=Files.walk(ROOT.resolve("anticheat-mitigation/src/main/java"))){for(Path p:s.filter(q->q.toString().endsWith(".java")).toList())for(String line:Files.readString(p).split("\n"))if(line.startsWith("import me.nicolas."))
+            assertTrue(line.matches("import me\\.nicolas\\.papea2ac\\.(model|schema|player|evidence|world|collision|mitigation)\\..*"),p+": "+line);}
+        // the one application point: the platform executor teleports; nothing in it (or in the plugin) kicks, bans, freezes or rewrites unrelated state
+        for(String f:new String[]{"anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMitigationExecutor.java","anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java"}){
+            String c=Files.readString(ROOT.resolve(f)).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            boolean executorFile=f.endsWith("PaperMitigationExecutor.java"); // the plugin keeps its Phase 7 controlled-velocity diagnostic; the executor touches nothing but the one teleport
+            for(String call:executorFile?new String[]{".kick(",".kickPlayer(",".ban(","setBanned(","getBanList","setGameMode(","getInventory().clear","setHealth(","removePotionEffect(","setVelocity(","setWalkSpeed(","setFlySpeed("}:new String[]{".kick(",".kickPlayer(",".ban(","setBanned(","getBanList"})assertFalse(c.contains(call),f+" calls "+call);
+        }
+        String executor=Files.readString(ROOT.resolve("anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMitigationExecutor.java")).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+        assertEquals(1,executor.split("\\.teleport\\(",-1).length-1,"exactly one application call");
+        assertTrue(executor.contains("MitigationPreconditions.check(")&&executor.contains("engine.admitEffect(")&&executor.contains("latch.authorize("),"every precondition, the G2 admission and the G1 latch precede the call");
+        // the startup configuration can never select ENFORCE; qualification ENFORCE needs the JVM flag and a passing TC25 result
+        assertTrue(Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/EngineConfiguration.java")).contains("if(mode==RuntimeControl.Mode.ENFORCE)throw"),"no ENFORCE from configuration");
+        String plugin=Files.readString(ROOT.resolve("anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java"));
+        assertTrue(plugin.contains("Boolean.getBoolean(\"papea2ac.qualificationEnforce\")")&&plugin.contains("tc25Passed()"),"qualification ENFORCE is gated by the JVM flag and TC25");
+        assertTrue(plugin.contains("gateSessions")&&plugin.contains(">=configuredCapacity"),"TC25 must have held at the configured session capacity (NEW-M1)");
+        // G2 counts proposals before capture: every production actor gets the engine's real proposal guard, and the durable decision-capsule port
+        String engine=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java"));
+        assertTrue(engine.contains("intent->requestDecisionCapsule(this,intent),mitigationIntents::offer,(sk,n)->proposalGuard.propose("),"the engine's actors use the durable capsule port and the G2 proposal guard");
+        assertTrue(engine.contains("if(applyPendingRestriction()||proposalGuard.tripped())return false;"),"a tripped proposal guard refuses main-thread admission");
+        assertTrue(plugin.contains("engine.enableDecisionCapsules("),"decision capsules are enabled at startup (DURABLE_REQUIRED)");
+        assertTrue(executor.contains("engine.applyPendingRestriction()"),"the executor applies the G2 latch before any queued intent");
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{

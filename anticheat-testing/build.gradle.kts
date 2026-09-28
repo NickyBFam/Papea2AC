@@ -101,6 +101,7 @@ configurations[benchmark.implementationConfigurationName].extendsFrom(configurat
 dependencies {
     add(benchmark.implementationConfigurationName, "org.openjdk.jmh:jmh-core:1.37")
     add(benchmark.annotationProcessorConfigurationName, "org.openjdk.jmh:jmh-generator-annprocess:1.37")
+    add(benchmark.implementationConfigurationName, sourceSets.test.get().output) // Phase 10: the mitigation kernels run on the real world/collision test harness (MitigationActorTest.H0)
 }
 tasks.register<JavaExec>("benchmark") {
     dependsOn(tasks.named(benchmark.classesTaskName))
@@ -374,4 +375,48 @@ tasks.register<JavaExec>("validationFixtures") {
     maxHeapSize = "2g"
     args(rootProject.file("docs/phase9-artifacts").absolutePath)
     doFirst { rootProject.file("docs/phase9-artifacts").mkdirs() }
+}
+// ---- Phase 10: TC25 durable decision-capsule gate, mitigation artifacts, memory harness, JMH
+tasks.register<JavaExec>("tc25") {
+    description = "TESTING TC25 (Phase 10 gate, Decision 3 step 4): sparse movement / dense combat / chunk churn decision capsules through the production DecisionCapture + DurableCapsuleWriter (real fsync) under the declared load; >=99% durable within 400 ms at the configured capacity. Writes docs/phase10-artifacts/tc25-results.json and tc25-result.properties."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.Tc25Main")
+    minHeapSize = "2g"; maxHeapSize = "2g"
+    val gate = project.findProperty("tc25Gate")?.toString() ?: "32"
+    val sweep = project.findProperty("tc25Sweep")?.toString() ?: "128,1000"
+    val warm = project.findProperty("tc25Warmup")?.toString() ?: "4"
+    val measure = project.findProperty("tc25Seconds")?.toString() ?: "20"
+    val out = project.findProperty("tc25Out")?.toString() ?: rootProject.file("docs/phase10-artifacts").absolutePath
+    args(out, gate, sweep, warm, measure, rootProject.file("build/tc25-capsules").absolutePath)
+    doFirst { file(out).mkdirs() }
+}
+tasks.register<JavaExec>("mitigationMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + thread allocation) Phase 10 memory estimate: empty / at-bounds mitigation actor, policy, anchor, intent, runner, rolling capture at a full share, decision capture, per-step allocation. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.MitigationMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase10-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkMitigation") {
+    description = "Phase 10 JMH kernels: decision (legitimate / uncertain step, anchor admission, OBSERVE_ONLY eligibility cycle, ENFORCE proposal, action id) and capsule (export+append, full-share promotion, encode+deflate). Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "MitigationBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase10-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms") // fixture sanity only, never the record
+    doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("mitigationFixtures") {
+    description = "Phase 10 artifacts under docs/phase10-artifacts: policy corpus, target selection, suppression and setback results and the deterministic mitigation fixtures (from MitigationCorpus). Fails on any setback/eligibility from a legitimate stream."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.MitigationFixtureMain")
+    maxHeapSize = "2g"
+    args(rootProject.file("docs/phase10-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
 }

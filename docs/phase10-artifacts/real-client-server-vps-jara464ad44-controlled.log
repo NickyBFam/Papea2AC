@@ -1,0 +1,1162 @@
+Starting org.bukkit.craftbukkit.Main
+[22:48:31 INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM 25.0.4.1+1-LTS; Eclipse Adoptium Temurin-25.0.4.1+1) on Linux 6.8.0-138-generic (amd64)
+[22:48:31 INFO]: [bootstrap] Loading Paper 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) for Minecraft 26.2
+[22:48:31 INFO]: [PluginInitializerManager] Initializing plugins...
+[22:48:31 INFO]: [PluginInitializerManager] Initialized 1 plugin
+[22:48:31 INFO]: [PluginInitializerManager] Bukkit plugins (1):
+ - Papea2AC (1.0-SNAPSHOT)
+[22:48:45 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[22:48:45 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[22:48:46 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 1,465.7ms
+[22:48:52 INFO]: Loaded 1585 recipes
+[22:48:52 INFO]: Loaded 1688 advancements
+[22:48:52 INFO]: Starting minecraft server version 26.2
+[22:48:52 INFO]: Loading properties
+[22:48:53 INFO]: This server is running Paper version 26.2-124-ver/26.2@22ca6c7 (2026-09-15T17:48:49Z) (Implementing API version 26.2.build.124-stable)
+[22:48:53 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[22:48:53 INFO]: Server Ping Player Sample Count: 12
+[22:48:53 INFO]: Using 4 threads for Netty based IO
+[22:48:54 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[22:48:54 INFO]: Default game type: SURVIVAL
+[22:48:54 INFO]: Generating keypair
+[22:48:54 INFO]: Starting Minecraft server on *:25565
+[22:48:54 INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[22:48:54 INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.
+[22:48:55 INFO]: [Papea2AC] Loading server plugin Papea2AC v1.0-SNAPSHOT
+[22:48:55 INFO]: Preparing level "world"
+[22:48:56 INFO]: Loading 36 persistent chunks for level 'minecraft:overworld'...
+[22:48:56 INFO]: Preparing spawn area: 21%
+[22:48:57 INFO]: Preparing spawn area: 21%
+[22:48:59 INFO]: Prepared spawn area in 2247 ms
+[22:48:59 INFO]: Loading 0 persistent chunks for level 'minecraft:the_nether'...
+[22:48:59 INFO]: Prepared spawn area in 1 ms
+[22:48:59 INFO]: Loading 0 persistent chunks for level 'minecraft:the_end'...
+[22:48:59 INFO]: Prepared spawn area in 1 ms
+[22:48:59 INFO]: Done preparing level "world" (3.944s)
+[22:48:59 INFO]: [Papea2AC] Enabling Papea2AC v1.0-SNAPSHOT
+[22:48:59 WARN]: [Papea2AC] DEVELOPMENT OBSERVE_ONLY: authoritative outcomes and complete packet inventory are unqualified.
+[22:49:00 INFO]: [spark] Starting background profiler...
+[22:49:01 INFO]: Starting remote control listener
+[22:49:01 INFO]: Thread RCON Listener started
+[22:49:01 INFO]: RCON running on 0.0.0.0:25575
+[22:49:01 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[22:49:01 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:01 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[22:49:01 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[22:49:01 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[22:49:01 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22:49:01 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22:49:01 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:49:01 INFO]: Running delayed init tasks
+[22:49:01 INFO]: Done (33.389s)! For help, type "help"
+[22:49:01 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:02 INFO]: *** Currently you are 5 builds behind ***
+[22:49:02 INFO]: *** It is highly recommended to download the latest build from https://papermc.io/downloads/paper ***
+[22:49:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:08 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:08 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:11 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:11 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:11 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:11 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:15 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:15 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:17 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:17 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:17 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:17 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:18 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:18 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:22 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:22 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:24 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:24 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:24 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:24 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:27 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:27 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:28 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:28 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:29 INFO]: UUID of player iDTR is d89977fd-3de6-4ab4-82d0-ff52f7564c44
+[22:49:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:31 INFO]: iDTR joined the game
+[22:49:31 INFO]: iDTR[/<redacted-ip>:17517] logged in with entity id 3 at ([minecraft:overworld]38.16575902512665, 101.0, -6.620658596361194)
+[22:49:31 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:31 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:31 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:33 INFO]: [Rcon: Custom bossbar [iDTR: 12919 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2]
+[22:49:33 INFO]: [Rcon: Custom bossbar [iDTR: 2 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:35 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:35 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:37 INFO]: [Rcon: Custom bossbar [iDTR: 2 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 7]
+[22:49:37 INFO]: [Rcon: Custom bossbar [iDTR: 7 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:40 INFO]: [Rcon: Custom bossbar [iDTR: 7 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 10]
+[22:49:40 INFO]: [Rcon: Custom bossbar [iDTR: 10 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:43 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:43 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:44 INFO]: [Rcon: Custom bossbar [iDTR: 10 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 14]
+[22:49:44 INFO]: [Rcon: Custom bossbar [iDTR: 14 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:47 INFO]: [Rcon: Custom bossbar [iDTR: 14 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 17]
+[22:49:47 INFO]: [Rcon: Custom bossbar [iDTR: 17 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:49 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:49 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:50 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:50 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:50 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:50 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:51 INFO]: [Rcon: Custom bossbar [iDTR: 17 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 21]
+[22:49:51 INFO]: [Rcon: Custom bossbar [iDTR: 21 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:55 INFO]: [Rcon: Custom bossbar [iDTR: 21 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 24]
+[22:49:55 INFO]: [Rcon: Custom bossbar [iDTR: 24 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:58 INFO]: [Rcon: Custom bossbar [iDTR: 24 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 28]
+[22:49:58 INFO]: [Rcon: Custom bossbar [iDTR: 28 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:49:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:49:59 INFO]: Thread RCON Client /127.0.0.1 started
+[22:49:59 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:03 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:03 INFO]: [Rcon: Custom bossbar [iDTR: 28 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 39]
+[22:50:03 INFO]: [Rcon: Custom bossbar [iDTR: 39 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:03 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:06 INFO]: [Rcon: Custom bossbar [iDTR: 39 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 120]
+[22:50:07 INFO]: [Rcon: Custom bossbar [iDTR: 120 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:07 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:08 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:08 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:10 INFO]: [Rcon: Custom bossbar [iDTR: 120 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 126]
+[22:50:10 INFO]: [Rcon: Custom bossbar [iDTR: 126 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:10 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:11 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:11 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:14 INFO]: [Rcon: Custom bossbar [iDTR: 126 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 161]
+[22:50:14 INFO]: [Rcon: Custom bossbar [iDTR: 161 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:14 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:17 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:17 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:17 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:17 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:17 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:18 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:18 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:18 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:18 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:18 INFO]: [Rcon: Custom bossbar [iDTR: 161 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 231]
+[22:50:18 INFO]: [Rcon: Custom bossbar [iDTR: 231 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:18 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:21 INFO]: [Rcon: Custom bossbar [iDTR: 231 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 304]
+[22:50:21 INFO]: [Rcon: Custom bossbar [iDTR: 304 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:25 INFO]: [Rcon: Custom bossbar [iDTR: 304 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 380]
+[22:50:25 INFO]: [Rcon: Custom bossbar [iDTR: 380 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:29 INFO]: [Rcon: Custom bossbar [iDTR: 380 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 458]
+[22:50:29 INFO]: [Rcon: Custom bossbar [iDTR: 458 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:31 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:31 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:32 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:33 INFO]: [Rcon: Custom bossbar [iDTR: 458 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 529]
+[22:50:33 INFO]: [Rcon: Custom bossbar [iDTR: 529 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:36 INFO]: [Rcon: Custom bossbar [iDTR: 529 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 599]
+[22:50:36 INFO]: [Rcon: Custom bossbar [iDTR: 599 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:36 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:38 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:40 INFO]: [Rcon: Custom bossbar [iDTR: 599 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 670]
+[22:50:40 INFO]: [Rcon: Custom bossbar [iDTR: 670 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:42 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:42 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:42 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:42 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:43 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:44 INFO]: [Rcon: Custom bossbar [iDTR: 670 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 747]
+[22:50:44 INFO]: [Rcon: Custom bossbar [iDTR: 747 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:46 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:46 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:46 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:46 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: [Rcon: Custom bossbar [iDTR: 747 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 824]
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:47 INFO]: [Rcon: Custom bossbar [iDTR: 824 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:50 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:50 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:51 INFO]: [Rcon: Custom bossbar [iDTR: 824 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 901]
+[22:50:51 INFO]: [Rcon: Custom bossbar [iDTR: 901 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:52 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:52 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:53 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:53 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:55 INFO]: [Rcon: Custom bossbar [iDTR: 901 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 976]
+[22:50:55 INFO]: [Rcon: Custom bossbar [iDTR: 976 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:57 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:57 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:58 INFO]: [Rcon: Custom bossbar [iDTR: 976 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1048]
+[22:50:58 INFO]: [Rcon: Custom bossbar [iDTR: 1048 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:50:59 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:50:59 INFO]: Thread RCON Client /127.0.0.1 started
+[22:50:59 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:00 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:00 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:00 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:00 ERROR]: Command exception: /papea2ac effects resume
+org.bukkit.command.CommandException: Unhandled exception executing command 'papea2ac' in plugin Papea2AC v1.0-SNAPSHOT
+	at org.bukkit.command.PluginCommand.execute(PluginCommand.java:47) ~[paper-api-26.2.build.124-stable.jar:?]
+	at io.papermc.paper.command.brigadier.bukkit.BukkitCommandNode$BukkitBrigCommand.run(BukkitCommandNode.java:83) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at com.mojang.brigadier.context.ContextChain.runExecutable(ContextChain.java:73) ~[brigadier-1.3.10.jar:?]
+	at net.minecraft.commands.execution.tasks.ExecuteCommand.execute(ExecuteCommand.java:30) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.execution.tasks.ExecuteCommand.execute(ExecuteCommand.java:13) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.execution.UnboundEntryAction.lambda$bind$0(UnboundEntryAction.java:8) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.execution.CommandQueueEntry.execute(CommandQueueEntry.java:5) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.execution.ExecutionContext.runCommandQueue(ExecutionContext.java:104) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.executeCommandInContext(Commands.java:470) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:378) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:366) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performPrefixedCommand(Commands.java:357) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.dedicated.DedicatedServer.lambda$runCommand$0(DedicatedServer.java:900) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.lambda$submitAsync$0(BlockableEventLoop.java:107) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1789) ~[?:?]
+	at net.minecraft.server.TickTask.run(TickTask.java:18) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:207) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:1534) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:192) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.pollTask(BlockableEventLoop.java:182) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.pollTaskInternal(MinecraftServer.java:1514) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.pollTask(MinecraftServer.java:1508) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.recordTaskExecutionTimeWhileWaiting(MinecraftServer.java:1238) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1354) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:303) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[?:?]
+Caused by: java.lang.IllegalStateException: cannot resume through enforce
+	at Papea2AC.jar//me.nicolas.papea2ac.core.RuntimeControl.resumeObservation(RuntimeControl.java:15) ~[?:?]
+	at Papea2AC.jar//me.nicolas.papea2ac.core.PacketEngine.resumeEffects(PacketEngine.java:455) ~[?:?]
+	at Papea2AC.jar//me.nicolas.papea2AC.Papea2AC.onCommand(Papea2AC.java:101) ~[?:?]
+	at org.bukkit.command.PluginCommand.execute(PluginCommand.java:45) ~[paper-api-26.2.build.124-stable.jar:?]
+	... 26 more
+[22:51:00 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:02 INFO]: [Rcon: Custom bossbar [iDTR: 1048 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1120]
+[22:51:02 INFO]: [Rcon: Custom bossbar [iDTR: 1120 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:06 INFO]: [Rcon: Custom bossbar [iDTR: 1120 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1193]
+[22:51:06 INFO]: [Rcon: Custom bossbar [iDTR: 1193 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:09 INFO]: [Rcon: Custom bossbar [iDTR: 1193 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1263]
+[22:51:09 INFO]: [Rcon: Custom bossbar [iDTR: 1263 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:13 INFO]: [Rcon: Custom bossbar [iDTR: 1263 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1331]
+[22:51:13 INFO]: [Rcon: Custom bossbar [iDTR: 1331 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:16 INFO]: [Rcon: Custom bossbar [iDTR: 1331 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1403]
+[22:51:16 INFO]: [Rcon: Custom bossbar [iDTR: 1403 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:20 INFO]: [Rcon: Custom bossbar [iDTR: 1403 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1474]
+[22:51:20 INFO]: [Rcon: Custom bossbar [iDTR: 1474 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:23 INFO]: [Rcon: Custom bossbar [iDTR: 1474 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1542]
+[22:51:23 INFO]: [Rcon: Custom bossbar [iDTR: 1542 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:25 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:25 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:27 INFO]: [Rcon: Custom bossbar [iDTR: 1542 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1617]
+[22:51:27 INFO]: [Rcon: Custom bossbar [iDTR: 1617 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:27 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:31 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:31 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:31 INFO]: [Rcon: Custom bossbar [iDTR: 1617 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1687]
+[22:51:31 INFO]: [Rcon: Custom bossbar [iDTR: 1687 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:31 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:34 INFO]: [Rcon: Custom bossbar [iDTR: 1687 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1761]
+[22:51:34 INFO]: [Rcon: Custom bossbar [iDTR: 1761 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:37 INFO]: [Rcon: Custom bossbar [iDTR: 1761 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1829]
+[22:51:37 INFO]: [Rcon: Custom bossbar [iDTR: 1829 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:39 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:41 INFO]: [Rcon: Custom bossbar [iDTR: 1829 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1898]
+[22:51:41 INFO]: [Rcon: Custom bossbar [iDTR: 1898 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:44 INFO]: [Rcon: Custom bossbar [iDTR: 1898 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 1967]
+[22:51:44 INFO]: [Rcon: Custom bossbar [iDTR: 1967 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:48 INFO]: [Rcon: Custom bossbar [iDTR: 1967 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2035]
+[22:51:48 INFO]: [Rcon: Custom bossbar [iDTR: 2035 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:52 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:52 INFO]: [Rcon: Custom bossbar [iDTR: 2035 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2105]
+[22:51:52 INFO]: [Rcon: Custom bossbar [iDTR: 2105 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:52 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:55 INFO]: [Rcon: Custom bossbar [iDTR: 2105 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2180]
+[22:51:55 INFO]: [Rcon: Custom bossbar [iDTR: 2180 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:56 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:51:59 INFO]: Thread RCON Client /127.0.0.1 started
+[22:51:59 INFO]: [Rcon: Custom bossbar [iDTR: 2180 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2250]
+[22:51:59 INFO]: [Rcon: Custom bossbar [iDTR: 2250 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:51:59 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:02 INFO]: [Rcon: Custom bossbar [iDTR: 2250 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2319]
+[22:52:02 INFO]: [Rcon: Custom bossbar [iDTR: 2319 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:06 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:06 INFO]: [Rcon: Custom bossbar [iDTR: 2319 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2392]
+[22:52:06 INFO]: [Rcon: Custom bossbar [iDTR: 2392 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:06 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:09 INFO]: [Rcon: Custom bossbar [iDTR: 2392 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2462]
+[22:52:09 INFO]: [Rcon: Custom bossbar [iDTR: 2462 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:13 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:13 INFO]: [Rcon: Custom bossbar [iDTR: 2462 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2532]
+[22:52:13 INFO]: [Rcon: Custom bossbar [iDTR: 2532 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:13 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:16 INFO]: [Rcon: Custom bossbar [iDTR: 2532 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2600]
+[22:52:16 INFO]: [Rcon: Custom bossbar [iDTR: 2600 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:19 INFO]: [Rcon: Custom bossbar [iDTR: 2600 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2669]
+[22:52:19 INFO]: [Rcon: Custom bossbar [iDTR: 2669 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:23 INFO]: [Rcon: Custom bossbar [iDTR: 2669 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2738]
+[22:52:23 INFO]: [Rcon: Custom bossbar [iDTR: 2738 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:23 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:26 INFO]: [Rcon: Custom bossbar [iDTR: 2738 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2807]
+[22:52:26 INFO]: [Rcon: Custom bossbar [iDTR: 2807 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:26 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:29 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:30 INFO]: [Rcon: Custom bossbar [iDTR: 2807 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2879]
+[22:52:30 INFO]: [Rcon: Custom bossbar [iDTR: 2879 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:30 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:33 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:33 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:34 INFO]: [Rcon: Custom bossbar [iDTR: 2879 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 2953]
+[22:52:34 INFO]: [Rcon: Custom bossbar [iDTR: 2953 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:34 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:37 INFO]: [Rcon: Custom bossbar [iDTR: 2953 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3023]
+[22:52:37 INFO]: [Rcon: Custom bossbar [iDTR: 3023 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:37 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:40 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:40 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:41 INFO]: [Rcon: Custom bossbar [iDTR: 3023 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3094]
+[22:52:41 INFO]: [Rcon: Custom bossbar [iDTR: 3094 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:41 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:44 INFO]: [Rcon: Custom bossbar [iDTR: 3094 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3161]
+[22:52:44 INFO]: [Rcon: Custom bossbar [iDTR: 3161 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:44 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:47 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:48 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:48 INFO]: [Rcon: Custom bossbar [iDTR: 3161 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3231]
+[22:52:48 INFO]: [Rcon: Custom bossbar [iDTR: 3231 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:48 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:51 INFO]: [Rcon: Custom bossbar [iDTR: 3231 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3303]
+[22:52:51 INFO]: [Rcon: Custom bossbar [iDTR: 3303 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:51 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:54 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:54 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:55 INFO]: [Rcon: Custom bossbar [iDTR: 3303 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3373]
+[22:52:55 INFO]: [Rcon: Custom bossbar [iDTR: 3373 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:55 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 started
+[22:52:58 INFO]: [Rcon: Custom bossbar [iDTR: 3373 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3445]
+[22:52:58 INFO]: [Rcon: Custom bossbar [iDTR: 3445 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:52:58 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:01 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:01 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:02 INFO]: [Rcon: Custom bossbar [iDTR: 3445 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3515]
+[22:53:02 INFO]: [Rcon: Custom bossbar [iDTR: 3515 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:02 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:04 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:05 INFO]: [Rcon: Custom bossbar [iDTR: 3515 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3584]
+[22:53:05 INFO]: [Rcon: Custom bossbar [iDTR: 3584 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:05 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:09 INFO]: [Rcon: Custom bossbar [iDTR: 3584 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3656]
+[22:53:09 INFO]: [Rcon: Custom bossbar [iDTR: 3656 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:09 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:12 INFO]: [Rcon: Custom bossbar [iDTR: 3656 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3717]
+[22:53:12 INFO]: [Rcon: Custom bossbar [iDTR: 3717 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:12 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:15 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:16 INFO]: [Rcon: Custom bossbar [iDTR: 3717 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3779]
+[22:53:16 INFO]: [Rcon: Custom bossbar [iDTR: 3779 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:16 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:19 INFO]: [Rcon: Custom bossbar [iDTR: 3779 / 10000  |  INVALID: 0  |  setbacks: 0] has changed value to 3829]
+[22:53:19 INFO]: [Rcon: Custom bossbar [iDTR: 3829 / 10000  |  INVALID: 0  |  setbacks: 0] has been renamed]
+[22:53:19 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:20 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:21 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:21 INFO]: [Rcon: Stopping the server]
+[22:53:21 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:21 INFO]: Stopping server
+[22:53:21 INFO]: [Papea2AC] Disabling Papea2AC v1.0-SNAPSHOT
+[22:53:21 INFO]: Saving players
+[22:53:22 INFO]: iDTR lost connection: Server closed
+[22:53:22 INFO]: iDTR left the game
+[22:53:22 INFO]: Saving worlds
+[22:53:22 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[22:53:22 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:overworld'
+[22:53:22 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:overworld'
+[22:53:22 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:overworld'
+[22:53:22 INFO]: Thread RCON Client /127.0.0.1 started
+[22:53:22 ERROR]: Thread RCON Client /127.0.0.1 #444 failed main thread check: Cannot perform command async
+java.lang.Throwable
+	at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:9) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:370) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:366) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.commands.Commands.performPrefixedCommand(Commands.java:357) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.dedicated.DedicatedServer.lambda$runCommand$0(DedicatedServer.java:900) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.lambda$submitAsync$0(BlockableEventLoop.java:107) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1789) ~[?:?]
+	at net.minecraft.server.TickTask.run(TickTask.java:18) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:207) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:1534) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:192) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:150) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at java.base/java.util.concurrent.CompletableFuture.asyncSupplyStage(CompletableFuture.java:1803) ~[?:?]
+	at java.base/java.util.concurrent.CompletableFuture.supplyAsync(CompletableFuture.java:2026) ~[?:?]
+	at net.minecraft.util.thread.BlockableEventLoop.submitAsync(BlockableEventLoop.java:106) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.util.thread.BlockableEventLoop.executeBlocking(BlockableEventLoop.java:124) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.dedicated.DedicatedServer.runCommand(DedicatedServer.java:893) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at net.minecraft.server.rcon.thread.RconClient.run(RconClient.java:74) ~[paper-26.2.jar:26.2-124-22ca6c7]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[?:?]
+[22:53:22 INFO]: Thread RCON Client /127.0.0.1 shutting down
+[22:53:23 INFO]: [ChunkHolderManager] Saved 327 block chunks, 325 entity chunks, 0 poi chunks in world 'minecraft:overworld' in 1.32s
+[22:53:23 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:overworld'
+[22:53:23 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:overworld'
+[22:53:23 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_nether
+[22:53:23 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_nether'
+[22:53:23 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_nether'
+[22:53:23 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_nether'
+[22:53:23 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_nether' in 0.00s
+[22:53:23 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_nether'
+[22:53:23 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_nether'
+[22:53:23 INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:the_end
+[22:53:23 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'minecraft:the_end'
+[22:53:23 INFO]: [ChunkHolderManager] Halted chunk system for world 'minecraft:the_end'
+[22:53:23 INFO]: [ChunkHolderManager] Saving all chunkholders for world 'minecraft:the_end'
+[22:53:23 INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'minecraft:the_end' in 0.00s
+[22:53:23 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'minecraft:the_end'
+[22:53:23 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'minecraft:the_end'
+[22:53:23 INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[22:53:23 INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22:53:23 INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22:53:23 INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:53:23 INFO]: Waiting for all RegionFile I/O tasks to complete...
+[22:53:23 INFO]: All RegionFile I/O tasks to complete
+[22:53:23 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+[22:53:23 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...

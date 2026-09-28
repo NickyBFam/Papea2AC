@@ -1,0 +1,12 @@
+{
+  "policy": "movement-setback-v1",
+  "deterministicRerun": true,
+  "files": {
+    "policy-cases.json": "19d9077b89fa9639d14bcf702dc542a1b2f718b5f783ee262bd01f70724c828a",
+    "setback-cases.json": "715c3f83ac2f2f046081acb16d847dfe5e682d577d03d2ed24933d12e3a32b9c",
+    "suppression-cases.json": "c54c74395828c7ff895465d2ddefea79213a8d032f3d7e85ff062dbcffec6061",
+    "target-cases.json": "d9c6b4550e5c72fd2dc816b4181dba7789d494a127e7edd46a5b1dbe1b20e8b8"
+  },
+  "cases": 40,
+  "mismatches": 0
+}

@@ -23,6 +23,8 @@ public final class Papea2AC extends JavaPlugin implements Listener {
     private record Binding(Channel channel,PacketEngine.Session session){}
     private final Map<UUID,Binding> bindings=new HashMap<>();
     private PacketEngine engine;private PaperCapture capture;
+    /** Phase 10: the one main-thread executor that may apply a mitigation intent (effects stay off unless the runtime mode is ENFORCE). */
+    private me.nicolas.papea2AC.platform.PaperMitigationExecutor mitigation;
     private final AtomicReference<Throwable> failure=new AtomicReference<>();
     @Override public void onEnable(){
         if(!getServer().getMinecraftVersion().equals("26.2")){
@@ -47,8 +49,11 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             if(config.mode()==me.nicolas.papea2ac.core.RuntimeControl.Mode.DISABLED){getServer().getPluginManager().disablePlugin(this);return;}
             engine=new PacketEngine(config.workers(),config.capacity(),config.totalBytes(),e->failure.compareAndSet(null,e));
             engine.enableRecording(getDataFolder().toPath().resolve("transport-captures"),config.digest());
+            engine.enableDecisionCapsules(getDataFolder().toPath().resolve("decision-capsules"),config.digest()); // Phase 10: durable decision capsules (DURABLE_REQUIRED)
+            configuredCapacity=config.capacity();
         }catch(IllegalArgumentException|IOException e){getLogger().log(Level.SEVERE,"Invalid AC configuration",e);getServer().getPluginManager().disablePlugin(this);return;}
         capture=new PaperCapture(engine);
+        mitigation=new me.nicolas.papea2AC.platform.PaperMitigationExecutor(engine,me.nicolas.papea2ac.mitigation.MitigationBounds.DEFAULT);
         // Phase 7 marker port: the pinned protocol's clientbound ping written on the player's channel (captured outbound like any packet); a missing class disables markers, never the plugin.
         engine.setMarkerPort(new me.nicolas.papea2AC.platform.PaperMarkerPort());
         engine.setValidationInvalidSink(text->getLogger().info(text)); // Phase 8 diagnostic (P8-F7): every live INVALID is logged in full; display only, never enforcement
@@ -61,6 +66,7 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         getServer().getScheduler().runTaskTimer(this,()->{
             long tick=getServer().getCurrentTick();
             for(Binding binding:bindings.values())binding.session().ingress.bridge(new me.nicolas.papea2ac.protocol.Observation.Tick(tick));
+            mitigation.tick(getServer()); // Phase 10: queued intents, re-checked and applied (or rejected) here only
         },1,1);
         getServer().getPluginManager().registerEvents(this,this);
         getServer().getOnlinePlayers().forEach(this::attach);
@@ -93,6 +99,14 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             }
         }else if(args.length==2&&args[0].equalsIgnoreCase("effects")&&args[1].equalsIgnoreCase("suspend"))engine.suspendEffects();
         else if(args.length==2&&args[0].equalsIgnoreCase("effects")&&args[1].equalsIgnoreCase("resume"))engine.resumeEffects();
+        else if(args.length==2&&args[0].equalsIgnoreCase("effects")&&args[1].equalsIgnoreCase("enforce-qualification")){
+            // Phase 10 Decision 3: temporary ENFORCE for the controlled test-server qualification ONLY, and only after TC25 passed.
+            // Requires the JVM flag -Dpapea2ac.qualificationEnforce=true (never set in production) AND tc25-result.properties with pass=true.
+            boolean flag=Boolean.getBoolean("papea2ac.qualificationEnforce");boolean tc25=tc25Passed();
+            if(!flag||!tc25){sender.sendMessage("REFUSED: qualification ENFORCE needs -Dpapea2ac.qualificationEnforce=true ("+flag+") and a passing TC25 result ("+tc25+"); mode stays "+(engine.effectsSuspended()?"not ENFORCE":"ENFORCE"));return true;}
+            try{engine.enableEnforce(true,true);sender.sendMessage("ENFORCE enabled for controlled qualification (G2 guards active; /papea2ac effects resume returns to OBSERVE_ONLY)");}catch(IllegalStateException ex){sender.sendMessage("REFUSED: "+ex.getMessage());}
+            return true;
+        }
         else if(args.length==3&&args[0].equalsIgnoreCase("recording")&&(args[2].equalsIgnoreCase("on")||args[2].equalsIgnoreCase("off"))){
             Player player=getServer().getPlayerExact(args[1]);
             if(player==null){sender.sendMessage("Player is not online.");return true;}
@@ -217,6 +231,13 @@ public final class Papea2AC extends JavaPlugin implements Listener {
                     return true; }
                 default -> { sender.sendMessage("Usage: /papea2ac timing <name> [view | arm [declared-scenario] | report | cancel | velocity <x> <y> <z> | teleport <dx> <dy> <dz>]"); return true; }
             }
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("mitigation")){
+            // Phase 10 diagnostic: eligibility, typed suppression reason, chains, candidate anchor, pending correction, cooldown, last outcome. Never a label or a recommendation.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var st=engine.mitigationStatus(player.getUniqueId());if(st.isEmpty()){sender.sendMessage("no admitted session");return true;}
+            for(String line:mitigationLines(st.get()))sender.sendMessage(line);
+            return true;
         }else if(args.length>=2&&args[0].equalsIgnoreCase("evidence")){
             // Phase 9 diagnostic: what the completed Phase 8 results prove over the active window (counts, families, continuity, gaps, magnitudes, ages, supporting ids); bounded; never a level, never a recommendation, never an action.
             Player player=getServer().getPlayerExact(args[1]);
@@ -317,7 +338,27 @@ public final class Papea2AC extends JavaPlugin implements Listener {
     }
     @EventHandler public void join(PlayerJoinEvent event){attach(event.getPlayer());}
     @EventHandler public void quit(PlayerQuitEvent event){Binding b=bindings.remove(event.getPlayer().getUniqueId());if(b!=null)capture.detach(b.channel(),b.session());}
+    private int configuredCapacity=Integer.MAX_VALUE;
+    private static int parseInt(String v){try{return v==null?-1:Integer.parseInt(v.trim());}catch(NumberFormatException e){return -1;}}
+    private boolean tc25Passed(){
+        try{var f=getDataFolder().toPath().resolve("tc25-result.properties");if(!Files.exists(f)||Files.size(f)>4096)return false;
+            var props=new java.util.Properties();try(var in=Files.newInputStream(f)){props.load(in);}return "true".equals(props.getProperty("pass"))&&parseInt(props.getProperty("gateSessions"))>=configuredCapacity;} // TC25 must hold at the configured session capacity (NEW-M1)
+        catch(IOException e){return false;}
+    }
+    private java.util.List<String> mitigationLines(me.nicolas.papea2ac.mitigation.MitigationActor.Status st){
+        var out=new java.util.ArrayList<String>();long now=System.nanoTime();
+        out.add("mitigation session="+st.session().epoch()+" policy="+st.policy()+" mode="+(engine.effectsSuspended()?"OBSERVE_ONLY/DISABLED (no effects)":"ENFORCE")+" liveChain="+st.liveChain()+"/"+me.nicolas.papea2ac.mitigation.SetbackPolicy.REQUIRED_GROUPS+" sideChain="+st.sideChain()+"/"+me.nicolas.papea2ac.mitigation.SetbackPolicy.REQUIRED_GROUPS+(st.disabled()?" SESSION_DISABLED":""));
+        out.add("  intent="+st.activeState()+(st.activeActionId()==null?"":" action="+st.activeActionId().substring(0,16))+" cooldown="+(st.lastSentNanos()==Long.MIN_VALUE?"none":Math.max(0,(2_000_000_000L-(now-st.lastSentNanos()))/1_000_000L)+"ms")+" recentFailures="+st.recentFailures());
+        out.add("  anchors="+st.anchors()+(st.latestAnchor()==null?" (none)":" latest "+st.latestAnchor().describe()+" age="+((now-st.latestAnchor().nanos())/1_000_000L)+"ms")+(st.lastAnchorRefusal()==null?"":" lastRefusal="+st.lastAnchorRefusal()));
+        out.add("  last decision: "+(st.lastDecision()==null?"none":st.lastDecision().describe()));
+        for(var d:st.recentDecisions().subList(Math.max(0,st.recentDecisions().size()-6),st.recentDecisions().size()))out.add("    "+d.describe());
+        for(var o:st.recentOutcomes())out.add("  outcome "+o.actionId().substring(0,16)+" "+o.terminal()+" "+o.reason()+" (reached "+o.reachedState()+")");
+        out.add("  executor: "+mitigation.last()+" polled="+mitigation.polled.sum()+" started="+mitigation.started.sum()+" sent="+mitigation.sent.sum()+" rejected="+mitigation.rejected.sum());
+        out.add("  global G2 proposal guard: "+engine.proposalGuardStatus()+" executorSuspends="+mitigation.globalSuspends.sum()+" capsules promoted="+engine.capsulesPromoted.sum()+" unavailable="+engine.capsulesUnavailable.sum()+" durable="+engine.capsulesDurable.sum()+" failed="+engine.capsulesFailed.sum());
+        return out;
+    }
     @Override public void onDisable(){
+        if(mitigation!=null&&engine!=null)mitigation.shutdown(); // MITIGATION.md: "Shutdown invalidates all queued intents before hooks are removed"
         HandlerList.unregisterAll((Listener)this);
         getServer().getServicesManager().unregisterAll(this);
         if(capture!=null){capture.unregisterEarlyHook();for(Binding b:bindings.values())capture.detach(b.channel(),b.session());}

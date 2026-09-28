@@ -1,0 +1,123 @@
+{
+ "phase": "10 - Mitigation / Setback",
+ "status": "READY_FOR_HUMAN_REVIEW",
+ "statusBasis": "human acceptance adjustment for P10-F1: the real-client controlled-setback qualification requirement (not G1) is waived because G1 makes a real effect structurally unreachable on the capture-only production transport",
+ "date": "2026-09-27",
+ "head": "d3ab7dee7721c4f19739e0f033fb5d27a03958d9",
+ "workingTree": {
+  "modifiedTracked": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceRunner.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java",
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java",
+   "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java",
+   "anticheat-testing/build.gradle.kts",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java"
+  ],
+  "untracked": [
+   "anticheat-core/src/main/java/me/nicolas/papea2ac/core/{DecisionCapture,GlobalProposalGuard,MitigationPreconditions,MitigationRunner}.java",
+   "anticheat-mitigation/src/ (9 files)",
+   "anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMitigationExecutor.java",
+   "anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/{DurableCapsuleWriter,RollingCapture}.java",
+   "anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/MitigationBenchmarks.java",
+   "anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/{DecisionCapsuleTest,GlobalProposalGuardTest,MitigationActorTest,MitigationApplicationTest,MitigationCorpus,MitigationCorpusTest,MitigationFixtureMain,MitigationIntegrationTest,MitigationMemoryMain,MitigationPropertyTest,SetbackPolicyTest,Tc25Main}.java",
+   "docs/PHASE_10_IMPLEMENTATION.md",
+   "docs/phase10-artifacts/"
+  ],
+  "frozenArtifactsTouched": "none (regeneration rewrote three Phase 5/9 artifacts with Map.of key order / a server run duration only; restored from HEAD after each lane)"
+ },
+ "toolchain": "Temurin 25.0.4.1+1",
+ "build": "PASS",
+ "tests": {
+  "test": 767,
+  "testFailures": 0,
+  "nativeTest": 138,
+  "nativeTestFailures": 0,
+  "unique": 885
+ },
+ "phase1SemanticCoverage": "127/127",
+ "gates": {
+  "verifyMandatoryCoverage": "PASS",
+  "replayConformance": "PASS",
+  "movementPropertyCoverage": "PASS",
+  "shapeCoverage": "PASS",
+  "physicsNativeDifferential": "91 scenarios, 88 compared, 88 exact single-step, 88 exact chained, 3 deferred fluid, 0 oracle errors",
+  "fixtureDeterminism": "timeline/world/collision/reconstruction/timing/validation/evidence fixtures regenerated, Phase 0-9 artifacts unchanged",
+  "gitDiffCheck": "CLEAN",
+  "todoFixmeHack": "none",
+  "laneRuns": "twice: before the live qualification and after the P10-F2 fix (figures above are from the rerun)"
+ },
+ "pluginJar": {
+  "final": "46758015c7e5f0e73ffbb17d86e9502d01c81c86b0bdf5392f6a346febbe38bd",
+  "liveQualifiedPredecessor": "a464ad44bfa32a5e251731bc1a4ef38e3329510eaca45fa52498cfb4de9abe7c",
+  "difference": "only the PacketEngine compilation unit (PacketEngine.class + synthetic PacketEngine$1.class); 701 of 703 entries byte-identical"
+ },
+ "phase10": {
+  "policy": "movement-setback-v1 (DECISION 1)",
+  "syntheticCorpus": "40 cases, 0 mismatches, deterministic rerun identical",
+  "legitimateCorpus": "32451 transitions -> 0 positive evidence, 0 eligible, 0 intents, 0 setbacks",
+  "impossibleCorpus": "3290 single-INVALID cases -> 3290 events, 0 eligible, 0 intents",
+  "finalPhase9LiveTraceCountLevel": "22108 VALID + 75 UNCERTAIN -> 0 eligible, 0 setbacks",
+  "offlineControlledCorrection": "PASS (MitigationIntegrationTest: exactly one correction, RECOVERED, no loop, no duplicate)",
+  "tc25": "PASS at the configured capacity 32 (STRESS and G2_MAX, all three scenarios 100 % durable within 400 ms, closure verified on every capsule); see tc25-results.json",
+  "memory": "memory-results.json",
+  "jmh": "benchmarks.json (JMH 1.37, 3 forks, 5x1s warmup, 10x1s measurement, -prof gc)",
+  "g1": "unchanged",
+  "productionDefaultMode": "OBSERVE_ONLY"
+ },
+ "paperSmoke": {
+  "result": "PASS",
+  "detail": "VPS on every start (a464ad44, 46758015): plugin enabled OBSERVE_ONLY, qualification ENFORCE refused without -Dpapea2ac.qualificationEnforce=true; the only exception ever logged was P10-F2 (fixed; 0 exceptions on 46758015). The early local .phase1-runtime start was a plugin-load smoke only; live qualification counts only from the VPS (owner decision 2026-09-27)."
+ },
+ "realClient": {
+  "environment": "owner's VPS, Paper 26.2-124, Temurin 25.0.4.1, online mode, remote vanilla 26.2 client (iDTR) over the public internet, jar a464ad44",
+  "legitimate": "PASS",
+  "legitimateTransitions": 16484,
+  "legitimateInvalid": 0,
+  "legitimatePositiveEvidence": 0,
+  "setbacksOnLegitimate": 0,
+  "latency": "PASS on a real remote network only: RTT min 52 ms, smoothed 58 ms, max 178 ms, jitter 6.5 ms, 2703 samples, 0 expired; no artificial injection claimed",
+  "controlledSetback": "EXTERNAL QUALIFICATION REQUIRED - blocked by G1 because production transport correlation/certification is UNSUPPORTED (P10-F1)",
+  "sideChainObservation": "4/4 independent HORIZONTAL_EXCESS groups reached movement-setback-v1 eligibility; eligibility did not bypass G1 and produced zero real effects",
+  "liveEffectAdmission": "SUPPRESSED TRANSPORT_UNHEALTHY (0 proposals, 0 capsules, 0 intents, 0 teleports)",
+  "evidence": [
+   "real-client-evidence-vps.log",
+   "real-client-server-vps-jara464ad44-legitimate.log",
+   "real-client-server-vps-jara464ad44-controlled.log",
+   "real-client-server-vps-jar46758015-p10f2.log",
+   "real-client-server-vps-jar46758015-final-recheck.log",
+   "real-client-evidence.log (local plugin-load smoke only, not live qualification)"
+  ],
+  "redaction": "player IP addresses redacted; RCON password scan 0 hits",
+  "exactFinalJarRecheck": {
+   "environment": "VPS, jar 46758015, OBSERVE_ONLY, no qualification flag, remote vanilla client Emojiado over the internet (RTT 37-58 ms, jitter 6 ms)",
+   "transitions": 1620,
+   "valid": 1620,
+   "uncertain": 0,
+   "invalid": 0,
+   "positiveEvidence": 0,
+   "proposals": 0,
+   "setbacks": 0,
+   "covered": "walk, sprint, jump, sprint-jump, crouch, diagonal, stairs/slabs, block place/break, 3 console knockbacks, 1 teleport",
+   "p10f2": "effects suspend -> resume x2 with the player online: effects stayed suspended, 0 exceptions; enforce-qualification refused without the flag",
+   "evidence": [
+    "real-client-evidence-vps.log",
+    "real-client-server-vps-jar46758015-final-recheck.log"
+   ],
+   "result": "PASS"
+  },
+  "legitimateTransitionsAllJars": 18104,
+  "qualificationClients": [
+   "iDTR",
+   "Emojiado"
+  ],
+  "strayConnections": "one unknown client (luckysystems) reached only the pre-login stage and disconnected while the temporary port was open (final-jar server log, 12:24:57); never logged in, no session, not a qualification client, not counted; address redacted"
+ },
+ "forwardDefects": {
+  "P10-F1": "G1 effect-admission gate intentionally unreachable on the capture-only production transport (authoritative outcome correlation UNSUPPORTED); cross-phase capability blocker; no code change; human decision recorded",
+  "P10-F2": "PacketEngine.resumeEffects could not leave qualification ENFORCE (IllegalStateException, arbiter left in ENFORCE); fixed: arbiter restriction first; regression MitigationApplicationTest.resumingFromQualificationEnforceRestrictsTheArbiterAndTheSessionsTogether; verified live on 46758015; rechecked live on the VPS with the player online (suspend -> resume, 0 exceptions)"
+ },
+ "finalServerState": "VPS Minecraft server stopped (papea2ac unit inactive); temporary ufw 25565 rule removed; nothing listening on 25565/25575 (verified from outside); unrelated VPS services untouched; local server stopped",
+ "committed": false,
+ "baselined": false,
+ "phase11": "NOT STARTED"
+}

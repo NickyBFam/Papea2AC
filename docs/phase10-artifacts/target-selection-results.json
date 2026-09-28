@@ -1,0 +1,32 @@
+{
+  "rule": "most recent certified safe anchor (VALID, all 13 dimensions, concrete, grounded, no pending teleport/influence/dispute, standing box CLEAR) of the same SessionKey and world epoch at or before the first qualifying group (side chain: the most recent live anchor); age <= 2 s and distance <= 8 blocks else RESYNC_REQUIRED; re-certified against the current world before proposing",
+  "cases": [
+    {
+      "case": "anchor_too_old",
+      "expected": "RESYNC_REQUIRED ANCHOR_TOO_OLD",
+      "actual": "RESYNC_REQUIRED ANCHOR_TOO_OLD",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "older than 2 s: no stale correction"
+    },
+    {
+      "case": "most_recent_anchor_is_the_target",
+      "expected": "PROPOSED POLICY_MET",
+      "actual": "PROPOSED POLICY_MET",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "two admitted anchors: the most recent pre-evidence one (seq 50)"
+    },
+    {
+      "case": "anchor_after_first_group_is_ignored",
+      "expected": "PROPOSED POLICY_MET",
+      "actual": "PROPOSED POLICY_MET",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "an anchor certified inside the evidence chain is not a pre-evidence state: seq 50 is chosen"
+    }
+  ]
+}

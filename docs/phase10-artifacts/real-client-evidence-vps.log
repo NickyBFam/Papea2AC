@@ -1,0 +1,2089 @@
+
+=== 2026-09-26T20:24:47.897477+00:00 vps start: status
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=21177
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=21177 totalDelayNanos=770196171944
+delayP95UpperNanos=268435455 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4119072/100663296 sharedSections=1896 sharedHits=3216 privateTier=786432 revisions=215 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=15 sendFailures=0 answered=30 rttSamples=30 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=16 VALID=0 UNCERTAIN=16 INVALID=0 uncertain{searchLimit=0 unsupported=1 worldIncomplete=0 externalMotion=0 unanchored=15 other=0} timingBranches=1 reconstructions=1 evaluations=1056 anchors=1/lost=1 internalErrors=0 injected=0
+evidence consumed=1 witness=0 unresolved=1 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=4 complete=4 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=1312 hits=200 cacheHits=1302 cacheMisses=10 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> list
+There are 1 of a max of 10 players online: iDTR
+
+=== 2026-09-26T20:25:26.053131+00:00 legit start: baseline iDTR
+> list
+There are 1 of a max of 10 players online: iDTR
+> papea2ac validate iDTR
+validation session=1 anchored=false (none (UNCERTAIN without continuation) seq=450) frontier=0 INCOMPLETE transitions=1 VALID=0 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=133/133 breaks=0
+rest check: ground=true tickEndsSincePosition=20 samePosition=true locomotion=true | standing: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | crouching: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)] | swimming: idle tick 1 not exact: UNSUPPORTED_FLUID work=q0/c0/i0 FLUID_CONTACT[water height 0.8878888955116295 (fluid locomotion is explicitly deferred)]
+last: UNCERTAIN seq=450->755
+  validation UNCERTAIN seq=450->755 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 6->0 (incomplete)
+    completeness missing [reconstruction, mechanicSupported] uncertain=[UNSUPPORTED_FLUID]
+    residual observed h=0.000000 rise=0.000000 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=0 UNCERTAIN=1 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=1 last=UNCERTAIN
+  gaps=[GapCount[reason=UNSUPPORTED_FLUID, count=1]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=0 (none) lastRefusal=WORLD_INCOMPLETE
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:25:50.099201+00:00 auto-arm forensic for iDTR (session 1)
+> papea2ac validate iDTR forensic arm
+ARMED: the next live INVALID of this session freezes one forensic capture
+
+
+=== 2026-09-26T20:25:54.910895+00:00 legit: instructions to iDTR
+> tellraw iDTR {"text":"[Papea2AC] Fase 10: sal del agua y muévete sin parar por tierra firme: caminar, correr, saltar, agacharte, escaleras, losas, hielo, miel/arena de almas, escaleras de mano, cerca de animales, poner/romper bloques. La barra de arriba cuenta tus transiciones.","color":"gold"}
+
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=83256) frontier=2 complete transitions=10 VALID=9 UNCERTAIN=1 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=131/131 breaks=0
+last: VALID seq=82361->83256
+  validation VALID seq=82361->83256 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(27.340240,63.000000,0.188221) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(27.340240,63.000000,0.188221) ground=true
+
+
+=== 2026-09-26T20:27:56.998690+00:00 legit: re-anchor hint to iDTR
+> tellraw iDTR {"text":"[Papea2AC] Quédate quieto 2 segundos en suelo firme, lejos de animales, para que el sistema vuelva a anclarte. Luego sigue moviéndote. Repite esa pausa cada vez que la barra deje de subir.","color":"gold"}
+
+
+=== 2026-09-26T20:28:42.441084+00:00 legit: in-place teleport to re-anchor iDTR (course item: teleport)
+> execute as iDTR at @s run tp @s ~ ~ ~
+Teleported iDTR to 9.300000, 67.420000, 20.377761
+
+=== 2026-09-26T20:28:58.209047+00:00 legit: owner request - peaceful + clear entities
+> execute if entity @e[type=!player]
+Test passed. Count: 319
+> difficulty peaceful
+The difficulty has been set to Peaceful
+> kill @e[type=!player]
+Killed 320 entities
+> gamerule doMobSpawning false
+Incorrect argument for command
+gamerule doMobSpawning false<--[HERE]
+> execute if entity @e[type=!player]
+Test passed. Count: 193
+
+=== 2026-09-26T20:29:09.158282+00:00 legit: stop mob spawning + clear drops
+> gamerule spawn_mobs false
+Gamerule spawn_mobs is now set to: false
+> kill @e[type=!player]
+Killed 220 entities
+> execute if entity @e[type=!player]
+Test passed. Count: 14
+
+=== 2026-09-26T20:30:00.037780+00:00 legit course: items + instructions to iDTR
+> gamerule keep_inventory true
+Gamerule keep_inventory is now set to: true
+> give iDTR minecraft:shield 1
+Gave 1 [Shield] to iDTR
+> give iDTR minecraft:stone_stairs 32
+Gave 32 [Stone Stairs] to iDTR
+> give iDTR minecraft:stone_slab 32
+Gave 32 [Stone Slab] to iDTR
+> give iDTR minecraft:packed_ice 32
+Gave 32 [Packed Ice] to iDTR
+> give iDTR minecraft:honey_block 16
+Gave 16 [Honey Block] to iDTR
+> give iDTR minecraft:soul_sand 16
+Gave 16 [Soul Sand] to iDTR
+> give iDTR minecraft:ladder 32
+Gave 32 [Ladder] to iDTR
+> give iDTR minecraft:cobblestone 64
+Gave 64 [Cobblestone] to iDTR
+> give iDTR minecraft:cooked_beef 16
+Gave 16 [Steak] to iDTR
+> tellraw iDTR {"text":"[Papea2AC] Recorrido de la Fase 10 (te di los bloques). Haz cada cosa ~20-30 segundos, moviéndote sin parar:","color":"yellow"}
+
+> tellraw iDTR {"text":"1) Caminar, correr (sprint) y caminar en diagonal.","color":"gold"}
+
+> tellraw iDTR {"text":"2) Saltar, y correr saltando (sprint-jump).","color":"gold"}
+
+> tellraw iDTR {"text":"3) Agacharte (shift) y caminar agachado; también al borde de un bloque.","color":"gold"}
+
+> tellraw iDTR {"text":"4) Escudo: mantén clic derecho con el escudo mientras caminas. Come carne también.","color":"gold"}
+
+> tellraw iDTR {"text":"5) Construye y sube/baja escaleras y losas (stairs/slabs).","color":"gold"}
+
+> tellraw iDTR {"text":"6) Pon hielo y corre/salta encima. Luego miel y arena de almas: camina encima.","color":"gold"}
+
+> tellraw iDTR {"text":"7) Pon escaleras de mano (ladder) en una pared de 5 bloques: sube y baja.","color":"gold"}
+
+> tellraw iDTR {"text":"8) Pon y rompe bloques mientras te mueves, y salta encima de lo que pones.","color":"gold"}
+
+> tellraw iDTR {"text":"Después yo haré: empujones (knockback), una explosión, teletransporte, una muerte/respawn (no pierdes nada) y el Nether. Si la barra deja de subir, quédate quieto 2 segundos.","color":"aqua"}
+
+
+=== 2026-09-26T20:32:35.756203+00:00 legit: hunger effect so iDTR can eat (course item: use item)
+> effect give iDTR minecraft:hunger 15 100
+Applied effect Hunger to iDTR
+> tellraw iDTR {"text":"[Papea2AC] Te puse hambre: cuando baje la barra de comida, come la carne mientras caminas (y también quieto).","color":"gold"}
+
+
+=== 2026-09-26T20:32:52.841917+00:00 legit: longer hunger
+> effect give iDTR minecraft:hunger 40 255
+Applied effect Hunger to iDTR
+
+=== 2026-09-26T20:33:21.652909+00:00 legit: easy difficulty (spawn_mobs stays false) so hunger drains
+> difficulty easy
+The difficulty has been set to Easy
+> gamerule spawn_mobs
+Gamerule spawn_mobs is currently set to: false
+> effect give iDTR minecraft:hunger 30 255
+Applied effect Hunger to iDTR
+
+=== 2026-09-26T20:33:42.884616+00:00 legit: clear hunger, iDTR eats
+> effect clear iDTR minecraft:hunger
+Removed effect Hunger from iDTR
+> data get entity iDTR foodLevel
+iDTR has the following entity data: 0
+> tellraw iDTR {"text":"[Papea2AC] Ya tienes hambre: come la carne mientras caminas, y también quieto. Con la comida baja (6 o menos) intenta correr: no podrás, es normal.","color":"gold"}
+
+
+=== 2026-09-26T20:43:15.206740+00:00 legit console 1/6: entity proximity (3 cows, 2 pigs next to iDTR)
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=511662) frontier=4 complete transitions=10324 VALID=10311 UNCERTAIN=13 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=2/2 breaks=0
+last: VALID seq=511657->511662
+  validation VALID seq=511657->511662 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/32 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 ------ (+11 equivalent) pos=(-11.142668,69.000000,12.044122) ground=true
+    witness h1 ---C-- (+11 equivalent) pos=(-11.142668,69.000000,12.044122) ground=true
+    witness h1 ----R- (+3 equivalent) pos=(-11.142668,69.000000,12.044122) ground=true
+    witness h1 ---CR- (+3 equivalent) pos=(-11.142668,69.000000,12.044122) ground=true
+
+> execute at iDTR run summon cow ~2 ~ ~
+Summoned new Cow
+> execute at iDTR run summon cow ~-2 ~ ~1
+Summoned new Cow
+> execute at iDTR run summon cow ~ ~ ~2
+Summoned new Cow
+> execute at iDTR run summon pig ~1 ~ ~-2
+Summoned new Pig
+> execute at iDTR run summon pig ~-1 ~ ~-1
+Summoned new Pig
+> tellraw iDTR {"text":"[Papea2AC] Paso 1: te puse animales al lado. Camina, corre y salta entre ellos y empújalos durante 30 segundos. Luego quédate quieto 2 segundos.","color":"gold"}
+
+
+=== 2026-09-26T20:44:02.622357+00:00 legit console 1/6 result
+> papea2ac validate iDTR
+validation session=1 anchored=false (none (UNCERTAIN without continuation) seq=511676) frontier=0 INCOMPLETE transitions=10327 VALID=10313 UNCERTAIN=14 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=5/5 breaks=0
+rest check: rotation-only transmission
+last: UNCERTAIN seq=511676->511683
+  validation UNCERTAIN seq=511676->511683 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 4->0 (incomplete)
+    completeness missing [reconstruction, entities] uncertain=[ENTITY_NEIGHBORHOOD_UNKNOWN]
+    residual observed h=0.000000 rise=0.000000 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=10313 UNCERTAIN=14 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=10313 UNCERTAIN=14 last=UNCERTAIN
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=4], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=4], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=6], GapCount[reason=FRONTIER_INCOMPLETE, count=1], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+
+=== 2026-09-26T20:44:13.661601+00:00 legit console 2/6: clear animals, in-place teleport (teleport item), then knockback
+> kill @e[type=cow]
+Killed 3 entities
+> kill @e[type=pig]
+Killed Pig
+> execute as iDTR at @s run tp @s ~ ~ ~
+Teleported iDTR to -3.773262, 69.000000, -2.942702
+> tellraw iDTR {"text":"[Papea2AC] Paso 2: quédate quieto en suelo plano. Te voy a empujar 3 veces (knockback). No te muevas hasta que termine.","color":"gold"}
+
+
+=== 2026-09-26T20:44:19.829031+00:00 legit knockback 0.5 0.35 0
+> papea2ac timing iDTR velocity 0.5 0.35 0
+velocity (0.5,0.35,0.0) applied server-side (entity 69); the packet is captured outbound
+
+
+=== 2026-09-26T20:44:22.919985+00:00 legit knockback 0 0.35 0.5
+> papea2ac timing iDTR velocity 0 0.35 0.5
+velocity (0.0,0.35,0.5) applied server-side (entity 69); the packet is captured outbound
+
+
+=== 2026-09-26T20:44:25.994728+00:00 legit knockback -0.5 0.4 0
+> papea2ac timing iDTR velocity -0.5 0.4 0
+velocity (-0.5,0.4,0.0) applied server-side (entity 69); the packet is captured outbound
+
+
+=== 2026-09-26T20:44:32.079319+00:00 legit console 2/6 result
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=522806) frontier=2 complete transitions=10390 VALID=10376 UNCERTAIN=14 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=522746->522806
+  validation VALID seq=522746->522806 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-3.322814,69.000000,-1.230353) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-3.322814,69.000000,-1.230353) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=10376 UNCERTAIN=14 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=10376 UNCERTAIN=14 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=4], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=4], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=6], GapCount[reason=FRONTIER_INCOMPLETE, count=1], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=522806 epoch=0 rev=5067 pos=(-3.322814,69.000000,-1.230353) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev5067] age=166ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:44:55.892723+00:00 legit console 3/6: explosion arena (obsidian, y=100) + teleport
+> fill 24 100 -8 40 100 8 minecraft:obsidian
+Successfully filled 289 block(s)
+> fill 24 101 -8 40 106 8 minecraft:air
+No blocks were filled
+> effect give iDTR minecraft:resistance 90 4 true
+Applied effect Resistance to iDTR
+> tp iDTR 32.5 101 0.5 -90 0
+Teleported iDTR to 32.500000, 101.000000, 0.500000
+> tellraw iDTR {"text":"[Papea2AC] Paso 3: te teletransporté a una plataforma de obsidiana y tienes Resistencia (no te hará daño). Quédate quieto: en unos segundos explota una TNT a 4 bloques.","color":"gold"}
+
+
+=== 2026-09-26T20:45:10.117983+00:00 legit console 3/6: TNT 4 blocks east (fuse 50)
+> summon tnt 36.5 101 0.5 {fuse:50}
+Summoned new Primed TNT
+
+=== 2026-09-26T20:45:19.225251+00:00 legit console 3/6 result
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=526240) frontier=2 complete transitions=10448 VALID=10434 UNCERTAIN=14 INVALID=0
+context complete=true mode=survival attributes=10 effects=1 border=known relevantEntities=1/1 breaks=0
+last: VALID seq=526187->526240
+  validation VALID seq=526187->526240 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(31.832442,101.000000,0.500000) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(31.832442,101.000000,0.500000) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=10434 UNCERTAIN=14 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=10434 UNCERTAIN=14 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=4], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=4], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=6], GapCount[reason=FRONTIER_INCOMPLETE, count=1], GapCount[reason=CLIMBABLE_CONTACT, count=1]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=526240 epoch=0 rev=5207 pos=(31.832442,101.000000,0.500000) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev5207] age=111ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:45:36.970049+00:00 legit console 4/6: death + respawn
+> tellraw iDTR {"text":"[Papea2AC] Paso 4: te voy a matar (no pierdes nada). Pulsa Reaparecer y luego camina y salta 20 segundos.","color":"gold"}
+
+
+=== 2026-09-26T20:45:40.067320+00:00 legit kill iDTR
+> effect clear iDTR minecraft:resistance
+Removed effect Resistance from iDTR
+> kill iDTR
+Killed iDTR
+
+=== 2026-09-26T20:45:58.547186+00:00 legit console 4/6 result
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 9 seq=530081) frontier=4 complete transitions=10767 VALID=10752 UNCERTAIN=15 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=8/8 breaks=0
+last: VALID seq=530075->530081
+  validation VALID seq=530075->530081 worldEpoch=1 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/8 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- (+2 equivalent) pos=(-14.631024,68.252203,25.379245) ground=false
+    witness h1 W--C-- (+2 equivalent) pos=(-14.631024,68.252203,25.379245) ground=false
+    witness h1 W-J--- pos=(-14.631024,68.252203,25.379245) ground=false
+    witness h1 W-JC-- pos=(-14.631024,68.252203,25.379245) ground=false
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=1 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=1
+  observed VALID=10752 UNCERTAIN=15 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=10752 UNCERTAIN=15 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=4], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=7], GapCount[reason=FRONTIER_INCOMPLETE, count=2], GapCount[reason=CLIMBABLE_CONTACT, count=2]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=530025 epoch=1 rev=5739 pos=(-15.782685,67.000000,25.260905) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev5739] age=330ms lastRefusal=NO_SAFE_ANCHOR
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:46:08.488148+00:00 legit console 5/6: nether
+> tellraw iDTR {"text":"[Papea2AC] Paso 5: te mando al Nether. Camina, corre y salta 30 segundos; luego te traigo de vuelta.","color":"gold"}
+
+> effect give iDTR minecraft:fire_resistance 120 0 true
+Applied effect Fire Resistance to iDTR
+> effect give iDTR minecraft:resistance 120 4 true
+Applied effect Resistance to iDTR
+> execute in minecraft:the_nether run spreadplayers 0 0 0 16 under 110 false iDTR
+Spread 1 entity/entities around 0.5, 0.5 with an average distance of 0.00 block(s) apart
+
+=== 2026-09-26T20:46:43.774158+00:00 legit console 5/6 nether result
+> data get entity iDTR Dimension
+iDTR has the following entity data: "minecraft:the_nether"
+> papea2ac validate iDTR
+validation session=1 anchored=false (none (UNCERTAIN without continuation) seq=551637) frontier=0 INCOMPLETE transitions=11284 VALID=11268 UNCERTAIN=16 INVALID=0
+context complete=true mode=survival attributes=10 effects=2 border=known relevantEntities=98/98 breaks=0
+rest check: ground=true tickEndsSincePosition=1 samePosition=false locomotion=true
+last: UNCERTAIN seq=551637->551694
+  validation UNCERTAIN seq=551637->551694 worldEpoch=2 timingHypotheses=1 (complete 1) explaining=0 reconstructions=1 legal=0/0 frontier 4->0 (incomplete)
+    completeness missing [reconstruction, entities, frontier] uncertain=[ENTITY_NEIGHBORHOOD_UNKNOWN, FRONTIER_INCOMPLETE]
+    residual observed h=0.345860 rise=0.164773 | legal h<=0.000000 rise in [0.000000, 0.000000] (NONE) excess h=0.000000 v=0.000000
+    note: no enumerated timing hypothesis admits a legal input history: reconstruction data (coverage/timing/model), never a verdict
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=2 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=2
+  observed VALID=11268 UNCERTAIN=16 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=11268 UNCERTAIN=16 last=UNCERTAIN
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=5], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=7], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=2]]
+
+
+=== 2026-09-26T20:46:52.632288+00:00 legit console 5/6: back to overworld
+> execute in minecraft:overworld run tp iDTR 32.5 101 0.5
+Teleported iDTR to 32.500000, 101.000000, 0.500000
+> tellraw iDTR {"text":"[Papea2AC] De vuelta. Camina y salta 20 segundos más.","color":"gold"}
+
+
+=== 2026-09-26T20:47:12.726765+00:00 legit console 5/6 result
+> data get entity iDTR Dimension
+iDTR has the following entity data: "minecraft:overworld"
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=572843) frontier=4 complete transitions=11600 VALID=11584 UNCERTAIN=16 INVALID=0
+context complete=true mode=survival attributes=10 effects=2 border=known relevantEntities=3/3 breaks=0
+last: VALID seq=572838->572843
+  validation VALID seq=572838->572843 worldEpoch=3 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/8 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- (+2 equivalent) pos=(28.644989,102.166109,7.937806) ground=false
+    witness h1 W--C-- (+2 equivalent) pos=(28.644989,102.166109,7.937806) ground=false
+    witness h1 W-J--- pos=(28.644989,102.166109,7.937806) ground=false
+    witness h1 W-JC-- pos=(28.644989,102.166109,7.937806) ground=false
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=3 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=3
+  observed VALID=11584 UNCERTAIN=16 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=11584 UNCERTAIN=16 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=5], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=7], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=2]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=572826 epoch=3 rev=7367 pos=(29.453885,101.000000,7.966533) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev7367] age=257ms lastRefusal=NO_SAFE_ANCHOR
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:47:21.867689+00:00 legit: latency evidence (remote player RTT)
+> papea2ac timing iDTR
+timing session=1 worldEpoch=3 tickEndCapable=true tickEnds=27375 movements=17298 influences=25 teleports=11/11 stale=0 evictions=79971
+rtt last=53.162ms min=52.254ms smoothed=58.460ms jitter=6.530ms max=177.649ms samples=2703 outliers=4 rejected=0 age=131ms | markers sent=2703 acked=2703 pending=0 expired=0 late/unknown=0 failedWrites=0
+correction 4 sent@237595 -> (-28.54045102783896,66.5875,27.23845064637271) relative=24 confirmed@237642
+correction 5 sent@256791 -> (-31.0410659886746,67.0,27.839171761787302) relative=504 confirmed@256850
+correction 6 sent@292213 -> (0.0,0.0,0.0) relative=255 confirmed@292371
+correction 7 sent@521537 -> (0.0,0.0,0.0) relative=255 confirmed@521560
+correction 8 sent@524149 -> (32.5,101.0,0.5) relative=0 confirmed@524442
+correction 9 sent@528007 -> (2.5,67.0,-1.5) relative=0 confirmed@528075
+correction 10 sent@531558 -> (5.5,85.0,15.5) relative=0 confirmed@531610
+correction 11 sent@570438 -> (32.5,101.0,0.5) relative=24 confirmed@570498
+
+
+=== 2026-09-26T20:48:17.416313+00:00 controlled: restart notice to iDTR
+> tellraw iDTR {"text":"[Papea2AC] Reinicio el servidor en 5 segundos para la prueba final. Vuelve a entrar en cuanto puedas (unos 40 segundos).","color":"red"}
+
+
+=== 2026-09-26T20:48:22.509167+00:00 controlled: final legit counters before restart
+> papea2ac validate iDTR
+validation session=1 anchored=true (rest (2 pose states) seq=579552) frontier=2 complete transitions=12920 VALID=12904 UNCERTAIN=16 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=579501->579552
+  validation VALID seq=579501->579552 worldEpoch=3 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(38.165759,101.000000,-6.620659) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(38.165759,101.000000,-6.620659) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=3 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=3
+  observed VALID=12904 UNCERTAIN=16 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=12904 UNCERTAIN=16 last=VALID
+  gaps=[GapCount[reason=WORLD_INCOMPLETE, count=5], GapCount[reason=ENTITY_NEIGHBORHOOD_UNKNOWN, count=5], GapCount[reason=TIMING_INCOMPLETE, count=1], GapCount[reason=UNSUPPORTED_FLUID, count=1], GapCount[reason=SEARCH_LIMIT, count=7], GapCount[reason=FRONTIER_INCOMPLETE, count=3], GapCount[reason=CLIMBABLE_CONTACT, count=2]]
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=579552 epoch=3 rev=7908 pos=(38.165759,101.000000,-6.620659) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev7908] age=30ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-26T20:49:49.689493+00:00 controlled: instructions
+> tellraw iDTR {"text":"[Papea2AC] Prueba final: camina despacio (sin correr ni saltar) de un lado a otro de la plataforma de obsidiana, sin parar. En unos segundos el servidor te va a regresar un poquito hacia atrás UNA vez: es a propósito. Sigue caminando normal después.","color":"gold"}
+
+
+=== 2026-09-26T20:49:59.864935+00:00 controlled: pre-state
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=29 latest anchor seq=2153 epoch=0 rev=214 pos=(38.165759,101.000000,-6.620659) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev214] age=38ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=2155
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=2155 totalDelayNanos=353853692428
+delayP95UpperNanos=1073741823 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4154344/100663296 sharedSections=1912 sharedHits=3200 privateTier=786432 revisions=214 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=28 sendFailures=0 answered=56 rttSamples=56 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=30 VALID=30 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=30 reconstructions=58 evaluations=47936 anchors=1/lost=0 internalErrors=0 injected=0
+evidence consumed=30 witness=30 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=297459 complete=297459 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=12307154 hits=172772 cacheHits=12307152 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T20:50:38.715287+00:00 controlled 0: pre (mode, anchors, position)
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=5531
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=5531 totalDelayNanos=394390748571
+delayP95UpperNanos=536870911 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4431600/100663296 sharedSections=2040 sharedHits=5562 privateTier=786432 revisions=508 historyEvictions=3168 evicted=0 unloaded=147 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=67 sendFailures=0 answered=133 rttSamples=133 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=648 VALID=648 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=648 reconstructions=687 evaluations=162416 anchors=1/lost=0 internalErrors=0 injected=0
+evidence consumed=648 witness=648 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1016797 complete=1016797 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=43040062 hits=644215 cacheHits=43040060 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=5528 epoch=0 rev=508 pos=(38.591956,101.000000,-1.207864) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev508] age=49ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [38.591955907844834d, 101.0d, -1.2078638789333997d]
+> data get entity iDTR Rotation
+iDTR has the following entity data: [-4.940155f, 0.8994021f]
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=5528) frontier=4 complete transitions=648 VALID=648 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=5526->5528
+  validation VALID seq=5526->5528 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/6 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- (+1 equivalent) pos=(38.591956,101.000000,-1.207864) ground=true
+    witness h1 W--C-- (+1 equivalent) pos=(38.591956,101.000000,-1.207864) ground=true
+    witness h1 W---R- pos=(38.591956,101.000000,-1.207864) ground=true
+    witness h1 W--CR- pos=(38.591956,101.000000,-1.207864) ground=true
+
+
+=== 2026-09-26T20:50:38.806666+00:00 controlled 1: enable qualification ENFORCE
+> papea2ac effects enforce-qualification
+ENFORCE enabled for controlled qualification (G2 guards active; /papea2ac effects resume returns to OBSERVE_ONLY)
+
+> papea2ac status
+capture=true effectsSuspended=false correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=5540
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=5540 totalDelayNanos=394398692726
+delayP95UpperNanos=536870911 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4431600/100663296 sharedSections=2040 sharedHits=5562 privateTier=786432 revisions=508 historyEvictions=3168 evicted=0 unloaded=147 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=67 sendFailures=0 answered=133 rttSamples=133 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=651 VALID=651 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=651 reconstructions=690 evaluations=162434 anchors=1/lost=0 internalErrors=0 injected=0
+evidence consumed=651 witness=651 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1016947 complete=1016947 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=43049493 hits=644589 cacheHits=43049491 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T20:50:38.909228+00:00 controlled 2.1: side-chain injection 1/4
+> papea2ac validate iDTR inject 0.5 0 0
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=38.67761621006042, y=101.0, z=-0.13202170975248667] (side chain from anchor correction 1 seq=5547); the live chain and the timeline are untouched
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [38.67761621006042d, 101.0d, -0.13202170975248667d]
+
+=== 2026-09-26T20:50:40.793190+00:00 controlled 2.2: side-chain injection 2/4
+> papea2ac validate iDTR inject 0.5 0 0
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=37.28643135445697, y=101.0, z=6.4670412593442395] (side chain from anchor correction 1 seq=5756); the live chain and the timeline are untouched
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [37.28643135445697d, 101.0d, 6.4670412593442395d]
+
+=== 2026-09-26T20:50:42.601093+00:00 controlled 2.3: side-chain injection 3/4
+> papea2ac validate iDTR inject 0.5 0 0
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=29.316416986893124, y=101.0, z=6.090042217538501] (side chain from anchor correction 1 seq=5957); the live chain and the timeline are untouched
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [29.316416986893124d, 101.0d, 6.090042217538501d]
+
+=== 2026-09-26T20:50:44.431566+00:00 controlled 2.4: side-chain injection 4/4
+> papea2ac validate iDTR inject 0.5 0 0
+INJECTING 1 synthetic transmission(s) at +(0.5,0.0,0.0) per tick from Vector3[x=26.450021075098345, y=101.0, z=0.9321620683554085] (side chain from anchor correction 1 seq=6081); the live chain and the timeline are untouched
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [26.450021075098345d, 101.0d, 0.9321620683554085d]
+
+=== 2026-09-26T20:50:46.205387+00:00 controlled 3.1: lifecycle t+1s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6272 epoch=0 rev=598 pos=(28.668817,101.000000,-5.079610) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev598] age=56ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [28.668817247189256d, 101.0d, -5.079609530791443d]
+
+=== 2026-09-26T20:50:47.548486+00:00 controlled 3.2: lifecycle t+2s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6430 epoch=0 rev=628 pos=(34.266059,101.000000,-5.412293) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev628] age=50ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [34.26605873613253d, 101.0d, -5.4122931258062215d]
+
+=== 2026-09-26T20:50:48.797597+00:00 controlled 3.3: lifecycle t+3s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6530 epoch=0 rev=628 pos=(38.363546,101.000000,-4.242913) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev628] age=132ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [38.4148244605797d, 101.0d, -3.6016043652685514d]
+
+=== 2026-09-26T20:50:50.166047+00:00 controlled 3.4: lifecycle t+4s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6698 epoch=0 rev=658 pos=(38.388579,101.000000,2.440031) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev658] age=16ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [38.38857904690083d, 101.0d, 2.4400311248669446d]
+
+=== 2026-09-26T20:50:51.509016+00:00 controlled 3.5: lifecycle t+5s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6797 epoch=0 rev=658 pos=(36.083131,101.000000,5.891548) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev658] age=17ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [35.868307529949405d, 101.0d, 5.911573012183126d]
+
+=== 2026-09-26T20:50:52.625076+00:00 controlled 3.6: lifecycle t+6s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=6950 epoch=0 rev=688 pos=(30.918681,101.000000,6.265335) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev688] age=34ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [30.91868149312234d, 101.0d, 6.265335242777669d]
+
+=== 2026-09-26T20:50:53.777325+00:00 controlled 3.7: lifecycle t+7s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7029 epoch=0 rev=688 pos=(26.627767,101.000000,5.044632) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev688] age=35ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [26.627767170844905d, 101.0d, 5.0446315693354835d]
+
+=== 2026-09-26T20:50:54.927670+00:00 controlled 3.8: lifecycle t+8s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7116 epoch=0 rev=688 pos=(26.450577,101.000000,0.098386) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev688] age=35ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [26.45057740197748d, 101.0d, 0.09838633892768639d]
+
+=== 2026-09-26T20:50:56.088384+00:00 controlled 3.9: lifecycle t+9s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7263 epoch=0 rev=718 pos=(26.960798,101.000000,-4.597249) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev718] age=39ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [27.15296083187619d, 101.0d, -4.674710834211344d]
+
+=== 2026-09-26T20:50:57.203874+00:00 controlled 3.10: lifecycle t+10s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7349 epoch=0 rev=718 pos=(31.857801,101.000000,-5.130970) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev718] age=9ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [31.857800608932877d, 101.0d, -5.1309695346965345d]
+
+=== 2026-09-26T20:50:58.368386+00:00 controlled 3.11: lifecycle t+11s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7493 epoch=0 rev=748 pos=(36.811219,101.000000,-5.466167) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev748] age=17ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [36.811218719997704d, 101.0d, -5.466167007018578d]
+
+=== 2026-09-26T20:50:59.445945+00:00 controlled 3.12: lifecycle t+12s
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7582 epoch=0 rev=748 pos=(38.335078,101.000000,-1.678812) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev748] age=11ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity iDTR Pos
+iDTR has the following entity data: [38.335078273258965d, 101.0d, -1.6788117698087814d]
+
+=== 2026-09-26T20:51:00.559741+00:00 controlled 4: full diagnostics after the setback
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=ENFORCE liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=7721 epoch=0 rev=778 pos=(38.556120,101.000000,2.848265) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev778] age=44ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=7721) frontier=4 complete transitions=1085 VALID=1085 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=7716->7721
+  validation VALID seq=7716->7721 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/6 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- (+1 equivalent) pos=(38.556120,101.000000,2.848265) ground=true
+    witness h1 W--C-- (+1 equivalent) pos=(38.556120,101.000000,2.848265) ground=true
+    witness h1 W---R- pos=(38.556120,101.000000,2.848265) ground=true
+    witness h1 W--CR- pos=(38.556120,101.000000,2.848265) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=1085 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=1085 UNCERTAIN=0 last=VALID
+
+> papea2ac evidence iDTR side
+side-chain (controlled injection) evidence - never the live chain:
+evidence session=1 worldEpoch=0 active=4/4 (evicted 0, expired 0) window=30000ms run=4 longest=4 groups=4/4 segments=0
+  observed VALID=0 UNCERTAIN=0 INVALID=4 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=0 UNCERTAIN=0 last=INVALID
+  active seq 11094..12169 newestAge=16101ms oldestActiveAge=21593ms byCategory=[CategoryCount[category=HORIZONTAL_EXCESS, count=4]]
+  HORIZONTAL_EXCESS: events=4 maxExcess h=0.0556 v=0.0000 maxObservedH=0.5000 penetrations=0
+  group d2a10fa6ff7c members=1 seq=11094..11101 [HORIZONTAL_EXCESS] maxExcess h=0.0547 v=0.0000
+  group 75860e023c12 members=1 seq=11512..11519 [HORIZONTAL_EXCESS] maxExcess h=0.0556 v=0.0000
+  group ffd0f0be57eb members=1 seq=11914..11921 [HORIZONTAL_EXCESS] maxExcess h=0.0547 v=0.0000
+  group 40c919942bed members=1 seq=12162..12169 [HORIZONTAL_EXCESS] maxExcess h=0.0547 v=0.0000
+  supporting=[d2a10fa6ff7c, 75860e023c12, ffd0f0be57eb, 40c919942bed]
+  seq=11094->11101 INVALID -> POSITIVE_EVENT evidence d2a10fa6ff7c seq=11094->11101 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.0547 v=0.0000 (ENVELOPE) proof: hyp=1 enum=576 exact=0 env=576 remaining=0
+  seq=11512->11519 INVALID -> POSITIVE_EVENT evidence 75860e023c12 seq=11512->11519 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.0556 v=0.0000 (ENVELOPE) proof: hyp=1 enum=576 exact=0 env=576 remaining=0
+  seq=11914->11921 INVALID -> POSITIVE_EVENT evidence ffd0f0be57eb seq=11914->11921 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.0547 v=0.0000 (ENVELOPE) proof: hyp=1 enum=576 exact=0 env=576 remaining=0
+  seq=12162->12169 INVALID -> POSITIVE_EVENT evidence 40c919942bed seq=12162->12169 epoch=0 [HORIZONTAL_EXCESS] reasons=[NO_LEGAL_INPUT, HORIZONTAL_EXCESS] excess h=0.0547 v=0.0000 (ENVELOPE) proof: hyp=1 enum=576 exact=0 env=576 remaining=0
+
+> data get entity iDTR Rotation
+iDTR has the following entity data: [-2.2352295f, 5.5494037f]
+> data get entity iDTR Health
+iDTR has the following entity data: 20.0f
+> data get entity iDTR foodLevel
+iDTR has the following entity data: 20
+
+=== 2026-09-26T20:51:00.653682+00:00 controlled 5: back to OBSERVE_ONLY
+> papea2ac effects resume
+An unexpected error occurred while trying to execute that command
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=7735
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=3
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=7735 totalDelayNanos=404297246679
+delayP95UpperNanos=536870911 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4446148/100663296 sharedSections=2045 sharedHits=7755 privateTier=786432 revisions=778 historyEvictions=6408 evicted=0 unloaded=282 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=89 sendFailures=0 answered=176 rttSamples=176 outliers=2 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1088 VALID=1088 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1088 reconstructions=1127 evaluations=165056 anchors=1/lost=0 internalErrors=0 injected=4
+evidence consumed=1088 witness=1088 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=4 positive=4 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1038817 complete=1038817 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=44478387 hits=701980 cacheHits=44478385 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T20:51:25.902502+00:00 controlled: transport health diagnosis
+> papea2ac player iDTR
+CoverageSummary[admitted=true, captureAvailable=true, certificationAvailable=false, status=EXPIRED_OBSERVE_ONLY, captured=10159, certified=0, pending=0, queueDepth=0, queueCapacity=4096]
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=10162
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=3
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=10162 totalDelayNanos=410824711400
+delayP95UpperNanos=536870911 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=2/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4421252/100663296 sharedSections=2035 sharedHits=9973 privateTier=786432 revisions=1049 historyEvictions=9649 evicted=0 unloaded=417 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=114 sendFailures=0 answered=226 rttSamples=226 outliers=2 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1592 VALID=1592 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1592 reconstructions=1631 evaluations=168080 anchors=1/lost=0 internalErrors=0 injected=4
+evidence consumed=1592 witness=1592 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=4 positive=4 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1064066 complete=1064065 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=46104358 hits=767324 cacheHits=46104413 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T20:53:04.494782+00:00 closing: final counters of the controlled-run session (live chain)
+> papea2ac validate iDTR
+validation session=1 anchored=true (correction 1 seq=19993) frontier=4 complete transitions=3564 VALID=3564 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=0/0 breaks=0
+last: VALID seq=19958->19993
+  validation VALID seq=19958->19993 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=1 legal=4/6 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h1 W----- (+1 equivalent) pos=(39.081420,101.000000,-0.350206) ground=true
+    witness h1 W--C-- (+1 equivalent) pos=(39.081420,101.000000,-0.350206) ground=true
+    witness h1 W---R- pos=(39.081420,101.000000,-0.350206) ground=true
+    witness h1 W--CR- pos=(39.081420,101.000000,-0.350206) ground=true
+
+> papea2ac evidence iDTR
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=3564 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=3564 UNCERTAIN=0 last=VALID
+
+> papea2ac mitigation iDTR
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=4/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=19996 epoch=0 rev=2283 pos=(39.094713,101.000000,-0.565655) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev2283] age=2ms
+  last decision: NONE NO_EVIDENCE live chain=0
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=1 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=2 family=HORIZONTAL_EXCESS
+    NOT_ELIGIBLE INSUFFICIENT_EVIDENCE side chain=3 family=HORIZONTAL_EXCESS
+    SUPPRESSED TRANSPORT_UNHEALTHY side chain=4 family=HORIZONTAL_EXCESS
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=19997
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=3
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=19997 totalDelayNanos=430988359123
+delayP95UpperNanos=67108863 delayP99UpperNanos=1073741823
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=198 complete=198 partial=0 sections=4752 sharedBytes=4145272/100663296 sharedSections=1908 sharedHits=19822 privateTier=786432 revisions=2283 historyEvictions=24626 evicted=0 unloaded=1041 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=212 sendFailures=0 answered=419 rttSamples=419 outliers=2 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=3565 VALID=3565 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=3565 reconstructions=3604 evaluations=179918 anchors=1/lost=0 internalErrors=0 injected=4
+evidence consumed=3565 witness=3565 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=4 positive=4 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=1162667 complete=1162667 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=52653507 hits=1030101 cacheHits=52653505 cacheMisses=2 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T20:53:16.659951+00:00 closing: restart without qualification flag
+> tellraw @a {"text":"[Papea2AC] Prueba terminada, gracias! Reinicio el servidor en 5 segundos (modo normal). Puedes volver a entrar.","color":"green"}
+
+
+=== 2026-09-26T20:54:09.328191+00:00 closing: ENFORCE refused without the flag
+> papea2ac effects enforce-qualification
+REFUSED: qualification ENFORCE needs -Dpapea2ac.qualificationEnforce=true (false) and a passing TC25 result (true); mode stays not ENFORCE
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T21:05:46.263282+00:00 P10-F2 live check (jar 46758015): enable qualification ENFORCE, resume, status, repeat
+> papea2ac effects enforce-qualification
+ENFORCE enabled for controlled qualification (G2 guards active; /papea2ac effects resume returns to OBSERVE_ONLY)
+
+> papea2ac status
+capture=true effectsSuspended=false correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects resume
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects enforce-qualification
+ENFORCE enabled for controlled qualification (G2 guards active; /papea2ac effects resume returns to OBSERVE_ONLY)
+
+> papea2ac effects suspend
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects resume
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T21:05:57.567715+00:00 P10-F2 live check: effect mode across enforce -> resume
+> papea2ac effects enforce-qualification
+ENFORCE enabled for controlled qualification (G2 guards active; /papea2ac effects resume returns to OBSERVE_ONLY)
+
+> papea2ac status
+capture=true effectsSuspended=false correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects resume
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-26T21:06:47.415004+00:00 final state: no flag, ENFORCE refused, jar 46758015
+> papea2ac effects enforce-qualification
+REFUSED: qualification ENFORCE needs -Dpapea2ac.qualificationEnforce=true (false) and a passing TC25 result (true); mode stays not ENFORCE
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-28T03:03:10.684150+00:00 exact-final-jar recheck (VPS): pre-state jar 46758015, OBSERVE_ONLY, no qualification flag
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> list
+There are 0 of a max of 10 players online: 
+
+=== 2026-09-28T03:05:40.608080+00:00 recheck: join (Emojiado)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (correction 1 seq=1089) frontier=4 complete transitions=73 VALID=73 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=9 effects=0 border=known relevantEntities=1/1 breaks=0
+last: VALID seq=1036->1089
+  validation VALID seq=1036->1089 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=4/2048 frontier 4->4
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(-0.676753,69.000000,4.989635) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-0.676753,69.000000,4.989635) ground=true
+    witness h3 ------>------>------ (+511 equivalent) pos=(-0.676753,69.000000,4.989635) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(-0.676753,69.000000,4.989635) ground=true
+
+> papea2ac mitigation Emojiado
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=1089 epoch=0 rev=244 pos=(-0.676753,69.000000,4.989635) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x4, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev244] age=864ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> data get entity Emojiado Pos
+Emojiado has the following entity data: [-0.6767529108776013d, 69.0d, 4.98963464850716d]
+
+=== 2026-09-28T03:05:54.145737+00:00 recheck: smoke instructions
+> tellraw Emojiado {"text":"[Papea2AC] Exact-final-jar smoke (~3 min): walk, sprint, jump, sprint-jump, crouch, diagonal, climb the stairs/slabs, place+break a few blocks. Keep moving; stand still 2 s if the count stalls. I will then knock you back 3 times and teleport you once.","color":"gold"}
+
+
+=== 2026-09-28T03:07:18.639733+00:00 recheck: knockback notice
+> tellraw Emojiado {"text":"[Papea2AC] Stand still on flat ground: 3 knockbacks in 5 s, then a teleport.","color":"gold"}
+
+
+=== 2026-09-28T03:07:23.860166+00:00 recheck knockback 0.5 0.35 0
+> papea2ac timing Emojiado velocity 0.5 0.35 0
+velocity (0.5,0.35,0.0) applied server-side (entity 2); the packet is captured outbound
+
+
+=== 2026-09-28T03:07:27.019516+00:00 recheck knockback 0 0.35 0.5
+> papea2ac timing Emojiado velocity 0 0.35 0.5
+velocity (0.0,0.35,0.5) applied server-side (entity 2); the packet is captured outbound
+
+
+=== 2026-09-28T03:07:30.130585+00:00 recheck knockback -0.5 0.4 0
+> papea2ac timing Emojiado velocity -0.5 0.4 0
+velocity (-0.5,0.4,0.0) applied server-side (entity 2); the packet is captured outbound
+
+
+=== 2026-09-28T03:07:35.343574+00:00 recheck teleport (in place, +3 x)
+> execute as Emojiado at @s run tp @s ~3 ~ ~
+Teleported Emojiado to 2.005819, 67.000000, 26.038718
+
+=== 2026-09-28T03:07:41.484765+00:00 recheck: after knockback + teleport
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (2 pose states) seq=11673) frontier=2 complete transitions=1600 VALID=1600 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=9/9 breaks=0
+last: VALID seq=11624->11673
+  validation VALID seq=11624->11673 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(2.005819,67.000000,26.038718) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(2.005819,67.000000,26.038718) ground=true
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=1600 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=1600 UNCERTAIN=0 last=VALID
+
+> papea2ac mitigation Emojiado
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=11673 epoch=0 rev=1144 pos=(2.005819,67.000000,26.038718) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev1144] age=90ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+
+=== 2026-09-28T03:07:50.108216+00:00 recheck P10-F2 (OBSERVE_ONLY, player online): suspend -> resume x2
+> papea2ac effects suspend
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12184
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=1
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12184 totalDelayNanos=2346610052267
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12186
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12186 totalDelayNanos=2346611339787
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects resume
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12186
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12186 totalDelayNanos=2346611339787
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12186
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=2
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12186 totalDelayNanos=2346611339787
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=1/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects suspend
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12187
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=3
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12187 totalDelayNanos=2346616924838
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects resume
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12188
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=4
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12188 totalDelayNanos=2346617114299
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12189
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=5
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12189 totalDelayNanos=2346617968674
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac effects enforce-qualification
+REFUSED: qualification ENFORCE needs -Dpapea2ac.qualificationEnforce=true (false) and a passing TC25 result (true); mode stays not ENFORCE
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12189
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=5
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12189 totalDelayNanos=2346617968674
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=134 sendFailures=0 answered=269 rttSamples=269 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1608 VALID=1608 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1615 reconstructions=1682 evaluations=661672 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1608 witness=1608 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=3976271 complete=3976271 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=177259183 hits=2073339 cacheHits=177259147 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+
+=== 2026-09-28T03:08:01.970487+00:00 recheck: final counters (jar 46758015, OBSERVE_ONLY)
+> papea2ac validate Emojiado
+validation session=1 anchored=true (rest (2 pose states) seq=12844) frontier=2 complete transitions=1620 VALID=1620 UNCERTAIN=0 INVALID=0
+context complete=true mode=survival attributes=10 effects=0 border=known relevantEntities=9/9 breaks=0
+last: VALID seq=12786->12844
+  validation VALID seq=12786->12844 worldEpoch=0 timingHypotheses=1 (complete 1) explaining=1 reconstructions=2 legal=2/1024 frontier 2->2
+    completeness ALL valid=[LEGAL_INPUT_FOUND]
+    witness h3 ------>------>------ (+511 equivalent) pos=(2.005819,67.000000,26.038718) ground=true
+    witness h3 ------>------>---C-- (+511 equivalent) pos=(2.005819,67.000000,26.038718) ground=true
+
+> papea2ac evidence Emojiado
+evidence session=1 worldEpoch=0 active=0/0 (evicted 0, expired 0) window=30000ms run=0 longest=0 groups=0/0 segments=0
+  observed VALID=1620 UNCERTAIN=0 INVALID=0 proofRejected=0 duplicates=0 outOfOrder=0 sinceLastInvalid: VALID=1620 UNCERTAIN=0 last=VALID
+
+> papea2ac mitigation Emojiado
+mitigation session=1 policy=movement-setback-v1 mode=OBSERVE_ONLY/DISABLED (no effects) liveChain=0/4 sideChain=0/4
+  intent=IDLE cooldown=none recentFailures=0
+  anchors=64 latest anchor seq=12844 epoch=0 rev=1144 pos=(2.005819,67.000000,26.038718) VALID_CONCRETE_GROUNDED crouching-possible basis=[VALID+ALL13, concrete x2, grounded, no-pending-correction, no-pending-motion, no-dispute, standing-box-CLEAR@rev1144] age=551ms
+  last decision: NONE NO_EVIDENCE live chain=0
+  executor: none polled=0 started=0 sent=0 rejected=0
+  global G2 proposal guard: proposals=0 refusals=0 trips=0 windowSessions=0 executorSuspends=0 capsules promoted=0 unavailable=0 durable=0 failed=0
+
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=1 reservedBytes=270532608
+CAPTURED=12874
+NORMALIZED=1
+PROVISIONAL=1
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=1
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=5
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=262144
+delaySamples=12874 totalDelayNanos=2349340549983
+delayP95UpperNanos=2147483647 delayP99UpperNanos=2147483647
+monitoring activeSessions=1 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/4096 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=262144/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=1 chunks=213 complete=213 partial=0 sections=5112 sharedBytes=4102380/100663296 sharedSections=1887 sharedHits=12011 privateTier=786432 revisions=1144 historyEvictions=11160 evicted=0 unloaded=465 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=146 sendFailures=0 answered=292 rttSamples=292 outliers=1 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=1620 VALID=1620 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=1627 reconstructions=1706 evaluations=675496 anchors=4/lost=0 internalErrors=0 injected=0
+evidence consumed=1620 witness=1620 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=1
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=4061627 complete=4061627 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=182278735 hits=2166651 cacheHits=182278699 cacheMisses=36 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac timing Emojiado
+timing session=1 worldEpoch=0 tickEndCapable=true tickEnds=3009 movements=1621 influences=4 teleports=2/2 stale=0 evictions=8332
+rtt last=44.076ms min=36.544ms smoothed=42.087ms jitter=5.959ms max=58.239ms samples=292 outliers=1 rejected=0 age=487ms | markers sent=292 acked=292 pending=0 expired=0 late/unknown=0 failedWrites=0
+correction 1 sent@58 -> (2.5,68.0,2.5) relative=0 confirmed@103
+correction 2 sent@11256 -> (3.0,0.0,0.0) relative=255 confirmed@11294
+
+
+=== 2026-09-28T03:08:24.167556+00:00 recheck: stopping server
+> stop
+Stopping the server

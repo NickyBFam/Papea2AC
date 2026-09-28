@@ -1,0 +1,81 @@
+# Phase 10 baseline manifest
+# Deterministic file list (LC_ALL=C path-sorted) with SHA-256 hashes over the committed Git blob content (not the Windows checkout
+# bytes), covering the complete Phase 10 implementation baseline set:
+# - the mitigation domain (anticheat-mitigation: SetbackPolicy movement-setback-v1, MitigationActor, AnchorAdmission, SafeAnchor,
+#   SafeAnchorValidator, DestinationRegionCapture, MitigationIntent, MitigationBounds, MitigationVocabulary);
+# - its core composition (MitigationRunner, MitigationPreconditions, DecisionCapture, GlobalProposalGuard, and the EvidenceRunner /
+#   MovementValidationRunner / PacketEngine hooks, including the P10-F2 resumeEffects fix);
+# - the durable decision capsules (anticheat-replay RollingCapture, DurableCapsuleWriter);
+# - the platform executor (PaperMitigationExecutor) and the /papea2ac mitigation and effects enforce-qualification wiring;
+# - tests (policy, actor, application, property/metamorphic, corpus, integration, decision capsules, G2 guard, ArchitectureTest),
+#   MitigationBenchmarks, the TC25 / memory / fixture harnesses and the Gradle task changes;
+# - the Phase 10 report, the human approval record, and the artifacts under docs/phase10-artifacts/ (TC25, policy / suppression / target
+#   / setback results, mitigation fixtures, JMH, memory, verification.json, and the force-added qualification logs: VPS evidence and server
+#   logs with player IPs redacted and a clean RCON-password scan, plus the local plugin-load smoke log, which is not live qualification).
+# The frozen Phase 0-9 documents and docs/phase0..9-artifacts are intentionally NOT part of this manifest; they are unchanged.
+# The production code is exactly the code of the final qualified plugin jar
+# 46758015c7e5f0e73ffbb17d86e9502d01c81c86b0bdf5392f6a346febbe38bd (byte-identical --rerun-tasks rebuild).
+# Parent commit: d3ab7dee7721c4f19739e0f033fb5d27a03958d9 (Phase 9 receipt)
+# Phase 9 implementation baseline (unchanged in history): 594c0b1d78d2e692f1ddb7f06951ddf722657fef
+# The later receipt (docs/PHASE_10_BASELINE_RECEIPT.md) is excluded. This manifest file itself is not listed.
+# Generated: 2026-09-27
+1d1d0288b26d604e942df1dee728a3ef83752e99417f9e392410a51a14dc3fb4  anticheat-core/src/main/java/me/nicolas/papea2ac/core/DecisionCapture.java
+858811e18bc89a6836845853dac6ded4412b629413650254ae76a13ccd620496  anticheat-core/src/main/java/me/nicolas/papea2ac/core/EvidenceRunner.java
+3ac8e83fdf11923a9bc8e14f52e876b1e77a5c634073df111d3e7755c2498b3a  anticheat-core/src/main/java/me/nicolas/papea2ac/core/GlobalProposalGuard.java
+0ff3909c2d66d4a9467ff289a8bee467a3fb3802aee61a77152d38d4d9449a94  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MitigationPreconditions.java
+244f02679e8bed52a7739e315d86f0701c9377cbd482eec5eb68c722859d3a9d  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MitigationRunner.java
+9a4a09a3a25a1641ad75fc92609cc536e6f33cd8031413614578ee95ed3293ec  anticheat-core/src/main/java/me/nicolas/papea2ac/core/MovementValidationRunner.java
+547edf8ceed61cd0397a2dd3784f9dfe64450167076172d7f0a706472d387b2f  anticheat-core/src/main/java/me/nicolas/papea2ac/core/PacketEngine.java
+b7d682b70571e5e513259e3151ad7f98509d77c297090264fa5237cb2570248a  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/AnchorAdmission.java
+d61b484575cadfbe74b50509ca1ed0022fed375a4b3ad7b7d8da66c9e6043432  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/DestinationRegionCapture.java
+c9f7103f0aa46462ec9bb3f8539b59f0596187f4f7dd521dafc64d8f6a366a94  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/MitigationActor.java
+f27bc1d6b5bc0a8bb3c71036412ab42e9de96507509ba1400bf2ddef09d799ad  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/MitigationBounds.java
+df97ce17bfd03af3c4953298f05f3c58a37e3f8dea83f5967984c7c18376f8a1  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/MitigationIntent.java
+4510dca75e987076d905967ad001b37799b945da01b84ccb8171a8eb9e61bd09  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/MitigationVocabulary.java
+2f45804366f1c06b93187438010a7d3a31fb6a29157e368ae1a1797281137752  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/SafeAnchor.java
+006585b87a3ed6d724bcdb84dc8a22389cf402002282bb7c0c910e339f69ae0a  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/SafeAnchorValidator.java
+751d221e05cc0a3373fa1051908a195f6e52b7894c810ce42f8ddc866db5bd2a  anticheat-mitigation/src/main/java/me/nicolas/papea2ac/mitigation/SetbackPolicy.java
+7aae5c899f92f6a9d4ee74790093ab1d3315dee6785d19eef719340fa2bd608e  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/Papea2AC.java
+936985bb1c08c9b8801f88fbe3f318158126d2f3fe248b32998114f60c5a8802  anticheat-platform-paper/src/main/java/me/nicolas/papea2AC/platform/PaperMitigationExecutor.java
+8c6bca78167992805265c679e84ee5a9ed03127aedc4fb43e54e2ba270f9b35f  anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/DurableCapsuleWriter.java
+045bbd3e9a5898a0e04f8b0b59ed99a8e5f7b7b15bb869f4442502c7e6af6ff9  anticheat-replay/src/main/java/me/nicolas/papea2ac/replay/RollingCapture.java
+dbc31037679c98f1bbae827bc322b63df57fac9e243df2dc90005a113f525568  anticheat-testing/build.gradle.kts
+e80aff3da3fd36450f726518a99b4fcab9f83b241204e1bb8bf7b86048b41871  anticheat-testing/src/benchmark/java/me/nicolas/papea2ac/testing/MitigationBenchmarks.java
+56fce578b905536d1f5a89904a6c51c353985ddb5ba7f6d5df1235987887521e  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/ArchitectureTest.java
+734601f62f13ca26febac884af9c0a92cd7fee5cea352d330d8b07760338a608  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/DecisionCapsuleTest.java
+aa3c42e88f8ca92186394a738b220218bda8bb32bf10cef4b37f85c69749bd96  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/GlobalProposalGuardTest.java
+6c248136522cbc3df008e9b48b348ca68a149c1fd55f614d99733c16fcf790ba  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationActorTest.java
+c2a74ae55c185082ec18d03f8226e4481a422cf3005d0a2a834beb933fc075d9  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationApplicationTest.java
+7f23496ccb4b83e2d4e348ccfc7991e99fe868848a5ca16c4e5f024dd6f4764c  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationCorpus.java
+696029a174798bbc5341f09dc3c1356c972dce1bb0ce3ee175ff0bc1e570ff20  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationCorpusTest.java
+0723c6136b72e3bd8427b521a7522bc34ebf55aa0adaf45c62b0e846bf67a044  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationFixtureMain.java
+335868103b735caaa015f87da3b0e5a53da1096ebae23d616fb4eeb47cde3014  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationIntegrationTest.java
+f6684e9cdfda49a599f70346c1782303b21b789420148effeda4f9ab75530c15  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationMemoryMain.java
+041eb33628976043da3d165beb286c8317af60806033a99016a85b675711ff83  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/MitigationPropertyTest.java
+e3d94b63b5e268fbbe56552c23d28107e15d8c1a27c5610711a92fd97b3d5a37  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/SetbackPolicyTest.java
+ee658406e45ac278022d83d9b9f72b211e27f8790a050d42232a8a8ec02061dc  anticheat-testing/src/test/java/me/nicolas/papea2ac/testing/Tc25Main.java
+1a6a0e329995a673555ffa5836a0ee28d30e1da67f12d28a6470ce5eaac47fc8  docs/PHASE_10_HUMAN_APPROVAL.md
+032fd694216b7179975251464cdc4269bcfb6460259e7aa60e6557494afe2087  docs/PHASE_10_IMPLEMENTATION.md
+1134d69805f313bf442000014f8c6cc2c443157ca3b3ce6d60d7a95a8a714932  docs/phase10-artifacts/benchmarks.json
+b2e15d661d6af3b9c2baab4996966cafb8638185e8ff8011733e69dd56b72e39  docs/phase10-artifacts/memory-results.json
+9d90e5ab54087c2b81c780072f09300bba19276d4cf1fb32328a41b803f30d6a  docs/phase10-artifacts/mitigation-fixtures/manifest.json
+19d9077b89fa9639d14bcf702dc542a1b2f718b5f783ee262bd01f70724c828a  docs/phase10-artifacts/mitigation-fixtures/policy-cases.json
+715c3f83ac2f2f046081acb16d847dfe5e682d577d03d2ed24933d12e3a32b9c  docs/phase10-artifacts/mitigation-fixtures/setback-cases.json
+c54c74395828c7ff895465d2ddefea79213a8d032f3d7e85ff062dbcffec6061  docs/phase10-artifacts/mitigation-fixtures/suppression-cases.json
+d9c6b4550e5c72fd2dc816b4181dba7789d494a127e7edd46a5b1dbe1b20e8b8  docs/phase10-artifacts/mitigation-fixtures/target-cases.json
+d47a47376544257a924290024dac94292b5b18a71a4650e9affa97f5f06fade7  docs/phase10-artifacts/policy-corpus-results.json
+dc62612584325cee45944033375f8e43213c78c93520fc5803b618dd68c101b1  docs/phase10-artifacts/real-client-evidence-vps.log
+2feda3cdc939ea92f67017aaff6f6c7d5fc31fe1959380eb06305a74ef2ff97d  docs/phase10-artifacts/real-client-evidence.log
+52dbb723565cbe7e7e38ffcbdeb1d4249f251d96801ab349c837d112ba63992e  docs/phase10-artifacts/real-client-server-vps-jar46758015-final-recheck.log
+65efd2a38b9d4bc069e89a859407a94fa0f17083572e30044d1e86c1b0354279  docs/phase10-artifacts/real-client-server-vps-jar46758015-p10f2.log
+159b9bdeb396883ccb7cb773a06c5530f7c90759ff839bbea3f90f2ac1d09545  docs/phase10-artifacts/real-client-server-vps-jara464ad44-controlled.log
+1d02713b38de550088ad2b040cba8ea62de23342a5c09802fcd0b46cf9f2c98a  docs/phase10-artifacts/real-client-server-vps-jara464ad44-legitimate.log
+df42802a8e934a930914851af94bdb964660746f1a76d39491c73273750994a1  docs/phase10-artifacts/setback-results.json
+eaf00e344703bbedc40b7bb0d7409e66e099a3b3cabeea54744cf0b9139e5833  docs/phase10-artifacts/suppression-results.json
+bd01fa69caaf7a90771c308729a9184d15502d4c8bf301a10a8de07b656c3c6c  docs/phase10-artifacts/target-selection-results.json
+6e687051360f528d0c2f9ce0ec4c9bf538bac9095ba4cf464f2eb247c53c424b  docs/phase10-artifacts/tc25-result.properties
+4f77f6229377d72fba581d3e85c51df1643b5c0f55ca26ed17cd9055ecf6f341  docs/phase10-artifacts/tc25-results.json
+1a4aa33d0f30e0f7791ced95b4665a223a4d09f6e72e1da10e336a90f94971de  docs/phase10-artifacts/verification.json
+# Composite SHA-256 (computed over the exact byte content of the 57 hash lines above, sorted by path,
+# verified twice via two fully independent list+hash passes before being recorded here):
+# acdbf47a59eac1bc9638fce8054c85a08e6cc7b52999d61b1e3c37d474379f05

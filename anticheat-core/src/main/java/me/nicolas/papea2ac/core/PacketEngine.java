@@ -22,6 +22,11 @@ public final class PacketEngine implements AutoCloseable {
         public final EvidenceRunner evidence;
         /** P9-F2: the cells whose state the client and this observer may legitimately disagree about (client prediction / in-flight change). */
         public final BlockDisputeLedger disputes;
+        /** Phase 10: the session's mitigation runner (shard-owned actor; publishes an immutable status) and the dimension the client is in (JoinGame/Respawn). */
+        public final MitigationRunner mitigation;volatile String dimension="unknown";
+        /** Phase 10 decision capsules (TC25): the shard-owned rolling prehistory ({@link DecisionCapture}); its clock origin is placed well before any
+         *  possible capture time, so every Input's captured/processed times are non-negative, pre-login journal included. Null until first used. */
+        DecisionCapture decision;
         long lastMarkerNanos,lastTimingExpireNanos,timingBreakGeneration=-1;int markerCounter;boolean bracketMarkerDue;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
@@ -33,7 +38,7 @@ public final class PacketEngine implements AutoCloseable {
         private volatile SessionRecording recording;
         private Session(SessionKey key,int activeSessions,ConnectionIngress.EventLoop loop,TransportCapability capability,
                 java.util.function.Function<me.nicolas.papea2ac.protocol.Observation.Event,me.nicolas.papea2ac.protocol.Observation.Context> context){
-            this.key=key;recording=writer==null?null:new SessionRecording(replayQuota,key.epoch(),activeSessions);ingress=new ConnectionIngress(key,loop,health,4096,context,loss->{// 4096 records: one real tick's flush (P3-F7); arena bytes above the guaranteed slice and all bulk come from the engine-wide infrastructure pool
+            this.key=key;recording=writer==null||decisionWriter!=null?null:new SessionRecording(replayQuota,key.epoch(),activeSessions);ingress=new ConnectionIngress(key,loop,health,4096,context,loss->{// 4096 records: one real tick's flush (P3-F7); arena bytes above the guaranteed slice and all bulk come from the engine-wide infrastructure pool
                 metrics.increment(switch(loss){
                     case INGRESS_FULL -> PacketMetrics.Kind.INGRESS_DROPPED;
                     case BRIDGE_FULL -> PacketMetrics.Kind.BRIDGE_DROPPED;
@@ -49,6 +54,9 @@ public final class PacketEngine implements AutoCloseable {
             validation=new MovementValidationRunner(key,validator,physics,collision,blockBehaviors,timingProfile,validationMetrics);
             evidence=new EvidenceRunner(key,evidenceMetrics);validation.attachEvidence(evidence);
             disputes=new BlockDisputeLedger(key,disputeMetrics);validation.attachDisputes(disputes);
+            mitigation=new MitigationRunner(key,new me.nicolas.papea2ac.mitigation.MitigationActor(key,me.nicolas.papea2ac.mitigation.MitigationBounds.DEFAULT,anchorAdmission,intent->requestDecisionCapsule(this,intent),mitigationIntents::offer,(sk,n)->proposalGuard.propose(sk.player(),Math.max(1,activeSessionCount),n),mitigationMetrics),
+                health,PacketEngine.this::mitigationMode,()->dimension,mitigationMetrics);
+            validation.attachMitigation(mitigation);mitigation.attachDisputes(disputes);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
@@ -87,6 +95,7 @@ public final class PacketEngine implements AutoCloseable {
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
                                 s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
                                 s.world.close();s.timing.close();
+                                if(s.decision!=null){s.decision.close();s.decision=null;} // Phase 10: release the rolling share with the session
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
                             continue;
@@ -115,6 +124,7 @@ public final class PacketEngine implements AutoCloseable {
                                 var boundary=s.health.get();
                                 boolean administrative=o.event() instanceof Observation.ControlChange||o.event() instanceof Observation.CheckpointMarker;
                                 if(s.recording!=null&&!administrative){s.recording.before(boundary,now);s.recording.input(o,now);}
+                                if(decisionWriter!=null)rollingCapture(s,o,boundary,now); // Phase 10: decision-capsule prehistory (TC25)
                                 s.actor.process(o,now);
                                 // Session.close() (any thread) sets closing=true and then invalidates health to CLOSED via
                                 // ConnectionIngress.close(). If that lands between the boundary read above and this check, the
@@ -144,6 +154,7 @@ public final class PacketEngine implements AutoCloseable {
                                 else{
                                     // Phase 8 context first (a JoinGame also names the self entity when the platform control has not arrived yet)
                                     if(s.selfEntityId<0&&o.event() instanceof Observation.Outbound jo&&jo.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.JoinGame jg)s.selfEntityId=jg.playerId();
+                                    if(o.event() instanceof Observation.Outbound dj){if(dj.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.JoinGame jd)s.dimension=jd.dimension();else if(dj.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Respawn rd)s.dimension=rd.dimension();}
                                     for(var ce:ContextObservationMapper.map(o,s.selfEntityId))s.movementContext.apply(s.key,ce);
                                     // P9-F2: the block states the client and this observer may legitimately disagree about (client prediction window / in-flight change)
                                     if(o.event() instanceof Observation.Attempt att2){
@@ -212,6 +223,12 @@ public final class PacketEngine implements AutoCloseable {
                     }
                     metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
                 }
+                case Observation.ControlChange cc when cc.kind().equals("MITIGATION_CAPTURE") -> { // Phase 10: a durable capture receipt for the active intent ("{shortId}:D" durable / ":F" failed)
+                    String v=cc.value();if(v.length()==18)s.mitigation.onCaptureReceiptShort(v.substring(0,16),v.endsWith(":D"),o.capturedNanos());metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
+                }
+                case Observation.ControlChange cc when cc.kind().equals("MITIGATION") -> { // Phase 10: the main thread's ordered outcome for this session's active intent
+                    s.mitigation.onPlatformRecord(cc.value(),o.capturedNanos());metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
+                }
                 case Observation.ControlChange cc when cc.kind().equals("SELF_ENTITY") -> {
                     try{s.selfEntityId=Integer.parseInt(cc.value());}catch(NumberFormatException ignored){}
                     metrics.increment(PacketMetrics.Kind.CONTROL_APPLIED);
@@ -241,6 +258,8 @@ public final class PacketEngine implements AutoCloseable {
     private volatile int activeSessionCount;
     private final AtomicBoolean writerHungAlerted=new AtomicBoolean();
     private final RuntimeControl controls=new RuntimeControl(1024);
+    /** Phase 10 G2 proposal-time counting (shards, before capture); its trip is the out-of-band restrictive latch the main-thread arbiter applies. */
+    private final GlobalProposalGuard proposalGuard=new GlobalProposalGuard(1024);
     /** Engine-wide observer-world accounting (PERFORMANCE.md shared-world partition + per-session private tier) and the run-local block-state dictionary; both thread-safe, shared by every session's ObserverWorld. */
     public final WorldBudget worldBudget=new WorldBudget();
     public final BlockStateDictionary blockStates=new BlockStateDictionary();
@@ -263,6 +282,17 @@ public final class PacketEngine implements AutoCloseable {
     final MovementValidationRunner.Metrics validationMetrics=new MovementValidationRunner.Metrics();
     /** Phase 9: engine-wide bounded evidence counters. */
     final EvidenceRunner.Metrics evidenceMetrics=new EvidenceRunner.Metrics();
+    // ---------------------------------------------------------------- Phase 10 mitigation (decisions on the shards; application only on the Paper main thread)
+    public final me.nicolas.papea2ac.mitigation.MitigationActor.Metrics mitigationMetrics=new me.nicolas.papea2ac.mitigation.MitigationActor.Metrics();
+    /** Safe-anchor criteria with the pinned standing on-foot box (mitigation does not depend on version: core supplies the geometry). */
+    final me.nicolas.papea2ac.mitigation.AnchorAdmission anchorAdmission=new me.nicolas.papea2ac.mitigation.AnchorAdmission(collision,
+        p->me.nicolas.papea2ac.collision.PlayerBox.of(collision.profile(),me.nicolas.papea2ac.collision.PlayerBox.Pose.STANDING,p.x(),p.y(),p.z()));
+    /** The model SafeAnchorValidationPort (shared geometry) injected into the platform executor for the main-thread destination re-check. */
+    public final me.nicolas.papea2ac.model.SafeAnchorValidationPort safeAnchorValidator=new me.nicolas.papea2ac.mitigation.SafeAnchorValidator(collision);
+    /** Bounded shard -> main thread hand-off (MITIGATION.md: "Main-thread queue saturation rejects the action without blocking"). */
+    public static final int MITIGATION_QUEUE=64;
+    private final java.util.concurrent.ArrayBlockingQueue<me.nicolas.papea2ac.mitigation.MitigationIntent> mitigationIntents=new java.util.concurrent.ArrayBlockingQueue<>(MITIGATION_QUEUE);
+    /** Durable replay capture for actionable decisions (MITIGATION.md G1 / EVIDENCE_MODEL DURABLE_REQUIRED): unavailable until a durable capsule path is installed, so no intent can leave WAITING_CAPTURE without a real receipt. */
     private volatile MarkerPort markerPort;
     /** Marker cadence: one ping per second per session while the platform port exists, plus one right after an outbound influence/correction (bracketing), never more than one per 50 ms, never with more than 16 pending. */
     public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
@@ -283,6 +313,30 @@ public final class PacketEngine implements AutoCloseable {
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);
     private final me.nicolas.papea2ac.replay.ReplayQuota replayQuota=new me.nicolas.papea2ac.replay.ReplayQuota();
     private volatile me.nicolas.papea2ac.replay.CaptureWriter writer;
+    /** Phase 10 durable decision capsules (REPLAY_SYSTEM capture lifecycle; the TC25 path): null until enabled at startup. */
+    private volatile me.nicolas.papea2ac.replay.DurableCapsuleWriter decisionWriter;private volatile String decisionConfiguration;
+    public final java.util.concurrent.atomic.LongAdder capsulesPromoted=new java.util.concurrent.atomic.LongAdder(),capsulesUnavailable=new java.util.concurrent.atomic.LongAdder(),capsulesDurable=new java.util.concurrent.atomic.LongAdder(),capsulesFailed=new java.util.concurrent.atomic.LongAdder();
+    /** Startup only: rolling prehistory for every session and durable decision capsules under {@code directory} (the diagnostic prefix recording becomes opt-in). */
+    public synchronized void enableDecisionCapsules(java.nio.file.Path directory,String configurationDigest){
+        if(decisionWriter!=null||stopping.get())throw new IllegalStateException("decision capsules startup only");
+        if(!configurationDigest.matches("[0-9a-f]{64}"))throw new IllegalArgumentException("configuration digest");
+        decisionConfiguration=configurationDigest;decisionWriter=new me.nicolas.papea2ac.replay.DurableCapsuleWriter(directory,replayQuota,this::reportFailure);
+    }
+    public me.nicolas.papea2ac.replay.DurableCapsuleWriter decisionWriter(){return decisionWriter;}
+    /** Shard thread: the session's decision-capsule prehistory (fair rolling share on first use, 250 ms checkpoints) - the same code TC25 measures. */
+    private void rollingCapture(Session s,me.nicolas.papea2ac.protocol.Observation o,HealthLatch.State boundary,long now){
+        if(s.decision==null)s.decision=new DecisionCapture(replayQuota,s.key.epoch(),System.nanoTime()-600_000_000_000L);
+        s.decision.observe(o,boundary.generation(),captureEnabled,effectsModeSnapshot.name(),()->{var snap=s.actor.snapshot();
+            return new DecisionCapture.Cursor(snap.lastIngressOrdinal(),snap.certifiedIngressOrdinal(),snap.lastProcessingOrdinal(),snap.lastServerRevision());},activeSessionCount,now);
+    }
+    /** The per-session MitigationActor.CapturePort (shard thread): promote the rolling prehistory through this decision point and submit it for durable storage; the receipt returns through the session's ordered stream. */
+    private boolean requestDecisionCapsule(Session s,me.nicolas.papea2ac.mitigation.MitigationIntent intent){
+        var w=decisionWriter;if(w==null||s.decision==null||!s.health.get().healthy()){capsulesUnavailable.increment();return false;}
+        UUID player=s.key.player();String sid=intent.shortId();
+        boolean ok=s.decision.request(w,intent.actionId(),TransportReplayDriver.PROFILE,decisionConfiguration,s.key.epoch(),r->{if(r.durable())capsulesDurable.increment();else capsulesFailed.increment();deliverCaptureReceipt(player,sid,r.durable());});
+        if(ok)capsulesPromoted.increment();else capsulesUnavailable.increment();
+        return ok;
+    }
     private volatile String replayConfiguration;
     /** Recording may now start at connect time, or later while sessions are already in PLAY: every currently active session is offered recording via the same ordered per-session control path used for any other runtime control. */
     public synchronized void enableRecording(java.nio.file.Path directory,String configurationDigest){
@@ -306,7 +360,7 @@ public final class PacketEngine implements AutoCloseable {
     private synchronized Session sessionOf(UUID player){return active.get(player);}
     public synchronized String replayStatus(){return writer==null?"DISABLED":"written="+writer.written()+" rejected="+writer.rejected()+" failed="+writer.failed()+" rollingBytes="+replayQuota.used(me.nicolas.papea2ac.replay.ReplayQuota.Pool.ROLLING);}
     private void finishReplayShutdown(){
-        if(stopping.get()&&reservedBytes==GLOBAL_BYTES){if(writer!=null)writer.close();replayQuota.closeAdmission();}
+        if(stopping.get()&&reservedBytes==GLOBAL_BYTES){if(writer!=null)writer.close();if(decisionWriter!=null)decisionWriter.close();replayQuota.closeAdmission();}
     }
     private final long admittedLimit;private final int capacity;private long reservedBytes=GLOBAL_BYTES;
     public final PacketMetrics metrics=new PacketMetrics();
@@ -373,6 +427,7 @@ public final class PacketEngine implements AutoCloseable {
                 if(s.ingress.releaseAfterClose()){
                     s.actor.retireAfterWriterTermination();s.world.retireAfterOwnerTermination();s.deferred=null;
                     if(s.recording!=null&&!s.actorClosed){s.recording.incomplete();s.recording.export(writer,replayConfiguration);s.recording.close();s.actorClosed=true;}
+                    if(s.decision!=null){s.decision.close();s.decision=null;}
                     shard.remove(s);
                 }
             }
@@ -396,13 +451,45 @@ public final class PacketEngine implements AutoCloseable {
     public boolean captureEnabled(){return captureEnabled;}
     /** Suspends automated effects to the given restriction, broadcasting an ordered marker into every active session's own observation sequence so replay/diagnostics can tell which control state applied to which observation (a control epoch). Never reaches ENFORCE; that remains reachable only through RuntimeControl.enable(), which this engine never calls. */
     public synchronized void suspendEffects(){applyEffectsMode(RuntimeControl.Mode.DISABLED);controls.restrict(RuntimeControl.Mode.DISABLED);}
-    /** Returns automated effects to the safe startup default (OBSERVE_ONLY). */
-    public synchronized void resumeEffects(){applyEffectsMode(RuntimeControl.Mode.OBSERVE_ONLY);controls.resumeObservation();}
+    /** Returns automated effects to the safe startup default (OBSERVE_ONLY). P10-F2: from qualification ENFORCE the way back is the arbiter's own
+     *  restriction (resumeObservation refuses "through enforce"); the arbiter transitions first so a refusal can never leave the sessions' mode and
+     *  the arbiter's mode disagreeing. */
+    public synchronized void resumeEffects(){if(controls.mode()==RuntimeControl.Mode.ENFORCE)controls.restrict(RuntimeControl.Mode.OBSERVE_ONLY);else controls.resumeObservation();applyEffectsMode(RuntimeControl.Mode.OBSERVE_ONLY);}
     private void applyEffectsMode(RuntimeControl.Mode mode){
         effectsModeSnapshot=mode;
         for(Session s:active.values())s.ingress.bridge(new Observation.ControlChange("EFFECTS_MODE",mode.name()));
     }
     public boolean effectsSuspended(){return effectsModeSnapshot!=RuntimeControl.Mode.ENFORCE;}
+    /** The effect mode as the mitigation domain sees it (a volatile snapshot; the main-thread arbiter re-checks before any effect). */
+    me.nicolas.papea2ac.mitigation.MitigationActor.EffectMode mitigationMode(){return switch(effectsModeSnapshot){case DISABLED->me.nicolas.papea2ac.mitigation.MitigationActor.EffectMode.DISABLED;case OBSERVE_ONLY->me.nicolas.papea2ac.mitigation.MitigationActor.EffectMode.OBSERVE_ONLY;case ENFORCE->me.nicolas.papea2ac.mitigation.MitigationActor.EffectMode.ENFORCE;};}
+    /**
+     * Qualification-only ENFORCE (Phase 10 Decision 3): main thread, explicit authorization AND every guard qualified (the caller passes the
+     * TC25 durability result); otherwise the RuntimeControl refuses. The startup configuration can never select ENFORCE.
+     */
+    public synchronized void enableEnforce(boolean authorized,boolean allGuardsQualified){controls.enable(authorized,allGuardsQualified);proposalGuard.reset();applyEffectsMode(RuntimeControl.Mode.ENFORCE);}
+    /** Main thread: applies a tripped G2 proposal guard (the out-of-band restrictive latch) to the arbiter's mode: ENFORCE becomes OBSERVE_ONLY and every session is told. True when a restriction was applied now (GlobalAnomalySuspend). */
+    public synchronized boolean applyPendingRestriction(){if(!proposalGuard.tripped()||controls.mode()!=RuntimeControl.Mode.ENFORCE)return false;controls.restrict(RuntimeControl.Mode.OBSERVE_ONLY);applyEffectsMode(RuntimeControl.Mode.OBSERVE_ONLY);return true;}
+    public String proposalGuardStatus(){return proposalGuard.describe();}
+    /** Main thread: the G2 global admission for one proposed effect (window/burst guards; a restriction suspends to OBSERVE_ONLY and broadcasts it). */
+    public synchronized boolean admitEffect(UUID player,long nowNanos){if(applyPendingRestriction()||proposalGuard.tripped())return false;boolean ok=controls.admitSynthetic(player,Math.max(1,active.size()),nowNanos);if(!ok&&controls.mode()!=effectsModeSnapshot)applyEffectsMode(controls.mode());return ok;}
+    /** The observer dictionary id of a live block state normalized exactly like the packet path (DestinationRegion cells share the observer's id space); -1 when the dictionary is full. */
+    public int internBlockState(me.nicolas.papea2ac.protocol.SemanticPayload.BlockState state){return blockStates.intern(WorldObservationMapper.key(state));}
+    /** Unresolved (sent, unconfirmed, not superseded) corrections of the player's session, from the published timing view (main-thread precondition). */
+    public synchronized int unresolvedTeleports(UUID player){Session s=active.get(player);return s==null?0:MitigationRunner.unresolvedTeleports(s.timing.view());}
+    /** The pinned STANDING on-foot box at a target as model bounds (the same geometry the shard's anchor admission certified). */
+    public me.nicolas.papea2ac.model.SafeAnchorValidationPort.Bounds standingBounds(me.nicolas.papea2ac.model.Vector3 p){return me.nicolas.papea2ac.mitigation.DestinationRegionCapture.bounds(anchorAdmission.standingBox(p));}
+    /** Main thread: the next queued intent, or null. */
+    public me.nicolas.papea2ac.mitigation.MitigationIntent pollMitigationIntent(){return mitigationIntents.poll();}
+    /** Main thread: reports an intent's platform outcome into the owning session's ordered stream (a record of admission order for replay). */
+    public boolean reportMitigation(UUID player,String record){Session s;synchronized(this){s=active.get(player);}return s!=null&&s.ingress.bridge(new Observation.ControlChange("MITIGATION",record));}
+    /** Whether {@code key} is still the player's current session (a correction of an old session never touches a new one). */
+    public synchronized boolean currentSession(SessionKey key){Session s=active.get(key.player());return s!=null&&s.key.equals(key);}
+    /** The session's current transport health generation (the G1 linearization latch: authorize(generation) right before the platform call). */
+    public synchronized me.nicolas.papea2ac.model.HealthLatch healthLatch(UUID player){Session s=active.get(player);return s==null?null:s.health;}
+    /** Shard-ordered delivery of a durable capture receipt to the owning session's actor. */
+    public boolean deliverCaptureReceipt(UUID player,String shortId,boolean durable){Session s;synchronized(this){s=active.get(player);}return s!=null&&s.ingress.bridge(new Observation.ControlChange("MITIGATION_CAPTURE",shortId+(durable?":D":":F")));}
+    /** Published mitigation status of one session (diagnostics). */
+    public synchronized java.util.Optional<me.nicolas.papea2ac.mitigation.MitigationActor.Status> mitigationStatus(UUID player){Session s=active.get(player);return s==null?java.util.Optional.empty():java.util.Optional.of(s.mitigation.status());}
     public void reportFailure(Throwable failure){metrics.increment(PacketMetrics.Kind.FAILURE);errors.accept(failure);}
     public synchronized int sessions(){return active.size();}
     public synchronized CoverageSummary coverage(UUID player){

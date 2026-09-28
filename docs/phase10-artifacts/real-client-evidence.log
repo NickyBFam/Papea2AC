@@ -1,0 +1,50 @@
+
+=== 2026-09-26T20:16:25.954Z smoke: status / mitigation / enforce refused without flag
+> papea2ac status
+capture=true effectsSuspended=true correlation=UNSUPPORTED
+Papea2AC OBSERVE_ONLY sessions=0 reservedBytes=268435456
+CAPTURED=0
+NORMALIZED=0
+PROVISIONAL=0
+CERTIFIED=0
+CANCELLED=0
+MUTATED=0
+UNKNOWN=0
+EXPIRED=0
+OVERLOAD=0
+MALFORMED=0
+STALE=0
+FAILURE=0
+CLOSED=0
+WRITE_FAILED=0
+INGRESS_DROPPED=0
+BRIDGE_DROPPED=0
+DISPATCH_REJECTED=0
+CLEANUP_STALLED=0
+WRITER_HUNG=0
+CHECKPOINT_CREATED=0
+RECORDING_PAUSED=0
+CONTROL_APPLIED=0
+PRELOGIN_ADMISSION_REJECTED=0
+PRELOGIN_TRUNCATED_GLOBAL=0
+BULK_SHED=0
+WORK_QUOTA_DEFERRED=0
+replay written=0 rejected=0 failed=0 rollingBytes=0
+delaySamples=0 totalDelayNanos=0
+delayP95UpperNanos=0 delayP99UpperNanos=0
+monitoring activeSessions=0 certifiedSessions=0 overloadedSessions=0 queueOccupancy=0/0 writerHealth=RUNNING checkpointsCreated=0 recordingPauses=0
+budget rollingBytes=0/50331648 promotionBytes=0 ioBytes=0 writerQueueCapacity=2 infrastructurePool=0/33554432
+world observers=0 chunks=0 complete=0 partial=0 sections=0 sharedBytes=0/100663296 sharedSections=0 sharedHits=0 privateTier=786432 revisions=0 historyEvictions=0 evicted=0 unloaded=0 coverageBreaks=0 budgetRejections=0
+physics profile=paper-26.2-124-movement sha256=4df7479291b0ab9c sine=87a67a39fff59636 blockTable=de9ab636d80e6abb blocks=1196 fluidStates=11792 effects=40 attributes=36 diagnosticSteps=0 diagnosticExact=0 activeTraces=0
+reconstruction rawDomain=144 classes=136 observation=paper-26.2-124-movement-observation caps=256nodes/4096evals/3ticks diagnosticRequests=0 diagnosticDeclaredPresent=0 diagnosticSamples=0 activeTraces=0
+timing profile=paper-26.2-124-timing markerPort=true markersIssued=0 sendFailures=0 answered=0 rttSamples=0 outliers=0 rejected=0 lateOrUnknownAcks=0 expiredMarkers=0 staleTeleportConfirms=0 velocityIgnoredUnknownSelf=0 activeTraces=0 tracerSteps=0 explained=0 unexplained=0
+validation requests=0 VALID=0 UNCERTAIN=0 INVALID=0 uncertain{searchLimit=0 unsupported=0 worldIncomplete=0 externalMotion=0 unanchored=0 other=0} timingBranches=0 reconstructions=0 evaluations=0 anchors=0/lost=0 internalErrors=0 injected=0
+evidence consumed=0 witness=0 unresolved=0 positiveEvents=0 duplicates=0 proofRejected=0 outOfOrder=0 sessionMismatch=0 internalErrors=0 side{consumed=0 positive=0 duplicates=0} sessions=0
+collision profile=paper-26.2-124-collision shapeTable=32366states/325shapes/1196blocks sha256=0c3e2b3648f9e8fd queries=0 complete=0 incomplete=0 unavailable=0 rejected=0 truncated=0 cells=0 hits=0 cacheHits=0 cacheMisses=0 unsupportedStates=0 contextRequired=0 dynamicCells=0 worldUnknownCells=0
+
+> papea2ac mitigation Emojiado
+Player is not online.
+
+> papea2ac effects enforce-qualification
+REFUSED: qualification ENFORCE needs -Dpapea2ac.qualificationEnforce=true (false) and a passing TC25 result (true); mode stays not ENFORCE
+

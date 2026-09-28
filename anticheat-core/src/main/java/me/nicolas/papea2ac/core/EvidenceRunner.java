@@ -78,4 +78,7 @@ public final class EvidenceRunner {
     private void publish() { status = status(live.snapshot(), side.snapshot()); }
     private EvidenceStatus status(EvidenceSnapshot l, EvidenceSnapshot s) { return new EvidenceStatus(key.epoch(), l.worldEpoch(), l.activeEvents(), l.totalEvents(), l.currentRun(), l.longestRun(), l.validObserved(), l.uncertainObserved(), l.invalidObserved(), l.proofRejected(), l.duplicates(), l.describe(), s.describe(), List.copyOf(recent), List.copyOf(sideRecent)); }
     public EvidenceSnapshot liveSnapshot() { return live.snapshot(); }
+    /** Phase 10: the snapshot of one chain right after an ingest and that chain's newest event (the mitigation policy input; owner shard). */
+    public EvidenceSnapshot snapshot(boolean sideChain) { return sideChain ? side.snapshot() : live.snapshot(); }
+    public java.util.Optional<EvidenceEvent> lastEvent(boolean sideChain) { return sideChain ? side.lastEvent() : live.lastEvent(); }
 }

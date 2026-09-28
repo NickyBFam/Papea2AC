@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "case": "no_anchor",
+      "expected": "SUPPRESSED NO_SAFE_ANCHOR",
+      "actual": "SUPPRESSED NO_SAFE_ANCHOR",
+      "match": true,
+      "note": "no certified pre-evidence state"
+    },
+    {
+      "case": "teleport_pending",
+      "expected": "SUPPRESSED UNRESOLVED_TELEPORT",
+      "actual": "SUPPRESSED UNRESOLVED_TELEPORT",
+      "match": true,
+      "note": "a legitimate correction is still unconfirmed"
+    },
+    {
+      "case": "velocity_pending",
+      "expected": "SUPPRESSED UNRESOLVED_EXTERNAL_MOTION",
+      "actual": "SUPPRESSED UNRESOLVED_EXTERNAL_MOTION",
+      "match": true,
+      "note": "legitimate external motion in scope"
+    },
+    {
+      "case": "block_dispute",
+      "expected": "SUPPRESSED BLOCK_DISPUTE",
+      "actual": "SUPPRESSED BLOCK_DISPUTE",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "P9-F2: the geometry is disputed"
+    },
+    {
+      "case": "entity_ambiguity",
+      "expected": "SUPPRESSED ENTITY_STATE_INCOMPLETE",
+      "actual": "SUPPRESSED ENTITY_STATE_INCOMPLETE",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "P9-F5: a pusher near the player or target"
+    },
+    {
+      "case": "transport_unhealthy",
+      "expected": "SUPPRESSED TRANSPORT_UNHEALTHY",
+      "actual": "SUPPRESSED TRANSPORT_UNHEALTHY",
+      "match": true,
+      "note": "the health latch is not HEALTHY"
+    },
+    {
+      "case": "unsupported_locomotion",
+      "expected": "SUPPRESSED UNSUPPORTED_LOCOMOTION",
+      "actual": "SUPPRESSED UNSUPPORTED_LOCOMOTION",
+      "match": true,
+      "note": "flight/creative/vehicle context"
+    },
+    {
+      "case": "unsafe_anchor_obstructed",
+      "expected": "SUPPRESSED COLLISION_OBSTRUCTED",
+      "actual": "SUPPRESSED COLLISION_OBSTRUCTED",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "block-change race: the target is no longer clear"
+    },
+    {
+      "case": "unsafe_anchor_unknown",
+      "expected": "SUPPRESSED COLLISION_UNKNOWN",
+      "actual": "SUPPRESSED COLLISION_UNKNOWN",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "UNKNOWN is never clear"
+    },
+    {
+      "case": "anchor_too_far",
+      "expected": "RESYNC_REQUIRED ANCHOR_TOO_FAR",
+      "actual": "RESYNC_REQUIRED ANCHOR_TOO_FAR",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "more than 8 blocks: no long-distance correction"
+    },
+    {
+      "case": "mode_disabled",
+      "expected": "SUPPRESSED MODE_DISABLED",
+      "actual": "SUPPRESSED MODE_DISABLED",
+      "match": true,
+      "targetSequence": 50,
+      "action": "09769d4556336dff",
+      "note": "DISABLED: no effect"
+    }
+  ],
+  "note": "every safety precondition refuses with its own typed reason; OBSERVE_ONLY/DISABLED record the would-be target and action id without applying anything"
+}

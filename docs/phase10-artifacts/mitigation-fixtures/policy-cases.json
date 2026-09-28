@@ -1,0 +1,113 @@
+[
+  {
+    "case": "insufficient_1_group",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "1 independent group(s): never a setback"
+  },
+  {
+    "case": "insufficient_2_groups",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "2 independent group(s): never a setback"
+  },
+  {
+    "case": "insufficient_3_groups",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "3 independent group(s): never a setback"
+  },
+  {
+    "case": "eligible_4_independent_same_family_observe_only",
+    "expected": "SUPPRESSED MODE_OBSERVE_ONLY",
+    "actual": "SUPPRESSED MODE_OBSERVE_ONLY",
+    "match": true,
+    "targetSequence": 50,
+    "action": "09769d4556336dff",
+    "note": "policy met; OBSERVE_ONLY records the would-be target, applies nothing"
+  },
+  {
+    "case": "eligible_4_independent_same_family_enforce",
+    "expected": "PROPOSED POLICY_MET",
+    "actual": "PROPOSED POLICY_MET",
+    "match": true,
+    "targetSequence": 50,
+    "action": "09769d4556336dff",
+    "note": "the only path to an intent"
+  },
+  {
+    "case": "duplicates_never_count",
+    "expected": "NONE NO_EVIDENCE",
+    "actual": "NONE NO_EVIDENCE",
+    "match": true,
+    "note": "3 groups + 3 re-deliveries (DUPLICATE) + a VALID: the duplicates added nothing, the VALID reset"
+  },
+  {
+    "case": "valid_separated",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "I I V I I: the VALID resets the chain"
+  },
+  {
+    "case": "uncertain_separated",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "I I U I I: the UNCERTAIN resets the chain"
+  },
+  {
+    "case": "unanchored_separated",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "an unanchored START_UNAVAILABLE is an UNCERTAIN observation"
+  },
+  {
+    "case": "expired_evidence",
+    "expected": "NOT_ELIGIBLE EVIDENCE_EXPIRED",
+    "actual": "NOT_ELIGIBLE EVIDENCE_EXPIRED",
+    "match": true,
+    "note": "the first group left the 30 s window: 3 active groups; mitigation never resurrects expired evidence"
+  },
+  {
+    "case": "different_families",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "H H V H: no family common to the last four"
+  },
+  {
+    "case": "shared_family",
+    "expected": "PROPOSED POLICY_MET",
+    "actual": "PROPOSED POLICY_MET",
+    "match": true,
+    "targetSequence": 50,
+    "action": "4c22ce642bb66666",
+    "note": "HORIZONTAL_EXCESS common to all four"
+  },
+  {
+    "case": "touching_run_is_one_group",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "8 consecutive touching INVALIDs: one Phase 9 group"
+  },
+  {
+    "case": "world_epoch_boundary",
+    "expected": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "actual": "NOT_ELIGIBLE INSUFFICIENT_EVIDENCE",
+    "match": true,
+    "note": "the fourth group is in a new epoch: the chain restarted there"
+  },
+  {
+    "case": "session_boundary",
+    "expected": "NONE SESSION_MISMATCH",
+    "actual": "NONE SESSION_MISMATCH",
+    "match": true,
+    "note": "another session's evidence never counts"
+  }
+]
