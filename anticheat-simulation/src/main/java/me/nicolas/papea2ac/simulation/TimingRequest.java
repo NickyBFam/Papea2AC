@@ -31,19 +31,29 @@ import java.util.Objects;
  * @param nowNanos          the evaluation time of the interval on the capture-monotonic clock: for a live consumer its now, for an offline walk
  *                          the target's capture nanos (influence expiry is judged against it - an influence older than the horizon at a later
  *                          report time was still live inside the interval that applied it, P7-F7)
+ * @param answeredMarkers   Phase 13: the session's recently answered markers (the ledger's bounded list, any age); the resolver uses them as
+ *                          application fences only when {@code profile.pongBoundsApplication()} - otherwise they are ignored
  */
 public record TimingRequest(List<TimingEvent> events, long anchorSequence, long anchorNanos, boolean anchorInTick, Vector3 lastSentPosition, float lastYaw, TimingEvent.MovementObserved target,
                             List<TimingEvent.ExternalMotionSent> pendingInfluences, List<TimingLedger.PendingTeleport> teleports, RttEstimator.Summary rtt, boolean tickEndCapable,
-                            boolean coverageDegraded, long worldEpoch, long nowNanos, TimingProfile profile, TimingBudget budget) {
+                            boolean coverageDegraded, long worldEpoch, long nowNanos, TimingProfile profile, TimingBudget budget, List<TimingLedger.AnsweredMarker> answeredMarkers) {
     public TimingRequest {
         events = List.copyOf(events); Objects.requireNonNull(lastSentPosition); Objects.requireNonNull(target); pendingInfluences = List.copyOf(pendingInfluences); teleports = List.copyOf(teleports);
-        Objects.requireNonNull(rtt); Objects.requireNonNull(profile); Objects.requireNonNull(budget);
+        Objects.requireNonNull(rtt); Objects.requireNonNull(profile); Objects.requireNonNull(budget); answeredMarkers = List.copyOf(answeredMarkers);
         if (anchorSequence < 0 || worldEpoch < 0) throw new IllegalArgumentException("sequence/epoch");
         if (target.sequence() <= anchorSequence) throw new IllegalArgumentException("target must follow the anchor");
         long previous = anchorSequence;
         for (TimingEvent e : events) { if (e.sequence() <= previous || e.sequence() > target.sequence()) throw new IllegalArgumentException("events must be ordered within (anchor, target]"); previous = e.sequence(); }
     }
-    public TimingRequest withPendingInfluences(List<TimingEvent.ExternalMotionSent> p) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, p, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, budget); }
-    public TimingRequest withBudget(TimingBudget b) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, b); }
-    public TimingRequest withProfile(TimingProfile p) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, p, budget); }
+    /** The Phase 7-11 shape: no answered markers (no application fence can apply). */
+    public TimingRequest(List<TimingEvent> events, long anchorSequence, long anchorNanos, boolean anchorInTick, Vector3 lastSentPosition, float lastYaw, TimingEvent.MovementObserved target,
+                         List<TimingEvent.ExternalMotionSent> pendingInfluences, List<TimingLedger.PendingTeleport> teleports, RttEstimator.Summary rtt, boolean tickEndCapable,
+                         boolean coverageDegraded, long worldEpoch, long nowNanos, TimingProfile profile, TimingBudget budget) {
+        this(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, budget, List.of());
+    }
+    public TimingRequest withPendingInfluences(List<TimingEvent.ExternalMotionSent> p) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, p, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, budget, answeredMarkers); }
+    public TimingRequest withBudget(TimingBudget b) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, b, answeredMarkers); }
+    public TimingRequest withProfile(TimingProfile p) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, p, budget, answeredMarkers); }
+    /** Phase 13: the same request with the session's answered markers (application fences under a fenced profile). */
+    public TimingRequest withAnsweredMarkers(List<TimingLedger.AnsweredMarker> a) { return new TimingRequest(events, anchorSequence, anchorNanos, anchorInTick, lastSentPosition, lastYaw, target, pendingInfluences, teleports, rtt, tickEndCapable, coverageDegraded, worldEpoch, nowNanos, profile, budget, a); }
 }

@@ -30,10 +30,28 @@ public final class TimingLedger {
                            long externalMotions, long failedWrites, long discontinuities, long coverageBreaks, long evictions) {
         public static final Counters ZERO = new Counters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
-    public record View(SessionKey key, long lastSequence, long lastNanos, long worldEpoch, boolean closed, boolean tickEndCapable, long lastClientTickEndSequence,
-                       RttEstimator.Summary rtt, MarkerLedger.Summary markers, Counters counters, List<PendingTeleport> teleports, List<TimingEvent> events, boolean eventsPublished) {
-        public View { teleports = List.copyOf(teleports); events = List.copyOf(events); }
+    /**
+     * Phase 13: a marker this ledger saw sent and then answered in order, with the marker's own capture sequence and wire ordinal. It
+     * records only what was observed; whether an answer bounds application is the version profile's claim
+     * ({@code TimingProfile.pongBoundsApplication}), applied by the resolver.
+     */
+    public record AnsweredMarker(TimingEvent.MarkerKind kind, long id, long markerSequence, long markerNanos, long markerWireOrdinal, long answerSequence, long answerNanos) {
+        public AnsweredMarker { Objects.requireNonNull(kind); if (markerWireOrdinal < 1 || answerSequence <= markerSequence) throw new IllegalArgumentException("answered marker"); }
     }
+    public record View(SessionKey key, long lastSequence, long lastNanos, long worldEpoch, boolean closed, boolean tickEndCapable, long lastClientTickEndSequence,
+                       RttEstimator.Summary rtt, MarkerLedger.Summary markers, Counters counters, List<PendingTeleport> teleports, List<TimingEvent> events, boolean eventsPublished,
+                       List<AnsweredMarker> answeredMarkers) {
+        public View { teleports = List.copyOf(teleports); events = List.copyOf(events); answeredMarkers = List.copyOf(answeredMarkers); }
+        /** The Phase 7-11 shape (no answered-marker list). */
+        public View(SessionKey key, long lastSequence, long lastNanos, long worldEpoch, boolean closed, boolean tickEndCapable, long lastClientTickEndSequence,
+                    RttEstimator.Summary rtt, MarkerLedger.Summary markers, Counters counters, List<PendingTeleport> teleports, List<TimingEvent> events, boolean eventsPublished) {
+            this(key, lastSequence, lastNanos, worldEpoch, closed, tickEndCapable, lastClientTickEndSequence, rtt, markers, counters, teleports, events, eventsPublished, List.of());
+        }
+    }
+    /** Phase 13: answered markers kept for the resolver's application fences (oldest dropped first): about half a minute of the 1 Hz cadence plus influence brackets. */
+    public static final int MAX_ANSWERED = 32;
+    private final java.util.ArrayDeque<AnsweredMarker> answered = new java.util.ArrayDeque<>();
+    private List<AnsweredMarker> answeredView = List.of();
 
     private final SessionKey key;
     private final ObservationRing<TimingEvent> ring = new ObservationRing<>(RING_COUNT, RING_BYTES, HORIZON_NANOS, TimingEvent::chargedBytes);
@@ -80,6 +98,11 @@ public final class TimingLedger {
                 if (answer.outcome() == MarkerLedger.Answer.Outcome.RESOLVED || answer.outcome() == MarkerLedger.Answer.Outcome.RESOLVED_WRITE_UNKNOWN) {
                     markersAcknowledged++;
                     answer.rttNanos().ifPresent(sample -> rtt.accept(sample, a.nanos()));
+                    if (answer.sentSequence() < a.sequence() && answer.wireOrdinal() >= 1) {
+                        if (answered.size() >= MAX_ANSWERED) answered.removeFirst();
+                        answered.addLast(new AnsweredMarker(a.kind(), a.id(), answer.sentSequence(), answer.sentNanos(), answer.wireOrdinal(), a.sequence(), a.nanos()));
+                        answeredView = List.copyOf(answered); // copied only when an answer arrives, never per published event
+                    }
                 }
             }
             case TimingEvent.WriteResolved w -> {
@@ -108,6 +131,7 @@ public final class TimingLedger {
             case TimingEvent.ServerTick t -> { }
             case TimingEvent.Discontinuity d -> { discontinuities++; worldEpoch = d.newWorldEpoch(); }
             case TimingEvent.CoverageBreak b -> coverageBreaks++;
+            case TimingEvent.LocalAttack a -> { } // Phase 13: recorded in order; the resolver branches the attacker slowdown
         }
         ring.append(event, event.nanos());
         markers.expire(event.nanos());
@@ -140,6 +164,6 @@ public final class TimingLedger {
         if (publishEvents) published = diagnostic;
         view = new View(key, lastSequence, lastNanos, worldEpoch, closed, clientTickEnds > 0, lastClientTickEndSequence, rtt.summary(), markers.summary(),
             new Counters(events, movements, clientTickEnds, markersSent, markersAcknowledged, staleTeleportConfirms, teleportsSent, teleportsConfirmed, externalMotions, failedWrites, discontinuities, coverageBreaks, ring.evictions()),
-            teleports, published, publishEvents);
+            teleports, published, publishEvents, answeredView);
     }
 }

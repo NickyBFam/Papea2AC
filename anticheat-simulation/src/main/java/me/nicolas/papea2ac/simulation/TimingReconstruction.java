@@ -82,6 +82,40 @@ public final class TimingReconstruction {
                 if (reconstructions >= budget.maxReconstructions() || evaluations >= budget.maxTotalEvaluations()) { searchLimit = true; notes.add("reconstruction budget reached (" + reconstructions + " calls, " + evaluations + " evaluations): remaining hypotheses not evaluated"); break outer; }
                 // leading silent ticks: the exact silent closure of the group's states (a superset fixed point, never a guess)
                 List<Node> groupNodes = g.getValue(); int closureTicks = chunk.get(0).closureTicks();
+                if (closureTicks > 0 && chunk.get(0).closure().branches()) {
+                    // Phase 13: fenced influences may apply inside the closure - branch them tick by tick, then reconstruct each applied-set separately
+                    TimingHypothesis.ClosurePlan plan = chunk.get(0).closure();
+                    Closure cl = branchingClosure(groupNodes, closureTicks, plan, template, env, perRequest, budget, reconstructions, evaluations);
+                    reconstructions = cl.reconstructions; evaluations = cl.evaluations;
+                    if (cl.limited) { searchLimit = true; notes.add("branching silent closure hit a bound after " + cl.iterations + " tick(s): complete=false"); }
+                    Set<String> planIds = new LinkedHashSet<>(); for (TimingHypothesis.ClosureInfluence ci : plan.influences()) planIds.add(ci.id());
+                    LinkedHashMap<Set<String>, List<TimingHypothesis>> byApplied = new LinkedHashMap<>();
+                    for (TimingHypothesis h : chunk) byApplied.computeIfAbsent(h.closure().applied(), k -> new ArrayList<>()).add(h);
+                    for (Map.Entry<Set<String>, List<TimingHypothesis>> ap : byApplied.entrySet()) {
+                        // the closure states in which exactly this prefix was applied (the plan ids still pending are the rest)
+                        List<Node> starts = new ArrayList<>();
+                        for (Node n : cl.nodes) { Set<String> stillPending = new LinkedHashSet<>(n.pendingInfluences()); stillPending.retainAll(planIds); Set<String> expect = new LinkedHashSet<>(planIds); expect.removeAll(ap.getKey()); if (stillPending.equals(expect)) starts.add(n); }
+                        if (starts.isEmpty()) { for (TimingHypothesis h : ap.getValue()) steps.add(new Step(h, emptyResult(template, h), false)); continue; }
+                        if (reconstructions >= budget.maxReconstructions() || evaluations >= budget.maxTotalEvaluations()) { searchLimit = true; notes.add("reconstruction budget reached after the branching closure: remaining hypotheses not evaluated"); break outer; }
+                        List<ReconstructionRequest.Start> rs = new ArrayList<>(); for (Node n : starts) rs.add(new ReconstructionRequest.ConcreteStart(n.state(), n.label()));
+                        List<ReconstructionRequest.ExternalMotionBranch> branches = new ArrayList<>(); for (TimingHypothesis h : ap.getValue()) branches.add(h.branch());
+                        ReconstructionRequest rr = ReconstructionRequest.of(starts.get(0).state(), e.getKey(), env).withFrontier(rs).withBranches(branches).withWorldEpoch(template.worldEpoch()).withBudget(perRequest);
+                        ReconstructionResult result = reconstructor.reconstruct(rr);
+                        reconstructions++; evaluations += result.work().evaluations();
+                        for (TimingHypothesis h : ap.getValue()) {
+                            boolean explains = false;
+                            for (ReconstructionResult.Candidate c : result.candidates()) {
+                                if (!c.branchId().equals(h.branch().id()) || !c.exact()) continue;
+                                explains = true;
+                                if (next.size() < budget.maxFrontierNodes()) next.putIfAbsent(new NodeKey(c.predicted(), h.pendingInfluences()), new Node(c.predicted(), h.pendingInfluences(), h.id() + "/c" + c.id()));
+                                else dropped++;
+                            }
+                            if (!result.complete()) complete = false;
+                            steps.add(new Step(h, result, explains));
+                        }
+                    }
+                    continue;
+                }
                 if (closureTicks > 0) {
                     Closure cl = silentClosure(groupNodes, closureTicks, template, env, perRequest, budget, reconstructions, evaluations);
                     reconstructions = cl.reconstructions; evaluations = cl.evaluations; groupNodes = cl.nodes;
@@ -188,6 +222,65 @@ public final class TimingReconstruction {
             if (!grew) { it++; break; }
         }
         return new Closure(new ArrayList<>(union.values()), it, reconstructions, evaluations, limited);
+    }
+    /**
+     * Phase 13 branching silent closure (fenced influences inside a silent stretch): EXACT per-tick frontiers, never a union, from the first
+     * silent tick to the plan's last decision tick. At closure tick c a node may apply the next not-yet-applied plan influences in wire order
+     * (a prefix of them, each from its earliest tick) as branches of that tick; after tick c every node that still holds an influence whose
+     * deadline is c is dropped (the fence proves it was applied by then). A node carries the plan influences it has NOT applied yet in its
+     * pending set. Past the last decision tick nothing branches any more and the Phase 7 superset fixed point covers the remaining silent
+     * ticks per pending class. Bounded by the frontier cap and the reconstruction/evaluation budgets ({@code limited} = cut: incomplete).
+     */
+    private Closure branchingClosure(List<Node> start, int ticks, TimingHypothesis.ClosurePlan plan, TimingRequest template, PhysicsEnvironment env, ReconstructionRequest.SearchBudget perRequest, TimingBudget budget, int reconstructions, long evaluations) {
+        Vector3 p = template.lastSentPosition();
+        List<TimingHypothesis.ClosureInfluence> inf = plan.influences();
+        List<Node> frontier = new ArrayList<>();
+        for (Node n : start) { Set<String> pend = new LinkedHashSet<>(n.pendingInfluences()); for (TimingHypothesis.ClosureInfluence ci : inf) pend.add(ci.id()); frontier.add(new Node(n.state(), pend, n.label())); }
+        boolean limited = false; int it = 0; int last = plan.lastDecisionTick(ticks);
+        for (; it < last && !frontier.isEmpty(); it++) {
+            int c = it + 1;
+            LinkedHashMap<NodeKey, Node> nextTick = new LinkedHashMap<>();
+            // group by how many plan influences are already applied (a wire-order prefix): one reconstruction per class, its options as branches
+            LinkedHashMap<Integer, List<Node>> byApplied = new LinkedHashMap<>();
+            for (Node n : frontier) { int m = 0; while (m < inf.size() && !n.pendingInfluences().contains(inf.get(m).id())) m++; byApplied.computeIfAbsent(m, x -> new ArrayList<>()).add(n); }
+            for (Map.Entry<Integer, List<Node>> g : byApplied.entrySet()) {
+                if (reconstructions >= budget.maxReconstructions() || evaluations >= budget.maxTotalEvaluations()) { limited = true; break; }
+                int m = g.getKey(), maxM = m; while (maxM < inf.size() && inf.get(maxM).earliest() <= c) maxM++;
+                List<ReconstructionRequest.ExternalMotionBranch> branches = new ArrayList<>();
+                for (int to = m; to <= maxM; to++) {
+                    List<PhysicsEnvironment.ExternalMotion> motions = new ArrayList<>(); for (int j = m; j < to; j++) motions.add(inf.get(j).motion());
+                    branches.add(new ReconstructionRequest.ExternalMotionBranch("closure" + c + "-apply" + to, List.of(motions)));
+                }
+                List<ReconstructionRequest.Start> starts = new ArrayList<>(); for (Node n : g.getValue()) starts.add(new ReconstructionRequest.ConcreteStart(n.state(), n.label()));
+                TickObservation silent = TickObservation.silent(p.x(), p.y(), p.z(), template.lastYaw(), template.anchorSequence() + c);
+                ReconstructionResult r = reconstructor.reconstruct(ReconstructionRequest.of(g.getValue().get(0).state(), silent, env).withFrontier(starts).withBranches(branches).withWorldEpoch(template.worldEpoch()).withBudget(perRequest));
+                reconstructions++; evaluations += r.work().evaluations();
+                if (!r.complete()) limited = true;
+                Set<String> base = g.getValue().get(0).pendingInfluences();
+                for (ReconstructionResult.Candidate cand : r.candidates()) {
+                    if (!cand.exact()) continue;
+                    int to = Integer.parseInt(cand.branchId().substring(cand.branchId().indexOf("-apply") + 6));
+                    Set<String> pend = new LinkedHashSet<>(base); for (int j = m; j < to; j++) pend.remove(inf.get(j).id());
+                    boolean overdue = false; for (TimingHypothesis.ClosureInfluence ci : inf) if (ci.deadline() > 0 && ci.deadline() <= c && pend.contains(ci.id())) overdue = true;
+                    if (overdue) continue; // the fence proves it was applied by tick c
+                    NodeKey key = new NodeKey(cand.predicted(), pend);
+                    if (nextTick.size() >= budget.maxFrontierNodes() && !nextTick.containsKey(key)) { limited = true; continue; }
+                    nextTick.putIfAbsent(key, new Node(cand.predicted(), pend, "closure" + c + "/c" + cand.id()));
+                }
+            }
+            frontier = new ArrayList<>(nextTick.values());
+            if (limited) { it++; break; }
+        }
+        if (limited || frontier.isEmpty() || it >= ticks) return new Closure(frontier, it, reconstructions, evaluations, limited);
+        // nothing branches past the last decision tick: the Phase 7 superset fixed point per pending class covers the remaining silent ticks
+        LinkedHashMap<Set<String>, List<Node>> classes = new LinkedHashMap<>(); for (Node n : frontier) classes.computeIfAbsent(n.pendingInfluences(), x -> new ArrayList<>()).add(n);
+        List<Node> out = new ArrayList<>(); int iterations = it;
+        for (List<Node> cls : classes.values()) {
+            Closure rest = silentClosure(cls, ticks - it, template, env, perRequest, budget, reconstructions, evaluations);
+            reconstructions = rest.reconstructions; evaluations = rest.evaluations; limited |= rest.limited; iterations = Math.max(iterations, it + rest.iterations);
+            out.addAll(rest.nodes);
+        }
+        return new Closure(out, iterations, reconstructions, evaluations, limited);
     }
     /** A result value for a physics-free teleport step (no candidates, complete): keeps Step's shape uniform for consumers. */
     private ReconstructionResult emptyResult(TimingRequest template, TimingHypothesis h) {

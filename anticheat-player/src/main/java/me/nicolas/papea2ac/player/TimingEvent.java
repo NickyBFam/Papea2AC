@@ -79,5 +79,15 @@ public sealed interface TimingEvent {
         public CoverageBreak { check(sequence); Objects.requireNonNull(reason); if (reason.length() > 64) throw new IllegalArgumentException("reason"); }
         public int chargedBytes() { return 64 + reason.length(); }
     }
+    /**
+     * Phase 13: the client's ATTACK on an entity. The 26.2 client sends it from {@code handleKeybinds}, before that tick's movement packet, and
+     * then runs {@code Player.attack} locally, which may slow and un-sprint the attacker before the same tick's movement (attacker slowdown).
+     * Whether it did depends on client facts the server does not see (attack cooldown, held-item knockback, the target's {@code hurtClient}),
+     * so the resolver keeps both outcomes. The event is no evidence that the server accepted the attack.
+     */
+    record LocalAttack(long sequence, long nanos, int targetEntityId) implements TimingEvent {
+        public LocalAttack { check(sequence); }
+        public int chargedBytes() { return 40; }
+    }
     private static void check(long sequence) { if (sequence < 1) throw new IllegalArgumentException("sequence"); }
 }

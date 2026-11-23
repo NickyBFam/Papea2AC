@@ -8,8 +8,11 @@ public record TransportCapsule(int schema, String profile, String configurationD
         String incompleteReason) {
     public static final int MAX_BYTES = 8 * 1024 * 1024;
     /** Container schema written by every encoder; {@link #LEGACY_SCHEMA} (Phase 1/2) is still decodable. Schema 2 (P3-C1): payload blobs use payload-schema 2
-     *  (extended semantic tags 59/74/79) and the per-payload bound rose to {@link Payload#MAX_BYTES}; the container layout itself is unchanged. */
-    public static final int CURRENT_SCHEMA = 2, LEGACY_SCHEMA = 1;
+     *  (extended semantic tags 59/74/79) and the per-payload bound rose to {@link Payload#MAX_BYTES}; the container layout itself is unchanged.
+     *  Schema 3 (P11-F2/P11-F9): payload blobs use payload-schema 3 (new semantic tags 80 EntityPositionSync and 81 LegacyEntityPosition); container
+     *  layout unchanged. Schemas 1 and 2
+     *  still decode; a schema-2 reader rejects schema 3 at the header. */
+    public static final int CURRENT_SCHEMA = 3, LEGACY_SCHEMA = 1;
     /** Convenience for session-start (checkpoint-free) capsules; equivalent to the explicit-reason constructor with an empty reason. */
     public TransportCapsule(int schema, String profile, String configurationDigest, String sourceRevision,
             long epoch, boolean qualifiedFixture, List<Frame> frames, boolean complete) {

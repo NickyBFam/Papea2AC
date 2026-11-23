@@ -89,9 +89,40 @@ public final class MovementValidationRunner {
      * and the player-loaded packet therefore closes a tick in which the player did not move, and is not a physics tick.
      */
     private boolean awaitingClientLoaded; private int frozenTickEnds;
+    /**
+     * P11-F10 (found live in the Phase 11 PvP round: a server-to-client stall longer than the application horizon delivered knockback 9 s late).
+     * TimingProfile: an influence past the horizon is EXPIRED = unresolved, never "not applied" - the client may still receive and apply it. The
+     * chain therefore retires an influence that leaves its scope without an observed application only when a fence orders after it: the client
+     * answered a marker SENT AFTER it (receipt, in-order stream), a correction sent after it was confirmed (game-thread fence), or the world
+     * changed. Until then it is OUTSTANDING and no rest (re-)anchor may restore completeness. This only withholds completeness the frozen
+     * retirement granted; it adds no application claim (a marker answer never advances a frontier: it only permits the retirement that the
+     * horizon alone used to grant).
+     */
+    static final int MARKER_MEMORY = 64;
+    private final LinkedHashMap<String, Long> markerSent = new LinkedHashMap<>(); // kind:id -> capture sequence of the marker, bounded
+    private long receiptThrough = -1, outstandingThrough = -1, anchorFence = -1;
+    private boolean received(TimingEvent.ExternalMotionSent e) { return receiptThrough > e.sequence(); }
+    private boolean outstanding() { return outstandingThrough >= 0 && receiptThrough <= outstandingThrough; }
+    /** Influences leaving the chain's scope without an observed application: fenced (sent before {@code fence}) or received ones retire; the rest are outstanding. */
+    private void retireUnresolved(java.util.Collection<TimingEvent.ExternalMotionSent> gone, long fence, long atSequence) {
+        for (TimingEvent.ExternalMotionSent e : gone) {
+            if (e.sequence() < fence || received(e)) continue;
+            boolean was = outstanding(); outstandingThrough = Math.max(outstandingThrough, e.sequence());
+            if (!was) remember("seq=" + atSequence + " influence " + e.id() + " left the chain unresolved without evidenced receipt: OUTSTANDING - no rest anchor until a later marker answer, a confirmed correction or a world change (P11-F10)", null);
+        }
+    }
     /** Phase 9: the session's evidence runner (set by the engine); every completed result is handed over once, live or side chain. */
     private EvidenceRunner evidence;
     public void attachEvidence(EvidenceRunner e) { this.evidence = e; }
+    /** Phase 13: the session's knockback attribution (set by the engine); it sees every completed live result with its request. */
+    private VelocityRunner velocity;
+    public void attachVelocity(VelocityRunner v) { this.velocity = v; }
+    /** Phase 13: proves that no entity box can have intersected the local player's box during a transition (then pushes and entity collisions cannot have happened). */
+    public interface NeighborhoodProof { boolean noContact(MovementValidationRequest req, MovementContextLedger.View context); }
+    private NeighborhoodProof neighborhoodProof; private long neighborhoodProofs;
+    public void attachNeighborhoodProof(NeighborhoodProof p) { this.neighborhoodProof = p; }
+    /** Phase 13: transitions whose entity neighbourhood the push exclusion proved empty (diagnostic). */
+    public long neighborhoodProofs() { return neighborhoodProofs; }
     /** Phase 10: the session's mitigation runner (set by the engine); it sees every completed live/side result after evidence, the unanchored
      *  transmissions, the tick ends and the correction-relevant timing facts. It decides; it never applies anything from here. */
     private MitigationRunner mitigation;
@@ -135,6 +166,19 @@ public final class MovementValidationRunner {
     }
     private void assertOwner() { if (owner == null) owner = Thread.currentThread(); else if (owner != Thread.currentThread()) throw new IllegalStateException("validation runner ownership"); }
     public ValidationStatus status() { return status; }
+    /** Phase 12 (COMBAT_MODEL B2 eye source): one state of the live chain's frontier - the certified position and pose it continues from. */
+    public record FrontierState(double x, double y, double z, String pose) {}
+    /**
+     * Phase 12, owner thread, read-only: the live chain's frontier states (the last validated claim's continuation), or an empty list when the
+     * chain is not anchored. Nothing here changes the chain.
+     */
+    public List<FrontierState> frontierStates() {
+        assertOwner();
+        if (!live.anchored()) return List.of();
+        List<FrontierState> out = new ArrayList<>(live.frontier.nodes().size());
+        for (TimingReconstruction.Node n : live.frontier.nodes()) { Vec3d p = n.state().position(); out.add(new FrontierState(p.x(), p.y(), p.z(), n.state().pose().name())); }
+        return out;
+    }
 
     /** Feeds one timing event (already applied to the timing ledger) with the session's current published ledger views and the observer world. Never throws: a failure is contained as UNCERTAIN / INTERNAL_ERROR and the chain re-anchors. */
     public void onEvent(TimingEvent e, TimingLedger.View timing, MovementContextLedger.View context, WorldView view, long worldEpoch) {
@@ -160,16 +204,20 @@ public final class MovementValidationRunner {
             if (e instanceof TimingEvent.TeleportConfirmed) frozenTickEnds = 0; // the confirm and its position echo come from one packet handler
             if (e instanceof TimingEvent.MovementObserved m && m.hasPosition() && frozenTickEnds > 0) {
                 // a position after a frozen tick contradicts the not-loaded state (a vanilla client sends none): never guess, re-anchor
-                awaitingClientLoaded = false; frozenTickEnds = 0; dropAnchor("movement while the client was not loaded"); live.slice.clear(); live.influences.clear();
+                awaitingClientLoaded = false; frozenTickEnds = 0; dropAnchor("movement while the client was not loaded"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, e.sequence()); live.influences.clear();
             }
         }
+        // P11-F10 fences: a marker answer is receipt evidence for everything sent before that marker; a confirmed correction orders after everything sent before it
+        if (e instanceof TimingEvent.MarkerSent s) { markerSent.put(s.kind() + ":" + s.id(), s.sequence()); if (markerSent.size() > MARKER_MEMORY) markerSent.remove(markerSent.keySet().iterator().next()); }
+        if (e instanceof TimingEvent.MarkerAcknowledged a) { Long sent = markerSent.remove(a.kind() + ":" + a.id()); if (sent != null) receiptThrough = Math.max(receiptThrough, sent); }
+        if (e instanceof TimingEvent.TeleportConfirmed c) for (TimingLedger.PendingTeleport t : timing.teleports()) if (t.teleportId() == c.teleportId() && t.sent().sequence() > outstandingThrough) outstandingThrough = -1;
         switch (e) {
-            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); endSide("world change"); if (mitigation != null) mitigation.onTiming(d); }
-            case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); live.influences.clear(); endSide("coverage break"); }
+            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); outstandingThrough = -1; endSide("world change"); if (mitigation != null) mitigation.onTiming(d); }
+            case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); retireUnresolved(live.influences.values(), -1, b.sequence()); live.influences.clear(); endSide("coverage break"); }
             case TimingEvent.ServerTick t -> { return; /* recorded by the ledger; not an alignment source, nothing to publish */ }
             case TimingEvent.WriteResolved w -> { return; /* P8-F1: write outcomes are resolved by the ledger (teleport/velocity write failures reach the request through its pending-teleport and influence views), never part of the slice */ }
             default -> {
-                live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); live.influences.clear(); }
+                live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, e.sequence()); live.influences.clear(); }
                 if (e instanceof TimingEvent.ExternalMotionSent m) { live.influences.put(m.id(), m); endSide("live influence " + m.id()); }
                 if (e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed) endSide("live correction");
                 if (mitigation != null && (e instanceof TimingEvent.ExternalMotionSent || e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed)) mitigation.onTiming(e);
@@ -185,31 +233,44 @@ public final class MovementValidationRunner {
         PhysicsEnvironment env = environment(context, view, worldEpoch, m.hasPosition() ? m.position() : live.lastSent);
         if (!live.anchored()) {
             anchor(m, timing, context, env);
-            live.slice.clear(); if (live.anchored()) { metrics.anchors.increment(); live.influences.clear(); }
+            // P11-F10: a correction anchor fences what was sent before its correction; anything after it that was not received stays outstanding (and the chain incomplete)
+            live.slice.clear(); if (live.anchored()) { metrics.anchors.increment(); retireUnresolved(live.influences.values(), anchorFence, m.sequence()); live.influences.clear(); if (outstanding()) live.complete = false; }
             else { metrics.requests.increment(); metrics.uncertain.increment(); metrics.uncertainUnanchored.increment(); remember("seq=" + m.sequence() + " UNCERTAIN [START_UNAVAILABLE] not anchored", null); anchorDiagnosis = anchorDiagnosis(m, context, env); if (mitigation != null) mitigation.onUnanchored(m.nanos()); }
             track(m); return;
         }
 
         if (live.lastSent == null) { track(m); return; }
         resyncSprintModifier(live, context, env);
-        TimingRequest tr = new TimingRequest(new ArrayList<>(live.slice), live.anchorSequence, live.anchorNanos, live.anchorInTick, live.lastSent, live.lastYaw, m, new ArrayList<>(live.influences.values()), timing.teleports(), timing.rtt(), timing.tickEndCapable(), timing.counters().coverageBreaks() > 0, timing.worldEpoch(), m.nanos(), profile, TimingBudget.DEFAULT);
+        TimingRequest tr = new TimingRequest(new ArrayList<>(live.slice), live.anchorSequence, live.anchorNanos, live.anchorInTick, live.lastSent, live.lastYaw, m, new ArrayList<>(live.influences.values()), timing.teleports(), timing.rtt(), timing.tickEndCapable(), timing.counters().coverageBreaks() > 0, timing.worldEpoch(), m.nanos(), profile, TimingBudget.DEFAULT, timing.answeredMarkers()); // Phase 13: fences apply only under a fenced profile
         MovementValidationRequest req = new MovementValidationRequest(tr, live.frontier, env, ReconstructionRequest.SearchBudget.DEFAULT, live.complete, true).withWorldDisputed(false);
         req = req.withWorldDisputed(worldDisputed(req, m.nanos()));
+        // Phase 13: an entity within the neighbourhood radius makes it UNKNOWN unless no entity box can have touched the player during the interval (push exclusion)
+        if (neighborhoodProof != null && env.entities().knowledge() == PhysicsEnvironment.Knowledge.UNKNOWN && context.entitiesComplete() && neighborhoodProof.noContact(req, context)) {
+            req = new MovementValidationRequest(tr, live.frontier, env.withEntities(PhysicsEnvironment.EntityNeighborhood.NONE), ReconstructionRequest.SearchBudget.DEFAULT, live.complete, true).withWorldDisputed(req.worldDisputed()); neighborhoodProofs++;
+        }
         MovementValidationResult r = context.locomotionSupported() ? validator.validate(req) : MovementValidator.refuse(req, MovementValidation.UncertainReason.UNSUPPORTED_LOCOMOTION, "flight/creative/spectator context: " + context.gameMode() + (context.flying() ? " flying" : context.canFly() ? " can fly" : ""));
         count(r, false); live.transitions++; switch (r.classification()) { case VALID -> live.valid++; case UNCERTAIN -> live.uncertain++; case INVALID -> live.invalid++; }
         forensic(m, req, r, context);
         last = r; remember(summary(m.sequence(), r), r);
         me.nicolas.papea2ac.evidence.EvidenceLedger.Outcome evidenceOutcome = evidence != null ? evidence.onResult(r, m.nanos(), false) : null; // Phase 9: one hand-over per completed live result (never throws)
+        if (velocity != null) velocity.onResult(tr, r); // Phase 13: knockback attribution of the same result (never throws, no evidence)
         // chain
-        if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); live.influences.clear(); }
+        if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, m.sequence()); live.influences.clear(); }
         else {
             live.frontier = r.next(); live.complete = r.nextFrontierComplete(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true; for (var w : r.witnesses()) if (w.teleportApplication()) live.anchorInTick = false; live.slice.clear();
-            // P8-F4: an influence stays in scope only while some continuation still has it pending (applied or expired ones are retired; the ledger's horizon bounds the rest)
+            // P8-F4: an influence stays in scope only while some continuation still has it pending; one that no continuation has pending while inside
+            // the horizon was applied in every continuation. P11-F10: one past the horizon was never applied by the resolver (EXPIRED = unresolved), so it
+            // retires only under a fence - otherwise it becomes outstanding instead of silently leaving the scope.
             Set<String> pending = new java.util.LinkedHashSet<>(); for (TimingReconstruction.Node n : live.frontier.nodes()) pending.addAll(n.pendingInfluences());
-            live.influences.keySet().removeIf(id -> !pending.contains(id));
-            live.influences.values().removeIf(inf -> m.nanos() - inf.nanos() > profile.applicationHorizonNanos());
-            // an incomplete chain re-anchors at the next observed rest (an exact start again) instead of carrying the incompleteness until a correction
-            if (!live.complete && live.influences.isEmpty() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
+            List<TimingEvent.ExternalMotionSent> aged = new ArrayList<>();
+            for (var it = live.influences.values().iterator(); it.hasNext();) {
+                TimingEvent.ExternalMotionSent inf = it.next();
+                if (m.nanos() - inf.nanos() > profile.applicationHorizonNanos()) { aged.add(inf); it.remove(); } else if (!pending.contains(inf.id())) it.remove();
+            }
+            retireUnresolved(aged, -1, m.sequence());
+            // an incomplete chain re-anchors at the next observed rest (an exact start again) instead of carrying the incompleteness until a correction -
+            // never while an influence may still be undelivered (P11-F10)
+            if (!live.complete && live.influences.isEmpty() && !outstanding() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
         }
         if (mitigation != null && evidence != null) mitigation.onLive(r, evidenceOutcome, evidence, m, req, timing, context, view, worldEpoch, live.influences.size(),
             m.hasRotation() ? m.rotation().yaw() : live.lastYaw, m.hasRotation() ? m.rotation().pitch() : 0f, m.hasPosition() ? m.position() : live.lastSent);
@@ -316,10 +377,14 @@ public final class MovementValidationRunner {
                 PhysicsState s = PhysicsState.resting(p.x(), p.y(), p.z(), pose, ground).withVelocity(vel);
                 nodes.add(new TimingReconstruction.Node(s, Set.of(), "correction-" + pt.teleportId() + "/" + pose.name().toLowerCase(Locale.ROOT) + (ground ? "/ground" : "/air")));
             }
+            anchorFence = pt.sent().sequence(); // P11-F10: everything sent before this correction was processed before its application point
             live.frontier = new TimingReconstruction.Frontier(correctionSprintVariants(nodes, env)); live.complete = true; live.anchorKind = "correction " + pt.teleportId(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = false; live.lastSent = m.position(); live.lastYaw = yaw; live.speedSnapshot = speedSnapshot(context);
             return;
         }
-        // (2) an observed rest: the 20-tick reminder at the same position with the ground claim, a resting fixed point of the simulator
+        // (2) an observed rest: the 20-tick reminder at the same position with the ground claim, a resting fixed point of the simulator -
+        // never while an influence may still be undelivered: an outstanding one, or one in scope whose receipt is not evidenced yet (P11-F10)
+        anchorFence = -1;
+        if (outstanding() || live.influences.values().stream().anyMatch(i -> !received(i))) return;
         if (!m.onGround() || live.lastSent == null || live.tickEndsSincePosition < 19) return;
         if (m.position().x() != live.lastSent.x() || m.position().y() != live.lastSent.y() || m.position().z() != live.lastSent.z()) return;
         if (!context.locomotionSupported()) return;

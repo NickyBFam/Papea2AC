@@ -1,0 +1,33 @@
+{
+  "phase": "11 - Combat Engine",
+  "test": "anticheat-testing/src/nativeTest/java/me/nicolas/papea2ac/testing/NativeCombatDifferentialTest.java (nativeTest lane)",
+  "pinnedServer": {
+    "jar": ".phase1-runtime/versions/26.2/paper-26.2.jar (Paper 26.2 build 124, Mojang-mapped)",
+    "sha256": "16aada2b4d6c91af148623bf14cf94820c1811f9c438a3803f1bd4d6b2d9c1f9"
+  },
+  "pinnedClientForHandlerFacts": {
+    "jar": "vanilla 26.2 client jar (launcher versions/26.2/26.2.jar; unobfuscated)",
+    "sha256": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+    "method": "javap -c -p of ClientPacketListener and Entity; invocation lists below"
+  },
+  "cases": {
+    "vecDeltaCodecSingleDecodes": { "cases": 200000, "allZeroBranch": 3590, "compared": "bit-exact per axis: native VecDeltaCodec.setBase + decode vs CombatProfile.decodeAxis", "mismatches": 0 },
+    "moveChains": { "chains": 2000, "stepsPerChain": 40, "moveSteps": 71975, "absoluteTeleports": 4054, "positionSyncs": 3971,
+      "compared": "after every step, bit-exact: native codec chain (decode then setBase; sync sets base; teleport leaves it) vs EntityHistory target AND codec base, and vs the P11-F3-corrected MovementContextLedger position (certain exactly when no teleport since the last sync/spawn)", "mismatches": 0 },
+    "teleportApplication": { "cases": 20000, "absoluteExact": 20000, "relativeClientDependent": 19474,
+      "compared": "native PositionMoveRotation.calculateAbsolute: absolute components equal (0 + packet) from any client position = EntityHistory EXACT value; relative components equal client position + packet (EntityHistory INTERPOLATION_DEPENDENT); the 526 non-differing relative pairs drew identical client positions (e.g. both -0.0)", "mismatches": 0 },
+    "profileConstants": { "compared": "Pose enum names in ordinal order = CombatProfile.POSES_26_2 (18); Entity.DATA_POSE.id = 6; Entity.DATA_SHARED_FLAGS_ID.id = 0; ServerboundAttackPacket components = [entityId]; ServerboundInteractPacket components = [entityId, hand, location, usingSecondaryAction]; VecDeltaCodec.encode(1.0) = 4096", "mismatches": 0 },
+    "nativePacketPipeline": { "compared": "native AddEntity / MoveEntity.PosRot / SetEntityData(pose CROUCHING, flags 0x02) / ServerboundAttack through PaperPacketNormalizer -> CombatObservationMapper -> EntityHistory: position = native codec decode, pose by name, STANDING default at spawn, attack target id", "mismatches": 0 },
+    "semanticNormalizer": { "compared": "NativeSemanticTest: EntityPositionSync is its own record (P11-F2); TeleportEntity keeps relative flags; pose field kind POSE (P11-F1)", "mismatches": 0 }
+  },
+  "clientHandlerFacts": {
+    "ClientPacketListener.handleMoveEntity": ["getPositionCodec", "VecDeltaCodec.decode(JJJ)", "VecDeltaCodec.setBase(Vec3)", "moveOrInterpolateTo"],
+    "ClientPacketListener.handleEntityPositionSync": ["getPositionCodec", "VecDeltaCodec.setBase(Vec3)", "moveOrInterpolateTo(Vec3,FF)"],
+    "ClientPacketListener.handleTeleportEntity": ["setValuesFromPositionPacket(PositionMoveRotation,Set,Entity,Z) only - no VecDeltaCodec call"],
+    "ClientPacketListener.setValuesFromPositionPacket": ["PositionMoveRotation.of(Entity)", "PositionMoveRotation.calculateAbsolute", "moveOrInterpolateTo(Vec3,FF)"],
+    "Entity.recreateFromPacket": ["syncPacketPositionCodec(DDD) -> VecDeltaCodec.setBase(new Vec3)"],
+    "serverSide": "Entity.sendTeleportTransitionToRidingPlayers is the only TeleportEntity sender: the relative variant goes only to the controlling passenger, the absolute one to other riding players; ordinary tracking uses deltas + EntityPositionSync"
+  },
+  "defectsFound": ["P11-F7: absolute teleport of -0.0 and unclamped pitch differed from calculateAbsolute (fixed; the differential now passes bit-exact)"],
+  "result": "PASS"
+}

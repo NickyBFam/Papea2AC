@@ -111,6 +111,42 @@ class TimingMarkerSchedulingTest {
             assertTrue(engine.timingEngineStatus().markerSendFailures() >= 1, "a port that cannot hand the marker to the transport is counted, not retried in a loop");
         } finally { if (port != null) port.close(); engine.close(); loop.drain(); }
     }
+    /**
+     * Phase 12 combat-time cadence (owner decision 2026-10-03, a change to the Phase 7 scheduler): an ATTACK from the player opens a three-second
+     * window in which a marker is due every 50 ms (one per tick), still under the 16-pending cap; before and after the window the Phase 7
+     * cadence (one per second, plus brackets) is unchanged.
+     */
+    @Test void anAttackOpensThreeSecondsOfPerTickMarkersUnderTheSameCaps() throws Exception {
+        var engine = new PacketEngine(1, 1L << 30, e -> {}); var loop = new PacketTruthTest.Loop(); FakePort port = null;
+        try {
+            var session = engine.connect(new UUID(70, 5), loop, TransportCapability.observeOnly());
+            port = new FakePort(session, true, 2_000_000L, false); engine.setMarkerPort(port);
+            session.ingress.bridge(new Observation.ControlChange("SELF_ENTITY", "42"));
+            FakePort p = port;
+            await(loop, 2000, () -> p.sent.get() >= 1);
+            int quietStart = port.sent.get(); pump(loop, 1000); int quiet = port.sent.get() - quietStart;
+            assertTrue(quiet <= 2, "outside combat the Phase 7 cadence (one per second): " + quiet);
+            session.ingress.bridge(new Observation.Attempt(9001, 9001, new SemanticPayload.Attack(7)));
+            int combatStart = port.sent.get(); pump(loop, 1000); int combat = port.sent.get() - combatStart;
+            assertTrue(combat >= 10, "an attack opens per-tick markers (at most one per 50 ms): " + combat);
+            assertTrue(combat <= 21, "never more than one per 50 ms: " + combat);
+            pump(loop, 2600); // the window closes three seconds after the attack
+            int afterStart = port.sent.get(); pump(loop, 1000); int after = port.sent.get() - afterStart;
+            assertTrue(after <= 2, "after the window the cadence returns to one per second: " + after);
+            TimingStatus st = engine.timingStatus(new UUID(70, 5)).orElseThrow();
+            assertTrue(st.markersPending() <= PacketEngine.MARKER_MAX_PENDING);
+        } finally { if (port != null) port.close(); engine.close(); loop.drain(); }
+    }
+    @Test void combatTimeMarkersRespectTheSixteenPendingCapAgainstASilentClient() throws Exception {
+        var engine = new PacketEngine(1, 1L << 30, e -> {}); var loop = new PacketTruthTest.Loop(); FakePort port = null;
+        try {
+            var session = engine.connect(new UUID(70, 6), loop, TransportCapability.observeOnly());
+            port = new FakePort(session, false, 0, false); engine.setMarkerPort(port);
+            session.ingress.bridge(new Observation.ControlChange("SELF_ENTITY", "42"));
+            for (int i = 0; i < 30; i++) { session.ingress.bridge(new Observation.Attempt(9100 + i, 9100 + i, new SemanticPayload.Attack(7))); pump(loop, 60); }
+            assertTrue(port.sent.get() <= PacketEngine.MARKER_MAX_PENDING, "sent " + port.sent.get() + " against a client that never answers");
+        } finally { if (port != null) port.close(); engine.close(); loop.drain(); }
+    }
     @Test void velocityForAnotherEntityIsNeitherAnInfluenceNorABracketAndUnknownSelfIsCounted() throws Exception {
         var engine = new PacketEngine(1, 1L << 30, e -> {}); var loop = new PacketTruthTest.Loop(); FakePort port = null;
         try {

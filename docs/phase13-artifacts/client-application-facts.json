@@ -1,0 +1,17 @@
+{
+  "clientJarSha256": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+  "reader": "java.lang.classfile (ClientApplicationFactsTest)",
+  "facts": {
+    "N1a.handlePing": "[Minecraft.packetProcessor, PacketUtils.ensureRunningOnSameThread, ClientboundPingPacket.getId, ServerboundPongPacket.<init>, ClientCommonPacketListenerImpl.send]",
+    "N1b.handleKeepAlive": "[ClientboundKeepAlivePacket.getId, ServerboundKeepAlivePacket.<init>, Duration.ofMinutes, ClientCommonPacketListenerImpl.sendWhen]",
+    "N1c.handleSetEntityMotion": "[Minecraft.packetProcessor, PacketUtils.ensureRunningOnSameThread, ClientboundSetEntityMotionPacket.id, ClientLevel.getEntity, ClientboundSetEntityMotionPacket.movement, Entity.lerpMotion]",
+    "N1c.handleExplosion": "[Minecraft.packetProcessor, PacketUtils.ensureRunningOnSameThread, ClientboundExplodePacket.center, Vec3.x, Vec3.y, Vec3.z, ClientboundExplodePacket.explosionSound, Holder.value, ClientLevel.getRandom, RandomSource.nextFloat, ClientLevel.getRandom, RandomSource.nextFloat, ClientLevel.playLocalSound, ClientboundExplodePacket.explosionParticle, Vec3.x, Vec3.y, Vec3.z, ClientLevel.addParticle, ClientboundExplodePacket.radius, ClientboundExplodePacket.blockCount, ClientboundExplodePacket.blockParticles, ClientLevel.trackExplosionEffects, ClientboundExplodePacket.playerKnockback, Objects.requireNonNull, Optional.ifPresent]",
+    "N1c.handleBundlePacket": "[Minecraft.packetProcessor, PacketUtils.ensureRunningOnSameThread, ClientboundBundlePacket.subPackets, Iterable.iterator, Iterator.hasNext, Iterator.next, Packet.handle]",
+    "N1c.handleMovePlayer": "[Minecraft.packetProcessor, PacketUtils.ensureRunningOnSameThread, Player.isPassenger, ClientboundPlayerPositionPacket.change, ClientboundPlayerPositionPacket.relatives, ClientPacketListener.setValuesFromPositionPacket, ClientboundPlayerPositionPacket.id, ServerboundAcceptTeleportationPacket.<init>, Connection.send, Player.getX, Player.getY, Player.getZ, Player.getYRot, Player.getXRot, ServerboundMovePlayerPacket$PosRot.<init>, Connection.send, ClientLevel.getBlockStatePredictionHandler, BlockStatePredictionHandler.onTeleport]",
+    "N1c.lerpMotion": "Entity.lerpMotion -> setDeltaMovement; not overridden on the LocalPlayer chain",
+    "N1d.PacketProcessor": "ConcurrentLinkedQueue; processQueuedPackets polls until empty; sole client caller Minecraft.runTick, call #13 before tick() call #28",
+    "F2a.order": "Minecraft.tick: handleKeybinds call #15 < ClientLevel.tickEntities call #19; MultiPlayerGameMode.attack: [MultiPlayerGameMode.ensureHasSentCarriedItem, Entity.getId, ServerboundAttackPacket.<init>, ClientPacketListener.send, Player.attack, Player.resetAttackStrengthTicker]",
+    "F2b.causeExtraKnockback": "doubles [0.1, 0.6, 0.6]; calls [Player.getYRot, Mth.sin, Player.getYRot, Mth.cos, LivingEntity.knockback, Player.getYRot, Mth.sin, Player.getYRot, Mth.cos, Entity.push, Player.getDeltaMovement, Vec3.multiply, Player.setDeltaMovement, Player.setSprinting, ClientboundSetEntityMotionPacket.<init>, ServerGamePacketListenerImpl.send, Entity.setDeltaMovement]",
+    "F2b.hurtClientOverriders": "[net/minecraft/client/player/RemotePlayer, net/minecraft/world/entity/ExperienceOrb, net/minecraft/world/entity/boss/enderdragon/EndCrystal, net/minecraft/world/entity/decoration/BlockAttachedEntity, net/minecraft/world/entity/decoration/ItemFrame, net/minecraft/world/entity/item/ItemEntity, net/minecraft/world/entity/projectile/ShulkerBullet, net/minecraft/world/entity/vehicle/VehicleEntity]"
+  }
+}

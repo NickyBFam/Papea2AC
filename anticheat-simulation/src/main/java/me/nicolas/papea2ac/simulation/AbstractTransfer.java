@@ -95,6 +95,7 @@ public final class AbstractTransfer {
                 case SET -> { vx = Interval.point(m.vector().x()); vy = Interval.point(m.vector().y()); vz = Interval.point(m.vector().z()); }
                 case ADD -> { vx = vx.add(m.vector().x()); vy = vy.add(m.vector().y()); vz = vz.add(m.vector().z()); }
                 case UNRESOLVED -> { topReason = "unresolved external motion " + m.sourceId(); return null; }
+                case ATTACKER_SLOWDOWN -> { topReason = "attacker slowdown " + m.sourceId() + " (sprint-class reset not carried by the envelope: concrete lane only)"; return null; } // TOP: no pruning, never a wrong exclusion
             }
         }
         // ---- small-velocity zeroing (case split unioned when the threshold may or may not fire)

@@ -82,11 +82,17 @@ public record PhysicsEnvironment(WorldView view, long worldEpoch, CollisionEngin
      * An external motion influence the caller applies before this tick (PLAYER_STATE.md ExternalMotionInfluence: "operation"
      * REPLACE/ADD). {@code UNRESOLVED} declares that an influence exists whose vector or application is not known (a
      * DeclaredUnknownMotion, an unmapped mode acceleration): the step then cannot be exact - UNRESOLVED_EXTERNAL_MOTION.
+     *
+     * <p>Phase 13: {@code ATTACKER_SLOWDOWN} is the client's own reaction to its attack (pinned 26.2 {@code Player.causeExtraKnockback}, run
+     * locally by {@code MultiPlayerGameMode.attack} when the target's {@code hurtClient} is true and the knockback is positive):
+     * {@code setDeltaMovement(getDeltaMovement().multiply(0.6, 1.0, 0.6))} then {@code setSprinting(false)}, which removes the sprint
+     * speed modifier whatever its earlier state (the sprint-modifier class becomes FOLLOWS). Its vector is unused (ZERO).
      */
     public record ExternalMotion(Operation operation, Vec3d vector, String sourceId) {
-        public enum Operation { SET, ADD, UNRESOLVED }
+        public enum Operation { SET, ADD, UNRESOLVED, ATTACKER_SLOWDOWN }
         public ExternalMotion { Objects.requireNonNull(operation); Objects.requireNonNull(vector); Objects.requireNonNull(sourceId); if (!vector.isFinite()) throw new IllegalArgumentException("non-finite external motion"); }
         public static ExternalMotion unresolved(String sourceId) { return new ExternalMotion(Operation.UNRESOLVED, Vec3d.ZERO, sourceId); }
+        public static ExternalMotion attackerSlowdown(String sourceId) { return new ExternalMotion(Operation.ATTACKER_SLOWDOWN, Vec3d.ZERO, sourceId); }
     }
     /** A pusher near the simulated player (26.2 client: any other entity whose {@code pushEntities} reaches the local player - P9-F5): its position and box, and whether the push applies (alive, not spectator, not on a ladder, team rule allows). */
     public record Pusher(double x, double z, Aabb box, boolean pushable) { public Pusher { Objects.requireNonNull(box); } }

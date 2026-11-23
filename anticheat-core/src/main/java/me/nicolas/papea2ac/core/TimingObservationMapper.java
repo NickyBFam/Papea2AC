@@ -40,6 +40,7 @@ public final class TimingObservationMapper {
             case TELEPORT_CONFIRM -> Optional.of(new TimingEvent.TeleportConfirmed(seq, nanos, c.value()));
             default -> Optional.empty();
         };
+        if (p instanceof SemanticPayload.Attack a) return Optional.of(new TimingEvent.LocalAttack(seq, nanos, a.entityId())); // Phase 13: attacker slowdown branch
         return Optional.empty();
     }
     private static Optional<TimingEvent> outbound(long wire, PacketPayload p, long seq, long nanos, int self, long worldEpochAfter) {
