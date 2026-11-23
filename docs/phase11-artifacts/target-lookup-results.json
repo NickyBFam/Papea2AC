@@ -1,0 +1,80 @@
+{
+  "statuses": 12,
+  "covered": ["DESPAWNED", "EVICTED", "FOUND", "FUTURE_SEQUENCE", "ID_REUSED", "INCOMPLETE_COVERAGE", "PRE_SPAWN", "QUERY_LIMIT", "SESSION_MISMATCH", "UNKNOWN", "UNSUPPORTED", "WORLD_EPOCH_MISMATCH"],
+  "mismatches": 0,
+  "cases": [
+    {
+      "status": "FOUND",
+      "case": "spawned entity, current lookup",
+      "observed": "FOUND #7/i1@e0 minecraft:zombie seq=1 SPAWN pos=(1.50000,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep)",
+      "matches": true
+    },
+    {
+      "status": "UNKNOWN",
+      "case": "id never observed in this epoch",
+      "observed": "UNKNOWN (never observed in epoch 0)",
+      "matches": true
+    },
+    {
+      "status": "PRE_SPAWN",
+      "case": "lookup at (not after) the spawn observation",
+      "observed": "PRE_SPAWN #7/i1@e0 minecraft:zombie (spawned at seq 1)",
+      "matches": true
+    },
+    {
+      "status": "FUTURE_SEQUENCE",
+      "case": "sequence beyond the observed-through bound",
+      "observed": "FUTURE_SEQUENCE (observed through seq 1)",
+      "matches": true
+    },
+    {
+      "status": "SESSION_MISMATCH",
+      "case": "key of another session",
+      "observed": "SESSION_MISMATCH (other session)",
+      "matches": true
+    },
+    {
+      "status": "DESPAWNED",
+      "case": "removed before the queried sequence",
+      "observed": "DESPAWNED #7/i1@e0 minecraft:zombie (REMOVED)",
+      "matches": true
+    },
+    {
+      "status": "ID_REUSED",
+      "case": "old incarnation key after the id was reused",
+      "observed": "ID_REUSED #7/i1@e0 minecraft:zombie (id now incarnation 2)",
+      "matches": true
+    },
+    {
+      "status": "EVICTED",
+      "case": "historical sequence older than the retained ring / horizon",
+      "observed": "EVICTED #7/i1@e0 minecraft:zombie (revision aged out of deep history)",
+      "matches": true
+    },
+    {
+      "status": "WORLD_EPOCH_MISMATCH",
+      "case": "key of the previous world epoch",
+      "observed": "WORLD_EPOCH_MISMATCH (query epoch 0 vs 1)",
+      "matches": true
+    },
+    {
+      "status": "INCOMPLETE_COVERAGE",
+      "case": "a lost observation after the spawn",
+      "observed": "INCOMPLETE_COVERAGE #7/i1@e0 minecraft:zombie (clientbound coverage break SEQUENCE_GAP:2)",
+      "matches": true
+    },
+    {
+      "status": "UNSUPPORTED",
+      "case": "moved by an unreconstructed mechanism",
+      "observed": "UNSUPPORTED #7/i1@e0 minecraft:zombie (UNSUPPORTED:MINECART_LERP_STEPS)",
+      "matches": true
+    },
+    {
+      "status": "QUERY_LIMIT",
+      "case": "range query of 11 revisions with limit 4",
+      "observed": "QUERY_LIMIT partial=4 (more than 4 revisions in range)",
+      "matches": true
+    }
+  ],
+  "contract": "FOUND carries the revision in effect just before the queried sequence; every other status carries none; a range query is FOUND only when complete, otherwise a flagged partial prefix"
+}

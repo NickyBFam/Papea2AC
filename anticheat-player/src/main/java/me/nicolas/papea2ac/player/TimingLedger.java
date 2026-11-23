@@ -108,6 +108,7 @@ public final class TimingLedger {
             case TimingEvent.ServerTick t -> { }
             case TimingEvent.Discontinuity d -> { discontinuities++; worldEpoch = d.newWorldEpoch(); }
             case TimingEvent.CoverageBreak b -> coverageBreaks++;
+            case TimingEvent.LocalAttack a -> { } // recorded in order; the resolver branches the attacker slowdown
         }
         ring.append(event, event.nanos());
         markers.expire(event.nanos());

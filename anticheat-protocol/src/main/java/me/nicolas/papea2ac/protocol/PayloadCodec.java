@@ -5,7 +5,12 @@ import java.util.*;
 
 /**
  * Bounded semantic payload encoding. This never accepts native packet bytes.
- * <p>Payload schema byte: {@link #SCHEMA} = 2 is written; 1 and 2 are decoded; anything else fails clearly.
+ * <p>Payload schema byte: {@link #SCHEMA} = 3 is written; 1, 2 and 3 are decoded; anything else fails clearly.
+ * Schema 3 differs from schema 2 ONLY by two new semantic tags: 80 (P11-F2, EntityPositionSync, previously conflated with the
+ * teleport tag 16) and 81 (P11-F9, LegacyEntityPosition: how a DECODED schema-1/2 tag 16 with an empty relative set - a sync or an
+ * absolute teleport, indistinguishable there - is re-encoded). Schema-1/2 bytes are unchanged; tags 80/81 are rejected inside them, and a
+ * schema-1/2 tag 16 decodes as LegacyEntityPosition when its relative set is empty (EntityPosition otherwise). A schema-2 decoder
+ * rejects schema-3 bytes at the schema byte.
  * Schema 2 (P3-C1) differs from schema 1 ONLY in three semantic tags - 59 JoinGame and 74 Respawn gained the
  * dimension vertical range, 79 ChunkBaseline gained inline section content - plus the per-payload limit
  * (64 KiB -> 128 KiB so a baseline carrying up to 40 KiB of packed section data still encodes). Every other tag is
@@ -14,7 +19,7 @@ import java.util.*;
  */
 public final class PayloadCodec {
     public static final int LIMIT = 128 * 1024;
-    public static final int SCHEMA = 2, LEGACY_SCHEMA = 1;
+    public static final int SCHEMA = 3, LEGACY_SCHEMA = 1;
     private PayloadCodec() {}
     public static byte[] encode(PacketPayload payload) throws IOException {
         var bytes = new ByteArrayOutputStream();
@@ -29,8 +34,8 @@ public final class PayloadCodec {
         if (bytes.length > LIMIT) throw new IOException("payload limit");
         try (var in = new DataInputStream(new ByteArrayInputStream(bytes))) {
             int schema = in.readUnsignedByte();
-            if (schema != SCHEMA && schema != LEGACY_SCHEMA) throw new IOException("unsupported payload schema " + schema);
-            PacketPayload payload = read(in, false, schema == LEGACY_SCHEMA);
+            if (schema < LEGACY_SCHEMA || schema > SCHEMA) throw new IOException("unsupported payload schema " + schema);
+            PacketPayload payload = read(in, false, schema);
             if (in.available() != 0) throw new IOException("trailing payload bytes");
             return payload;
         } catch (IllegalArgumentException e) {
@@ -95,9 +100,9 @@ public final class PayloadCodec {
             case PacketPayload.TickRate p -> { out.writeByte(10); out.writeFloat(p.rate()); out.writeBoolean(p.frozen()); }
         }
     }
-    private static PacketPayload read(DataInputStream in, boolean insideBundle, boolean legacySchema1) throws IOException {
+    private static PacketPayload read(DataInputStream in, boolean insideBundle, int schema) throws IOException {
         return switch (in.readUnsignedByte()) {
-            case 11 -> SemanticCodec.read(in, legacySchema1);
+            case 11 -> SemanticCodec.read(in, schema);
             case 1 -> new PacketPayload.Movement(bool(in) ? vector(in) : null, bool(in) ? rotation(in) : null, bool(in), bool(in));
             case 2 -> new PacketPayload.Control(PacketPayload.ControlKind.valueOf(text(in, 32)), in.readLong());
             case 3 -> new PacketPayload.Uncovered(PacketPayload.Family.valueOf(text(in, 32)), text(in, 128));
@@ -105,7 +110,7 @@ public final class PayloadCodec {
                 if (insideBundle) throw new IOException("nested bundle");
                 int n = count(in, 256); var children = new ArrayList<PacketPayload>(n); int charged = 0;
                 for (int i = 0; i < n; i++) {
-                    PacketPayload child = read(in, true, legacySchema1); charged += child.chargedBytes();
+                    PacketPayload child = read(in, true, schema); charged += child.chargedBytes();
                     if (charged > 65536) throw new IOException("bundle retained-byte limit");
                     children.add(child);
                 }

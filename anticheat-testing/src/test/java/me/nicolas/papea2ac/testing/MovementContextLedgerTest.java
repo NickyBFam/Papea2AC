@@ -91,4 +91,40 @@ class MovementContextLedgerTest {
         var removed = ContextObservationMapper.map(ob(8, new SemanticPayload.RemoveEntities(List.of(77, 78))), self);
         assertTrue(removed.stream().anyMatch(e -> e instanceof ContextEvent.EntitiesRemoved r && r.entityIds().equals(List.of(77, 78))), removed.toString());
     }
+    /** P11-F3 regression: relative moves decode exactly as the 26.2 VecDeltaCodec does (from the codec base, rounded to the 1/4096 grid), not as position + delta / 4096. */
+    @Test void relativeMovesDecodeLikeTheClientDeltaCodec() {
+        MovementContextLedger l = new MovementContextLedger(KEY); long seq = 1;
+        double x0 = 0.3, z0 = -7.123456789; // off the 1/4096 grid, like any spawn position
+        l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 7, "minecraft:player", x0, 64, z0));
+        l.apply(KEY, new ContextEvent.EntityMovedBy(seq++, 7, (short) 1, (short) 0, (short) -3));
+        var e = l.view().relevantEntities().getFirst();
+        assertEquals((Math.round(x0 * 4096) + 1) / 4096.0, e.x(), 0.0, "a moved axis snaps to the grid"); assertEquals(64.0, e.y(), 0.0, "a zero delta keeps the base bit-exact");
+        assertEquals((Math.round(z0 * 4096) - 3) / 4096.0, e.z(), 0.0);
+        assertNotEquals(x0 + 1 / 4096.0, e.x(), "the pre-P11-F3 decode (position + delta / 4096) was off the client's value");
+    }
+    /** P11-F3 regression: a teleport (absolute or relative) cannot be tracked exactly (no codec-base reset; relative parts resolve client-side), so the neighbourhood is UNKNOWN until a re-sync. */
+    @Test void aTeleportMakesTheNeighbourhoodUnknownUntilThePositionIsResynced() {
+        MovementContextLedger l = new MovementContextLedger(KEY); long seq = 1;
+        l.apply(KEY, new ContextEvent.EntitySpawned(seq++, 7, "minecraft:oak_boat", 40, 64, 40));
+        var mapped = ContextObservationMapper.map(ob(seq, new SemanticPayload.EntityPosition(7, new PacketPayload.Position(0.5, 0, 0), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f),
+            Set.of(SemanticPayload.Relative.X, SemanticPayload.Relative.Y, SemanticPayload.Relative.Z), false)), 1);
+        assertEquals(List.of(new ContextEvent.EntityTeleported(seq, 7)), mapped, "a relative teleport is never read as the absolute coordinate (0.5, 0, 0)");
+        assertTrue(l.view().entitiesComplete()); mapped.forEach(ev -> l.apply(KEY, ev)); seq++;
+        assertFalse(l.view().entitiesComplete(), "teleported entity: the neighbourhood is UNKNOWN");
+        l.apply(KEY, new ContextEvent.EntityMovedBy(seq++, 7, (short) 4096, (short) 0, (short) 0));
+        assertFalse(l.view().entitiesComplete(), "a delta after a teleport decodes from a base the ledger does not hold: still UNKNOWN");
+        var sync = ContextObservationMapper.map(ob(seq, new SemanticPayload.EntityPositionSync(7, new PacketPayload.Position(41, 64, 40), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f), true)), 1);
+        sync.forEach(ev -> l.apply(KEY, ev)); seq++;
+        assertTrue(l.view().entitiesComplete(), "a position sync re-anchors the base and the position"); assertEquals(41.0, l.view().relevantEntities().getFirst().x());
+        l.apply(KEY, new ContextEvent.EntityTeleported(seq++, 7)); l.apply(KEY, new ContextEvent.EntitiesRemoved(seq++, List.of(7)));
+        assertTrue(l.view().entitiesComplete(), "removing the uncertain entity clears the uncertainty");
+        l.apply(KEY, new ContextEvent.EntityTeleported(seq++, 99)); assertTrue(l.view().entitiesComplete(), "an untracked id is ignored, like its moves");
+    }
+    /** P11-F9: a pre-schema-3 capture recorded syncs and absolute teleports alike; replaying one keeps the pre-Phase-11 reading (the packet position). */
+    @Test void aLegacyAmbiguousPositionKeepsThePrePhase11Reading() throws Exception {
+        var legacy = new SemanticPayload.EntityPosition(7, new PacketPayload.Position(12, 64, 3), new PacketPayload.Position(0, 0, 0), new PacketPayload.Rotation(0f, 0f), Set.of(), true);
+        byte[] b = PayloadCodec.encode(legacy); b[0] = 2; var decoded = PayloadCodec.decode(b);
+        assertInstanceOf(SemanticPayload.LegacyEntityPosition.class, decoded);
+        assertEquals(List.of(new ContextEvent.EntityMovedTo(4, 7, 12, 64, 3)), ContextObservationMapper.map(ob(4, decoded), 1));
+    }
 }
