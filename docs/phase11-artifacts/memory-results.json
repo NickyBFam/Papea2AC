@@ -1,0 +1,31 @@
+{
+  "phase": "11 - Combat Engine (descriptive infrastructure)",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-operation garbage; estimates on one host, not capacity",
+  "perSession": {
+    "emptyCombatSessionBytes(CombatRunner: empty history + engine + diagnostics; excludes world/timeline)": 2336,
+    "typicalEntityRegistryBytes(40 mobs, 3 s of per-tick moves)": 275320,
+    "typicalPvpSessionBytes(10 players + 20 mobs moving, 64 attacks + 64 interactions)": 131160,
+    "fullBoundedRegistryBytes(256 live summaries, 32 deep x 96 revisions)": 527576,
+    "fullBoundedRegistryChargedBytes": 557056,
+    "fullBoundedCeilingChargedBytes(256 x 256 + 32 x 96 x 160)": 557056,
+    "attackHistoryStorageBytes(64 attack contexts + 64 interactions, full rings, beyond an empty engine)": 35128
+  },
+  "replayProjection": {
+    "entityCapsuleHeapBytes(full bounded)": 438144,
+    "entityCapsuleEncodedBytes(full bounded)": 425034,
+    "combatCapsuleHeapBytes(typical PvP)": 32376,
+    "note": "projections exist only while a replay/export is being produced; nothing is retained per session for replay"
+  },
+  "globalShared": {
+    "engineMetricsBytes(one per PacketEngine, fixed cardinality)": 1008,
+    "combatProfile": "one immutable static record (18 pose names), shared"
+  },
+  "perOperationAllocationBytes": {
+    "attackIngestKnownTargetBytes": 1007,
+    "attackIngestUnknownTargetBytes": 1091,
+    "relativeMoveUpdateBytes(deep)": 244,
+    "currentLookupBytes": 104,
+    "historicalLookupBytes": 136
+  },
+  "bounds": "entity summaries <= 256 (256 B charged), deep histories <= 32 x 96 revisions (160 B charged) within a 3 s horizon, attack contexts <= 64, interactions <= 64; entity bytes share the observer world's private tier (world history shed first, then entity deep revisions, then chunks); no unbounded per-entity history"
+}

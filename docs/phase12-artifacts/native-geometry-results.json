@@ -1,0 +1,43 @@
+{
+  "clientJarSha256": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+  "documentedBodiesIdentical": {
+    "LivingEntity.getDimensions": true,
+    "LivingEntity.getDefaultDimensions": true,
+    "ProjectileUtil.getEntityHitResult": false,
+    "AttackRange.isInRange": true
+  },
+  "entityNatives": {
+    "identicalBodies": [
+      "Entity.calculateViewVector",
+      "Entity.getEyePosition",
+      "Vec3.<init>",
+      "Vec3.add",
+      "Vec3.distanceToSqr"
+    ],
+    "viewCases": 200000,
+    "viewMismatches": 0,
+    "eyeCases": 100000,
+    "eyeMismatches": 0,
+    "dimensionCases": 50000,
+    "dimensionMismatches": 0
+  },
+  "clipRandom": {
+    "cases": 400000,
+    "hits": 87905,
+    "startInside": 1905,
+    "mismatches": 0
+  },
+  "clipAdversarial": {
+    "cases": 200000,
+    "hits": 6932,
+    "mismatches": 0
+  },
+  "boxOperations": {
+    "cases": 100000,
+    "mismatches": 0
+  },
+  "sineTable": {
+    "entries": 65536,
+    "mismatches": 0
+  }
+}

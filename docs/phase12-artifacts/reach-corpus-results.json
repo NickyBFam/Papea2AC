@@ -1,0 +1,226 @@
+{
+  "seed": "12c0a2",
+  "scenariosPerClass": 400,
+  "model": "client-tick simulation: server update every tick, random downlink/jitter/uplink, exact 26.2 interpolation (3 steps, Mth.lerp), combat-time PING after every update (D12-2), vanilla pick via ScenePick (client-exact)",
+  "legit-stationary": {
+    "legitimate": true,
+    "attacks": 3868,
+    "valid": 2070,
+    "uncertain": 1798,
+    "invalid": 0,
+    "invalidShare": 0.0,
+    "missClasses": {},
+    "reasons": {
+      "EYE_ABSTRACT_ONLY": 1798
+    },
+    "singleFrontier": {
+      "valid": 2070,
+      "invalid": 0
+    }
+  },
+  "legit-walking": {
+    "legitimate": true,
+    "attacks": 3455,
+    "valid": 1119,
+    "uncertain": 2336,
+    "invalid": 0,
+    "invalidShare": 0.0,
+    "missClasses": {},
+    "reasons": {
+      "BORDERLINE": 640,
+      "EYE_ABSTRACT_ONLY": 1696
+    },
+    "singleFrontier": {
+      "valid": 79,
+      "invalid": 0
+    }
+  },
+  "legit-knockback": {
+    "legitimate": true,
+    "attacks": 845,
+    "valid": 234,
+    "uncertain": 611,
+    "invalid": 0,
+    "invalidShare": 0.0,
+    "missClasses": {},
+    "reasons": {
+      "BORDERLINE": 216,
+      "EYE_ABSTRACT_ONLY": 395
+    },
+    "singleFrontier": {
+      "valid": 4,
+      "invalid": 0
+    }
+  },
+  "legit-high-latency": {
+    "legitimate": true,
+    "attacks": 3311,
+    "valid": 459,
+    "uncertain": 2852,
+    "invalid": 0,
+    "invalidShare": 0.0,
+    "missClasses": {},
+    "reasons": {
+      "BORDERLINE": 1234,
+      "EYE_ABSTRACT_ONLY": 1618
+    },
+    "singleFrontier": {
+      "valid": 64,
+      "invalid": 0
+    }
+  },
+  "reach-3.1": {
+    "legitimate": false,
+    "attacks": 273,
+    "valid": 0,
+    "uncertain": 207,
+    "invalid": 66,
+    "invalidShare": 0.2418,
+    "missClasses": {
+      "REACH": 66
+    },
+    "reasons": {
+      "BORDERLINE": 93,
+      "EYE_ABSTRACT_ONLY": 114
+    },
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 3
+    }
+  },
+  "reach-3.5": {
+    "legitimate": false,
+    "attacks": 927,
+    "valid": 0,
+    "uncertain": 255,
+    "invalid": 672,
+    "invalidShare": 0.7249,
+    "missClasses": {
+      "REACH": 672
+    },
+    "reasons": {
+      "BORDERLINE": 139,
+      "EYE_ABSTRACT_ONLY": 116
+    },
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 140
+    }
+  },
+  "reach-4.0": {
+    "legitimate": false,
+    "attacks": 1377,
+    "valid": 0,
+    "uncertain": 302,
+    "invalid": 1075,
+    "invalidShare": 0.7807,
+    "missClasses": {
+      "REACH": 1075
+    },
+    "reasons": {
+      "BORDERLINE": 120,
+      "EYE_ABSTRACT_ONLY": 182
+    },
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 352
+    }
+  },
+  "reach-6.0": {
+    "legitimate": false,
+    "attacks": 1140,
+    "valid": 0,
+    "uncertain": 0,
+    "invalid": 1140,
+    "invalidShare": 1.0,
+    "missClasses": {
+      "REACH": 1140
+    },
+    "reasons": {},
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 1140
+    }
+  },
+  "hitbox+0.2": {
+    "legitimate": false,
+    "attacks": 1798,
+    "valid": 0,
+    "uncertain": 832,
+    "invalid": 966,
+    "invalidShare": 0.5373,
+    "missClasses": {
+      "ANGLE": 762,
+      "REACH": 204
+    },
+    "reasons": {
+      "BORDERLINE": 425,
+      "EYE_ABSTRACT_ONLY": 407
+    },
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 133
+    }
+  },
+  "hitbox+1.0": {
+    "legitimate": false,
+    "attacks": 4321,
+    "valid": 0,
+    "uncertain": 416,
+    "invalid": 3905,
+    "invalidShare": 0.9037,
+    "missClasses": {
+      "ANGLE": 3702,
+      "REACH": 203
+    },
+    "reasons": {
+      "BORDERLINE": 199,
+      "EYE_ABSTRACT_ONLY": 217
+    },
+    "singleFrontier": {
+      "valid": 0,
+      "invalid": 2388
+    }
+  },
+  "backtrack-4t": {
+    "legitimate": false,
+    "attacks": 3462,
+    "valid": 1028,
+    "uncertain": 2255,
+    "invalid": 179,
+    "invalidShare": 0.0517,
+    "missClasses": {
+      "ANGLE": 112,
+      "REACH": 67
+    },
+    "reasons": {
+      "BORDERLINE": 698,
+      "EYE_ABSTRACT_ONLY": 1557
+    },
+    "singleFrontier": {
+      "valid": 92,
+      "invalid": 2
+    }
+  },
+  "backtrack-8t": {
+    "legitimate": false,
+    "attacks": 3461,
+    "valid": 905,
+    "uncertain": 2136,
+    "invalid": 420,
+    "invalidShare": 0.1214,
+    "missClasses": {
+      "ANGLE": 284,
+      "REACH": 136
+    },
+    "reasons": {
+      "BORDERLINE": 683,
+      "EYE_ABSTRACT_ONLY": 1453
+    },
+    "singleFrontier": {
+      "valid": 78,
+      "invalid": 1
+    }
+  },
+  "legitimateInvalid": 0
+}

@@ -238,6 +238,15 @@ public final class Papea2AC extends JavaPlugin implements Listener {
             var st=engine.mitigationStatus(player.getUniqueId());if(st.isEmpty()){sender.sendMessage("no admitted session");return true;}
             for(String line:mitigationLines(st.get()))sender.sendMessage(line);
             return true;
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("combat")){
+            // Phase 11 diagnostic: descriptive combat observations only - session/epoch, entity registry usage and honesty markers, the last attacks with their
+            // target network state (incarnation, exactness, pose), attacker timeline provenance, timing status and completeness reasons. Never a verdict,
+            // a label, a score or a recommendation; target state is packet-observed only (no live Bukkit entity is read).
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var lines=engine.combatDiagnosticLines(player.getUniqueId(),args.length>=3&&args[2].equalsIgnoreCase("entities"));if(lines.isEmpty()){sender.sendMessage("no admitted session");return true;}
+            for(String line:lines)sender.sendMessage(line);
+            return true;
         }else if(args.length>=2&&args[0].equalsIgnoreCase("evidence")){
             // Phase 9 diagnostic: what the completed Phase 8 results prove over the active window (counts, families, continuity, gaps, magnitudes, ages, supporting ids); bounded; never a level, never a recommendation, never an action.
             Player player=getServer().getPlayerExact(args[1]);
@@ -318,6 +327,8 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         sender.sendMessage("validation requests="+val.requests()+" VALID="+val.valid()+" UNCERTAIN="+val.uncertain()+" INVALID="+val.invalid()+" uncertain{searchLimit="+val.uncertainSearchLimit()+" unsupported="+val.uncertainUnsupported()+" worldIncomplete="+val.uncertainWorldIncomplete()+" externalMotion="+val.uncertainExternalMotion()+" unanchored="+val.uncertainUnanchored()+" other="+val.uncertainOther()+"} timingBranches="+val.timingBranches()+" reconstructions="+val.reconstructions()+" evaluations="+val.evaluations()+" anchors="+val.anchors()+"/lost="+val.anchorsLost()+" internalErrors="+val.internalErrors()+" injected="+val.injectedRequests());
         var ev=engine.evidenceEngineStatus();
         sender.sendMessage("evidence consumed="+ev.consumed()+" witness="+ev.legitimateWitness()+" unresolved="+ev.unresolved()+" positiveEvents="+ev.positiveEvents()+" duplicates="+ev.duplicates()+" proofRejected="+ev.proofRejected()+" outOfOrder="+ev.outOfOrder()+" sessionMismatch="+ev.sessionMismatch()+" internalErrors="+ev.internalErrors()+" side{consumed="+ev.sideConsumed()+" positive="+ev.sidePositiveEvents()+" duplicates="+ev.sideDuplicates()+"} sessions="+ev.sessionsCreated());
+        sender.sendMessage(engine.combatStatusLine()); // Phase 11: engine-wide descriptive combat counters (core-rendered)
+        sender.sendMessage(engine.reachStatusLine()); // Phase 12: engine-wide reach counters (core-rendered; observe-only)
         var col=engine.collisionEngineStatus();
         sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
             +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()

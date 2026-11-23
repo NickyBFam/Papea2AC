@@ -18,6 +18,10 @@ public final class PacketEngine implements AutoCloseable {
         public final me.nicolas.papea2ac.player.TimingLedger timing;volatile int selfEntityId=-1;
         /** Phase 8: the player-owned movement context (attributes/effects/abilities/border/entity neighbourhood as the client learned them) and the shard-owned live validation runner. */
         public final me.nicolas.papea2ac.player.MovementContextLedger movementContext;public final MovementValidationRunner validation;
+        /** Phase 11: the observer entity history (world-owned) and the combat observation engine, fed in ordered sequence on this shard. */
+        public final CombatRunner combat;
+        /** Phase 12: reach / hitbox / historical ray (runs after the combat runner; observe-only). */
+        public final ReachRunner reach;
         /** Phase 9: the session's evidence runner (live + side ledgers), fed by the validation runner on the same shard. */
         public final EvidenceRunner evidence;
         /** P9-F2: the cells whose state the client and this observer may legitimately disagree about (client prediction / in-flight change). */
@@ -28,6 +32,8 @@ public final class PacketEngine implements AutoCloseable {
          *  possible capture time, so every Input's captured/processed times are non-negative, pre-login journal included. Null until first used. */
         DecisionCapture decision;
         long lastMarkerNanos,lastTimingExpireNanos,timingBreakGeneration=-1;int markerCounter;boolean bracketMarkerDue;
+        /** Phase 12 (owner-approved change to the Phase 7 cadence, 2026-10-03): combat-time markers are due until this time - one per tick while the player attacked in the last {@link #COMBAT_MARKER_WINDOW_NANOS}. */
+        long combatMarkersUntilNanos;
         private final AtomicBoolean closing=new AtomicBoolean();
         private final AtomicLong closeStarted=new AtomicLong();
         private final AtomicBoolean cleanupAlerted=new AtomicBoolean();
@@ -52,6 +58,8 @@ public final class PacketEngine implements AutoCloseable {
             timing=new me.nicolas.papea2ac.player.TimingLedger(key);
             movementContext=new me.nicolas.papea2ac.player.MovementContextLedger(key);
             validation=new MovementValidationRunner(key,validator,physics,collision,blockBehaviors,timingProfile,validationMetrics);
+            combat=new CombatRunner(key,me.nicolas.papea2ac.version.CombatProfile.PAPER_26_2,world,timeline,timing::view,validation::status,combatMetrics);
+            reach=new ReachRunner(key,me.nicolas.papea2ac.version.EntityGeometryTable.paper26_2(),me.nicolas.papea2ac.version.MovementProfile.paper26_2(),me.nicolas.papea2ac.version.CombatProfile.PAPER_26_2,reachMetrics);
             evidence=new EvidenceRunner(key,evidenceMetrics);validation.attachEvidence(evidence);
             disputes=new BlockDisputeLedger(key,disputeMetrics);validation.attachDisputes(disputes);
             mitigation=new MitigationRunner(key,new me.nicolas.papea2ac.mitigation.MitigationActor(key,me.nicolas.papea2ac.mitigation.MitigationBounds.DEFAULT,anchorAdmission,intent->requestDecisionCapsule(this,intent),mitigationIntents::offer,(sk,n)->proposalGuard.propose(sk.player(),Math.max(1,activeSessionCount),n),mitigationMetrics),
@@ -70,12 +78,13 @@ public final class PacketEngine implements AutoCloseable {
         public boolean recordingComplete(){var r=recording;return r==null||r.complete();}
     }
     /** Ordered world ingestion for one observation: bundle children keep wire order via subIndex; a world-silent observation still advances the "observed through" bound (player/world coherence). */
-    private static void applyWorld(Session s,Observation o,long now,String worldTransport){
+    private static String applyWorld(Session s,Observation o,long now,String worldTransport){
         int base=0;String compromised=s.captureCompromised.getAndSet(null);
         if(compromised!=null){String reason="CAPTURE_COMPROMISED:"+compromised;s.world.apply(s.key,new WorldObservation.CoverageBreak(reason.length()>64?reason.substring(0,64):reason),o.sequence(),0,now,worldTransport);base=1;}
         var worldObservations=WorldObservationMapper.map(o);
         for(int w=0;w<worldObservations.size();w++)s.world.apply(s.key,worldObservations.get(w),o.sequence(),base+w,now,worldTransport);
         if(worldObservations.isEmpty()&&base==0)s.world.observeSequence(s.key,o.sequence(),now);
+        return compromised==null?null:"CAPTURE_COMPROMISED:"+compromised;
     }
     private final class Shard implements Runnable {
         final Thread thread;final AtomicReference<List<Session>> sessions=new AtomicReference<>(List.of());
@@ -94,7 +103,7 @@ public final class PacketEngine implements AutoCloseable {
                                 if(s.recording!=null){try{s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);}catch(RuntimeException|LinkageError e){errors.accept(e);}finally{try{s.recording.close();}catch(RuntimeException e){errors.accept(e);}}}
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
                                 s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
-                                s.world.close();s.timing.close();
+                                s.reach.close();s.world.close();s.timing.close();s.combat.close();
                                 if(s.decision!=null){s.decision.close();s.decision=null;} // Phase 10: release the rolling share with the session
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
@@ -158,6 +167,8 @@ public final class PacketEngine implements AutoCloseable {
                                     for(var ce:ContextObservationMapper.map(o,s.selfEntityId))s.movementContext.apply(s.key,ce);
                                     // P9-F2: the block states the client and this observer may legitimately disagree about (client prediction window / in-flight change)
                                     if(o.event() instanceof Observation.Attempt att2){
+                                        // Phase 12: an ATTACK opens (or extends) the combat-time marker window (owner-approved Phase 7 cadence change, 2026-10-03)
+                                        if(att2.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Attack)s.combatMarkersUntilNanos=now+COMBAT_MARKER_WINDOW_NANOS;
                                         if(att2.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.UseOn u2)s.disputes.clientPrediction(u2,now);
                                         else if(att2.payload() instanceof me.nicolas.papea2ac.protocol.SemanticPayload.Dig d2)s.disputes.clientPrediction(d2,now);
                                     }
@@ -183,11 +194,13 @@ public final class PacketEngine implements AutoCloseable {
                                 }
                                 if(degraded){
                                     s.timeline.append(s.key,new PlayerObservation.CoverageGap(after.reason().name()),o.sequence(),now,transport);
-                                    if(worldTransport!=null)s.world.apply(s.key,new WorldObservation.CoverageBreak(worldTransport),o.sequence(),0,now,worldTransport);
-                                    else applyWorld(s,o,now,null);// the bump does not concern clientbound observation: the world still consumes this observation
+                                    if(worldTransport!=null){s.world.apply(s.key,new WorldObservation.CoverageBreak(worldTransport),o.sequence(),0,now,worldTransport);s.combat.apply(o,now,s.selfEntityId,s.world.worldEpoch(),worldTransport,true);s.reach.apply(o,s.combat,s.timing,s.movementContext.view(),s.validation,s.world,s.selfEntityId);}
+                                    else{String cc=applyWorld(s,o,now,null);s.combat.apply(o,now,s.selfEntityId,s.world.worldEpoch(),cc,false);s.reach.apply(o,s.combat,s.timing,s.movementContext.view(),s.validation,s.world,s.selfEntityId);}// the bump does not concern clientbound observation: the world still consumes this observation
                                 }else{
                                     PlayerObservationMapper.map(o,s.selfEntityId).ifPresent(po->s.timeline.append(s.key,po,o.sequence(),now,transport));
-                                    applyWorld(s,o,now,worldTransport);
+                                    String cc=applyWorld(s,o,now,worldTransport);
+                                    s.combat.apply(o,now,s.selfEntityId,s.world.worldEpoch(),cc,false); // Phase 11: after the world and the timeline saw this observation
+                                    s.reach.apply(o,s.combat,s.timing,s.movementContext.view(),s.validation,s.world,s.selfEntityId); // Phase 12: after the combat runner built the attack context
                                 }
                                 if(s.recording!=null&&degraded)s.recording.incomplete();
                                 if(administrative)applyControl(s,o,now);
@@ -284,6 +297,31 @@ public final class PacketEngine implements AutoCloseable {
     final EvidenceRunner.Metrics evidenceMetrics=new EvidenceRunner.Metrics();
     // ---------------------------------------------------------------- Phase 10 mitigation (decisions on the shards; application only on the Paper main thread)
     public final me.nicolas.papea2ac.mitigation.MitigationActor.Metrics mitigationMetrics=new me.nicolas.papea2ac.mitigation.MitigationActor.Metrics();
+    /** Phase 11 fixed-cardinality combat counters (no UUID / entity id / name / chunk / session label). */
+    public final me.nicolas.papea2ac.combat.CombatEngine.Metrics combatMetrics=new me.nicolas.papea2ac.combat.CombatEngine.Metrics();
+    /** Phase 12 fixed-cardinality reach counters (no UUID / entity id / name / chunk / session label). */
+    public final ReachRunner.Metrics reachMetrics=new ReachRunner.Metrics();
+    /** The session's published Phase 11 diagnostics snapshot (immutable; any thread), or null when the player has no session. */
+    public CombatRunner.Diagnostics combatDiagnostics(UUID player){Session s;synchronized(this){s=active.get(player);}return s==null?null:s.combat.diagnostics();}
+    /**
+     * Phase 11 engine-wide combat line for {@code /papea2ac status}: the fixed-cardinality counters since start, plus entity lifecycle totals (closed
+     * sessions as folded at close, plus every live session's last published snapshot). Descriptive only; rendered here so the platform never sees
+     * combat types.
+     */
+    public String combatStatusLine(){
+        var m=combatMetrics;long gen=m.entityGenerations.sum(),rem=m.entityRemovals.sum(),rep=m.entityReplacements.sum(),epo=m.entityEpochResets.sum();int live=0;
+        List<Session> sessions;synchronized(this){sessions=new ArrayList<>(active.values());}
+        for(Session s:sessions){if(s.combat.closed())continue;var e=s.combat.diagnostics().entities();gen+=e.generations();rem+=e.removals();rep+=e.replacements();epo+=e.epochResets();live++;}
+        var by=new StringBuilder();for(var e:m.byTargetStatus.entrySet())if(e.getValue().sum()>0)by.append(by.length()==0?"":" ").append(e.getKey()).append('=').append(e.getValue().sum());
+        return "combat attacks="+m.attacks.sum()+" interactions="+m.interactions.sum()+" targetFound="+m.targetFound.sum()+" targetNotFound="+m.targetIncomplete.sum()
+            +" contextsComplete="+m.contextsComplete.sum()+" contextsIncomplete="+m.contextsIncomplete.sum()+" rejected="+m.rejectedOutOfOrder.sum()+" internalErrors="+m.internalErrors.sum()
+            +" byTarget{"+by+"} entities{generations="+gen+" removals="+rem+" replaced="+rep+" epochResets="+epo+"} sessions{live="+live+" closed="+m.closedSessions.sum()+"}";
+    }
+    /** The diagnostic command's lines for one player (empty when no session); rendered here so the platform never sees combat types (ARCHITECTURE: platform-paper does not depend on combat). */
+    public List<String> combatDiagnosticLines(UUID player,boolean withEntities){Session s;synchronized(this){s=active.get(player);}if(s==null)return List.of();var out=new ArrayList<>(CombatRunner.lines(s.combat.diagnostics(),withEntities));out.addAll(ReachRunner.lines(s.reach.status()));return out;}
+    /** Phase 12 engine-wide reach line for {@code /papea2ac status}: fixed-cardinality counters since start. Descriptive only. */
+    public String reachStatusLine(){var m=reachMetrics;var by=new StringBuilder();for(var e:m.byMissClass.entrySet())if(e.getValue().sum()>0)by.append(by.length()==0?"":" ").append(e.getKey()).append('=').append(e.getValue().sum());var eye=new StringBuilder();for(var e:m.byEyeSource.entrySet())if(e.getValue().sum()>0)eye.append(eye.length()==0?"":" ").append(e.getKey()).append('=').append(e.getValue().sum());
+        return "reach attacks="+m.attacks.sum()+" valid="+m.valid.sum()+" uncertain="+m.uncertain.sum()+" invalid="+m.invalid.sum()+" expired="+m.expired.sum()+" overflow="+m.overflow.sum()+" internalErrors="+m.internalErrors.sum()+" byMiss{"+by+"} byEye{"+eye+"} window{markerProven="+m.windowMarkerProven.sum()+" horizonOnly="+m.windowHorizonOnly.sum()+"} combatMarkers="+timingMetrics.combatMarkers.sum();}
     /** Safe-anchor criteria with the pinned standing on-foot box (mitigation does not depend on version: core supplies the geometry). */
     final me.nicolas.papea2ac.mitigation.AnchorAdmission anchorAdmission=new me.nicolas.papea2ac.mitigation.AnchorAdmission(collision,
         p->me.nicolas.papea2ac.collision.PlayerBox.of(collision.profile(),me.nicolas.papea2ac.collision.PlayerBox.Pose.STANDING,p.x(),p.y(),p.z()));
@@ -296,18 +334,26 @@ public final class PacketEngine implements AutoCloseable {
     private volatile MarkerPort markerPort;
     /** Marker cadence: one ping per second per session while the platform port exists, plus one right after an outbound influence/correction (bracketing), never more than one per 50 ms, never with more than 16 pending. */
     public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
-    static final class TimingMetrics{final java.util.concurrent.atomic.LongAdder markersIssued=new java.util.concurrent.atomic.LongAdder(),markerSendFailures=new java.util.concurrent.atomic.LongAdder(),markersAnswered=new java.util.concurrent.atomic.LongAdder(),rttSamples=new java.util.concurrent.atomic.LongAdder(),lateOrUnknownAcks=new java.util.concurrent.atomic.LongAdder(),velocityIgnoredUnknownSelf=new java.util.concurrent.atomic.LongAdder();}
+    /**
+     * Phase 12 combat-time markers (owner decision 2026-10-03, a change to the Phase 7 cadence): while the player has sent an ATTACK within the
+     * last three seconds, a marker is due every {@link #MARKER_MIN_GAP_NANOS} (one per server tick), under the same 16-pending cap. Each answered
+     * marker proves every clientbound packet before it was applied by the client (Phase 12 ApplicationFrontier), which bounds how old a target
+     * position an attack may use (backtrack). Outside combat the cadence is the Phase 7 one, unchanged.
+     */
+    public static final long COMBAT_MARKER_WINDOW_NANOS=3_000_000_000L;
+    static final class TimingMetrics{final java.util.concurrent.atomic.LongAdder markersIssued=new java.util.concurrent.atomic.LongAdder(),markerSendFailures=new java.util.concurrent.atomic.LongAdder(),markersAnswered=new java.util.concurrent.atomic.LongAdder(),rttSamples=new java.util.concurrent.atomic.LongAdder(),lateOrUnknownAcks=new java.util.concurrent.atomic.LongAdder(),velocityIgnoredUnknownSelf=new java.util.concurrent.atomic.LongAdder(),combatMarkers=new java.util.concurrent.atomic.LongAdder();}
     final TimingMetrics timingMetrics=new TimingMetrics();
     public void setMarkerPort(MarkerPort port){markerPort=port;}
     /** Shard-thread marker issue: a session-scoped id (epoch in the high byte, a counter below) whose pong the ledger correlates; late pongs of an earlier session never match (new ledger, new epoch byte). */
     void issueMarker(Session s,long clock){
         MarkerPort port=markerPort;if(port==null||s.selfEntityId<0)return;
         boolean periodic=clock-s.lastMarkerNanos>=MARKER_PERIOD_NANOS,bracket=s.bracketMarkerDue&&clock-s.lastMarkerNanos>=MARKER_MIN_GAP_NANOS;
-        if(!periodic&&!bracket)return;
+        boolean combat=clock-s.combatMarkersUntilNanos<0&&clock-s.lastMarkerNanos>=MARKER_MIN_GAP_NANOS; // Phase 12 combat-time cadence
+        if(!periodic&&!bracket&&!combat)return;
         if(s.timing.view().markers().pending()>=MARKER_MAX_PENDING){if(periodic)s.lastMarkerNanos=clock;return;}
         s.lastMarkerNanos=clock;s.bracketMarkerDue=false;
         int id=(int)(((s.key.epoch()&0xFF)<<24)|(++s.markerCounter&0xFFFFFF));
-        if(port.sendMarker(s.key.player(),id))timingMetrics.markersIssued.increment();else timingMetrics.markerSendFailures.increment();
+        if(port.sendMarker(s.key.player(),id)){timingMetrics.markersIssued.increment();if(combat&&!periodic&&!bracket)timingMetrics.combatMarkers.increment();}else timingMetrics.markerSendFailures.increment();
     }
     /** PERFORMANCE.md G partition "other queues/bulk/worker scratch/control 32 MiB": the one bound every session's in-flight ingress overflow and bulk content compose into (P3-F7). */
     public final me.nicolas.papea2ac.packet.InfrastructurePool infrastructurePool=new me.nicolas.papea2ac.packet.InfrastructurePool(me.nicolas.papea2ac.packet.InfrastructurePool.DEFAULT_BYTES);

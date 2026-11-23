@@ -420,3 +420,99 @@ tasks.register<JavaExec>("mitigationFixtures") {
     args(rootProject.file("docs/phase10-artifacts").absolutePath)
     doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
 }
+
+// ---- Phase 11: combat engine (descriptive combat-domain infrastructure) harnesses
+tasks.register<JavaExec>("combatFixtures") {
+    description = "Phase 11 artifacts under docs/phase11-artifacts: attack corpus, entity lifecycle, target lookup status matrix and replay results (from CombatCorpus, through the core CombatRunner). Fails on any mismatch or non-determinism."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CombatFixtureMain")
+    args(rootProject.file("docs/phase11-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("combatMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + charged-byte accounting) Phase 11 memory estimate: empty combat session, typical registry, typical PvP session, full bounded registry and history, attack-history storage, replay projection. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CombatMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase11-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkCombat") {
+    description = "Phase 11 JMH kernels: attack ingest (known / unknown target), current / historical lookup, move / teleport / spawn / despawn / id reuse, full bounded registry, mixed stream, and the no-combat path. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "CombatBenchmarks|CombatEntityCountBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase11-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms") // fixture sanity only, never the record
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}
+
+// ---- Phase 12: reach / hitbox / historical ray tracing
+val pinnedClientJar = project.findProperty("clientJar")?.toString() ?: (System.getenv("APPDATA") ?: "") + "/.minecraft/versions/26.2/26.2.jar"
+tasks.register<JavaExec>("extractEntityGeometry") {
+    description = "Phase 12 controlled extraction: regenerates the version-pinned vanilla entity attack geometry table (anticheat-version resource: dimensions, avatar poses, interaction attributes, per-type pick/interpolation facts from both jars' bytecode) and its summary. Never runs in production; a changed table is a reviewed event."
+    dependsOn(tasks.named(nativeTest.classesTaskName))
+    classpath = nativeTest.runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.EntityGeometryExtractMain")
+    args(rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/entity-geometry-paper-26.2-124.tsv").absolutePath,
+         rootProject.file("docs/phase12-artifacts/entity-geometry-summary.json").absolutePath, pinnedClientJar)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" }; check(file(pinnedClientJar).exists()) { "Pinned vanilla 26.2 client jar not found: $pinnedClientJar (-PclientJar=...)" } }
+}
+tasks.register<JavaExec>("reachFixtures") {
+    description = "Phase 12 artifacts under docs/phase12-artifacts: the deterministic attack corpus (legitimate vs reach / hitbox / backtrack classes). Fails on any legitimate INVALID or non-determinism."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ReachCorpusMain")
+    args(rootProject.file("docs/phase12-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase12-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkReach") {
+    description = "Phase 12 JMH kernels: the per-attack decision (certified VALID, certified / abstract INVALID, moving target with two views), the client pick, outer exclusion, robust witness, the interpolation hull, and an attack through the runner with markers flowing. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "ReachBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase12-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms") // fixture sanity only, never the record
+    project.findProperty("jmhArgs")?.toString()?.split(' ')?.filter { it.isNotBlank() }?.let { args(it) } // extra JMH options (e.g. a profiler), diagnostics only
+    doFirst { rootProject.file("docs/phase12-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("reachMemoryHarness") {
+    description = "Empirical (forced-GC heap diff) Phase 12 memory estimate: empty reach runner, full target ledgers, 64 pending attacks, 64 retained results, per-attack garbage. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.ReachMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase12-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase12-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("extractOutlineShapes") {
+    description = "Phase 12 controlled extraction: regenerates the version-pinned vanilla block OUTLINE shape table (anticheat-version resource; the shapes the attack pick clips) and its summary from the pinned Paper jar. Never runs in production; a changed table is a reviewed event."
+    dependsOn(tasks.named(nativeTest.classesTaskName))
+    classpath = nativeTest.runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.OutlineShapeExtractMain")
+    args(rootProject.file("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/outline-shapes-paper-26.2-124.tsv").absolutePath,
+         rootProject.file("docs/phase12-artifacts/outline-shapes-summary.json").absolutePath)
+    doFirst { check(rootProject.file(".phase1-runtime/versions/26.2/paper-26.2.jar").exists()) { "Prepare pinned Paper runtime first" } }
+}
+
+// ---- Thread 8 (cross-phase performance) overlay: appended by Papea2AC-coordination/perf/apply-overlay.sh; never committed ----
+tasks.register<JavaExec>("perfCrossPhaseBenchmarks") {
+    description = "Thread 8 cross-phase JMH kernels. -PjmhInclude=<regex> -PjmhOut=<json>"
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    args(listOf(project.findProperty("jmhInclude")?.toString() ?: "CrossPhasePerfBenchmarks") + (project.findProperty("jmhExtra")?.toString() ?: "").split(" ").filter { it.isNotBlank() } + listOf("-prof", "gc", "-rf", "json", "-rff", (project.findProperty("jmhOut")?.toString() ?: layout.buildDirectory.file("perf/jmh.json").get().asFile.absolutePath)))
+}
+tasks.register<JavaExec>("perfCrossPhasePathology") {
+    description = "Thread 8 pathology / boundedness harness (descriptive)."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CrossPhasePathologyMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+}
