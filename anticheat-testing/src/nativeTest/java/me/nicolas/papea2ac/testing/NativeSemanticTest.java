@@ -52,8 +52,12 @@ class NativeSemanticTest {
         assertTrue(r.relativeYaw());assertFalse(r.relativePitch());
     }
     @Test void entitySyncAndRemovalPreservePrimitiveIdentity()throws Exception{
-        var p=(EntityPosition)check(create(GAME+"ClientboundEntityPositionSyncPacket",new Class<?>[]{int.class,type("net.minecraft.world.entity.PositionMoveRotation"),boolean.class},4,transform(),true));
-        assertEquals(4,p.entityId());assertTrue(p.onGround());assertTrue(p.relative().isEmpty());
+        // P11-F2: a position sync is its own semantic record (the client resets the delta-codec base from it); a teleport keeps its relative flags
+        var p=(EntityPositionSync)check(create(GAME+"ClientboundEntityPositionSyncPacket",new Class<?>[]{int.class,type("net.minecraft.world.entity.PositionMoveRotation"),boolean.class},4,transform(),true));
+        assertEquals(4,p.entityId());assertTrue(p.onGround());assertEquals(new PacketPayload.Position(1,64,3),p.position());assertEquals(45f,p.rotation().yaw());
+        var t=(EntityPosition)check(create(GAME+"ClientboundTeleportEntityPacket",new Class<?>[]{int.class,type("net.minecraft.world.entity.PositionMoveRotation"),Set.class,boolean.class},
+            5,transform(),Set.of(value("net.minecraft.world.entity.Relative","X"),value("net.minecraft.world.entity.Relative","Y_ROT")),false));
+        assertEquals(5,t.entityId());assertFalse(t.onGround());assertEquals(Set.of(Relative.X,Relative.Y_ROT),t.relative());assertEquals(new PacketPayload.Position(1,64,3),t.position());
         int[] ids={1,2,3};var r=(RemoveEntities)check(create(GAME+"ClientboundRemoveEntitiesPacket",new Class<?>[]{int[].class},(Object)ids));
         ids[0]=999;assertEquals(List.of(1,2,3),r.ids());
     }

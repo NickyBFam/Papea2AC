@@ -2,6 +2,7 @@ package me.nicolas.papea2ac.player;
 import me.nicolas.papea2ac.model.SessionKey;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -60,7 +61,7 @@ public final class MovementContextLedger {
         public static final Border UNKNOWN = new Border(false, 0, 0, 0, 0, false);
         static Border of(double cx, double cz, double size, boolean moving) { double h = size / 2.0; return new Border(true, cx - h, cz - h, cx + h, cz + h, moving); }
     }
-    /** Immutable projection. {@code contextComplete} = no loss-class break since the last (re)baseline; {@code entitiesComplete} = tracker not overflowed and no break. */
+    /** Immutable projection. {@code contextComplete} = no loss-class break since the last (re)baseline; {@code entitiesComplete} = tracker not overflowed, no break, and no tracked entity awaiting a re-sync after a teleport (P11-F3). */
     public record View(SessionKey key, long lastSequence, boolean contextComplete, boolean entitiesComplete, Map<String, AttributeValue> attributes, Map<String, Integer> effects, boolean flying, boolean canFly, String gameMode, Border border,
                        List<TrackedEntity> relevantEntities, int trackedEntities, long worldChanges, long breaks) {
         public View { attributes = Map.copyOf(attributes); effects = Map.copyOf(effects); relevantEntities = List.copyOf(relevantEntities); Objects.requireNonNull(gameMode); Objects.requireNonNull(border); }
@@ -77,6 +78,7 @@ public final class MovementContextLedger {
     private final Map<String, AttributeValue> attributes = new LinkedHashMap<>();
     private final Map<String, Integer> effects = new LinkedHashMap<>();
     private final Map<Integer, TrackedEntity> entities = new LinkedHashMap<>();
+    private final Set<Integer> uncertain = new LinkedHashSet<>(); // tracked ids the client last moved by a teleport, not yet re-synced (P11-F3)
     private boolean flying, canFly, contextComplete = true, entitiesComplete = true, broken;
     private String gameMode = "unknown";
     private Border border = Border.UNKNOWN;
@@ -108,17 +110,24 @@ public final class MovementContextLedger {
                 EntityClass c = classify(s.type());
                 if (c == EntityClass.OTHER) changed = false; // irrelevant to the local player's physics: not tracked (P8-F3, P9-F5)
                 else if (entities.size() >= MAX_ENTITIES && !entities.containsKey(s.entityId())) entitiesComplete = false;
-                else entities.put(s.entityId(), new TrackedEntity(s.entityId(), c, s.x(), s.y(), s.z()));
+                else { entities.put(s.entityId(), new TrackedEntity(s.entityId(), c, s.x(), s.y(), s.z())); uncertain.remove(s.entityId()); }
             }
-            case ContextEvent.EntityMovedTo m -> { TrackedEntity t = entities.get(m.entityId()); if (t != null) entities.put(m.entityId(), new TrackedEntity(t.entityId(), t.entityClass(), m.x(), m.y(), m.z())); else changed = false; }
-            case ContextEvent.EntityMovedBy m -> { TrackedEntity t = entities.get(m.entityId()); if (t != null) entities.put(m.entityId(), new TrackedEntity(t.entityId(), t.entityClass(), t.x() + m.dx() / 4096.0, t.y() + m.dy() / 4096.0, t.z() + m.dz() / 4096.0)); else changed = false; }
-            case ContextEvent.EntitiesRemoved r -> { changed = false; for (int id : r.entityIds()) if (entities.remove(id) != null) changed = true; if (entities.size() < MAX_ENTITIES / 2 && entitiesComplete != !broken) { entitiesComplete = !broken; changed = true; } }
-            case ContextEvent.WorldChanged w -> { entities.clear(); worldChanges++; broken = false; contextComplete = true; entitiesComplete = true; }
+            case ContextEvent.EntityMovedTo m -> { TrackedEntity t = entities.get(m.entityId()); if (t != null) { entities.put(m.entityId(), new TrackedEntity(t.entityId(), t.entityClass(), m.x(), m.y(), m.z())); uncertain.remove(m.entityId()); } else changed = false; }
+            case ContextEvent.EntityMovedBy m -> { TrackedEntity t = entities.get(m.entityId()); if (t != null) entities.put(m.entityId(), new TrackedEntity(t.entityId(), t.entityClass(), decodeDelta(t.x(), m.dx()), decodeDelta(t.y(), m.dy()), decodeDelta(t.z(), m.dz()))); else changed = false; }
+            case ContextEvent.EntityTeleported m -> { if (entities.containsKey(m.entityId())) changed = uncertain.add(m.entityId()) && uncertain.size() == 1; else changed = false; }
+            case ContextEvent.EntitiesRemoved r -> { changed = false; for (int id : r.entityIds()) { uncertain.remove(id); if (entities.remove(id) != null) changed = true; } if (entities.size() < MAX_ENTITIES / 2 && entitiesComplete != !broken) { entitiesComplete = !broken; changed = true; } }
+            case ContextEvent.WorldChanged w -> { entities.clear(); uncertain.clear(); worldChanges++; broken = false; contextComplete = true; entitiesComplete = true; }
             case ContextEvent.CoverageBreak b -> { breaks++; broken = true; contextComplete = false; entitiesComplete = false; }
         }
         if (changed) publish();
         return true;
     }
+    /**
+     * The 26.2 client's VecDeltaCodec decode of one axis (P11-F3; pinned by NativeCombatDifferentialTest): a zero delta keeps the base bit-exact,
+     * otherwise (round(base * 4096) + delta) / 4096. The tracked position IS the codec base while the entity is certain (spawn, position sync
+     * and every decoded move set both); a teleport moves the entity without the base, so it stays uncertain until re-synced.
+     */
+    static double decodeDelta(double base, short delta) { return delta == 0 ? base : (Math.round(base * 4096.0) + delta) / 4096.0; }
     public static EntityClass classify(String type) {
         if (type.equals("minecraft:player")) return EntityClass.PLAYER;
         if (type.equals("minecraft:shulker") || type.endsWith("_boat") || type.endsWith("_raft")) return EntityClass.HARD_COLLIDER;
@@ -129,6 +138,6 @@ public final class MovementContextLedger {
     private void publish() {
         List<TrackedEntity> relevant = new ArrayList<>(); for (TrackedEntity t : entities.values()) if (t.entityClass() != EntityClass.OTHER) relevant.add(t);
         relevant.sort((a, b) -> Integer.compare(a.entityId(), b.entityId()));
-        view = new View(key, lastSequence, contextComplete, entitiesComplete, attributes, effects, flying, canFly, gameMode, border, relevant, entities.size(), worldChanges, breaks);
+        view = new View(key, lastSequence, contextComplete, entitiesComplete && uncertain.isEmpty(), attributes, effects, flying, canFly, gameMode, border, relevant, entities.size(), worldChanges, breaks);
     }
 }
