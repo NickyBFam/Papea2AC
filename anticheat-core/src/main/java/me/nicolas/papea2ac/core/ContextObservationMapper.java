@@ -52,7 +52,12 @@ public final class ContextObservationMapper {
         if (p instanceof SemanticPayload.BorderSize b) return List.of(new ContextEvent.BorderSize(seq, b.size()));
         if (p instanceof SemanticPayload.BorderLerp b) return List.of(new ContextEvent.BorderLerp(seq, b.oldSize(), b.newSize(), b.millis()));
         if (p instanceof SemanticPayload.EntitySpawn s) return selfEntityId >= 0 && s.entityId() == selfEntityId ? List.of() : List.of(new ContextEvent.EntitySpawned(seq, s.entityId(), s.type(), s.position().x(), s.position().y(), s.position().z()));
-        if (p instanceof SemanticPayload.EntityPosition ep) return List.of(new ContextEvent.EntityMovedTo(seq, ep.entityId(), ep.position().x(), ep.position().y(), ep.position().z()));
+        // P11-F2 split position sync from teleport at the transport; P11-F3: a teleport leaves the client's delta-codec base behind (and resolves relative
+        // components against the interpolated position), so it makes the entity uncertain instead of moving it to a possibly-relative coordinate
+        if (p instanceof SemanticPayload.EntityPosition ep) return List.of(new ContextEvent.EntityTeleported(seq, ep.entityId()));
+        // P11-F9: a pre-schema-3 capture cannot tell a sync from an absolute teleport; both put the entity at the packet position (the pre-Phase-11 reading)
+        if (p instanceof SemanticPayload.LegacyEntityPosition lp) return List.of(new ContextEvent.EntityMovedTo(seq, lp.entityId(), lp.position().x(), lp.position().y(), lp.position().z()));
+        if (p instanceof SemanticPayload.EntityPositionSync ps) return List.of(new ContextEvent.EntityMovedTo(seq, ps.entityId(), ps.position().x(), ps.position().y(), ps.position().z()));
         if (p instanceof SemanticPayload.EntityDelta d) return d.hasPosition() ? List.of(new ContextEvent.EntityMovedBy(seq, d.entityId(), d.dx(), d.dy(), d.dz())) : List.of();
         if (p instanceof SemanticPayload.RemoveEntities r) return List.of(new ContextEvent.EntitiesRemoved(seq, r.ids()));
         return List.of();

@@ -121,7 +121,7 @@ class LegacyCodecCompatibilityTest {
     @Test void newFormatIsRejectedClearlyByThePhase2DecoderNeverMisinterpreted() throws Throwable {
         var join = new SemanticPayload.JoinGame(5, false, "minecraft:overworld", 20, 10, 10, "SURVIVAL", true, false, -64, 384);
         for (PacketPayload p : List.of(join, new SemanticPayload.Respawn("minecraft:the_nether", (byte) 1, 0, 256), NEW_BLOCK_CHANGE, new PacketPayload.Movement(new PacketPayload.Position(1, 2, 3), null, true, false))) {
-            byte[] bytes = PayloadCodec.encode(p); assertEquals(2, bytes[0], "Phase 3 writes payload schema 2");
+            byte[] bytes = PayloadCodec.encode(p); assertEquals(PayloadCodec.SCHEMA, bytes[0], "the current encoder writes payload schema " + PayloadCodec.SCHEMA + " (2 since Phase 3, 3 since P11-F2)");
             var e = assertThrows(IOException.class, () -> legacyDecode(bytes), p.getClass().getSimpleName());
             assertEquals("payload schema", e.getMessage(), "the Phase 2 decoder stops at the schema byte - it never reads a schema-2 body");
         }

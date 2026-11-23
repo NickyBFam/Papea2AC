@@ -50,6 +50,7 @@ public final class TimingResolver {
         List<TimingEvent.ClientTickEnd> tickEnds = new ArrayList<>(); List<TimingEvent.MovementObserved> rotationOnly = new ArrayList<>();
         List<TimingEvent.ExternalMotionSent> sentHere = new ArrayList<>(); List<TimingEvent.MarkerAcknowledged> answers = new ArrayList<>(); List<TimingEvent.MarkerSent> markers = new ArrayList<>();
         int confirmCount = 0; boolean discontinuityFlag = false, coverageBreakFlag = false;
+        List<TimingEvent.LocalAttack> attacks = new ArrayList<>();
         for (TimingEvent e : req.events()) {
             switch (e) {
                 case TimingEvent.ClientTickEnd t -> { if (t.sequence() < req.target().sequence()) tickEnds.add(t); }
@@ -60,6 +61,7 @@ public final class TimingResolver {
                 case TimingEvent.TeleportConfirmed c -> confirmCount++;
                 case TimingEvent.Discontinuity d -> discontinuityFlag = true;
                 case TimingEvent.CoverageBreak b -> coverageBreakFlag = true;
+                case TimingEvent.LocalAttack a -> { if (a.sequence() < req.target().sequence()) attacks.add(a); }
                 default -> { }
             }
         }
@@ -92,7 +94,11 @@ public final class TimingResolver {
             TimingHypothesis h = new TimingHypothesis("h0-teleport-" + c.teleportId(), 0, List.of(), ReconstructionRequest.ExternalMotionBranch.NONE, Set.of(), pending, Set.of(), TimingHypothesis.TeleportRelation.APPLICATION_POINT, c, TimingHypothesis.Alignment.TELEPORT_CONFIRM,
                 List.of("confirm#" + c.teleportId() + "@" + applied.confirmedSequence(), "preTickEnds=" + preTicks), rtt, preTicks, 0);
             notes.add("correction " + c.teleportId() + " confirmed at sequence " + applied.confirmedSequence() + ": the target is its application point" + (pending.isEmpty() ? "" : "; influences " + pending + " remain pending across it"));
-            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), true, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
+            // P11-F27: an own attack before a relative correction may have slowed the pre-application motion the correction rebases on: not modelled there
+            final long confirmedAt = applied.confirmedSequence();
+            boolean attackRebased = relative && attacks.stream().anyMatch(a -> a.sequence() < confirmedAt);
+            if (attackRebased) notes.add("an own attack precedes relative correction " + c.teleportId() + ": the attacker slowdown of the pre-application motion is not modelled, complete=false");
+            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), !attackRebased, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
         }
         if (preApplication) notes.add("a correction is pending (sent, not yet confirmed): this transmission is pre-application client movement");
 
@@ -150,6 +156,39 @@ public final class TimingResolver {
             }
             if (searchLimit) break;
         }
+        // ---- P11-F27: the client's own attacks (attacker slowdown, P13-F2). An attack belongs to the tick whose movement follows it (sent from
+        // handleKeybinds after the tick's packet drain, before LocalPlayer.tick); each may or may not have slowed the attacker, so every count of
+        // slowdowns 0..n per tick is a branch, applied after that tick's drained influences. Attacks inside the silent closure or without exact
+        // alignment cannot be placed: the account is then incomplete (never a dropped branch presented as complete).
+        if (!attacks.isEmpty() && !out.isEmpty()) {
+            boolean exact = source == TimingHypothesis.Alignment.TICK_END_EXACT; int k = out.get(0).horizon(); int[] perTickAttacks = new int[k]; boolean unplaced = false;
+            for (TimingEvent.LocalAttack a : attacks) {
+                if (!exact) { unplaced = true; continue; }
+                int abs = ticks.k(); for (int j = 1; j < ticks.k(); j++) if (ticks.endOf(j).sequence() > a.sequence()) { abs = j; break; }
+                if (abs <= closureTicks) unplaced = true; else perTickAttacks[abs - closureTicks - 1]++;
+            }
+            if (unplaced) { complete = false; notes.add("an own attack lies inside the silent closure or the alignment is not exact: its attacker slowdown is not enumerated, complete=false"); }
+            long variants = 1; for (int n : perTickAttacks) variants *= (n + 1);
+            if (variants > 1) {
+                if (variants > MAX_ATTACK_VARIANTS) { complete = false; notes.add(variants + " attacker-slowdown variants exceed the cap " + MAX_ATTACK_VARIANTS + ": only none/all per tick are enumerated, complete=false"); }
+                List<int[]> counts = new ArrayList<>(); slowdownCounts(perTickAttacks, 0, new int[k], counts, variants > MAX_ATTACK_VARIANTS);
+                List<TimingHypothesis> expanded = new ArrayList<>();
+                for (TimingHypothesis h : out) for (int[] c : counts) {
+                    if (expanded.size() >= budget.maxHypotheses()) { searchLimit = true; break; }
+                    List<List<PhysicsEnvironment.ExternalMotion>> perTick = new ArrayList<>(); StringBuilder id = new StringBuilder(h.id());
+                    for (int t = 0; t < k; t++) {
+                        List<PhysicsEnvironment.ExternalMotion> m = new ArrayList<>(h.branch().motionsPerTick().get(t));
+                        for (int s = 0; s < c[t]; s++) m.add(PhysicsEnvironment.ExternalMotion.attackerSlowdown("atk" + (t + 1) + "." + s));
+                        if (perTickAttacks[t] > 0) id.append("-atk").append(t + 1).append('x').append(c[t]);
+                        perTick.add(m);
+                    }
+                    expanded.add(new TimingHypothesis(id.toString(), h.horizon(), h.ticks(), new ReconstructionRequest.ExternalMotionBranch(id.toString(), perTick), h.appliedInfluences(), h.pendingInfluences(), h.expiredInfluences(),
+                        h.teleport(), h.correction(), h.alignment(), h.fences(), h.rtt(), h.preTicks(), h.closureTicks()));
+                }
+                notes.add(attacks.size() + " own attack(s): " + counts.size() + " attacker-slowdown variant(s) per timing account");
+                out = expanded;
+            }
+        }
         if (!live.isEmpty() && answers.isEmpty() && markers.isEmpty()) notes.add("no marker traffic inside the interval: application bounded by tick-end capture times only (NO_ACK_EVIDENCE for narrowing; none was needed for soundness)");
         if (!live.isEmpty() && !req.profile().pongBoundsApplication() && !answers.isEmpty()) notes.add("marker answers present but the profile does not claim pongBoundsApplication: they narrow nothing (receipt evidence only, N1)");
         TimingResolution.Evidence ev = new TimingResolution.Evidence(tickEnds.size(), rotationOnly.size(), answers.size(), confirms, req.tickEndCapable(), rtt.present(), rtt.stale(), rtt.lowNanos(), rtt.highNanos(), live.size(), expired.size());
@@ -189,6 +228,14 @@ public final class TimingResolver {
         if (!exact) return 1;
         for (int j = 1; j < k; j++) if (ticks.endOf(j).nanos() > e.nanos()) return j;
         return k;
+    }
+    /** P11-F27: the attacker-slowdown variants per timing account are bounded (a tick with many attacks is an autoclicker-class rate, enumerated incompletely). */
+    public static final int MAX_ATTACK_VARIANTS = 8;
+    /** Every per-tick slowdown count 0..n[t] (or only 0 and n[t] when {@code extremesOnly}). */
+    private static void slowdownCounts(int[] n, int t, int[] c, List<int[]> out, boolean extremesOnly) {
+        if (t == n.length) { out.add(c.clone()); return; }
+        if (n[t] == 0) { c[t] = 0; slowdownCounts(n, t + 1, c, out, extremesOnly); return; }
+        for (int m = 0; m <= n[t]; m++) { if (extremesOnly && m != 0 && m != n[t]) continue; c[t] = m; slowdownCounts(n, t + 1, c, out, extremesOnly); }
     }
     /** Ordered assignment: influence i applies at tick a[i] in [earliest[i]..k] or 0 = not yet; wire order implies a[i] <= a[i+1] with 0 (later) after everything. */
     private static void enumerate(int[] a, int i, int[] earliest, int k, int minTick, List<int[]> out, int cap) {

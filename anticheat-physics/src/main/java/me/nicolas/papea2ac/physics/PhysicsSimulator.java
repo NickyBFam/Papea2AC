@@ -50,6 +50,8 @@ public final class PhysicsSimulator {
         if (state.pose() != PlayerBox.Pose.STANDING && state.pose() != PlayerBox.Pose.CROUCHING && state.pose() != PlayerBox.Pose.SWIMMING) return abort(u, PhysicsResult.Reason.Code.POSE_UNSUPPORTED, state.pose().name(), geo, prov);
         if (env.view().availability() != BlockLookup.Status.KNOWN) return abort(u, PhysicsResult.Reason.Code.VIEW_UNAVAILABLE, env.view().availability().name(), geo, prov);
         if (env.view().worldEpoch() != env.worldEpoch()) return abort(u, PhysicsResult.Reason.Code.WRONG_WORLD_EPOCH, "view epoch " + env.view().worldEpoch() + " != " + env.worldEpoch(), geo, prov);
+        // P11-F27: the client's own attack ran setSprinting(false) before this tick's movement: the sprint modifier was removed, the class is FOLLOWS
+        for (PhysicsEnvironment.ExternalMotion m : env.externalMotions()) if (m.operation() == PhysicsEnvironment.ExternalMotion.Operation.ATTACKER_SLOWDOWN) { state = state.withSprintModifier(PhysicsState.SprintModifier.FOLLOWS); break; }
         // ---- attributes and effects (P9-F1: the sprint modifier's presence is the state's class applied to this tick's sprint input, never the snapshot's own copy)
         Boolean present = state.sprintModifierPresent(input.sprinting());
         if (present == null && state.speedMatters(input)) return abort(u, PhysicsResult.Reason.Code.SPRINT_MODIFIER_UNRESOLVED, state.sprintModifier().name() + " not split for " + (input.sprinting() ? "a sprinting" : "a walking") + " ground input", geo, prov);
@@ -69,6 +71,7 @@ public final class PhysicsSimulator {
                 case SET -> v = m.vector();
                 case ADD -> v = v.add(m.vector());
                 case UNRESOLVED -> u.add(PhysicsResult.Reason.Code.EXTERNAL_MOTION_UNRESOLVED, m.sourceId());
+                case ATTACKER_SLOWDOWN -> v = new Vec3d(v.x() * MovementProfile.ATTACKER_SLOWDOWN_HORIZONTAL, v.y() * 1.0, v.z() * MovementProfile.ATTACKER_SLOWDOWN_HORIZONTAL); // Vec3.multiply(0.6, 1.0, 0.6)
             }
         }
         // ---- baseTick: powder snow memory, fluid contact

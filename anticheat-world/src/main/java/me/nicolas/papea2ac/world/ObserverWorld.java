@@ -84,6 +84,13 @@ public final class ObserverWorld {
     public long revision() { return revision; }
     public long lastSequence() { return lastSequence; }
     public long privateBytes() { return privateBytes; }
+    /** Private-tier usage of this world's own structures (chunks plus block history); an attached entity history adds its bytes on top. */
+    long tierUsageBytes() { return privateBytes + historyBytes; }
+    long tierLimitBytes() { return budget.privateLimit(); }
+    private EntityHistory entities;
+    /** WORLD_MODEL / PERFORMANCE: entity history shares this session's private world/entity tier. Deep entity history (optional depth) is shed before any chunk. */
+    public void attachEntityHistory(EntityHistory history) { if (entities != null && entities != history) throw new IllegalStateException("entity history already attached"); entities = history; }
+    private long entityBytes() { return entities == null ? 0 : entities.bytes(); }
     public boolean transportBroken() { return transportBroken; }
     public long transportBreaks() { return transportBreaks; }
     public long lastBreakSequence() { return lastBreakSequence; }
@@ -326,8 +333,9 @@ public final class ObserverWorld {
     /** Tier enforcement: drop history first (optional forensic depth), then the farthest chunks from the view center, tombstoning them EVICTED (never UNLOADED - provenance differs). */
     private void enforcePrivateBudget(long sequence, long nanos) {
         int limit = budget.privateLimit();
-        while (privateBytes + historyBytes > limit && !history.isEmpty()) evictOldestHistory();
-        while (privateBytes + historyBytes > limit && !chunks.isEmpty()) {
+        while (privateBytes + historyBytes + entityBytes() > limit && !history.isEmpty()) evictOldestHistory();
+        while (privateBytes + historyBytes + entityBytes() > limit && entities != null && entities.shedDeepRevision()) { }
+        while (privateBytes + historyBytes + entityBytes() > limit && !chunks.isEmpty()) {
             ChunkKey farthest = null; int best = -1;
             for (var ck : chunks.keySet()) { int d = viewCenter == null ? 0 : ck.distanceTo(viewCenter); if (d > best) { best = d; farthest = ck; } }
             var chunk = chunks.remove(farthest);

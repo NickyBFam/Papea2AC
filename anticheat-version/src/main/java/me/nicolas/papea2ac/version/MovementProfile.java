@@ -84,6 +84,8 @@ public final class MovementProfile {
     public static final float JUMP_BOOST_PER_LEVEL = 0.1f;
     /** {@code LivingEntity.jumpFromGround}: sprint-jump horizontal impulse {@code (-sin(yaw) * 0.2, 0, cos(yaw) * 0.2)}. */
     public static final double SPRINT_JUMP_IMPULSE = 0.2;
+    /** P11-F27, {@code Player.causeExtraKnockback} (pinned 26.2, ldc2_w 0.6d twice): the attacker's own motion is multiplied by (0.6, 1.0, 0.6) when its knockback is positive. */
+    public static final double ATTACKER_SLOWDOWN_HORIZONTAL = 0.6;
     // ---- climbing
     /** {@code LivingEntity.handleOnClimbable}: horizontal clamp {@code +-0.15F} (widened), vertical floor {@code -0.15F}, and the climb-up speed {@code 0.2} on horizontal collision / jumping. */
     public static final double CLIMB_LIMIT = 0.15000000596046448, CLIMB_UP_SPEED = 0.2;
