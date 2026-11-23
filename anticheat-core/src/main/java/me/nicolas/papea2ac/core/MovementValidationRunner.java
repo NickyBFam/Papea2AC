@@ -61,11 +61,52 @@ public final class MovementValidationRunner {
     public static final int MAX_SLICE = 1024, RECENT = 48, MAX_INJECTION_TICKS = 40;
     /** The physics-relevant entity radius (blocks) inside which the client-side push/collision neighbourhood is UNKNOWN: interpolated entity positions lag up to a few ticks, a sprinting player covers ~0.3/tick. */
     static final double ENTITY_RADIUS_H = 4.0, ENTITY_RADIUS_V = 4.0;
+    /** P11-F27: slack added to the attack-slowdown reach (network-target lag of the entity, the player's own movement within a transition). */
+    static final double ATTACK_SLOWDOWN_SLACK = 2.0;
+
+    /**
+     * P11-F27 (QA-09): an ATTACK can slow the client only if the client held that entity, it is a type whose {@code hurtClient} can be true, and it was
+     * within the client's reach of its eye. With complete entity knowledge, an attack on anything else (an id the client does not track, a mob, a far
+     * entity) gives no slowdown branch at all. With incomplete entity knowledge it is admitted (the push neighbourhood is then UNKNOWN anyway). The admitted
+     * event stands for one hit; it stacks with the tick's other hits only when a knockback source is possible (otherwise the sprint bonus applies at most once per tick).
+     */
+    static TimingEvent.AttackerSlowdownPossible admitSlowdown(TimingEvent.LocalAttack a, MovementContextLedger.View ctx, Vector3 attacker) {
+        TimingEvent.AttackerSlowdownPossible g = new TimingEvent.AttackerSlowdownPossible(a.sequence(), a.nanos(), 1, ctx.knockbackSourcePossible(), "attack#" + a.targetEntityId());
+        if (!ctx.entitiesComplete()) return g;
+        MovementContextLedger.TrackedEntity t = ctx.tracked(a.targetEntityId());
+        if (t == null || !t.slowsAttacker()) return null;
+        if (attacker == null) return g;
+        double[] r = attackSlowdownRadius(ctx); double dx = t.x() - attacker.x(), dz = t.z() - attacker.z();
+        return dx * dx + dz * dz <= r[0] * r[0] && Math.abs(t.y() - attacker.y()) <= r[1] ? g : null;
+    }
+    /** P11-F27 (QA-10): a kinetic weapon may be in use and a hurtClient-capable entity is within its reach (or the entity knowledge is incomplete). */
+    static boolean chargeMaySlow(MovementContextLedger.View ctx, Vector3 at) {
+        if (!ctx.kineticUsePossible()) return false;
+        if (!ctx.entitiesComplete() || at == null) return true;
+        double[] r = attackSlowdownRadius(ctx); return ctx.anyAttackSlowdownTargetNear(at.x(), at.y(), at.z(), r[0], r[1]);
+    }
+    private long lastTickEndSequence = -1, lastChargeStart = -1;
+    /**
+     * P11-F27: the horizontal / vertical distance (from the player's feet) inside which the client may hit an attack-slowdown target and slow itself:
+     * the client's reach (the larger of its {@code entity_interaction_range} - the synced value, the default until synced, the attribute maximum
+     * when modifiers make it unknown - and the longest vanilla item reach, the spear's) plus the hitbox margin, the largest target half extent and
+     * the slack; vertically also the eye height. The held item's own attack range is not captured, so the vanilla item maximum is assumed (KNOWN
+     * LIMITATIONS).
+     */
+    static double[] attackSlowdownRadius(MovementContextLedger.View ctx) {
+        double range = MovementProfile.ENTITY_INTERACTION_RANGE_DEFAULT;
+        MovementContextLedger.AttributeValue a = ctx.attributes().get(MovementProfile.ATTR_ENTITY_INTERACTION_RANGE);
+        if (a != null) range = a.modifiers().isEmpty() && Double.isFinite(a.base()) ? Math.min(Math.max(a.base(), 0.0), MovementProfile.ENTITY_INTERACTION_RANGE_MAX) : MovementProfile.ENTITY_INTERACTION_RANGE_MAX;
+        double reach = Math.max(range, MovementProfile.VANILLA_MAX_ITEM_REACH) + MovementProfile.ATTACK_HITBOX_MARGIN_MAX + MovementProfile.ATTACK_SLOWDOWN_TARGET_HALF_EXTENT_MAX + ATTACK_SLOWDOWN_SLACK;
+        return new double[] { reach, reach + MovementProfile.STANDING_EYE_HEIGHT };
+    }
 
     /** Engine-wide bounded counters (fixed labels, no UUIDs). */
     public static final class Metrics {
         /** Optional diagnostic sink for every live INVALID (full description; set by the platform to its logger, P8-F7): a live INVALID is never lost to a bounded ring again. Never a verdict consumer. */
         public volatile java.util.function.Consumer<String> invalidSink;
+        /** P11-F27: ATTACK packets with / without an admitted slowdown branch, and ticks given a possible kinetic-charge slowdown. */
+        public final LongAdder attacksWithSlowdown = new LongAdder(), attacksWithoutSlowdown = new LongAdder(), chargeSlowdownTicks = new LongAdder();
         public final LongAdder requests = new LongAdder(), valid = new LongAdder(), uncertain = new LongAdder(), invalid = new LongAdder(), uncertainSearchLimit = new LongAdder(), uncertainUnsupported = new LongAdder(), uncertainWorldIncomplete = new LongAdder(),
             uncertainExternalMotion = new LongAdder(), uncertainUnanchored = new LongAdder(), uncertainOther = new LongAdder(), timingBranches = new LongAdder(), reconstructions = new LongAdder(), evaluations = new LongAdder(), anchors = new LongAdder(), anchorsLost = new LongAdder(), internalErrors = new LongAdder(), injectedRequests = new LongAdder();
     }
@@ -89,6 +130,28 @@ public final class MovementValidationRunner {
      * and the player-loaded packet therefore closes a tick in which the player did not move, and is not a physics tick.
      */
     private boolean awaitingClientLoaded; private int frozenTickEnds;
+    /**
+     * P11-F10 (found live in the Phase 11 PvP round: a server-to-client stall longer than the application horizon delivered knockback 9 s late).
+     * TimingProfile: an influence past the horizon is EXPIRED = unresolved, never "not applied" - the client may still receive and apply it. The
+     * chain therefore retires an influence that leaves its scope without an observed application only when a fence orders after it: the client
+     * answered a marker SENT AFTER it (receipt, in-order stream), a correction sent after it was confirmed (game-thread fence), or the world
+     * changed. Until then it is OUTSTANDING and no rest (re-)anchor may restore completeness. This only withholds completeness the frozen
+     * retirement granted; it adds no application claim (a marker answer never advances a frontier: it only permits the retirement that the
+     * horizon alone used to grant).
+     */
+    static final int MARKER_MEMORY = 64;
+    private final LinkedHashMap<String, Long> markerSent = new LinkedHashMap<>(); // kind:id -> capture sequence of the marker, bounded
+    private long receiptThrough = -1, outstandingThrough = -1, anchorFence = -1;
+    private boolean received(TimingEvent.ExternalMotionSent e) { return receiptThrough > e.sequence(); }
+    private boolean outstanding() { return outstandingThrough >= 0 && receiptThrough <= outstandingThrough; }
+    /** Influences leaving the chain's scope without an observed application: fenced (sent before {@code fence}) or received ones retire; the rest are outstanding. */
+    private void retireUnresolved(java.util.Collection<TimingEvent.ExternalMotionSent> gone, long fence, long atSequence) {
+        for (TimingEvent.ExternalMotionSent e : gone) {
+            if (e.sequence() < fence || received(e)) continue;
+            boolean was = outstanding(); outstandingThrough = Math.max(outstandingThrough, e.sequence());
+            if (!was) remember("seq=" + atSequence + " influence " + e.id() + " left the chain unresolved without evidenced receipt: OUTSTANDING - no rest anchor until a later marker answer, a confirmed correction or a world change (P11-F10)", null);
+        }
+    }
     /** Phase 9: the session's evidence runner (set by the engine); every completed result is handed over once, live or side chain. */
     private EvidenceRunner evidence;
     public void attachEvidence(EvidenceRunner e) { this.evidence = e; }
@@ -160,19 +223,31 @@ public final class MovementValidationRunner {
             if (e instanceof TimingEvent.TeleportConfirmed) frozenTickEnds = 0; // the confirm and its position echo come from one packet handler
             if (e instanceof TimingEvent.MovementObserved m && m.hasPosition() && frozenTickEnds > 0) {
                 // a position after a frozen tick contradicts the not-loaded state (a vanilla client sends none): never guess, re-anchor
-                awaitingClientLoaded = false; frozenTickEnds = 0; dropAnchor("movement while the client was not loaded"); live.slice.clear(); live.influences.clear();
+                awaitingClientLoaded = false; frozenTickEnds = 0; dropAnchor("movement while the client was not loaded"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, e.sequence()); live.influences.clear();
             }
         }
+        // P11-F10 fences: a marker answer is receipt evidence for everything sent before that marker; a confirmed correction orders after everything sent before it
+        if (e instanceof TimingEvent.MarkerSent s) { markerSent.put(s.kind() + ":" + s.id(), s.sequence()); if (markerSent.size() > MARKER_MEMORY) markerSent.remove(markerSent.keySet().iterator().next()); }
+        if (e instanceof TimingEvent.MarkerAcknowledged a) { Long sent = markerSent.remove(a.kind() + ":" + a.id()); if (sent != null) receiptThrough = Math.max(receiptThrough, sent); }
+        if (e instanceof TimingEvent.TeleportConfirmed c) for (TimingLedger.PendingTeleport t : timing.teleports()) if (t.teleportId() == c.teleportId() && t.sent().sequence() > outstandingThrough) outstandingThrough = -1;
+        // P11-F27: a raw ATTACK packet never reaches the slice; only an admitted possible slowdown does (QA-09: spoofed or excess attacks change nothing)
+        if (e instanceof TimingEvent.LocalAttack a) {
+            TimingEvent.AttackerSlowdownPossible g = admitSlowdown(a, context, live.lastSent);
+            if (g == null) { metrics.attacksWithoutSlowdown.increment(); lastContext = context; publish(); return; }
+            metrics.attacksWithSlowdown.increment(); e = g;
+        }
         switch (e) {
-            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); endSide("world change"); if (mitigation != null) mitigation.onTiming(d); }
-            case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); live.influences.clear(); endSide("coverage break"); }
+            case TimingEvent.Discontinuity d -> { dropAnchor("world change"); live.slice.clear(); live.influences.clear(); outstandingThrough = -1; endSide("world change"); if (mitigation != null) mitigation.onTiming(d); }
+            case TimingEvent.CoverageBreak b -> { dropAnchor("coverage break " + b.reason()); live.slice.clear(); retireUnresolved(live.influences.values(), -1, b.sequence()); live.influences.clear(); endSide("coverage break"); }
             case TimingEvent.ServerTick t -> { return; /* recorded by the ledger; not an alignment source, nothing to publish */ }
             case TimingEvent.WriteResolved w -> { return; /* P8-F1: write outcomes are resolved by the ledger (teleport/velocity write failures reach the request through its pending-teleport and influence views), never part of the slice */ }
             default -> {
-                live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); live.influences.clear(); }
+                live.slice.add(e); if (live.slice.size() > MAX_SLICE) { dropAnchor("event slice bound"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, e.sequence()); live.influences.clear(); }
                 if (e instanceof TimingEvent.ExternalMotionSent m) { live.influences.put(m.id(), m); endSide("live influence " + m.id()); }
                 if (e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed) endSide("live correction");
                 if (mitigation != null && (e instanceof TimingEvent.ExternalMotionSent || e instanceof TimingEvent.TeleportSent || e instanceof TimingEvent.TeleportConfirmed)) mitigation.onTiming(e);
+                // P11-F27 (QA-10): a possible kinetic-weapon charge beside a hurtClient-capable entity may slow the NEXT tick with no packet at all
+                if (e instanceof TimingEvent.ClientTickEnd end) { lastTickEndSequence = end.sequence(); if (chargeMaySlow(context, live.lastSent)) { live.slice.add(new TimingEvent.AttackerSlowdownPossible(end.sequence(), end.nanos(), Integer.MAX_VALUE, true, "charge")); metrics.chargeSlowdownTicks.increment(); } }
                 if (e instanceof TimingEvent.ClientTickEnd end) { live.tickEndsSincePosition++; sideTick(end, timing, context, view, worldEpoch); if (mitigation != null) mitigation.onTick(end.nanos()); if (evidence != null) evidence.advance(end.nanos()); }
                 if (e instanceof TimingEvent.MovementObserved m) { if (side != null && !m.hasPosition() && m.hasRotation()) side.slice.add(new TimingEvent.MovementObserved(2 * m.sequence(), m.nanos(), false, m.position(), true, m.rotation(), m.onGround())); movement(m, timing, context, view, worldEpoch); }
             }
@@ -185,12 +260,16 @@ public final class MovementValidationRunner {
         PhysicsEnvironment env = environment(context, view, worldEpoch, m.hasPosition() ? m.position() : live.lastSent);
         if (!live.anchored()) {
             anchor(m, timing, context, env);
-            live.slice.clear(); if (live.anchored()) { metrics.anchors.increment(); live.influences.clear(); }
+            // P11-F10: a correction anchor fences what was sent before its correction; anything after it that was not received stays outstanding (and the chain incomplete)
+            live.slice.clear(); if (live.anchored()) { metrics.anchors.increment(); retireUnresolved(live.influences.values(), anchorFence, m.sequence()); live.influences.clear(); if (outstanding()) live.complete = false; }
             else { metrics.requests.increment(); metrics.uncertain.increment(); metrics.uncertainUnanchored.increment(); remember("seq=" + m.sequence() + " UNCERTAIN [START_UNAVAILABLE] not anchored", null); anchorDiagnosis = anchorDiagnosis(m, context, env); if (mitigation != null) mitigation.onUnanchored(m.nanos()); }
             track(m); return;
         }
 
         if (live.lastSent == null) { track(m); return; }
+        if (context.itemUseActive() && context.itemUseStartSequence() > lastTickEndSequence && context.itemUseStartSequence() < m.sequence() && context.itemUseStartSequence() != lastChargeStart && chargeMaySlow(context, live.lastSent)) {
+            lastChargeStart = context.itemUseStartSequence(); live.slice.add(new TimingEvent.AttackerSlowdownPossible(context.itemUseStartSequence(), m.nanos(), Integer.MAX_VALUE, true, "charge-start")); metrics.chargeSlowdownTicks.increment();
+        }
         resyncSprintModifier(live, context, env);
         TimingRequest tr = new TimingRequest(new ArrayList<>(live.slice), live.anchorSequence, live.anchorNanos, live.anchorInTick, live.lastSent, live.lastYaw, m, new ArrayList<>(live.influences.values()), timing.teleports(), timing.rtt(), timing.tickEndCapable(), timing.counters().coverageBreaks() > 0, timing.worldEpoch(), m.nanos(), profile, TimingBudget.DEFAULT);
         MovementValidationRequest req = new MovementValidationRequest(tr, live.frontier, env, ReconstructionRequest.SearchBudget.DEFAULT, live.complete, true).withWorldDisputed(false);
@@ -201,15 +280,22 @@ public final class MovementValidationRunner {
         last = r; remember(summary(m.sequence(), r), r);
         me.nicolas.papea2ac.evidence.EvidenceLedger.Outcome evidenceOutcome = evidence != null ? evidence.onResult(r, m.nanos(), false) : null; // Phase 9: one hand-over per completed live result (never throws)
         // chain
-        if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); live.influences.clear(); }
+        if (r.next().isEmpty()) { dropAnchor(r.classification() + " without continuation"); live.slice.clear(); retireUnresolved(live.influences.values(), -1, m.sequence()); live.influences.clear(); }
         else {
             live.frontier = r.next(); live.complete = r.nextFrontierComplete(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = true; for (var w : r.witnesses()) if (w.teleportApplication()) live.anchorInTick = false; live.slice.clear();
-            // P8-F4: an influence stays in scope only while some continuation still has it pending (applied or expired ones are retired; the ledger's horizon bounds the rest)
+            // P8-F4: an influence stays in scope only while some continuation still has it pending; one that no continuation has pending while inside
+            // the horizon was applied in every continuation. P11-F10: one past the horizon was never applied by the resolver (EXPIRED = unresolved), so it
+            // retires only under a fence - otherwise it becomes outstanding instead of silently leaving the scope.
             Set<String> pending = new java.util.LinkedHashSet<>(); for (TimingReconstruction.Node n : live.frontier.nodes()) pending.addAll(n.pendingInfluences());
-            live.influences.keySet().removeIf(id -> !pending.contains(id));
-            live.influences.values().removeIf(inf -> m.nanos() - inf.nanos() > profile.applicationHorizonNanos());
-            // an incomplete chain re-anchors at the next observed rest (an exact start again) instead of carrying the incompleteness until a correction
-            if (!live.complete && live.influences.isEmpty() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
+            List<TimingEvent.ExternalMotionSent> aged = new ArrayList<>();
+            for (var it = live.influences.values().iterator(); it.hasNext();) {
+                TimingEvent.ExternalMotionSent inf = it.next();
+                if (m.nanos() - inf.nanos() > profile.applicationHorizonNanos()) { aged.add(inf); it.remove(); } else if (!pending.contains(inf.id())) it.remove();
+            }
+            retireUnresolved(aged, -1, m.sequence());
+            // an incomplete chain re-anchors at the next observed rest (an exact start again) instead of carrying the incompleteness until a correction -
+            // never while an influence may still be undelivered (P11-F10)
+            if (!live.complete && live.influences.isEmpty() && !outstanding() && restAnchor(m, context, env)) { metrics.anchors.increment(); remember("seq=" + m.sequence() + " rest re-anchor: the chain is complete again (" + live.anchorKind + ")", null); }
         }
         if (mitigation != null && evidence != null) mitigation.onLive(r, evidenceOutcome, evidence, m, req, timing, context, view, worldEpoch, live.influences.size(),
             m.hasRotation() ? m.rotation().yaw() : live.lastYaw, m.hasRotation() ? m.rotation().pitch() : 0f, m.hasPosition() ? m.position() : live.lastSent);
@@ -316,10 +402,14 @@ public final class MovementValidationRunner {
                 PhysicsState s = PhysicsState.resting(p.x(), p.y(), p.z(), pose, ground).withVelocity(vel);
                 nodes.add(new TimingReconstruction.Node(s, Set.of(), "correction-" + pt.teleportId() + "/" + pose.name().toLowerCase(Locale.ROOT) + (ground ? "/ground" : "/air")));
             }
+            anchorFence = pt.sent().sequence(); // P11-F10: everything sent before this correction was processed before its application point
             live.frontier = new TimingReconstruction.Frontier(correctionSprintVariants(nodes, env)); live.complete = true; live.anchorKind = "correction " + pt.teleportId(); live.anchorSequence = m.sequence(); live.anchorNanos = m.nanos(); live.anchorInTick = false; live.lastSent = m.position(); live.lastYaw = yaw; live.speedSnapshot = speedSnapshot(context);
             return;
         }
-        // (2) an observed rest: the 20-tick reminder at the same position with the ground claim, a resting fixed point of the simulator
+        // (2) an observed rest: the 20-tick reminder at the same position with the ground claim, a resting fixed point of the simulator -
+        // never while an influence may still be undelivered: an outstanding one, or one in scope whose receipt is not evidenced yet (P11-F10)
+        anchorFence = -1;
+        if (outstanding() || live.influences.values().stream().anyMatch(i -> !received(i))) return;
         if (!m.onGround() || live.lastSent == null || live.tickEndsSincePosition < 19) return;
         if (m.position().x() != live.lastSent.x() || m.position().y() != live.lastSent.y() || m.position().z() != live.lastSent.z()) return;
         if (!context.locomotionSupported()) return;

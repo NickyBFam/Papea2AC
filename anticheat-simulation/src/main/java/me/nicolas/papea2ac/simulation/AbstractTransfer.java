@@ -89,12 +89,18 @@ public final class AbstractTransfer {
     public Prepared prepare(AbstractState.Box box, List<PhysicsEnvironment.ExternalMotion> motions) {
         if (environmentTop != null) { topReason = environmentTop; return null; }
         if (!box.bounded()) { topReason = "unbounded box"; return null; }
-        Interval vx = box.vx(), vy = box.vy(), vz = box.vz();
+        Interval vx = box.vx(), vy = box.vy(), vz = box.vz(); int modes = box.sprintModes();
         for (PhysicsEnvironment.ExternalMotion m : motions) {
             switch (m.operation()) {
                 case SET -> { vx = Interval.point(m.vector().x()); vy = Interval.point(m.vector().y()); vz = Interval.point(m.vector().z()); }
                 case ADD -> { vx = vx.add(m.vector().x()); vy = vy.add(m.vector().y()); vz = vz.add(m.vector().z()); }
                 case UNRESOLVED -> { topReason = "unresolved external motion " + m.sourceId(); return null; }
+                // P11-F27: one slowdown is (0.6, 1.0, 0.6) (monotone per axis) and resets the sprint-modifier class to FOLLOWS; an unenumerated count scales
+                // horizontally by some factor in [0, f] (per axis the hull of 0 and f * v: every 0.6^n with n >= k lies in (0, 0.6^k]), plus factor 1 with the
+                // class unchanged when zero hits are admitted. The tick's sprint flag (a re-acquired sprint after the hit) stays an input dimension.
+                case ATTACKER_SLOWDOWN -> { vx = vx.mul(MovementProfile.ATTACKER_SLOWDOWN_HORIZONTAL); vz = vz.mul(MovementProfile.ATTACKER_SLOWDOWN_HORIZONTAL); modes = AbstractState.sprintBit(PhysicsState.SprintModifier.FOLLOWS); }
+                case ATTACKER_SLOWDOWN_RANGE -> { double f = m.vector().x(); boolean orNone = m.vector().z() == 0; Interval sx = vx.mul(f).hull(0.0), sz = vz.mul(f).hull(0.0);
+                    vx = orNone ? sx.hull(vx) : sx; vz = orNone ? sz.hull(vz) : sz; modes = (orNone ? modes : 0) | AbstractState.sprintBit(PhysicsState.SprintModifier.FOLLOWS); }
             }
         }
         // ---- small-velocity zeroing (case split unioned when the threshold may or may not fire)
@@ -117,7 +123,7 @@ public final class AbstractTransfer {
         if (floor.present && floor.friction < 0.0f) { topReason = "floor outside pilot (speed/jump factor, restitution, stepOn)"; return null; }
         if (box.mayBeOnGround() && !floor.present) { topReason = "ground state without a floor in the region"; return null; }
         if (box.mayBeOnGround() && !(box.y().isPoint() && box.y().lo() == floor.top)) { topReason = "ground state not resting exactly on the floor"; return null; }
-        return new Prepared(box, vx, vy, vz, decLo, decHi, floor);
+        return new Prepared(modes == box.sprintModes() ? box : box.withSprintModes(modes), vx, vy, vz, decLo, decHi, floor);
     }
     /** One box after {@link #prepare}: ready for per-input application. */
     public record Prepared(AbstractState.Box box, Interval vx, Interval vy, Interval vz, int decLo, int decHi, Floor floor) {}

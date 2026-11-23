@@ -82,11 +82,26 @@ public record PhysicsEnvironment(WorldView view, long worldEpoch, CollisionEngin
      * An external motion influence the caller applies before this tick (PLAYER_STATE.md ExternalMotionInfluence: "operation"
      * REPLACE/ADD). {@code UNRESOLVED} declares that an influence exists whose vector or application is not known (a
      * DeclaredUnknownMotion, an unmapped mode acceleration): the step then cannot be exact - UNRESOLVED_EXTERNAL_MOTION.
+     *
+     * <p>P11-F27: {@code ATTACKER_SLOWDOWN} is the client's own reaction to its attack (pinned 26.2 {@code Player.causeExtraKnockback}, run
+     * locally by {@code MultiPlayerGameMode.attack} when the target's {@code hurtClient} is true and the knockback is positive):
+     * {@code setDeltaMovement(getDeltaMovement().multiply(0.6, 1.0, 0.6))} then {@code setSprinting(false)}, which removes the sprint
+     * speed modifier whatever its earlier state (the sprint-modifier class becomes FOLLOWS). Its vector is unused (ZERO).
+     *
+     * <p>P11-F27: {@code ATTACKER_SLOWDOWN_RANGE} is "{@code vector.z} or more" such slowdowns in one tick ({@code vector.z == 0}: any number,
+     * including none). Every further hit multiplies the horizontal motion by 0.6 again, and the client zeroes a horizontal motion whose squared length
+     * is below {@code PLAYER_HORIZONTAL_ZERO_THRESHOLD_SQR} at the start of {@code aiStep}: once n hits are under the threshold every larger count
+     * gives the identical state, so the concrete step is EXACT then (n hits, zeroed); otherwise it cannot pick the count (EXTERNAL_MOTION_UNRESOLVED,
+     * never a witness). The sound envelope ({@code AbstractTransfer}) bounds every count by the factor interval {@code [0, vector.x]}.
      */
     public record ExternalMotion(Operation operation, Vec3d vector, String sourceId) {
-        public enum Operation { SET, ADD, UNRESOLVED }
-        public ExternalMotion { Objects.requireNonNull(operation); Objects.requireNonNull(vector); Objects.requireNonNull(sourceId); if (!vector.isFinite()) throw new IllegalArgumentException("non-finite external motion"); }
+        public enum Operation { SET, ADD, UNRESOLVED, ATTACKER_SLOWDOWN, ATTACKER_SLOWDOWN_RANGE }
+        public ExternalMotion { Objects.requireNonNull(operation); Objects.requireNonNull(vector); Objects.requireNonNull(sourceId); if (!vector.isFinite()) throw new IllegalArgumentException("non-finite external motion");
+            if (operation == Operation.ATTACKER_SLOWDOWN_RANGE && (vector.x() < 0 || vector.x() > 1 || vector.y() != 0 || vector.z() < 0 || vector.z() != Math.rint(vector.z()))) throw new IllegalArgumentException("attacker slowdown range"); }
         public static ExternalMotion unresolved(String sourceId) { return new ExternalMotion(Operation.UNRESOLVED, Vec3d.ZERO, sourceId); }
+        public static ExternalMotion attackerSlowdown(String sourceId) { return new ExternalMotion(Operation.ATTACKER_SLOWDOWN, Vec3d.ZERO, sourceId); }
+        /** "{@code minHits} or more" attacker slowdowns ({@code minHits == 0}: any number, including none); {@code maxFactor}: the largest horizontal factor they allow (0.6^minHits, widened outward). */
+        public static ExternalMotion attackerSlowdownRange(int minHits, double maxFactor, String sourceId) { return new ExternalMotion(Operation.ATTACKER_SLOWDOWN_RANGE, new Vec3d(maxFactor, 0, minHits), sourceId); }
     }
     /** A pusher near the simulated player (26.2 client: any other entity whose {@code pushEntities} reaches the local player - P9-F5): its position and box, and whether the push applies (alive, not spectator, not on a ladder, team rule allows). */
     public record Pusher(double x, double z, Aabb box, boolean pushable) { public Pusher { Objects.requireNonNull(box); } }

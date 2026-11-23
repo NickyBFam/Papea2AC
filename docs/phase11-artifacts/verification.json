@@ -1,0 +1,46 @@
+{
+  "phase": "11 - Combat Engine (descriptive infrastructure)",
+  "base": {
+    "head": "59caec5a0b4bde0c13dadca1807c0b0f3f039a7d",
+    "originMaster": "59caec5a0b4bde0c13dadca1807c0b0f3f039a7d",
+    "phase10ImplementationBaseline": "71f4414c93b0946344c48863f5953077fea54e14"
+  },
+  "worktree": "wip/phase11 (uncommitted; never pushed)",
+  "toolchain": "Temurin 25.0.4.1+1, Gradle 9.7.1 --offline",
+  "pinnedPair": "Paper 26.2 build 124 / vanilla 26.2 client",
+  "finalCandidateJar": {
+    "sha256": "70240bc7d002368e70d6f1a9c6d8b24facff3504461baabef703f7a11e10e7e7",
+    "reproducible": "clean, cache-less rebuild byte-identical",
+    "contains": "P11-F1 ... F10, F12 ... F27 (F27 fixed forward)",
+    "supersedes": [
+      "b6699bed23fe1ce2cf85337930999b5637b4bb62742b9a5430476c3db1707c9c (round 3; stale after P11-F27)",
+      "837e1fa79957eacd3c42b9f7fb53e0fee3b7fdf7e563bdcc33029e62474276e8 (never played)",
+      "948e06ca (rounds 1-2)"
+    ]
+  },
+  "offlineLane": {
+    "test": { "tests": 850, "failures": 0 },
+    "nativeTest": { "tests": 143, "failures": 0 },
+    "verifyMandatoryCoverage": "PASS 127/127",
+    "replayConformance": "PASS (pinned digests unchanged)",
+    "movementPropertyCoverage": "PASS",
+    "shapeCoverage": "PASS",
+    "physicsNativeDifferential": { "scenarios": 91, "compared": 88, "exactSingleStep": 88, "exactChained": 88, "ticks": 3105, "deferredFluid": 3, "oracleErrors": 0 },
+    "phase8Validation": { "legitimateTransitions": 32451, "legitimateInvalid": 0, "impossible": 3290, "impossibleInvalid": 3290, "fixtureMismatches": 0 },
+    "phase9Evidence": { "legitimatePositiveEvents": 0, "impossiblePositiveEvents": 3290 },
+    "phase10Mitigation": { "syntheticCases": 40, "mismatches": 0, "legitimatePolicyEligible": 0, "setbacksApplied": 0 },
+    "combatFixtures": { "fixtures": 40, "mismatches": 0, "lookupStatuses": "12/12", "replayTraces": 8, "replayFailures": 0, "deterministic": true },
+    "p11F27Regressions": { "class": "AttackerSlowdownTest", "tests": 9, "failures": 0, "targets": ["painting", "item_frame", "oak_boat", "minecart"], "scenarios": ["sprint hit", "knockback-item hit while walking", "server knockback drained in the attack tick", "no nearby player", "control: unannounced slowdown still INVALID"] },
+    "frozenArtifacts": "unchanged (phase5 movement-property-coverage key order and phase9 native-differential run path/duration rewritten by regenerators, verified semantically equal, restored from HEAD)",
+    "gitDiffCheck": "clean"
+  },
+  "vps": {
+    "environment": "owner's VPS only; localhost never used for live gates",
+    "rounds": [
+      { "round": 1, "jar": "948e06ca", "result": "PASS (single player)" },
+      { "round": 2, "jar": "948e06ca", "result": "FAIL: P11-F10 (1 INVALID, 1 positive event under a stall)" },
+      { "round": 3, "jar": "b6699bed23fe1ce2cf85337930999b5637b4bb62742b9a5430476c3db1707c9c", "result": "PASS, superseded by P11-F27" },
+      { "round": 4, "jar": "70240bc7d002368e70d6f1a9c6d8b24facff3504461baabef703f7a11e10e7e7", "result": "PENDING" }
+    ]
+  }
+}

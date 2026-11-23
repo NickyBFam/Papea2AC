@@ -84,6 +84,20 @@ public final class MovementProfile {
     public static final float JUMP_BOOST_PER_LEVEL = 0.1f;
     /** {@code LivingEntity.jumpFromGround}: sprint-jump horizontal impulse {@code (-sin(yaw) * 0.2, 0, cos(yaw) * 0.2)}. */
     public static final double SPRINT_JUMP_IMPULSE = 0.2;
+    /** P11-F27, {@code Player.causeExtraKnockback} (pinned 26.2, ldc2_w 0.6d twice): the attacker's own motion is multiplied by (0.6, 1.0, 0.6) when its knockback is positive. */
+    public static final double ATTACKER_SLOWDOWN_HORIZONTAL = 0.6;
+    /**
+     * P11-F27: the client slows itself when it hits a {@code hurtClient}-capable entity with positive knockback ({@code Player.causeExtraKnockback},
+     * pinned 26.2: motion (0.6, 1.0, 0.6) and {@code setSprinting(false)}), after an ATTACK packet or, with no packet at all, during a spear charge
+     * ({@code Player.stabAttack}). A slowdown branch is offered only for such an entity within the client's reach. The reach is vanilla's: an item's {@code AttackRange} ({@code AttackRange.defaultFor}: the
+     * {@code entity_interaction_range} attribute, base {@value #ENTITY_INTERACTION_RANGE_DEFAULT}, attribute maximum
+     * {@value #ENTITY_INTERACTION_RANGE_MAX}); the longest vanilla item reach in survival is the spear's ({@code Item.Properties.spear}: maxReach
+     * 4.5, hitboxMargin 0.125). The largest such target half extent is a 4x4 painting's (2.0). Callers add a slack for network-target lag and the
+     * player's own movement within a transition.
+     */
+    public static final double ENTITY_INTERACTION_RANGE_DEFAULT = 3.0, ENTITY_INTERACTION_RANGE_MAX = 64.0, VANILLA_MAX_ITEM_REACH = 4.5,
+        ATTACK_HITBOX_MARGIN_MAX = 0.125, ATTACK_SLOWDOWN_TARGET_HALF_EXTENT_MAX = 2.0, STANDING_EYE_HEIGHT = 1.62;
+    public static final String ATTR_ENTITY_INTERACTION_RANGE = "minecraft:entity_interaction_range";
     // ---- climbing
     /** {@code LivingEntity.handleOnClimbable}: horizontal clamp {@code +-0.15F} (widened), vertical floor {@code -0.15F}, and the climb-up speed {@code 0.2} on horizontal collision / jumping. */
     public static final double CLIMB_LIMIT = 0.15000000596046448, CLIMB_UP_SPEED = 0.2;

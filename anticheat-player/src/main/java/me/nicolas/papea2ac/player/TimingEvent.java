@@ -79,5 +79,26 @@ public sealed interface TimingEvent {
         public CoverageBreak { check(sequence); Objects.requireNonNull(reason); if (reason.length() > 64) throw new IllegalArgumentException("reason"); }
         public int chargedBytes() { return 64 + reason.length(); }
     }
+    /**
+     * P11-F27: the client's ATTACK on an entity. The 26.2 client sends it from {@code handleKeybinds}, before that tick's movement packet, and
+     * then runs {@code Player.attack} locally, which may slow and un-sprint the attacker before the same tick's movement (attacker slowdown).
+     * Whether it did depends on client facts the server does not see (attack cooldown, held-item knockback, the target's {@code hurtClient}),
+     * so the resolver keeps both outcomes. The event is no evidence that the server accepted the attack.
+     */
+    record LocalAttack(long sequence, long nanos, int targetEntityId) implements TimingEvent {
+        public LocalAttack { check(sequence); }
+        public int chargedBytes() { return 40; }
+    }
+    /**
+     * P11-F27: a possible attacker slowdown the movement validation runner admitted (never recorded by the ledger; it lives in the runner's slice):
+     * an ATTACK on a tracked hurtClient-capable entity within the client's reach, or a tick of a possible kinetic-weapon use beside one.
+     * {@code maxHits}: how many 0.6 slowdowns it can stand for (an attack: 1; a charge tick: {@code Integer.MAX_VALUE}, every entity along the charge).
+     * {@code stacks}: whether several hits in one tick can each slow (a knockback source); without one the sprint-hit bonus applies at most once per
+     * tick, so the tick's hits count as one. Placed like an attack: on the tick whose movement follows it.
+     */
+    record AttackerSlowdownPossible(long sequence, long nanos, int maxHits, boolean stacks, String source) implements TimingEvent {
+        public AttackerSlowdownPossible { check(sequence); if (maxHits < 1) throw new IllegalArgumentException("maxHits"); Objects.requireNonNull(source); if (source.length() > 48) throw new IllegalArgumentException("source"); }
+        public int chargedBytes() { return 48 + source.length(); }
+    }
     private static void check(long sequence) { if (sequence < 1) throw new IllegalArgumentException("sequence"); }
 }

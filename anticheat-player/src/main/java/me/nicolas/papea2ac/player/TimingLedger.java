@@ -108,6 +108,8 @@ public final class TimingLedger {
             case TimingEvent.ServerTick t -> { }
             case TimingEvent.Discontinuity d -> { discontinuities++; worldEpoch = d.newWorldEpoch(); }
             case TimingEvent.CoverageBreak b -> coverageBreaks++;
+            case TimingEvent.LocalAttack a -> { } // recorded in order; the validation runner gates it into an AttackerSlowdownPossible
+            case TimingEvent.AttackerSlowdownPossible a -> { } // runner-only; never fed to the ledger in production
         }
         ring.append(event, event.nanos());
         markers.expire(event.nanos());

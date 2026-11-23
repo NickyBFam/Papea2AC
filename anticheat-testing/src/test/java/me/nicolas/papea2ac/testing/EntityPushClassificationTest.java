@@ -39,11 +39,14 @@ class EntityPushClassificationTest {
         Map<String, String> table = pinned();
         assertEquals(158, table.size(), "the pinned 26.2 registry has 158 entity types");
         List<String> wrong = new ArrayList<>();
-        for (var e : table.entrySet()) if (MovementContextLedger.classify(e.getKey()) != EntityClass.valueOf(e.getValue())) wrong.add(e.getKey() + " expected " + e.getValue() + " got " + MovementContextLedger.classify(e.getKey()));
+        // P11-F27: the attack-slowdown-only class is tracked for the reach rule but never pushes, so for the frozen push table it is OTHER
+        for (var e : table.entrySet()) if (pushClass(e.getKey()) != EntityClass.valueOf(e.getValue())) wrong.add(e.getKey() + " expected " + e.getValue() + " got " + MovementContextLedger.classify(e.getKey()));
         assertEquals(List.of(), wrong);
         assertEquals(new TreeSet<>(MovementContextLedger.NON_PUSHERS), new TreeSet<>(table.entrySet().stream().filter(e -> e.getValue().equals("OTHER")).map(Map.Entry::getKey).toList()),
                 "NON_PUSHERS is exactly the jar's non-pushing set: nothing living that pushes can hide in it");
+        assertTrue(MovementContextLedger.NON_PUSHERS.containsAll(MovementContextLedger.ATTACK_SLOWDOWN_NON_PUSHERS), "the attack-slowdown-only types never push");
     }
+    static EntityClass pushClass(String type) { EntityClass c = MovementContextLedger.classify(type); return c == EntityClass.ATTACK_SLOWDOWN_ONLY ? EntityClass.OTHER : c; }
 
     @Test void theLivePushersAndTheNonPushers() {
         for (String t : List.of("minecraft:rabbit", "minecraft:cow", "minecraft:sheep", "minecraft:zombie", "minecraft:villager", "minecraft:minecart", "minecraft:mannequin"))

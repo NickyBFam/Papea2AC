@@ -69,10 +69,11 @@ final class PaperSemanticNormalizer {
             case "ClientboundUpdateAttributesPacket" -> attributes(p);
             case "ClientboundUpdateMobEffectPacket" -> new Effect(integer(p,"getEntityId"),holderKey(call(p,"getEffect")),integer(p,"getEffectAmplifier"),integer(p,"getEffectDurationTicks"),bool(p,"isEffectAmbient"),bool(p,"isEffectVisible"),bool(p,"effectShowsIcon"),bool(p,"shouldBlend"));
             case "ClientboundRemoveMobEffectPacket" -> new RemoveEffect(integer(p,"entityId"),holderKey(call(p,"effect")));
-            case "ClientboundEntityPositionSyncPacket","ClientboundTeleportEntityPacket" -> {
-                boolean teleport=p.getClass().getSimpleName().equals("ClientboundTeleportEntityPacket");Object value=call(p,teleport?"change":"values");
-                yield new EntityPosition(integer(p,"id"),vector(call(value,"position")),vector(call(value,"deltaMovement")),rotation(value,"yRot","xRot"),teleport?relatives(p):Set.of(),bool(p,"onGround"));
-            }
+            // P11-F2: the 26.2 client applies these differently (position sync sets the VecDeltaCodec base; a teleport does not), so they are no longer conflated
+            case "ClientboundEntityPositionSyncPacket" -> {Object value=call(p,"values");
+                yield new EntityPositionSync(integer(p,"id"),vector(call(value,"position")),vector(call(value,"deltaMovement")),rotation(value,"yRot","xRot"),bool(p,"onGround"));}
+            case "ClientboundTeleportEntityPacket" -> {Object value=call(p,"change");
+                yield new EntityPosition(integer(p,"id"),vector(call(value,"position")),vector(call(value,"deltaMovement")),rotation(value,"yRot","xRot"),relatives(p),bool(p,"onGround"));}
             case "ClientboundRemoveEntitiesPacket" -> {
                 Collection<?> ids=(Collection<?>)call(p,"getEntityIds");if(ids.size()>1024)throw new IllegalArgumentException("remove entities");
                 var copy=new ArrayList<Integer>(ids.size());for(Object id:ids)copy.add((Integer)id);yield new RemoveEntities(copy);
@@ -379,7 +380,8 @@ final class PaperSemanticNormalizer {
         if(cached!=null)return cached;
         Class<?> serializers=Class.forName("net.minecraft.network.syncher.EntityDataSerializers");
         Map<Object,String> built=new LinkedHashMap<>();
-        for(String name:List.of("BYTE","INT","LONG","FLOAT","STRING","BOOLEAN","DIRECTION"))built.put(serializers.getField(name).get(null),name);
+        // P11-F1: POSE is a raw target fact the combat model needs (the value is the Pose enum constant name); it was previously OPAQUE
+        for(String name:List.of("BYTE","INT","LONG","FLOAT","STRING","BOOLEAN","DIRECTION","POSE"))built.put(serializers.getField(name).get(null),name);
         scalarEntityDataKinds=built;
         return built;
     }

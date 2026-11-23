@@ -9,7 +9,8 @@ import java.util.Objects;
  * sent is, by construction, at the client's own default - exactly what the client simulates with.
  */
 public sealed interface ContextEvent permits ContextEvent.AttributeUpdated, ContextEvent.EffectAdded, ContextEvent.EffectRemoved, ContextEvent.AbilitiesUpdated, ContextEvent.FlightToggled, ContextEvent.GameModeChanged,
-        ContextEvent.BorderInitialized, ContextEvent.BorderCenter, ContextEvent.BorderSize, ContextEvent.BorderLerp, ContextEvent.EntitySpawned, ContextEvent.EntityMovedTo, ContextEvent.EntityMovedBy, ContextEvent.EntitiesRemoved, ContextEvent.WorldChanged, ContextEvent.CoverageBreak {
+        ContextEvent.BorderInitialized, ContextEvent.BorderCenter, ContextEvent.BorderSize, ContextEvent.BorderLerp, ContextEvent.EntitySpawned, ContextEvent.EntityMovedTo, ContextEvent.EntityMovedBy, ContextEvent.EntityTeleported, ContextEvent.EntitiesRemoved, ContextEvent.WorldChanged, ContextEvent.CoverageBreak,
+        ContextEvent.HandItem, ContextEvent.HandItemsUnknown, ContextEvent.ItemUse {
     long sequence();
     /** One attribute modifier as the packet carries it (operation as the protocol names it: ADD_VALUE, ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL). */
     record ModifierValue(String id, double amount, String operation) { public ModifierValue { Objects.requireNonNull(id); Objects.requireNonNull(operation); if (!Double.isFinite(amount)) throw new IllegalArgumentException("modifier amount"); } }
@@ -31,9 +32,27 @@ public sealed interface ContextEvent permits ContextEvent.AttributeUpdated, Cont
     record EntityMovedTo(long sequence, int entityId, double x, double y, double z) implements ContextEvent {}
     /** A relative move in 1/4096 block units as the protocol encodes it. */
     record EntityMovedBy(long sequence, int entityId, short dx, short dy, short dz) implements ContextEvent {}
+    /**
+     * A TeleportEntity packet (P11-F3, forward addition): the 26.2 client moves the entity without resetting its delta-codec base, and relative
+     * components resolve against its interpolated position, so the tracked position is uncertain until the next position sync or respawn.
+     */
+    record EntityTeleported(long sequence, int entityId) implements ContextEvent {}
     record EntitiesRemoved(long sequence, List<Integer> entityIds) implements ContextEvent { public EntitiesRemoved { entityIds = List.copyOf(entityIds); } }
     /** A respawn / dimension change: every tracked entity of the old world is gone; the border and effects are re-sent by the server. */
     record WorldChanged(long sequence, long newWorldEpoch) implements ContextEvent {}
+    /**
+     * P11-F27 (QA-10): the facts the attacker-slowdown rule needs about one item the player may hold - a hotbar slot (0-8) or the off hand
+     * ({@link #OFF_HAND}) - as the server sent them: whether it is a kinetic weapon (a spear charge runs {@code Player.stabAttack} client-side) and
+     * whether it may carry a knockback source (a knockback enchantment, or attribute modifiers that may include attack knockback).
+     */
+    record HandItem(long sequence, int slot, boolean kinetic, boolean knockback) implements ContextEvent {
+        public static final int OFF_HAND = 9;
+        public HandItem { if (slot < 0 || slot > OFF_HAND) throw new IllegalArgumentException("hand item slot"); }
+    }
+    /** P11-F27: the hand items are no longer known (the client moved items, a container window other than the player's own changed them). */
+    record HandItemsUnknown(long sequence) implements ContextEvent {}
+    /** P11-F27: the client started ({@code active}) or released an item use ({@code ServerboundUseItemPacket} / RELEASE_USE_ITEM); {@code offHand}: the hand used. */
+    record ItemUse(long sequence, boolean active, boolean offHand) implements ContextEvent {}
     /** A loss-class transport break: observations may have been lost, the tracked context is no longer complete until re-anchored. */
     record CoverageBreak(long sequence, String reason) implements ContextEvent { public CoverageBreak { Objects.requireNonNull(reason); } }
 }

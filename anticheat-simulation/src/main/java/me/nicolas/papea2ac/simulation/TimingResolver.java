@@ -4,6 +4,7 @@ import me.nicolas.papea2ac.physics.PhysicsEnvironment;
 import me.nicolas.papea2ac.physics.Vec3d;
 import me.nicolas.papea2ac.player.TimingEvent;
 import me.nicolas.papea2ac.player.TimingLedger;
+import me.nicolas.papea2ac.version.MovementProfile;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -50,6 +51,7 @@ public final class TimingResolver {
         List<TimingEvent.ClientTickEnd> tickEnds = new ArrayList<>(); List<TimingEvent.MovementObserved> rotationOnly = new ArrayList<>();
         List<TimingEvent.ExternalMotionSent> sentHere = new ArrayList<>(); List<TimingEvent.MarkerAcknowledged> answers = new ArrayList<>(); List<TimingEvent.MarkerSent> markers = new ArrayList<>();
         int confirmCount = 0; boolean discontinuityFlag = false, coverageBreakFlag = false;
+        List<TimingEvent.AttackerSlowdownPossible> attacks = new ArrayList<>();
         for (TimingEvent e : req.events()) {
             switch (e) {
                 case TimingEvent.ClientTickEnd t -> { if (t.sequence() < req.target().sequence()) tickEnds.add(t); }
@@ -60,6 +62,7 @@ public final class TimingResolver {
                 case TimingEvent.TeleportConfirmed c -> confirmCount++;
                 case TimingEvent.Discontinuity d -> discontinuityFlag = true;
                 case TimingEvent.CoverageBreak b -> coverageBreakFlag = true;
+                case TimingEvent.AttackerSlowdownPossible a -> { if (a.sequence() < req.target().sequence()) attacks.add(a); } // the runner's gated events; raw LocalAttack packets are never branched
                 default -> { }
             }
         }
@@ -92,7 +95,11 @@ public final class TimingResolver {
             TimingHypothesis h = new TimingHypothesis("h0-teleport-" + c.teleportId(), 0, List.of(), ReconstructionRequest.ExternalMotionBranch.NONE, Set.of(), pending, Set.of(), TimingHypothesis.TeleportRelation.APPLICATION_POINT, c, TimingHypothesis.Alignment.TELEPORT_CONFIRM,
                 List.of("confirm#" + c.teleportId() + "@" + applied.confirmedSequence(), "preTickEnds=" + preTicks), rtt, preTicks, 0);
             notes.add("correction " + c.teleportId() + " confirmed at sequence " + applied.confirmedSequence() + ": the target is its application point" + (pending.isEmpty() ? "" : "; influences " + pending + " remain pending across it"));
-            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), true, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
+            // P11-F27: an own attack before a relative correction may have slowed the pre-application motion the correction rebases on: not modelled there
+            final long confirmedAt = applied.confirmedSequence();
+            boolean attackRebased = relative && attacks.stream().anyMatch(a -> a.sequence() < confirmedAt);
+            if (attackRebased) notes.add("a possible attacker slowdown precedes relative correction " + c.teleportId() + ": the slowed pre-application motion is not modelled, complete=false");
+            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), !attackRebased, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
         }
         if (preApplication) notes.add("a correction is pending (sent, not yet confirmed): this transmission is pre-application client movement");
 
@@ -150,6 +157,57 @@ public final class TimingResolver {
             }
             if (searchLimit) break;
         }
+        // ---- P11-F27: the client's own attacker slowdown (P13-F2). The runner admits a slowdown only where vanilla allows one (an ATTACK on a tracked
+        // hurtClient-capable entity within reach, or a kinetic-weapon use beside one) and says how many hits one event can mean (1 without a knockback
+        // source, otherwise unbounded). An event belongs to the tick whose movement follows it (after the tick's packet drain, before LocalPlayer.tick).
+        // Per tick every hit count 0..n is a concrete branch, applied after that tick's drained influences (without a knockback source the tick's hits
+        // count as one: the sprint bonus applies once per tick). Beyond the hypothesis budget the largest counts are folded into one option "k or more
+        // hits", which is EXACT whenever k hits already put the horizontal motion under the client's zeroing threshold (every larger count is then the
+        // same state; with the budget's 16 hypotheses k reaches 15, and 0.6^15 times the largest velocity packet is under it) and otherwise bounded by
+        // the sound envelope; at the last resort "any number of hits, or none". The account stays COMPLETE, so the number of attack packets cannot turn
+        // an impossible movement into UNCERTAIN (QA-09).
+        if (!attacks.isEmpty() && !out.isEmpty()) {
+            boolean exact = source == TimingHypothesis.Alignment.TICK_END_EXACT; int k = out.get(0).horizon(); long[] hits = new long[k]; boolean[] stacks = new boolean[k]; boolean unplaced = false;
+            for (TimingEvent.AttackerSlowdownPossible a : attacks) {
+                if (!exact) { unplaced = true; continue; }
+                int abs = ticks.k(); for (int j = 1; j < ticks.k(); j++) if (ticks.endOf(j).sequence() > a.sequence()) { abs = j; break; }
+                if (abs <= closureTicks) unplaced = true; else { int t = abs - closureTicks - 1; hits[t] = Math.min(Integer.MAX_VALUE, hits[t] + a.maxHits()); if (a.stacks()) stacks[t] = true; }
+            }
+            for (int t = 0; t < k; t++) if (!stacks[t]) hits[t] = Math.min(hits[t], 1); // no knockback source: at most one slowdown per tick
+            // per tick: concrete counts 0..K[t] plus, when range[t], one envelope option ">= K[t] + 1 hits"; K[t] == -1: only "any number of hits, or none"
+            int[] K = new int[k]; boolean[] range = new boolean[k];
+            long total = 0; boolean anyStacks = false; for (TimingEvent.AttackerSlowdownPossible a : attacks) { total = Math.min(Integer.MAX_VALUE, total + a.maxHits()); anyStacks |= a.stacks(); }
+            for (int t = 0; t < k; t++) {
+                long n = unplaced ? (anyStacks ? total : Math.min(total, 1)) : hits[t]; // an unplaceable event may belong to any tick
+                K[t] = (int) Math.min(n, MAX_ATTACK_VARIANTS); range[t] = n > K[t];
+            }
+            if (unplaced) notes.add("a possible attacker slowdown lies inside the silent closure or the alignment is not exact: every tick carries its hit counts");
+            long cap = Math.max(1, budget.maxHypotheses() / Math.max(1, out.size()));
+            while (options(K, range) > cap) {
+                int w = 0; for (int t = 1; t < k; t++) if (optionCount(K[t], range[t]) > optionCount(K[w], range[w])) w = t;
+                if (K[w] >= 1) { K[w]--; range[w] = true; } else { K[w] = -1; range[w] = true; } // fold the largest count into the envelope; at last "any hits, or none"
+            }
+            long variants = options(K, range);
+            boolean any = false; for (int t = 0; t < k; t++) if (K[t] != 0 || range[t]) { any = true; break; }
+            if (any) {
+                List<int[]> combos = new ArrayList<>(); combine(K, range, 0, new int[k], combos);
+                List<TimingHypothesis> expanded = new ArrayList<>();
+                for (TimingHypothesis h : out) for (int[] c : combos) {
+                    List<List<PhysicsEnvironment.ExternalMotion>> perTick = new ArrayList<>(); StringBuilder id = new StringBuilder(h.id());
+                    for (int t = 0; t < k; t++) {
+                        List<PhysicsEnvironment.ExternalMotion> m = new ArrayList<>(h.branch().motionsPerTick().get(t));
+                        if (K[t] == -1) { m.add(PhysicsEnvironment.ExternalMotion.attackerSlowdownRange(0, 1.0, "atk" + (t + 1) + ".any")); id.append("-atk").append(t + 1).append("any"); }
+                        else if (c[t] > K[t]) { m.add(PhysicsEnvironment.ExternalMotion.attackerSlowdownRange(K[t] + 1, rangeFactor(K[t] + 1), "atk" + (t + 1) + ".ge" + (K[t] + 1))); id.append("-atk").append(t + 1).append("ge").append(K[t] + 1); }
+                        else { for (int x = 0; x < c[t]; x++) m.add(PhysicsEnvironment.ExternalMotion.attackerSlowdown("atk" + (t + 1) + "." + x)); if (K[t] > 0 || range[t]) id.append("-atk").append(t + 1).append('x').append(c[t]); }
+                        perTick.add(m);
+                    }
+                    expanded.add(new TimingHypothesis(id.toString(), h.horizon(), h.ticks(), new ReconstructionRequest.ExternalMotionBranch(id.toString(), perTick), h.appliedInfluences(), h.pendingInfluences(), h.expiredInfluences(),
+                        h.teleport(), h.correction(), h.alignment(), h.fences(), h.rtt(), h.preTicks(), h.closureTicks()));
+                }
+                notes.add(attacks.size() + " possible attacker slowdown(s): " + variants + " variant(s) per timing account" + (variants < combosUnbounded(hits) ? " (larger counts folded into the envelope)" : ""));
+                out = expanded;
+            }
+        }
         if (!live.isEmpty() && answers.isEmpty() && markers.isEmpty()) notes.add("no marker traffic inside the interval: application bounded by tick-end capture times only (NO_ACK_EVIDENCE for narrowing; none was needed for soundness)");
         if (!live.isEmpty() && !req.profile().pongBoundsApplication() && !answers.isEmpty()) notes.add("marker answers present but the profile does not claim pongBoundsApplication: they narrow nothing (receipt evidence only, N1)");
         TimingResolution.Evidence ev = new TimingResolution.Evidence(tickEnds.size(), rotationOnly.size(), answers.size(), confirms, req.tickEndCapable(), rtt.present(), rtt.stale(), rtt.lowNanos(), rtt.highNanos(), live.size(), expired.size());
@@ -190,6 +248,19 @@ public final class TimingResolver {
         for (int j = 1; j < k; j++) if (ticks.endOf(j).nanos() > e.nanos()) return j;
         return k;
     }
+    /** P11-F27: the most concrete hit counts one tick enumerates before the rest is folded ("k or more"); the hypothesis budget usually binds first. */
+    public static final int MAX_ATTACK_VARIANTS = 64;
+    private static long optionCount(int k, boolean range) { return k < 0 ? 1 : k + 1 + (range ? 1 : 0); }
+    private static long options(int[] K, boolean[] range) { long v = 1; for (int t = 0; t < K.length; t++) { v *= optionCount(K[t], range[t]); if (v > Integer.MAX_VALUE) return Integer.MAX_VALUE; } return v; }
+    private static long combosUnbounded(long[] hits) { long v = 1; for (long n : hits) { v *= (n + 1); if (v > Integer.MAX_VALUE) return Integer.MAX_VALUE; } return v; }
+    /** Every per-tick option: a concrete count 0..K[t], or K[t] + 1 standing for the envelope option ({@code range}); K[t] == -1: the single "any" option. */
+    private static void combine(int[] K, boolean[] range, int t, int[] c, List<int[]> out) {
+        if (t == K.length) { out.add(c.clone()); return; }
+        if (K[t] < 0) { c[t] = 0; combine(K, range, t + 1, c, out); return; }
+        for (int m = 0; m <= K[t] + (range[t] ? 1 : 0); m++) { c[t] = m; combine(K, range, t + 1, c, out); }
+    }
+    /** The largest horizontal factor of "n or more hits": 0.6^n, widened outward so the client's repeated double multiplication always lies inside. */
+    static double rangeFactor(int n) { double f = 1.0; for (int i = 0; i < n; i++) f *= MovementProfile.ATTACKER_SLOWDOWN_HORIZONTAL; return Math.min(1.0, f * (1.0 + 1.0E-9)); }
     /** Ordered assignment: influence i applies at tick a[i] in [earliest[i]..k] or 0 = not yet; wire order implies a[i] <= a[i+1] with 0 (later) after everything. */
     private static void enumerate(int[] a, int i, int[] earliest, int k, int minTick, List<int[]> out, int cap) {
         if (out.size() >= cap) return;
