@@ -231,6 +231,20 @@ public final class Papea2AC extends JavaPlugin implements Listener {
                     return true; }
                 default -> { sender.sendMessage("Usage: /papea2ac timing <name> [view | arm [declared-scenario] | report | cancel | velocity <x> <y> <z> | teleport <dx> <dy> <dz>]"); return true; }
             }
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("cadence")){
+            // Phase 14 diagnostic: client tick cadence between game-thread fences (counts, windows, tick-rate signal); prints the engine's words, never a label or an action.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var cs=engine.cadenceStatus(player.getUniqueId());if(cs.isEmpty()){sender.sendMessage("no admitted session");return true;}var c=cs.get();
+            String op=args.length>=3?args[2].toLowerCase(Locale.ROOT):"view";
+            if(op.equals("recent")){sender.sendMessage("cadence recent ("+c.recent().size()+"):");for(String line:c.recent())sender.sendMessage("  "+line);return true;}
+            if(op.equals("windows")){sender.sendMessage("cadence windows, newest last ("+c.windows().size()+"):");for(String line:c.windows())sender.sendMessage("  "+line);return true;}
+            sender.sendMessage("cadence session="+c.sessionEpoch()+" segment="+c.segment()+" tickEnds="+c.tickEnds()+" movements="+c.movements()+" induced="+c.induced()+" pings="+c.pingsSent()+"/"+c.pingsAnswered()+" unknownPongs="+c.unknownAnswers()+" failedPings="+c.failedPings()+" pending="+c.pendingPings()+" anchors="+c.anchors()+" (thinned "+c.anchorsThinned()+", expired "+c.anchorsExpired()+") breaks="+c.coverageBreaks());
+            sender.sendMessage("tick rate "+c.tickRate()+" changes="+c.tickRateChanges()+" | VALID="+c.valid()+" UNCERTAIN="+c.uncertain()+" INVALID="+c.invalid()+" runs="+c.exclusionRuns()+" movementsBeyondTickEnds="+c.movementBeyondTickEnds());
+            sender.sendMessage("largest excess "+c.largestExcess()+": "+c.largestExcessWindow());
+            sender.sendMessage("last: "+c.last());
+            var ce=engine.cadenceEngineStatus();sender.sendMessage("engine "+ce.cadenceProfile()+" sessions="+ce.sessions()+" anchors="+ce.anchors()+" invalid="+ce.invalid()+" runs="+ce.exclusionRuns()+" errors="+ce.internalErrors());
+            return true;
         }else if(args.length>=2&&args[0].equalsIgnoreCase("mitigation")){
             // Phase 10 diagnostic: eligibility, typed suppression reason, chains, candidate anchor, pending correction, cooldown, last outcome. Never a label or a recommendation.
             Player player=getServer().getPlayerExact(args[1]);

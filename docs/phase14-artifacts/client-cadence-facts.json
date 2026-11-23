@@ -1,0 +1,15 @@
+{
+  "clientJarSha256": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+  "profile": "paper-26.2-124-cadence",
+  "tickEnd": "Minecraft.tick(): connection.send(ServerboundClientTickEndPacket.INSTANCE) when a connection exists and the game is not paused",
+  "frame": "Minecraft.runTick: advanceGameTime(Util.getMillis()) -> packetProcessor.processQueuedPackets() -> runAllTasks() -> for (j < min(10, owed)) tick(); DeltaTracker.Timer.advanceGameTime returns (int) residual and subtracts it (owed ticks beyond 10 are dropped); tick() has one caller",
+  "movementSenders": {
+    "net/minecraft/client/multiplayer/ClientPacketListener.handleMovePlayer": 1,
+    "net/minecraft/client/multiplayer/ClientPacketListener.handleRotatePlayer": 1,
+    "net/minecraft/client/multiplayer/ClientPacketListener.handleTeleportEntity": 1,
+    "net/minecraft/client/player/LocalPlayer.sendPosition": 4,
+    "net/minecraft/client/player/LocalPlayer.tick": 1
+  },
+  "timer": "Minecraft.<init>: new DeltaTracker.Timer(20.0f, ...); getTickTargetMillis(f) = runsNormally ? max(f, TickRateManager.millisecondsPerTick()) : f",
+  "fences": "handlePing: PacketUtils.ensureRunningOnSameThread then send(new ServerboundPongPacket(id)) - the pong is a GAME-thread write; handleKeepAlive: no ensureRunningOnSameThread (network thread, never a fence); handleMovePlayer/RotatePlayer/TeleportEntity/TickingState/SetEntityMotion/Explosion: game thread; Connection.sendPacket: eventLoop.execute off-loop (one FIFO per writing thread)"
+}

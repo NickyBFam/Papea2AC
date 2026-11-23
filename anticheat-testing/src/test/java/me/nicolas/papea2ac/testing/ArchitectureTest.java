@@ -112,7 +112,7 @@ class ArchitectureTest {
         var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|Timer|ping|Ping|rtt|RTT|latency|Latency|acknowledg|Acknowledg|teleportConfirm|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet|HashMap)\\b");
         var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
         try(var files=Files.walk(dir)){
-            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")&&!p.getFileName().toString().startsWith("MovementValidat")).toList(); // Timing* = Phase 7, MovementValidat* = Phase 8 (own boundaries below)
+            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")&&!p.getFileName().toString().startsWith("MovementValidat")&&!p.getFileName().toString().startsWith("TickCadence")).toList(); // Timing* = Phase 7, MovementValidat* = Phase 8, TickCadence* = Phase 14 (own boundaries below)
             assertTrue(sources.size()>=7,"Phase 6 simulation module must exist");
             for(Path file:sources){
                 String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
@@ -238,6 +238,38 @@ class ArchitectureTest {
         assertFalse(platform.contains("import me.nicolas.papea2ac.evidence"),"the platform never touches the evidence module");
         // the frozen validation engine does not know the evidence types
         assertFalse(Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java")).contains("papea2ac.evidence"),"Phase 8 is independent of Phase 9");
+    }
+    /**
+     * Phase 14 boundary (cadence): the profile (version), ledger and vocabulary (player), validator and result (simulation), mapper, runner
+     * and status records (core). No enforcement/score/brand vocabulary, no wall or monotonic clock read (every time comes from an
+     * observation), no platform type, no reflection, no hash-order collection, no ping halving; the validator is the only producer of the
+     * cadence classification, reads no clock and keeps no state; the ledger imports only model/player; the runner holds no evidence or
+     * mitigation reference (the evidence projection is a separate reviewed step); the frozen Phase 7/8 engines do not know the cadence types.
+     */
+    @Test void cadenceStaysWithinThePhase14Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(SUSPICIOUS|CHEATING|cheat|Cheat|cheater|violation|Violation|violationLevel|vl|VL|alert|Alert|setback|Setback|punish|Punish|kick|Kick|ban|Ban|score|Score|confidence|Confidence|probability|Probability|threshold|Threshold|TimerCheck|Vape|Wurst|LiquidBounce|Meteor|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|nanoTime|Instant|LocalDateTime|Random|ThreadLocalRandom|HashMap|HashSet)\\b|(rtt|Rtt|RTT|ping|Ping)[A-Za-z]*\\s*/\\s*2\\b|oneWay|halfRtt");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        List<Path> files=new ArrayList<>();
+        files.add(ROOT.resolve("anticheat-version/src/main/java/me/nicolas/papea2ac/version/TickCadenceProfile.java"));
+        for(String f:new String[]{"TickCadenceEvent","TickCadenceLedger"})files.add(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+        for(String f:new String[]{"TickCadenceValidator","TickCadenceResult"})files.add(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/"+f+".java"));
+        for(String f:new String[]{"TickCadenceObservationMapper","TickCadenceRunner","TickCadenceStatus","TickCadenceEngineStatus"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains an enforcement/score/brand concept, a clock read, a platform type, ping halving or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        for(String f:new String[]{"TickCadenceEvent","TickCadenceLedger"}){
+            String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+            for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
+        }
+        // the classification is produced by the validator only; nothing else builds a TickCadenceResult
+        try(var s=Files.walk(ROOT)){for(Path p:s.filter(q->q.toString().endsWith(".java")&&q.toString().contains("src"+File.separator+"main")&&!q.getFileName().toString().equals("TickCadenceValidator.java")&&!q.getFileName().toString().equals("TickCadenceResult.java")).toList())assertFalse(Files.readString(p).contains("new TickCadenceResult("),p+" builds a cadence classification of its own");}
+        String runner=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/TickCadenceRunner.java"));
+        assertFalse(runner.contains("papea2ac.evidence")||runner.contains("papea2ac.mitigation")||runner.contains("EvidenceRunner")||runner.contains("MitigationRunner"),"Phase 14 preparation feeds neither evidence nor mitigation");
+        for(String f:new String[]{"anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingLedger.java","anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolver.java","anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java"})
+            assertFalse(Files.readString(ROOT.resolve(f)).contains("TickCadence"),f+" is independent of Phase 14");
     }
     /**
      * Phase 10 boundary: the mitigation domain decides WHAT is permitted and never applies anything - no Bukkit/NMS/Netty, no reflection, no

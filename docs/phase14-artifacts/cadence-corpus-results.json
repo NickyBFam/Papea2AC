@@ -1,0 +1,299 @@
+{
+  "phase": "14 - Timer (client tick cadence), offline corpus",
+  "profile": "paper-26.2-124-cadence",
+  "oracle": "TickCadenceSimulator: vanilla 26.2 client tick scheduling transcribed from the client bytecode (ClientCadenceFactsTest), two-way in-order network with jitter and stalls, server capture taps with event-loop pauses",
+  "legitimate": {
+    "scenarios": 2000,
+    "simulatedHours": 44.22,
+    "clientTicks": 2747005,
+    "ticksDroppedByTheFrameCap": 353561,
+    "combatMarkerScenarios": 657,
+    "combatMarkerInvalid": 0,
+    "anchors": 1062626,
+    "windowsEvaluated": 65180338,
+    "invalid": 0,
+    "invalidSeeds": [],
+    "closestMarginTicks": 12,
+    "closestMarginSeed": 1906,
+    "ranges": "40-120 s each; 1-5000 fps incl. 2-5 fps and frame period ~ tick period; hitches up to 3.2 s; process freezes up to 8.5 s; drift +-500 ppm; base delay 0-400 ms and jitter 0-300 ms per direction; up to 2 stalls of up to 10 s per direction; up to 2 server pauses of up to 2 s; markers 1 Hz or 20 Hz, +-100 ms jitter; 5 % failed ping writes; 10 % colliding plugin pings; 0-2 corrections/rotations per second; tick rate 5/10/40/100 or frozen then back to 20"
+  },
+  "detectionLatencyAfterTimerStart": {
+    "lan": {
+      "x1.02": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 64.63,
+        "maxSeconds": 143.23
+      },
+      "x1.05": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 25.22,
+        "maxSeconds": 36.23
+      },
+      "x1.1": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 11.62,
+        "maxSeconds": 11.86
+      },
+      "x1.25": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 4.73,
+        "maxSeconds": 7.21
+      },
+      "x1.5": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 2.73,
+        "maxSeconds": 3.23
+      },
+      "x2.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.64,
+        "maxSeconds": 1.86
+      },
+      "x3.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.21,
+        "maxSeconds": 1.87
+      },
+      "x5.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 0.74,
+        "maxSeconds": 1.22
+      }
+    },
+    "internet-80ms": {
+      "x1.02": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 70.7,
+        "maxSeconds": 148.31
+      },
+      "x1.05": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 25.72,
+        "maxSeconds": 39.31
+      },
+      "x1.1": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 12.72,
+        "maxSeconds": 23.31
+      },
+      "x1.25": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 5.63,
+        "maxSeconds": 7.3
+      },
+      "x1.5": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 2.81,
+        "maxSeconds": 3.31
+      },
+      "x2.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.72,
+        "maxSeconds": 1.96
+      },
+      "x3.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.3,
+        "maxSeconds": 1.95
+      },
+      "x5.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 0.83,
+        "maxSeconds": 1.31
+      }
+    },
+    "jittery-250ms": {
+      "x1.02": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 91.0,
+        "maxSeconds": 160.59
+      },
+      "x1.05": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 34.93,
+        "maxSeconds": 45.57
+      },
+      "x1.1": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 15.16,
+        "maxSeconds": 26.61
+      },
+      "x1.25": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 6.26,
+        "maxSeconds": 7.58
+      },
+      "x1.5": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 3.95,
+        "maxSeconds": 4.16
+      },
+      "x2.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 2.12,
+        "maxSeconds": 3.58
+      },
+      "x3.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.55,
+        "maxSeconds": 2.17
+      },
+      "x5.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.12,
+        "maxSeconds": 1.54
+      }
+    },
+    "stall-9s": {
+      "x1.02": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 77.8,
+        "maxSeconds": 148.32
+      },
+      "x1.05": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 29.64,
+        "maxSeconds": 39.33
+      },
+      "x1.1": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 12.73,
+        "maxSeconds": 23.32
+      },
+      "x1.25": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 5.73,
+        "maxSeconds": 7.32
+      },
+      "x1.5": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 2.84,
+        "maxSeconds": 3.32
+      },
+      "x2.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.74,
+        "maxSeconds": 1.97
+      },
+      "x3.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.32,
+        "maxSeconds": 1.97
+      },
+      "x5.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 0.85,
+        "maxSeconds": 1.33
+      }
+    },
+    "internet-80ms-combat-markers": {
+      "x1.02": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 100.12,
+        "maxSeconds": 221.3
+      },
+      "x1.05": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 24.92,
+        "maxSeconds": 35.85
+      },
+      "x1.1": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 12.38,
+        "maxSeconds": 22.76
+      },
+      "x1.25": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 4.9,
+        "maxSeconds": 4.99
+      },
+      "x1.5": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 2.44,
+        "maxSeconds": 2.52
+      },
+      "x2.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 1.27,
+        "maxSeconds": 1.36
+      },
+      "x3.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 0.69,
+        "maxSeconds": 0.72
+      },
+      "x5.0": {
+        "detected": 10,
+        "of": 10,
+        "medianSeconds": 0.37,
+        "maxSeconds": 0.47
+      }
+    }
+  },
+  "timerX1.05UnderFrameHitches": {
+    "hitchProbabilityPerFrame=0.0": {
+      "detectedOf10": 10,
+      "meanTicksDroppedByCap": 0
+    },
+    "hitchProbabilityPerFrame=5.0E-4": {
+      "detectedOf10": 10,
+      "meanTicksDroppedByCap": 103
+    },
+    "hitchProbabilityPerFrame=0.002": {
+      "detectedOf10": 10,
+      "meanTicksDroppedByCap": 392
+    },
+    "hitchProbabilityPerFrame=0.01": {
+      "detectedOf10": 0,
+      "meanTicksDroppedByCap": 1254
+    }
+  },
+  "cost": {
+    "anchorsAtFullRetention": 347,
+    "validatorNanosPerPong": 1949,
+    "validatorBytesPerPong": 216,
+    "ledgerNanosPerTickEnd": 62,
+    "ledgerBytesPerTickEnd": 232,
+    "retainedBytesPerFullLedger": 32810,
+    "note": "one host, descriptive; JMH and the end-to-end engine cost are integration work"
+  }
+}

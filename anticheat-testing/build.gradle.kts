@@ -420,3 +420,12 @@ tasks.register<JavaExec>("mitigationFixtures") {
     args(rootProject.file("docs/phase10-artifacts").absolutePath)
     doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
 }
+tasks.register<JavaExec>("cadenceCorpus") {
+    description = "Phase 14 offline cadence corpus: legitimate false-exclusion count, timer detection latency, hitch effect (docs/phase14-artifacts/cadence-corpus-results.json). Descriptive, deterministic."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.TickCadenceCorpusMain")
+    maxHeapSize = "1g"
+    args(rootProject.file("docs/phase14-artifacts/cadence-corpus-results.json").absolutePath, (project.findProperty("cadenceSeeds") ?: "2000").toString())
+    doFirst { rootProject.file("docs/phase14-artifacts").mkdirs() }
+}

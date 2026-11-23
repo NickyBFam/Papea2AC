@@ -24,6 +24,8 @@ public final class PacketEngine implements AutoCloseable {
         public final BlockDisputeLedger disputes;
         /** Phase 10: the session's mitigation runner (shard-owned actor; publishes an immutable status) and the dimension the client is in (JoinGame/Respawn). */
         public final MitigationRunner mitigation;volatile String dimension="unknown";
+        /** Phase 14: the session's client tick cadence (shard-owned runner over a player-owned ledger; publishes an immutable status and the tick-rate signal). */
+        public final TickCadenceRunner cadence;
         /** Phase 10 decision capsules (TC25): the shard-owned rolling prehistory ({@link DecisionCapture}); its clock origin is placed well before any
          *  possible capture time, so every Input's captured/processed times are non-negative, pre-login journal included. Null until first used. */
         DecisionCapture decision;
@@ -57,6 +59,7 @@ public final class PacketEngine implements AutoCloseable {
             mitigation=new MitigationRunner(key,new me.nicolas.papea2ac.mitigation.MitigationActor(key,me.nicolas.papea2ac.mitigation.MitigationBounds.DEFAULT,anchorAdmission,intent->requestDecisionCapsule(this,intent),mitigationIntents::offer,(sk,n)->proposalGuard.propose(sk.player(),Math.max(1,activeSessionCount),n),mitigationMetrics),
                 health,PacketEngine.this::mitigationMode,()->dimension,mitigationMetrics);
             validation.attachMitigation(mitigation);mitigation.attachDisputes(disputes);
+            cadence=new TickCadenceRunner(key,cadenceProfile,true,cadenceMetrics);
         }
         public void close(){closeStarted.compareAndSet(0,System.nanoTime());closing.set(true);ingress.close();}
         /** The capture position itself is compromised (our handler removed or displaced in the pipeline): clientbound packets may now pass unobserved.
@@ -94,7 +97,7 @@ public final class PacketEngine implements AutoCloseable {
                                 if(s.recording!=null){try{s.recording.before(s.health.get(),System.nanoTime());s.recording.finish(System.nanoTime());s.recording.export(writer,replayConfiguration);}catch(RuntimeException|LinkageError e){errors.accept(e);}finally{try{s.recording.close();}catch(RuntimeException e){errors.accept(e);}}}
                                 s.actor.close();s.deferred=null;s.actorClosed=true;
                                 s.timeline.append(s.key,new PlayerObservation.SessionClosed(),s.timeline.snapshot().lastCommittedSequence()+1,System.nanoTime());
-                                s.world.close();s.timing.close();
+                                s.world.close();s.timing.close();s.cadence.close();
                                 if(s.decision!=null){s.decision.close();s.decision=null;} // Phase 10: release the rolling share with the session
                             }
                             if(s.ingress.releaseAfterClose())remove(s);
@@ -150,6 +153,7 @@ public final class PacketEngine implements AutoCloseable {
                                     s.timing.apply(s.key,brk);
                                     s.movementContext.apply(s.key,new me.nicolas.papea2ac.player.ContextEvent.CoverageBreak(o.sequence(),timingBreak));
                                     s.validation.onEvent(brk,s.timing.view(),s.movementContext.view(),s.world.currentView(),s.world.worldEpoch());
+                                    s.cadence.onCoverageBreak(o.sequence(),o.capturedNanos(),timingBreak); // Phase 14: no cadence window crosses the break
                                 }
                                 else{
                                     // Phase 8 context first (a JoinGame also names the self entity when the platform control has not arrived yet)
@@ -180,6 +184,7 @@ public final class PacketEngine implements AutoCloseable {
                                         s.validation.onEvent(event,s.timing.view(),s.movementContext.view(),s.world.currentView(),s.world.worldEpoch());
                                     }
                                     if(o.event() instanceof Observation.Outbound ob2&&ob2.payload() instanceof me.nicolas.papea2ac.protocol.PacketPayload.Velocity&&s.selfEntityId<0)timingMetrics.velocityIgnoredUnknownSelf.increment();
+                                    s.cadence.onObservation(o); // Phase 14: tick ends, movements, pings/pongs, induced packets and ticking state, in capture order
                                 }
                                 if(degraded){
                                     s.timeline.append(s.key,new PlayerObservation.CoverageGap(after.reason().name()),o.sequence(),now,transport);
@@ -298,6 +303,12 @@ public final class PacketEngine implements AutoCloseable {
     public static final long MARKER_PERIOD_NANOS=1_000_000_000L,MARKER_MIN_GAP_NANOS=50_000_000L;public static final int MARKER_MAX_PENDING=16;
     static final class TimingMetrics{final java.util.concurrent.atomic.LongAdder markersIssued=new java.util.concurrent.atomic.LongAdder(),markerSendFailures=new java.util.concurrent.atomic.LongAdder(),markersAnswered=new java.util.concurrent.atomic.LongAdder(),rttSamples=new java.util.concurrent.atomic.LongAdder(),lateOrUnknownAcks=new java.util.concurrent.atomic.LongAdder(),velocityIgnoredUnknownSelf=new java.util.concurrent.atomic.LongAdder();}
     final TimingMetrics timingMetrics=new TimingMetrics();
+    /** Phase 14: the version-scoped client cadence facts and bounded engine-wide cadence counters. */
+    public final me.nicolas.papea2ac.version.TickCadenceProfile cadenceProfile=me.nicolas.papea2ac.version.TickCadenceProfile.PAPER_26_2;
+    final TickCadenceRunner.Metrics cadenceMetrics=new TickCadenceRunner.Metrics();
+    public TickCadenceEngineStatus cadenceEngineStatus(){return TickCadenceEngineStatus.of(cadenceProfile.id(),cadenceMetrics);}
+    /** The session's published cadence status (thread-safe), empty for an unknown player. */
+    public synchronized java.util.Optional<TickCadenceStatus> cadenceStatus(UUID player){Session s=active.get(player);return s==null?java.util.Optional.empty():java.util.Optional.of(s.cadence.status());}
     public void setMarkerPort(MarkerPort port){markerPort=port;}
     /** Shard-thread marker issue: a session-scoped id (epoch in the high byte, a counter below) whose pong the ledger correlates; late pongs of an earlier session never match (new ledger, new epoch byte). */
     void issueMarker(Session s,long clock){
