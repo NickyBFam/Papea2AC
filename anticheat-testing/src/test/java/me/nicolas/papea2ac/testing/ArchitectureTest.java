@@ -65,7 +65,7 @@ class ArchitectureTest {
     }
     /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5, "simulation" in Phase 6 and "evidence" in Phase 9 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("combat","checks","interaction")){ // "mitigation" left this list in Phase 10 (mitigationStaysWithinThePhase10Boundary)
+        for(String name:List.of("interaction")){ // "mitigation" left this list in Phase 10, "combat" in Phase 11 (combatStaysWithinThePhase11Boundary), "checks" in Phase 15 (rotationAnalysisStaysWithinThePhase15Boundary)
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -112,7 +112,7 @@ class ArchitectureTest {
         var forbidden=Pattern.compile("\\b(VALID|INVALID|SUSPICIOUS|CHEATING|cheat|Cheat|violation|Violation|violationLevel|alert|Alert|setback|Setback|punish|Punish|KillAura|Reach|Timer|ping|Ping|rtt|RTT|latency|Latency|acknowledg|Acknowledg|teleportConfirm|rewind|Rewind|beam|Beam|getBlockAt|getBlockState|getChunkAt|Bukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet|HashMap)\\b");
         var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
         try(var files=Files.walk(dir)){
-            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")&&!p.getFileName().toString().startsWith("MovementValidat")).toList(); // Timing* = Phase 7, MovementValidat* = Phase 8 (own boundaries below)
+            var sources=files.filter(p->p.toString().endsWith(".java")&&!p.getFileName().toString().startsWith("Timing")&&!p.getFileName().toString().startsWith("MovementValidat")&&!p.getFileName().toString().startsWith("Knockback")&&!p.getFileName().toString().startsWith("TickCadence")).toList(); // Timing* = Phase 7, MovementValidat* = Phase 8, Knockback* = Phase 13, TickCadence* = Phase 14 (own boundaries below)
             assertTrue(sources.size()>=7,"Phase 6 simulation module must exist");
             for(Path file:sources){
                 String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
@@ -240,6 +240,38 @@ class ArchitectureTest {
         assertFalse(Files.readString(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java")).contains("papea2ac.evidence"),"Phase 8 is independent of Phase 9");
     }
     /**
+     * Phase 14 boundary (cadence): the profile (version), ledger and vocabulary (player), validator and result (simulation), mapper, runner
+     * and status records (core). No enforcement/score/brand vocabulary, no wall or monotonic clock read (every time comes from an
+     * observation), no platform type, no reflection, no hash-order collection, no ping halving; the validator is the only producer of the
+     * cadence classification, reads no clock and keeps no state; the ledger imports only model/player; the runner holds no evidence or
+     * mitigation reference (the evidence projection is a separate reviewed step); the frozen Phase 7/8 engines do not know the cadence types.
+     */
+    @Test void cadenceStaysWithinThePhase14Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(SUSPICIOUS|CHEATING|cheat|Cheat|cheater|violation|Violation|violationLevel|vl|VL|alert|Alert|setback|Setback|punish|Punish|kick|Kick|ban|Ban|score|Score|confidence|Confidence|probability|Probability|threshold|Threshold|TimerCheck|Vape|Wurst|LiquidBounce|Meteor|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|nanoTime|Instant|LocalDateTime|Random|ThreadLocalRandom|HashMap|HashSet)\\b|(rtt|Rtt|RTT|ping|Ping)[A-Za-z]*\\s*/\\s*2\\b|oneWay|halfRtt");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        List<Path> files=new ArrayList<>();
+        files.add(ROOT.resolve("anticheat-version/src/main/java/me/nicolas/papea2ac/version/TickCadenceProfile.java"));
+        for(String f:new String[]{"TickCadenceEvent","TickCadenceLedger"})files.add(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+        for(String f:new String[]{"TickCadenceValidator","TickCadenceResult"})files.add(ROOT.resolve("anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/"+f+".java"));
+        for(String f:new String[]{"TickCadenceObservationMapper","TickCadenceRunner","TickCadenceStatus","TickCadenceEngineStatus"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();assertFalse(found,file+" contains an enforcement/score/brand concept, a clock read, a platform type, ping halving or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        for(String f:new String[]{"TickCadenceEvent","TickCadenceLedger"}){
+            String code=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/"+f+".java"));
+            for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))assertTrue(line.startsWith("import me.nicolas.papea2ac.model.")||line.startsWith("import me.nicolas.papea2ac.player."),f+" imports outside player/model: "+line);
+        }
+        // the classification is produced by the validator only; nothing else builds a TickCadenceResult
+        try(var s=Files.walk(ROOT)){for(Path p:s.filter(q->q.toString().endsWith(".java")&&q.toString().contains("src"+File.separator+"main")&&!q.getFileName().toString().equals("TickCadenceValidator.java")&&!q.getFileName().toString().equals("TickCadenceResult.java")).toList())assertFalse(Files.readString(p).contains("new TickCadenceResult("),p+" builds a cadence classification of its own");}
+        String runner=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/TickCadenceRunner.java"));
+        assertFalse(runner.contains("papea2ac.evidence")||runner.contains("papea2ac.mitigation")||runner.contains("EvidenceRunner")||runner.contains("MitigationRunner"),"Phase 14 preparation feeds neither evidence nor mitigation");
+        for(String f:new String[]{"anticheat-player/src/main/java/me/nicolas/papea2ac/player/TimingLedger.java","anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/TimingResolver.java","anticheat-simulation/src/main/java/me/nicolas/papea2ac/simulation/MovementValidator.java"})
+            assertFalse(Files.readString(ROOT.resolve(f)).contains("TickCadence"),f+" is independent of Phase 14");
+    }
+    /**
      * Phase 10 boundary: the mitigation domain decides WHAT is permitted and never applies anything - no Bukkit/NMS/Netty, no reflection, no
      * wall or monotonic clock read (every time comes from an observation, so decisions replay), no punishment vocabulary (kick/ban/punish/
      * cheater/violation level/score/confidence), no combat or other Phase 11 checks, no hash-order collection. Only the platform executor
@@ -280,6 +312,68 @@ class ArchitectureTest {
         assertTrue(plugin.contains("engine.enableDecisionCapsules("),"decision capsules are enabled at startup (DURABLE_REQUIRED)");
         assertTrue(executor.contains("engine.applyPendingRestriction()"),"the executor applies the G2 latch before any queued intent");
     }
+    /** Phase 12 sources inside anticheat-combat: the geometry kernels and the reach engine packages. */
+    static boolean isPhase12(Path p){String s=p.toString().replace('\\','/');return s.contains("/me/nicolas/papea2ac/combat/geometry/")||s.contains("/me/nicolas/papea2ac/combat/reach/");}
+    /**
+     * Phase 12 boundary: the reach / hitbox / historical ray engine (combat.geometry, combat.reach) judges attack geometry only. No rotation
+     * heuristics (15), KillAura / combat heuristics (16), click analysis (17), mitigation, punishment or platform concept; no reflection, wall
+     * clock or randomness (replay determinism); no engine-forbidden transcendental Math (sin/cos go through the pinned table, sqrt is IEEE-exact);
+     * the geometry kernels depend only on the version profile; the reach package only on DAG edges.
+     */
+    @Test void reachStaysWithinThePhase12Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(KillAura|killAura|aura|Aura|cps|CPS|clickRate|autoclick|AutoClick|entropy|autocorrelation|smoothness|gcd|GCD|aimError|aimAssist|snapAngle|MitigationIntent|MitigationActor|setback|Setback|kick|ban|punish|Punish|cheater|Bukkit|CraftBukkit|getHandle|nanoTime|currentTimeMillis|ThreadLocalRandom|SplittableRandom|Random|HashSet)\\b");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|cbrt|hypot|sinh|cosh|tanh)\\(");
+        List<Path> files=new ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-combat/src/main/java"))){s.filter(p->p.toString().endsWith(".java")&&isPhase12(p)).forEach(files::add);}
+        assertTrue(files.size()>=4,"Phase 12 reach packages must exist: "+files);
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();
+            assertFalse(found,file+" contains a Phase 13+ heuristic, a mitigation/punishment concept, a platform type or a non-deterministic source: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+            boolean geometry=file.toString().replace('\\','/').contains("/combat/geometry/");
+            for(String line:Files.readString(file).split("\n"))if(line.startsWith("import me.nicolas."))
+                assertTrue(geometry?line.matches("import me\\.nicolas\\.papea2ac\\.(version|combat\\.geometry)\\..*"):line.matches("import me\\.nicolas\\.papea2ac\\.(model|schema|version|player|world|collision|combat)\\..*"),file+": "+line);
+        }
+        assertTrue(Files.exists(ROOT.resolve("anticheat-version/src/main/resources/me/nicolas/papea2ac/version/entity-geometry-paper-26.2-124.tsv")),"pinned entity geometry table resource");
+    }
+    /**
+     * Phase 11 boundary: the combat engine is descriptive infrastructure. The combat module, the world-owned entity history and the core combat composition
+     * contain no reach, hitbox, ray, occlusion, rotation-heuristic, KillAura, click/CPS, verdict, evidence, mitigation, punishment or platform concept and
+     * no reflection; combat imports only its DAG edges; no lower module depends on combat; and no Phase 15/16/17 class exists anywhere (Phase 12's own
+     * packages are excluded from this scan and covered by reachStaysWithinThePhase12Boundary).
+     */
+    @Test void combatStaysWithinThePhase11Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(reach|Reach|maxReach|reachThreshold|hitbox|Hitbox|HitBox|rayTrace|RayTrace|raytrace|rayIntersects|intersects|throughWall|lineOfSight|LineOfSight|occlusion|Occlusion|KillAura|killAura|aura|Aura|cps|CPS|clickRate|autoclick|AutoClick|entropy|autocorrelation|snap|smoothness|gcd|GCD|aimError|angleToTarget|isSuspicious|isReachHack|isAura|isInvalidHit|shouldPunish|shouldSetback|setback|Setback|kick|ban|punish|Punish|cheat|Cheat|cheater|violation|Violation|verdict|Verdict|confidence|Confidence|EvidenceEvent|EvidenceLedger|MitigationIntent|MitigationActor|Bukkit|CraftBukkit|getHandle)\\b");
+        List<Path> files=new ArrayList<>();
+        // Phase 12 (opened 2026-10-03) owns the combat.geometry / combat.reach packages; they have their own boundary (reachStaysWithinThePhase12Boundary)
+        try(var s=Files.walk(ROOT.resolve("anticheat-combat/src/main/java"))){s.filter(p->p.toString().endsWith(".java")&&!isPhase12(p)).forEach(files::add);}
+        assertTrue(files.size()>=6,"Phase 11 combat module must exist: "+files);
+        for(String f:new String[]{"EntityHistory","EntityObservation","EntityKey","EntityRevision","EntityLookup","EntityReplayMapper"})files.add(ROOT.resolve("anticheat-world/src/main/java/me/nicolas/papea2ac/world/"+f+".java"));
+        for(String f:new String[]{"CombatRunner","CombatObservationMapper"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        files.add(ROOT.resolve("anticheat-version/src/main/java/me/nicolas/papea2ac/version/CombatProfile.java"));
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();
+            assertFalse(found,file+" contains a Phase 12+ geometry/heuristic, a verdict, an evidence/mitigation/punishment concept or a platform type: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        // combat imports only its approved edges (model, replay-schema, version, player, world, collision) - never evidence, mitigation, checks, simulation, core or platform
+        try(var s=Files.walk(ROOT.resolve("anticheat-combat/src/main/java"))){for(Path p:s.filter(q->q.toString().endsWith(".java")).toList())for(String line:Files.readString(p).split("\n"))if(line.startsWith("import me.nicolas."))
+            assertTrue(line.matches("import me\\.nicolas\\.papea2ac\\.(model|schema|version|player|world|collision|combat)\\..*"),p+": "+line);}
+        // nothing below combat in the DAG depends on it (only checks and core may)
+        for(var e:graph().entrySet())if(e.getValue().contains("combat"))assertTrue(Set.of("checks","core","testing").contains(e.getKey()),e.getKey()+" must not depend on combat");
+        // later-phase engines are absent: no rotation analysis (15), KillAura/combat heuristics (16) or click analysis (17) class anywhere
+        // (Phase 12 opened 2026-10-03: Reach/Hitbox/RayTrace/Occlusion classes are its own and are checked by reachStaysWithinThePhase12Boundary;
+        // Phase 15 opened 2026-10-03: RotationAnalysis* classes are its own and are checked by rotationAnalysisStaysWithinThePhase15Boundary)
+        var later=Pattern.compile("(KillAura|Aura|ClickAnalysis|Clicks|Cps|Cadence|RotationHeuristic|AimAnalysis|CombatHeuristic)[A-Za-z]*\\.java");
+        try(var s=Files.walk(ROOT)){for(Path p:s.filter(q->q.toString().contains("src"+java.io.File.separator+"main")&&q.toString().endsWith(".java")).toList())
+            assertFalse(later.matcher(p.getFileName().toString()).matches(),"a later-phase engine class exists: "+p);}
+        // the combat engine never touches evidence or mitigation at the composition point either
+        String runner=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/CombatRunner.java")).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+        assertFalse(runner.contains("evidence")||runner.contains("mitigation")||runner.contains("Evidence")||runner.contains("Mitigation"),"CombatRunner feeds neither evidence nor mitigation");
+    }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{
         Path dir=ROOT.resolve("anticheat-world/src/main/java");
@@ -294,5 +388,35 @@ class ArchitectureTest {
                 assertFalse(transcendental.matcher(code).find(),file+" uses forbidden transcendental Math");
             }
         }
+    }
+    /**
+     * Phase 15 boundary: rotation analysis describes bounded feature windows and never decides - no INVALID/verdict, no score/confidence/
+     * probability, no punishment or mitigation vocabulary, no KillAura/click heuristics (Phases 16/17), no reach or ray geometry (Phase 12), no
+     * clock, randomness, hash-ordered collection, platform type or reflection. The only transcendental call is the one diagnostic StrictMath.cbrt
+     * inverse (NUMERICAL_POLICY: deterministic diagnostics). Imports stay on the approved checks edges.
+     */
+    @Test void rotationAnalysisStaysWithinThePhase15Boundary()throws Exception{
+        Path dir=ROOT.resolve("anticheat-checks/src/main/java");
+        var forbidden=Pattern.compile("\\b(INVALID|Invalid|verdict|Verdict|cheat|Cheat|cheater|Cheater|hacking|violation|Violation|violationLevel|vl|VL|score|Score|confidence|Confidence|probability|Probability|alert|Alert|setback|Setback|kick|Kick|ban|Ban|punish|Punish|KillAura|killAura|Aimbot|aimbot|cps|CPS|reach|Reach|raycast|Raycast|hitbox|Hitbox|Bukkit|CraftBukkit|net\\.minecraft|io\\.netty|currentTimeMillis|nanoTime|Instant|LocalDateTime|Clock|Random|SplittableRandom|ThreadLocalRandom|HashSet|HashMap|Set\\.of|Set\\.copyOf|Map\\.of)\\b");
+        var transcendental=Pattern.compile("(Strict)?Math\\.(sin|cos|tan|asin|acos|atan|atan2|exp|log|log10|pow|sqrt|cbrt|hypot|sinh|cosh|tanh)\\(");
+        List<Path> sources;
+        try(var files=Files.walk(dir)){sources=files.filter(p->p.toString().endsWith(".java")).toList();}
+        assertTrue(sources.size()>=5,"Phase 15 rotation analysis must exist: "+sources);
+        int cbrt=0;
+        for(Path file:sources){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();
+            assertFalse(found,file+" contains a verdict/score/enforcement/later-phase concept, a clock, randomness or a hash-order collection: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+            var t=transcendental.matcher(code);
+            while(t.find()){assertEquals("StrictMath.cbrt(",t.group(),file+" uses forbidden transcendental Math");cbrt++;}
+            for(String line:code.split("\n"))if(line.startsWith("import me.nicolas."))
+                assertTrue(line.matches("import me\\.nicolas\\.papea2ac\\.(model|protocol|player|simulation|combat|interaction|evidence|checks)\\..*"),file+": "+line);
+        }
+        assertEquals(1,cbrt,"exactly one diagnostic cbrt");
+        // the window lives in the player component boundary and stays fixed-size
+        String history=Files.readString(ROOT.resolve("anticheat-player/src/main/java/me/nicolas/papea2ac/player/RotationHistory.java"));
+        assertTrue(history.contains("public static final int CAPACITY = 64;"),"bounded rotation window");
+        assertFalse(history.contains("ArrayList")||history.contains("LinkedList")||history.contains("ArrayDeque"),"no growable collection in the rotation window");
     }
 }

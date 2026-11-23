@@ -1,0 +1,19 @@
+{
+  "phase": "12 - Reach / hitbox / historical ray tracing",
+  "method": "forced GC + used-heap diff, 3 trials, median; thread-allocation counters for per-operation garbage; estimates on one host, not capacity",
+  "perSession": {
+    "emptyReachRunnerBytes(beyond the world, timeline, timing ledger and combat runner it reads)": 2456,
+    "fullTargetLedgersBytes(256 lifetime extents + 256 metadata entries, beyond the combat runner's own 256 summaries)": 66040,
+    "fullPendingBytes(64 pending attacks with their captured inputs, beyond an empty session)": 53400,
+    "fullResultsBytes(64 retained results, beyond an empty session)": 43800
+  },
+  "globalShared": {
+    "reachMetricsBytes(one per PacketEngine, fixed cardinality)": 1752,
+    "entityGeometryTable": "one immutable shared table (158 types), loaded once"
+  },
+  "perOperationAllocationBytes": {
+    "attackPendingAndDecidedBytes(one ATTACK + the tick end that decides it)": 5088,
+    "noAttackPathBytes(one tick end, no pending attack)": 352
+  },
+  "bounds": "pending <= 64 (3 s expiry), results <= 64, target extents <= 256, metadata entries <= 256; no unbounded per-target history (windows are read from the Phase 11 entity history)"
+}

@@ -231,12 +231,35 @@ public final class Papea2AC extends JavaPlugin implements Listener {
                     return true; }
                 default -> { sender.sendMessage("Usage: /papea2ac timing <name> [view | arm [declared-scenario] | report | cancel | velocity <x> <y> <z> | teleport <dx> <dy> <dz>]"); return true; }
             }
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("cadence")){
+            // Phase 14 diagnostic: client tick cadence between game-thread fences (counts, windows, tick-rate signal); prints the engine's words, never a label or an action.
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var cs=engine.cadenceStatus(player.getUniqueId());if(cs.isEmpty()){sender.sendMessage("no admitted session");return true;}var c=cs.get();
+            String op=args.length>=3?args[2].toLowerCase(Locale.ROOT):"view";
+            if(op.equals("recent")){sender.sendMessage("cadence recent ("+c.recent().size()+"):");for(String line:c.recent())sender.sendMessage("  "+line);return true;}
+            if(op.equals("windows")){sender.sendMessage("cadence windows, newest last ("+c.windows().size()+"):");for(String line:c.windows())sender.sendMessage("  "+line);return true;}
+            sender.sendMessage("cadence session="+c.sessionEpoch()+" segment="+c.segment()+" tickEnds="+c.tickEnds()+" movements="+c.movements()+" induced="+c.induced()+" pings="+c.pingsSent()+"/"+c.pingsAnswered()+" unknownPongs="+c.unknownAnswers()+" failedPings="+c.failedPings()+" pending="+c.pendingPings()+" anchors="+c.anchors()+" (thinned "+c.anchorsThinned()+", expired "+c.anchorsExpired()+") breaks="+c.coverageBreaks());
+            sender.sendMessage("tick rate "+c.tickRate()+" changes="+c.tickRateChanges()+" | VALID="+c.valid()+" UNCERTAIN="+c.uncertain()+" INVALID="+c.invalid()+" runs="+c.exclusionRuns()+" movementsBeyondTickEnds="+c.movementBeyondTickEnds());
+            sender.sendMessage("largest excess "+c.largestExcess()+": "+c.largestExcessWindow());
+            sender.sendMessage("last: "+c.last());
+            var ce=engine.cadenceEngineStatus();sender.sendMessage("engine "+ce.cadenceProfile()+" sessions="+ce.sessions()+" anchors="+ce.anchors()+" invalid="+ce.invalid()+" runs="+ce.exclusionRuns()+" errors="+ce.internalErrors());
+            return true;
         }else if(args.length>=2&&args[0].equalsIgnoreCase("mitigation")){
             // Phase 10 diagnostic: eligibility, typed suppression reason, chains, candidate anchor, pending correction, cooldown, last outcome. Never a label or a recommendation.
             Player player=getServer().getPlayerExact(args[1]);
             if(player==null){sender.sendMessage("Player is not online.");return true;}
             var st=engine.mitigationStatus(player.getUniqueId());if(st.isEmpty()){sender.sendMessage("no admitted session");return true;}
             for(String line:mitigationLines(st.get()))sender.sendMessage(line);
+            return true;
+        }else if(args.length>=2&&args[0].equalsIgnoreCase("combat")){
+            // Phase 11 diagnostic: descriptive combat observations only - session/epoch, entity registry usage and honesty markers, the last attacks with their
+            // target network state (incarnation, exactness, pose), attacker timeline provenance, timing status and completeness reasons. Never a verdict,
+            // a label, a score or a recommendation; target state is packet-observed only (no live Bukkit entity is read).
+            Player player=getServer().getPlayerExact(args[1]);
+            if(player==null){sender.sendMessage("Player is not online.");return true;}
+            var lines=engine.combatDiagnosticLines(player.getUniqueId(),args.length>=3&&args[2].equalsIgnoreCase("entities"));if(lines.isEmpty()){sender.sendMessage("no admitted session");return true;}
+            for(String line:lines)sender.sendMessage(line);
             return true;
         }else if(args.length>=2&&args[0].equalsIgnoreCase("evidence")){
             // Phase 9 diagnostic: what the completed Phase 8 results prove over the active window (counts, families, continuity, gaps, magnitudes, ages, supporting ids); bounded; never a level, never a recommendation, never an action.
@@ -318,6 +341,8 @@ public final class Papea2AC extends JavaPlugin implements Listener {
         sender.sendMessage("validation requests="+val.requests()+" VALID="+val.valid()+" UNCERTAIN="+val.uncertain()+" INVALID="+val.invalid()+" uncertain{searchLimit="+val.uncertainSearchLimit()+" unsupported="+val.uncertainUnsupported()+" worldIncomplete="+val.uncertainWorldIncomplete()+" externalMotion="+val.uncertainExternalMotion()+" unanchored="+val.uncertainUnanchored()+" other="+val.uncertainOther()+"} timingBranches="+val.timingBranches()+" reconstructions="+val.reconstructions()+" evaluations="+val.evaluations()+" anchors="+val.anchors()+"/lost="+val.anchorsLost()+" internalErrors="+val.internalErrors()+" injected="+val.injectedRequests());
         var ev=engine.evidenceEngineStatus();
         sender.sendMessage("evidence consumed="+ev.consumed()+" witness="+ev.legitimateWitness()+" unresolved="+ev.unresolved()+" positiveEvents="+ev.positiveEvents()+" duplicates="+ev.duplicates()+" proofRejected="+ev.proofRejected()+" outOfOrder="+ev.outOfOrder()+" sessionMismatch="+ev.sessionMismatch()+" internalErrors="+ev.internalErrors()+" side{consumed="+ev.sideConsumed()+" positive="+ev.sidePositiveEvents()+" duplicates="+ev.sideDuplicates()+"} sessions="+ev.sessionsCreated());
+        sender.sendMessage(engine.combatStatusLine()); // Phase 11: engine-wide descriptive combat counters (core-rendered)
+        sender.sendMessage(engine.reachStatusLine()); // Phase 12: engine-wide reach counters (core-rendered; observe-only)
         var col=engine.collisionEngineStatus();
         sender.sendMessage("collision profile="+col.profile()+" shapeTable="+col.tableStates()+"states/"+col.tableShapes()+"shapes/"+col.tableBlocks()+"blocks sha256="+col.tableDigest().substring(0,16)+" queries="+col.queries()+" complete="+col.complete()+" incomplete="+col.incomplete()
             +" unavailable="+col.unavailable()+" rejected="+col.rejected()+" truncated="+col.truncated()+" cells="+col.cellsVisited()+" hits="+col.hits()+" cacheHits="+col.shapeCacheHits()+" cacheMisses="+col.shapeCacheMisses()

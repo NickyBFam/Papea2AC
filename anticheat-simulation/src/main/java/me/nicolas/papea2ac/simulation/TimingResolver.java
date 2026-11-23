@@ -50,6 +50,7 @@ public final class TimingResolver {
         List<TimingEvent.ClientTickEnd> tickEnds = new ArrayList<>(); List<TimingEvent.MovementObserved> rotationOnly = new ArrayList<>();
         List<TimingEvent.ExternalMotionSent> sentHere = new ArrayList<>(); List<TimingEvent.MarkerAcknowledged> answers = new ArrayList<>(); List<TimingEvent.MarkerSent> markers = new ArrayList<>();
         int confirmCount = 0; boolean discontinuityFlag = false, coverageBreakFlag = false;
+        List<TimingEvent.LocalAttack> attacks = new ArrayList<>();
         for (TimingEvent e : req.events()) {
             switch (e) {
                 case TimingEvent.ClientTickEnd t -> { if (t.sequence() < req.target().sequence()) tickEnds.add(t); }
@@ -60,6 +61,7 @@ public final class TimingResolver {
                 case TimingEvent.TeleportConfirmed c -> confirmCount++;
                 case TimingEvent.Discontinuity d -> discontinuityFlag = true;
                 case TimingEvent.CoverageBreak b -> coverageBreakFlag = true;
+                case TimingEvent.LocalAttack a -> { if (a.sequence() < req.target().sequence()) attacks.add(a); }
                 default -> { }
             }
         }
@@ -92,7 +94,11 @@ public final class TimingResolver {
             TimingHypothesis h = new TimingHypothesis("h0-teleport-" + c.teleportId(), 0, List.of(), ReconstructionRequest.ExternalMotionBranch.NONE, Set.of(), pending, Set.of(), TimingHypothesis.TeleportRelation.APPLICATION_POINT, c, TimingHypothesis.Alignment.TELEPORT_CONFIRM,
                 List.of("confirm#" + c.teleportId() + "@" + applied.confirmedSequence(), "preTickEnds=" + preTicks), rtt, preTicks, 0);
             notes.add("correction " + c.teleportId() + " confirmed at sequence " + applied.confirmedSequence() + ": the target is its application point" + (pending.isEmpty() ? "" : "; influences " + pending + " remain pending across it"));
-            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), true, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
+            // Phase 13: an own attack before a relative correction may have slowed the pre-application motion the correction rebases on: not modelled there
+            final long confirmedAt = applied.confirmedSequence();
+            boolean attackRebased = relative && attacks.stream().anyMatch(a -> a.sequence() < confirmedAt);
+            if (attackRebased) notes.add("an own attack precedes relative correction " + c.teleportId() + ": the attacker slowdown of the pre-application motion is not modelled, complete=false");
+            return new TimingResolution(TimingResolution.Status.RESOLVED_UNIQUE, List.of(h), !attackRebased, evidence.apply(0), new TimingResolution.Work(1, 1, 1, 0, tickEnds.size() + 1), prov, notes);
         }
         if (preApplication) notes.add("a correction is pending (sent, not yet confirmed): this transmission is pre-application client movement");
 
@@ -118,14 +124,70 @@ public final class TimingResolver {
             live.add(e);
         }
         if (!expired.isEmpty()) notes.add("influences " + expired + " passed the application horizon unresolved: retired as EXPIRED (evidence unavailable, not non-application)");
+
+        // ---- Phase 13 application fences: only under a profile that claims the game-thread ping fence (P13-N1), with exact alignment and no
+        // correction that could have been processed after an influence (a correction replaces/rebases the motion an influence set: never guessed)
+        boolean fenced = req.profile().pongBoundsApplication() && source == TimingHypothesis.Alignment.TICK_END_EXACT && !preApplication && !live.isEmpty() && !correctionAfter(live, req);
+        int[] deadline = new int[live.size()]; // 0 = no fence inside this interval; else the absolute client tick (1..K) by which influence i had been applied
+        int[] earliestAbs = new int[live.size()];
+        int totalTicks = ticks.k(), deadlines = 0;
+        if (fenced) for (int i = 0; i < live.size(); i++) { deadline[i] = deadline(live.get(i), req, ticks, totalTicks); earliestAbs[i] = earliestTick(live.get(i), ticks, totalTicks, true); if (deadline[i] > 0) deadlines++; }
+        if (fenced && deadlines > 0) notes.add(deadlines + " influence(s) bounded by an answered marker (game-thread fence, P13-N1): no 'not yet applied' branch past the fence");
+        boolean closureBranching = false, anyInClosure = false;
         if (closureTicks > 0) {
             boolean rotationInClosure = false; long closureEnd = ticks.endOf(closureTicks).sequence(); for (TimingEvent.MovementObserved m : rotationOnly) if (m.sequence() < closureEnd) rotationInClosure = true;
-            if (!live.isEmpty() || rotationInClosure) { complete = false; notes.add("silent closure with " + (live.isEmpty() ? "" : "pending influences ") + (rotationInClosure ? "rotation changes " : "") + "inside it: application/yaw inside the closure is not enumerated, complete=false"); }
+            boolean allBounded = true;
+            if (fenced) for (int i = 0; i < live.size(); i++) if (earliestAbs[i] <= closureTicks) { anyInClosure = true; if (deadline[i] == 0) allBounded = false; }
+            closureBranching = fenced && anyInClosure && allBounded && !unresolvedVector;
+            boolean influencesUnenumerated = fenced ? anyInClosure && !closureBranching : !live.isEmpty();
+            if (influencesUnenumerated || rotationInClosure) { complete = false; notes.add("silent closure with " + (influencesUnenumerated ? "pending influences " : "") + (rotationInClosure ? "rotation changes " : "") + "inside it: application/yaw inside the closure is not enumerated, complete=false"); }
+            if (closureBranching) notes.add("every influence that may apply inside the " + closureTicks + "-tick silent closure is fenced: application is branched tick by tick inside the closure");
         }
 
         // ---- enumerate
         List<TimingHypothesis> out = new ArrayList<>(); int combinations = 0, dedup = 0, fences = tickEnds.size() + answers.size(); boolean searchLimit = false;
-        for (int k : alignments) {
+        // an influence that may apply inside an un-branched closure keeps the Phase 7 enumeration (incomplete account): a fence is never applied to half a closure
+        if (fenced && !(closureTicks > 0 && anyInClosure && !closureBranching)) {
+            for (int k : alignments) {
+                Ticks segment = closureTicks == 0 ? ticks : new Ticks(ticks.ends().subList(closureTicks - 1 + offset, ticks.ends().size()), k, 1);
+                List<TickObservation> obs = tickObservations(req, segment, rotationOnly, k, true);
+                // per influence, the codes it may take, in order: CLOSURE (-1), segment ticks, LATER (0)
+                int[][] options = new int[live.size()][];
+                List<TimingHypothesis.ClosureInfluence> plan = new ArrayList<>();
+                for (int i = 0; i < live.size(); i++) {
+                    TimingEvent.ExternalMotionSent e = live.get(i); List<Integer> o = new ArrayList<>();
+                    boolean inClosure = closureTicks > 0 && earliestAbs[i] <= closureTicks;
+                    if (closureBranching && inClosure) { o.add(-1); plan.add(new TimingHypothesis.ClosureInfluence(e.id(), motion(e), earliestAbs[i], deadline[i] > 0 && deadline[i] <= closureTicks ? deadline[i] : 0)); }
+                    int lo = earliestTick(e, segment, k, true), hi = deadline[i] == 0 ? k : deadline[i] - closureTicks;
+                    for (int t = lo; t <= Math.min(k, hi); t++) o.add(t);
+                    if (deadline[i] == 0) o.add(0);
+                    options[i] = o.stream().mapToInt(Integer::intValue).toArray();
+                }
+                List<int[]> assignments = new ArrayList<>();
+                enumerateFenced(new int[live.size()], 0, options, k, 0, assignments, budget.maxHypotheses() + 1);
+                if (assignments.isEmpty()) notes.add("the fences leave no application tick for some influence (fence before its earliest tick): a protocol/model contradiction, never a guess");
+                for (int[] a : assignments) {
+                    combinations++;
+                    if (out.size() >= budget.maxHypotheses()) { searchLimit = true; break; }
+                    List<List<PhysicsEnvironment.ExternalMotion>> perTick = new ArrayList<>(); for (int t = 0; t < k; t++) perTick.add(new ArrayList<>());
+                    Set<String> appliedIds = new LinkedHashSet<>(), pendingIds = new LinkedHashSet<>(), inClosure = new LinkedHashSet<>(); StringBuilder id = new StringBuilder("h").append(k);
+                    for (int i = 0; i < live.size(); i++) {
+                        TimingEvent.ExternalMotionSent e = live.get(i);
+                        if (a[i] == 0) { pendingIds.add(e.id()); id.append('-').append(e.id()).append("@later"); }
+                        else if (a[i] < 0) { appliedIds.add(e.id()); inClosure.add(e.id()); id.append('-').append(e.id()).append("@c"); }
+                        else { perTick.get(a[i] - 1).add(motion(e)); appliedIds.add(e.id()); id.append('-').append(e.id()).append('@').append(a[i]); }
+                    }
+                    List<String> fenceText = new ArrayList<>(); if (!tickEnds.isEmpty()) fenceText.add("tickEnds@" + tickEnds.get(0).sequence() + ".." + tickEnds.get(tickEnds.size() - 1).sequence()); if (!answers.isEmpty()) fenceText.add("markerAnswers=" + answers.size());
+                    for (int i = 0; i < live.size(); i++) if (deadline[i] > 0) fenceText.add(live.get(i).id() + "<=t" + deadline[i]);
+                    TimingHypothesis h = new TimingHypothesis(id.toString(), k, obs, new ReconstructionRequest.ExternalMotionBranch(id.toString(), perTick), appliedIds, pendingIds, expired,
+                        TimingHypothesis.TeleportRelation.NONE, null, source, fenceText, rtt, 0, closureTicks, plan.isEmpty() ? TimingHypothesis.ClosurePlan.NONE : new TimingHypothesis.ClosurePlan(plan, inClosure));
+                    boolean duplicate = false; for (TimingHypothesis o : out) if (o.equivalentTo(h)) { duplicate = true; break; }
+                    if (duplicate) dedup++; else out.add(h);
+                }
+                if (searchLimit) break;
+            }
+        }
+        else for (int k : alignments) {
             Ticks segment = closureTicks == 0 ? ticks : new Ticks(ticks.ends().subList(closureTicks - 1 + offset, ticks.ends().size()), k, 1); // the segment's anchor is the last silent tick (in-tick): its end is the first of the sub-list
             List<TickObservation> obs = tickObservations(req, segment, rotationOnly, k, source == TimingHypothesis.Alignment.TICK_END_EXACT);
             int[] earliest = new int[live.size()];
@@ -149,6 +211,39 @@ public final class TimingResolver {
                 if (duplicate) dedup++; else out.add(h);
             }
             if (searchLimit) break;
+        }
+        // ---- Phase 13: the client's own attacks (attacker slowdown, P13-F2). An attack belongs to the tick whose movement follows it (sent from
+        // handleKeybinds after the tick's packet drain, before LocalPlayer.tick); each may or may not have slowed the attacker, so every count of
+        // slowdowns 0..n per tick is a branch, applied after that tick's drained influences. Attacks inside the silent closure or without exact
+        // alignment cannot be placed: the account is then incomplete (never a dropped branch presented as complete).
+        if (!attacks.isEmpty() && !out.isEmpty()) {
+            boolean exact = source == TimingHypothesis.Alignment.TICK_END_EXACT; int k = out.get(0).horizon(); int[] perTickAttacks = new int[k]; boolean unplaced = false;
+            for (TimingEvent.LocalAttack a : attacks) {
+                if (!exact) { unplaced = true; continue; }
+                int abs = ticks.k(); for (int j = 1; j < ticks.k(); j++) if (ticks.endOf(j).sequence() > a.sequence()) { abs = j; break; }
+                if (abs <= closureTicks) unplaced = true; else perTickAttacks[abs - closureTicks - 1]++;
+            }
+            if (unplaced) { complete = false; notes.add("an own attack lies inside the silent closure or the alignment is not exact: its attacker slowdown is not enumerated, complete=false"); }
+            long variants = 1; for (int n : perTickAttacks) variants *= (n + 1);
+            if (variants > 1) {
+                if (variants > MAX_ATTACK_VARIANTS) { complete = false; notes.add(variants + " attacker-slowdown variants exceed the cap " + MAX_ATTACK_VARIANTS + ": only none/all per tick are enumerated, complete=false"); }
+                List<int[]> counts = new ArrayList<>(); slowdownCounts(perTickAttacks, 0, new int[k], counts, variants > MAX_ATTACK_VARIANTS);
+                List<TimingHypothesis> expanded = new ArrayList<>();
+                for (TimingHypothesis h : out) for (int[] c : counts) {
+                    if (expanded.size() >= budget.maxHypotheses()) { searchLimit = true; break; }
+                    List<List<PhysicsEnvironment.ExternalMotion>> perTick = new ArrayList<>(); StringBuilder id = new StringBuilder(h.id());
+                    for (int t = 0; t < k; t++) {
+                        List<PhysicsEnvironment.ExternalMotion> m = new ArrayList<>(h.branch().motionsPerTick().get(t));
+                        for (int s = 0; s < c[t]; s++) m.add(PhysicsEnvironment.ExternalMotion.attackerSlowdown("atk" + (t + 1) + "." + s));
+                        if (perTickAttacks[t] > 0) id.append("-atk").append(t + 1).append('x').append(c[t]);
+                        perTick.add(m);
+                    }
+                    expanded.add(new TimingHypothesis(id.toString(), h.horizon(), h.ticks(), new ReconstructionRequest.ExternalMotionBranch(id.toString(), perTick), h.appliedInfluences(), h.pendingInfluences(), h.expiredInfluences(),
+                        h.teleport(), h.correction(), h.alignment(), h.fences(), h.rtt(), h.preTicks(), h.closureTicks(), h.closure()));
+                }
+                notes.add(attacks.size() + " own attack(s): " + counts.size() + " attacker-slowdown variant(s) per timing account");
+                out = expanded;
+            }
         }
         if (!live.isEmpty() && answers.isEmpty() && markers.isEmpty()) notes.add("no marker traffic inside the interval: application bounded by tick-end capture times only (NO_ACK_EVIDENCE for narrowing; none was needed for soundness)");
         if (!live.isEmpty() && !req.profile().pongBoundsApplication() && !answers.isEmpty()) notes.add("marker answers present but the profile does not claim pongBoundsApplication: they narrow nothing (receipt evidence only, N1)");
@@ -189,6 +284,55 @@ public final class TimingResolver {
         if (!exact) return 1;
         for (int j = 1; j < k; j++) if (ticks.endOf(j).nanos() > e.nanos()) return j;
         return k;
+    }
+    /**
+     * Phase 13 (P13-N1): the absolute tick (1..k) by which the influence had been applied, or 0 when no fence bounds it inside this interval.
+     * The fence is the earliest ANSWER to a PING marker written after the influence (higher wire ordinal: in-order TCP, FIFO client queue)
+     * and answered before the target. The pong was sent from the client's packet drain, which runs between client ticks, so the first
+     * client tick whose end is captured after the answer started after the influence had been applied; the target's own tick if no
+     * intermediate end follows the answer. An answer before the anchor bounds the first tick (lenient: such a node cannot be the
+     * client's real state, but nothing is concluded from that here).
+     */
+    static int deadline(TimingEvent.ExternalMotionSent e, TimingRequest req, Ticks ticks, int k) {
+        TimingLedger.AnsweredMarker f = applicationFence(e, req);
+        if (f == null) return 0;
+        for (int j = 1; j < k; j++) if (ticks.endOf(j).sequence() > f.answerSequence()) return j;
+        return k;
+    }
+    /**
+     * Phase 13: the earliest answered PING written after {@code e} and answered before the request's target - the game-thread fence by which
+     * the client had applied {@code e} (P13-N1) - or null. Profile-independent: whether it may be used is {@code pongBoundsApplication}.
+     */
+    public static TimingLedger.AnsweredMarker applicationFence(TimingEvent.ExternalMotionSent e, TimingRequest req) {
+        TimingLedger.AnsweredMarker best = null;
+        for (TimingLedger.AnsweredMarker m : req.answeredMarkers())
+            if (m.kind() == TimingEvent.MarkerKind.PING && m.markerWireOrdinal() > e.wireOrdinal() && m.answerSequence() < req.target().sequence() && (best == null || m.answerSequence() < best.answerSequence())) best = m;
+        return best;
+    }
+    /** Whether a correction (not lost to a failed write) was written after the earliest in-scope influence: it may have replaced or rebased that influence's motion, so no fence is applied. */
+    static boolean correctionAfter(List<TimingEvent.ExternalMotionSent> live, TimingRequest req) {
+        long first = Long.MAX_VALUE; for (TimingEvent.ExternalMotionSent e : live) first = Math.min(first, e.wireOrdinal());
+        for (TimingLedger.PendingTeleport t : req.teleports()) if (!t.writeFailed() && t.sent().wireOrdinal() > first) return true;
+        return false;
+    }
+    /** Phase 13: the attacker-slowdown variants per timing account are bounded (a tick with many attacks is an autoclicker-class rate, enumerated incompletely). */
+    public static final int MAX_ATTACK_VARIANTS = 8;
+    /** Every per-tick slowdown count 0..n[t] (or only 0 and n[t] when {@code extremesOnly}). */
+    private static void slowdownCounts(int[] n, int t, int[] c, List<int[]> out, boolean extremesOnly) {
+        if (t == n.length) { out.add(c.clone()); return; }
+        if (n[t] == 0) { c[t] = 0; slowdownCounts(n, t + 1, c, out, extremesOnly); return; }
+        for (int m = 0; m <= n[t]; m++) { if (extremesOnly && m != 0 && m != n[t]) continue; c[t] = m; slowdownCounts(n, t + 1, c, out, extremesOnly); }
+    }
+    /** Fenced ordered assignment: influence i takes one of {@code options[i]} (CLOSURE -1, segment tick 1..k, LATER 0); wire order makes the order keys non-decreasing (CLOSURE < ticks < LATER). */
+    private static void enumerateFenced(int[] a, int i, int[][] options, int k, int minKey, List<int[]> out, int cap) {
+        if (out.size() >= cap) return;
+        if (i == a.length) { out.add(a.clone()); return; }
+        for (int code : options[i]) {
+            int key = code < 0 ? 0 : code == 0 ? k + 1 : code;
+            if (key < minKey) continue;
+            a[i] = code; enumerateFenced(a, i + 1, options, k, key, out, cap);
+            if (out.size() >= cap) return;
+        }
     }
     /** Ordered assignment: influence i applies at tick a[i] in [earliest[i]..k] or 0 = not yet; wire order implies a[i] <= a[i+1] with 0 (later) after everything. */
     private static void enumerate(int[] a, int i, int[] earliest, int k, int minTick, List<int[]> out, int cap) {

@@ -72,6 +72,19 @@ public sealed interface SemanticPayload extends PacketPayload {
     record EntityPosition(int entityId,Position position,Position delta,Rotation rotation,Set<Relative> relative,boolean onGround) implements SemanticPayload {
         public EntityPosition{entity(entityId);Objects.requireNonNull(position);Objects.requireNonNull(delta);Objects.requireNonNull(rotation);relative=Set.copyOf(relative);}public int chargedBytes(){return 512;}
     }
+    /** P11-F2: ClientboundEntityPositionSyncPacket, kept distinct from the absolute/relative TeleportEntity ({@link EntityPosition}). The 26.2 client
+     *  applies them differently: a position sync sets the entity's VecDeltaCodec base (every later relative move decodes from it) and never has relative
+     *  components; a teleport sets only the target position from the client's current position and leaves the codec base unchanged. */
+    record EntityPositionSync(int entityId,Position position,Position delta,Rotation rotation,boolean onGround) implements SemanticPayload {
+        public EntityPositionSync{entity(entityId);Objects.requireNonNull(position);Objects.requireNonNull(delta);Objects.requireNonNull(rotation);}public int chargedBytes(){return 512;}
+    }
+    /** P11-F9: a payload-schema-1/2 entity position record with an EMPTY relative set. Before schema 3 the normalizer recorded both a position sync and an
+     *  absolute TeleportEntity as tag 16 (P11-F2), and the client applies them differently (only a sync resets the delta-codec base), so the recorded
+     *  fact is "sync OR absolute teleport" and stays so: this record is produced only by decoding pre-schema-3 bytes (never by the normalizer) and is
+     *  re-encoded as tag 81. A pre-schema-3 tag 16 WITH relative components can only have been a teleport and decodes as {@link EntityPosition}. */
+    record LegacyEntityPosition(int entityId,Position position,Position delta,Rotation rotation,boolean onGround) implements SemanticPayload {
+        public LegacyEntityPosition{entity(entityId);Objects.requireNonNull(position);Objects.requireNonNull(delta);Objects.requireNonNull(rotation);}public int chargedBytes(){return 512;}
+    }
     record RemoveEntities(List<Integer> ids) implements SemanticPayload {
         public RemoveEntities{ids=bounded(ids,1024);ids.forEach(SemanticPayload::entity);}public int chargedBytes(){return 128+32*ids.size();}
     }

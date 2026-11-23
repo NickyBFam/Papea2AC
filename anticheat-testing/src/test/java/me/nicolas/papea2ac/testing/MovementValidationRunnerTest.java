@@ -139,13 +139,60 @@ class MovementValidationRunnerTest {
         // gives VALID reminders under an incomplete timing union (frontier incomplete); the client keeps standing -> the rest re-anchor restores completeness
         Harness g = new Harness(ps); g.ctx(new ContextEvent.GameModeChanged(1, "survival"));
         correction(g, 1, 8.5, SURFACE, 8.5, 0f); g.feed();
-        List<MovementInput> still = new ArrayList<>(); for (int i = 0; i < 110; i++) still.add(MovementInput.idle(0f));
-        simulate(ps, ps.env(), rest, still, List.of(new Influence(TimingEvent.Operation.SET, new Vec3d(0.0, 0.0, 0.0), 3, 1)), g.rec, true, false); g.feed();
+        List<MovementInput> still = new ArrayList<>(); for (int i = 0; i < 100; i++) still.add(MovementInput.idle(0f)); // ends on a 20-tick reminder
+        simulate(ps, ps.env(), rest, still, List.of(new Influence(TimingEvent.Operation.SET, new Vec3d(0.0, 0.0, 0.0), 3, 1)), g.rec, true, false);
+        // P11-F10: the retirement of the influence (and so the re-anchor) needs receipt evidence - a marker sent after it and answered, as the
+        // engine's ~1/s marker traffic provides on a healthy connection; then the next reminder at rest re-anchors
+        g.rec.advance(1_000_000L); g.rec.marker(TimingEvent.MarkerKind.PING, 7); g.rec.advance(TICK_NANOS); g.rec.ack(TimingEvent.MarkerKind.PING, 7);
+        List<MovementInput> more = new ArrayList<>(); for (int i = 0; i < 21; i++) more.add(MovementInput.idle(0f));
+        simulate(ps, ps.env(), rest, more, List.of(), g.rec, true, false); g.feed();
         ValidationStatus gs = g.status();
         assertEquals(0, gs.invalid(), String.join("\n", gs.notable()));
         assertTrue(gs.notable().stream().anyMatch(l -> l.contains("missing=[") && !l.endsWith("missing=[frontier]")), "some step was VALID under an incomplete union: " + String.join("\n", gs.notable()));
         assertTrue(gs.recent().stream().anyMatch(l -> l.contains("rest re-anchor")), "the chain re-anchored at rest after the incomplete stretch: " + gs.anchorKind() + "\n" + String.join("\n", gs.recent()));
         assertTrue(gs.frontierComplete(), gs.toString()); assertTrue(gs.anchorKind().startsWith("rest"), gs.anchorKind());
+    }
+    /**
+     * P11-F10 regression (found live in the Phase 11 PvP round; origin: Phase 8 chain scope over Phase 7 influences). A server->client stall
+     * longer than the 3 s application horizon: the client keeps standing and transmitting its reminders while PvP knockback (SET 0.4 / 0.36)
+     * waits undelivered, then applies it 4 s after it was sent. A legitimate client may never be INVALID for that.
+     */
+    @Test void aKnockbackAppliedAfterTheApplicationHorizonIsNeverInvalid() {
+        PhysicsScene ps = new PhysicsScene(); Harness h = new Harness(ps);
+        h.ctx(new ContextEvent.GameModeChanged(1, "survival"));
+        correction(h, 1, 8.5, SURFACE, 8.5, 0f); h.feed();
+        PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5).withVelocity(Vec3d.ZERO).withSupport(PhysicsState.Support.NONE);
+        List<MovementInput> idle = new ArrayList<>(); for (int i = 0; i < 140; i++) idle.add(MovementInput.idle(0f));
+        Truth t = simulate(ps, ps.env(), rest, idle, List.of(new Influence(TimingEvent.Operation.SET, new Vec3d(0.4, 0.36, 0.0), 90, 80)), h.rec, true, false); h.feed();
+        ValidationStatus st = h.status();
+        assertEquals(0, st.invalid(), "a late-applied knockback is legitimate: " + String.join("\n", st.notable()) + "\n" + String.join("\n", st.recent()));
+        assertTrue(st.recent().stream().anyMatch(l -> l.contains("OUTSTANDING") && l.contains("P11-F10")), "the unresolved influence was kept outstanding, not retired: " + String.join("\n", st.recent()));
+        assertFalse(st.recent().stream().anyMatch(l -> l.contains("rest re-anchor")), "no rest re-anchor while the knockback may still be undelivered: " + String.join("\n", st.recent()));
+        assertTrue(st.recent().stream().anyMatch(l -> l.contains("UNCERTAIN")), "the late application is UNCERTAIN: " + String.join("\n", st.recent()));
+        // the stall ends: a marker sent after the knockback is answered (receipt evidenced) - completeness may return at the next observed rest
+        h.rec.advance(1_000_000L); h.rec.marker(TimingEvent.MarkerKind.PING, 9); h.rec.advance(TICK_NANOS); h.rec.ack(TimingEvent.MarkerKind.PING, 9);
+        PhysicsState landed = t.after(idle.size());
+        List<MovementInput> more = new ArrayList<>(); for (int i = 0; i < 45; i++) more.add(MovementInput.idle(0f));
+        simulate(ps, ps.env(), landed, more, List.of(), h.rec, true, false); h.feed();
+        ValidationStatus after = h.status();
+        assertEquals(0, after.invalid(), String.join("\n", after.notable()));
+        assertTrue(after.anchored() && after.frontierComplete(), "receipt evidenced: the chain is complete again (" + after.anchorKind() + ")\n" + String.join("\n", after.recent()));
+    }
+    /** P11-F10: on a healthy connection (markers answered within the round trip) an influence past the horizon still retires as before - no precision is lost. */
+    @Test void aReceivedInfluenceStillRetiresAtTheHorizonAndTheChainReanchors() {
+        PhysicsScene ps = new PhysicsScene(); Harness h = new Harness(ps);
+        h.ctx(new ContextEvent.GameModeChanged(1, "survival"));
+        correction(h, 1, 8.5, SURFACE, 8.5, 0f); h.feed();
+        PhysicsState rest = settled(ps, 8.5, SURFACE, 8.5).withVelocity(Vec3d.ZERO).withSupport(PhysicsState.Support.NONE);
+        List<MovementInput> still = new ArrayList<>(); for (int i = 0; i < 4; i++) still.add(MovementInput.idle(0f));
+        simulate(ps, ps.env(), rest, still, List.of(new Influence(TimingEvent.Operation.SET, new Vec3d(0.0, 0.0, 0.0), 3, 1)), h.rec, true, false);
+        h.rec.advance(1_000_000L); h.rec.marker(TimingEvent.MarkerKind.PING, 3); h.rec.advance(TICK_NANOS * 2); h.rec.ack(TimingEvent.MarkerKind.PING, 3); // answered within the round trip
+        List<MovementInput> more = new ArrayList<>(); for (int i = 0; i < 106; i++) more.add(MovementInput.idle(0f));
+        simulate(ps, ps.env(), rest, more, List.of(), h.rec, true, false); h.feed();
+        ValidationStatus st = h.status();
+        assertEquals(0, st.invalid(), String.join("\n", st.notable()));
+        assertFalse(st.recent().stream().anyMatch(l -> l.contains("OUTSTANDING")), "a received influence is never outstanding: " + String.join("\n", st.recent()));
+        assertTrue(st.frontierComplete(), "complete again: " + st.anchorKind() + "\n" + String.join("\n", st.recent()));
     }
     @Test void aWorldChangeOrCoverageBreakDropsTheAnchorAndTheChainReanchorsLater() {
         PhysicsScene ps = new PhysicsScene(); Harness h = new Harness(ps);

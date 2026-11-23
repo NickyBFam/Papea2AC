@@ -1,0 +1,149 @@
+{
+  "cases": [
+    {
+      "fixture": "attack-after-spawn-bundled",
+      "covers": "attack after spawn (spawn delivered as the second child of a bundle)",
+      "expected": "FOUND inc=2 minecraft:zombie rev@1 pos=(1.5,64.0,2.5) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING []",
+      "observed": "FOUND inc=2 minecraft:zombie rev@1 pos=(1.5,64.0,2.5) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING []",
+      "matches": true,
+      "observations": 2,
+      "contexts": ["A1:2 target#10 -> FOUND #10/i2@e0 minecraft:zombie seq=1 SPAWN pos=(1.50000,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "attack-after-teleport",
+      "covers": "absolute teleport: exact target, rotation replaced",
+      "expected": "FOUND inc=1 minecraft:zombie rev@2 pos=(30.25,70.0,-4.0) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING []",
+      "observed": "FOUND inc=1 minecraft:zombie rev@2 pos=(30.25,70.0,-4.0) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING []",
+      "matches": true,
+      "observations": 3,
+      "contexts": ["A1:3 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=2 TELEPORT pos=(30.25000,70.00000,-4.00000) rot=(0.00,0.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "attack-after-relative-teleport",
+      "covers": "relative teleport components resolve against the client's interpolated position: INTERPOLATION_DEPENDENT, never EXACT",
+      "expected": "FOUND inc=1 minecraft:zombie rev@2 pos=(2.5,64.0,2.5) INTERPOLATION_DEPENDENT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING [TARGET_POSITION_INTERPOLATION_DEPENDENT]",
+      "observed": "FOUND inc=1 minecraft:zombie rev@2 pos=(2.5,64.0,2.5) INTERPOLATION_DEPENDENT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING [TARGET_POSITION_INTERPOLATION_DEPENDENT]",
+      "matches": true,
+      "observations": 3,
+      "contexts": ["A1:3 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=2 TELEPORT_REL pos=(2.50000,64.00000,2.50000)[INTERPOLATION_DEPENDENT] rot=(0.00,0.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_POSITION_INTERPOLATION_DEPENDENT, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "move-after-teleport-decodes-from-codec-base",
+      "covers": "a teleport does not reset the delta-codec base: the next delta decodes from the spawn base (client behaviour)",
+      "expected": "FOUND inc=1 minecraft:zombie rev@3 pos=(2.5,64.0,2.5) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING []",
+      "observed": "FOUND inc=1 minecraft:zombie rev@3 pos=(2.5,64.0,2.5) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING []",
+      "matches": true,
+      "observations": 4,
+      "contexts": ["A1:4 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=3 MOVE pos=(2.50000,64.00000,2.50000) rot=(0.00,0.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "position-sync-resets-codec-base",
+      "covers": "a position sync sets both the target and the codec base: the delta after it decodes from the synced position",
+      "expected": "FOUND inc=1 minecraft:zombie rev@5 pos=(6.0,64.0,5.0) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING [] ; afterTeleportMove x=2.5",
+      "observed": "FOUND inc=1 minecraft:zombie rev@5 pos=(6.0,64.0,5.0) EXACT rot=(0.0,0.0) EXACT head=10.0 pose=STANDING [] ; afterTeleportMove x=2.5",
+      "matches": true,
+      "observations": 6,
+      "contexts": ["A1:6 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=5 MOVE pos=(6.00000,64.00000,5.00000) rot=(0.00,0.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "attack-after-removal",
+      "covers": "attack after removal: DESPAWNED, never the last position",
+      "expected": "DESPAWNED [TARGET_DESPAWNED]",
+      "observed": "DESPAWNED [TARGET_DESPAWNED]",
+      "matches": true,
+      "observations": 3,
+      "contexts": ["A1:3 target#10 -> DESPAWNED #10/i1@e0 minecraft:zombie (REMOVED) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_DESPAWNED, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "id-reuse",
+      "covers": "remove + respawn of the same network id is a new incarnation; the old key never resolves to the new entity",
+      "expected": "c1=FOUND inc=1 minecraft:zombie ; c2=FOUND inc=2 minecraft:skeleton ; oldKeyNow=ID_REUSED",
+      "observed": "c1=FOUND inc=1 minecraft:zombie ; c2=FOUND inc=2 minecraft:skeleton ; oldKeyNow=ID_REUSED",
+      "matches": true,
+      "observations": 5,
+      "contexts": ["A1:2 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=1 SPAWN pos=(1.50000,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:5 target#10 -> FOUND #10/i2@e0 minecraft:skeleton seq=4 SPAWN pos=(5.00000,64.00000,5.00000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "id-replaced-by-spawn",
+      "covers": "a spawn on a live id replaces the entity (ClientLevel.addEntity): new incarnation, old key ID_REUSED",
+      "expected": "FOUND inc=2 minecraft:skeleton rev@2 pos=(5.0,64.0,5.0) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING [] ; oldKeyNow=ID_REUSED",
+      "observed": "FOUND inc=2 minecraft:skeleton rev@2 pos=(5.0,64.0,5.0) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING [] ; oldKeyNow=ID_REUSED",
+      "matches": true,
+      "observations": 3,
+      "contexts": ["A1:3 target#10 -> FOUND #10/i2@e0 minecraft:skeleton seq=2 SPAWN pos=(5.00000,64.00000,5.00000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "transport-gap",
+      "covers": "a lost observation taints every live entity (INCOMPLETE_COVERAGE); an entity spawned after the gap is exact",
+      "expected": "c10=INCOMPLETE_COVERAGE [TARGET_COVERAGE] ; c11=FOUND inc=2 minecraft:zombie rev@5 pos=(7.0,64.0,7.0) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING []",
+      "observed": "c10=INCOMPLETE_COVERAGE [TARGET_COVERAGE] ; c11=FOUND inc=2 minecraft:zombie rev@5 pos=(7.0,64.0,7.0) EXACT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING []",
+      "matches": true,
+      "observations": 5,
+      "contexts": ["A1:4 target#10 -> INCOMPLETE_COVERAGE #10/i1@e0 minecraft:zombie (clientbound coverage break SEQUENCE_GAP:2) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_COVERAGE, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:6 target#11 -> FOUND #11/i2@e0 minecraft:zombie seq=5 SPAWN pos=(7.00000,64.00000,7.00000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "history-eviction",
+      "covers": "bounded history: the 96-revision ring evicts the oldest (EVICTED, never a nearest match); a removed id stays DESPAWNED past the 3 s revision horizon while its ended summary is retained, and is EVICTED (not UNKNOWN) once capacity churn forgets that summary",
+      "expected": "attack=FOUND rev@121 x=1.529296875 ; history@3=EVICTED ; afterHorizon=DESPAWNED ; afterChurn=EVICTED",
+      "observed": "attack=FOUND rev@121 x=1.529296875 ; history@3=EVICTED ; afterHorizon=DESPAWNED ; afterChurn=EVICTED",
+      "matches": true,
+      "observations": 718,
+      "contexts": ["A1:122 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=121 MOVE pos=(1.52930,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:205 target#12 -> DESPAWNED #12/i2@e0 minecraft:zombie (REMOVED) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_DESPAWNED, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:718 target#12 -> EVICTED (ended incarnations were evicted (capacity): absence unprovable) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_EVICTED, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "epoch-change",
+      "covers": "a world/dimension change ends every incarnation: the id is unknown in the new epoch and the old key is WORLD_EPOCH_MISMATCH",
+      "expected": "UNKNOWN [TARGET_UNKNOWN] ; oldKey=WORLD_EPOCH_MISMATCH",
+      "observed": "UNKNOWN [TARGET_UNKNOWN] ; oldKey=WORLD_EPOCH_MISMATCH",
+      "matches": true,
+      "observations": 4,
+      "contexts": ["A1:2 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=1 SPAWN pos=(1.50000,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:4 target#10 -> UNKNOWN (never observed in epoch 1) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_UNKNOWN, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "session-replacement",
+      "covers": "a reconnect is a new SessionKey: nothing crosses; the old key is SESSION_MISMATCH; attack ids differ",
+      "expected": "UNKNOWN [TARGET_UNKNOWN] ; oldKey=SESSION_MISMATCH ; ids A1:2 A2:1",
+      "observed": "UNKNOWN [TARGET_UNKNOWN] ; oldKey=SESSION_MISMATCH ; ids A1:2 A2:1",
+      "matches": true,
+      "observations": 2,
+      "contexts": ["A1:2 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=1 SPAWN pos=(1.50000,64.00000,2.50000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "capacity-refusal",
+      "covers": "the 257th live entity is refused: its id is INCOMPLETE_COVERAGE, never UNKNOWN; admitted ones stay FOUND",
+      "expected": "c300=INCOMPLETE_COVERAGE [TARGET_COVERAGE] ; c2=FOUND",
+      "observed": "c300=INCOMPLETE_COVERAGE [TARGET_COVERAGE] ; c2=FOUND",
+      "matches": true,
+      "observations": 259,
+      "contexts": ["A1:258 target#300 -> INCOMPLETE_COVERAGE (entity capacity 256 reached at seq 257) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_COVERAGE, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]", "A1:259 target#2 -> FOUND #2/i1@e0 minecraft:zombie seq=1 SPAWN pos=(2.00000,64.00000,0.00000) rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=none (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "unsupported-motion",
+      "covers": "a minecart lerp step (not reconstructed) makes the incarnation UNSUPPORTED",
+      "expected": "UNSUPPORTED [TARGET_UNSUPPORTED_MOTION]",
+      "observed": "UNSUPPORTED [TARGET_UNSUPPORTED_MOTION]",
+      "matches": true,
+      "observations": 3,
+      "contexts": ["A1:3 target#40 -> UNSUPPORTED #40/i1@e0 minecraft:minecart (UNSUPPORTED:MINECART_LERP_STEPS) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_UNSUPPORTED_MOTION, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "mounted-target",
+      "covers": "a passenger target is reported with its vehicle and marked incomplete (vehicle geometry is capability-gated)",
+      "expected": "FOUND inc=1 minecraft:zombie rev@3 pos=(1.5,64.0,2.5) VEHICLE_DEPENDENT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING vehicle=41 [TARGET_MOUNTED, TARGET_VEHICLE_DEPENDENT]",
+      "observed": "FOUND inc=1 minecraft:zombie rev@3 pos=(1.5,64.0,2.5) VEHICLE_DEPENDENT rot=(10.0,5.0) EXACT head=10.0 pose=STANDING vehicle=41 [TARGET_MOUNTED, TARGET_VEHICLE_DEPENDENT]",
+      "matches": true,
+      "observations": 4,
+      "contexts": ["A1:4 target#10 -> FOUND #10/i1@e0 minecraft:zombie seq=3 MOUNT pos=(1.50000,64.00000,2.50000)[VEHICLE_DEPENDENT] rot=(10.00,5.00) head=10.00 pose=STANDING flags=0 vehicle=#41 (deep) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_MOUNTED, TARGET_VEHICLE_DEPENDENT, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    },
+    {
+      "fixture": "self-is-not-a-target",
+      "covers": "the observer's own entity is the attacker (timeline-owned), never an entity target",
+      "expected": "UNKNOWN [TARGET_UNKNOWN]",
+      "observed": "UNKNOWN [TARGET_UNKNOWN]",
+      "matches": true,
+      "observations": 2,
+      "contexts": ["A1:2 target#1 -> UNKNOWN (never observed in epoch 0) | attacker PRE_CAPTURE validation=NONE@0(unanchored) | timing UNAVAILABLE rtt=none | INCOMPLETE [TARGET_UNKNOWN, ATTACKER_HISTORY_UNAVAILABLE, TIMING_UNAVAILABLE] standing=[SERVER_OUTCOME_UNSUPPORTED, INTERPOLATION_PROGRESS_NOT_MODELLED, CLIENT_APPLICATION_FRONTIER_UNCLAIMED]"]
+    }
+  ],
+  "rules": ["spawn (AddEntity) sets the network target and the delta-codec base; pose defaults to STANDING and shared flags to 0 (pairing sends non-default values only)", "relative move: target = decode(base, delta) exactly as VecDeltaCodec (zero delta keeps the base bit-exact), then base = target", "position sync (EntityPositionSync): target and base", "teleport (TeleportEntity): target only (calculateAbsolute: (relative ? current : 0) + packet, pitch clamped); relative components INTERPOLATION_DEPENDENT; base untouched", "removal ends the incarnation (DESPAWNED); a spawn on a live id replaces it (new incarnation); the old key answers ID_REUSED", "world epoch change ends every incarnation; history never crosses epochs or sessions", "updates for unknown ids are dropped (as the client does) and counted", "256 retained summaries / 32 deep histories / 96 revisions / 3 s horizon; capacity refusal answers INCOMPLETE_COVERAGE"]
+}
