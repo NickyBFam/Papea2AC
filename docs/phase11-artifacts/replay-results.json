@@ -1,0 +1,96 @@
+{
+  "traces": [
+    {
+      "trace": "stationary-target",
+      "fixture": "target-stationary",
+      "observations": 22,
+      "capsuleSegments": 1,
+      "liveDigest": "8717270990fecfd0aed5176d21b590df45df4306ebf4dc58133f7a18f07d21d2:797da1b9ced2813e03e3b071652bbcc1e68a54772d80c35e82367cc1a436b2b1",
+      "replay1": "8717270990fecfd0aed5176d21b590df45df4306ebf4dc58133f7a18f07d21d2:797da1b9ced2813e03e3b071652bbcc1e68a54772d80c35e82367cc1a436b2b1",
+      "replay2": "8717270990fecfd0aed5176d21b590df45df4306ebf4dc58133f7a18f07d21d2:797da1b9ced2813e03e3b071652bbcc1e68a54772d80c35e82367cc1a436b2b1",
+      "capsuleReplay": "8717270990fecfd0aed5176d21b590df45df4306ebf4dc58133f7a18f07d21d2:797da1b9ced2813e03e3b071652bbcc1e68a54772d80c35e82367cc1a436b2b1",
+      "identical": true
+    },
+    {
+      "trace": "moving-target",
+      "fixture": "target-moving",
+      "observations": 7,
+      "capsuleSegments": 1,
+      "liveDigest": "b7e161e5543d1ced6d933dddeb82ef962d284e9b754fa009bdb4a0bfcba17f27:95ac2db0f0fd4fd4e06eb3048b3067962784268f6ece23c6778d379acfcf01bd",
+      "replay1": "b7e161e5543d1ced6d933dddeb82ef962d284e9b754fa009bdb4a0bfcba17f27:95ac2db0f0fd4fd4e06eb3048b3067962784268f6ece23c6778d379acfcf01bd",
+      "replay2": "b7e161e5543d1ced6d933dddeb82ef962d284e9b754fa009bdb4a0bfcba17f27:95ac2db0f0fd4fd4e06eb3048b3067962784268f6ece23c6778d379acfcf01bd",
+      "capsuleReplay": "b7e161e5543d1ced6d933dddeb82ef962d284e9b754fa009bdb4a0bfcba17f27:95ac2db0f0fd4fd4e06eb3048b3067962784268f6ece23c6778d379acfcf01bd",
+      "identical": true
+    },
+    {
+      "trace": "teleporting-target",
+      "fixture": "position-sync-resets-codec-base",
+      "observations": 6,
+      "capsuleSegments": 1,
+      "liveDigest": "fc07a496573953059b66eebd263d165f6f74f63ffe6177e690cb40e247c06083:a617abb6a1c5507550076025a0bd71870bda16174585baeedc563c61832a6865",
+      "replay1": "fc07a496573953059b66eebd263d165f6f74f63ffe6177e690cb40e247c06083:a617abb6a1c5507550076025a0bd71870bda16174585baeedc563c61832a6865",
+      "replay2": "fc07a496573953059b66eebd263d165f6f74f63ffe6177e690cb40e247c06083:a617abb6a1c5507550076025a0bd71870bda16174585baeedc563c61832a6865",
+      "capsuleReplay": "fc07a496573953059b66eebd263d165f6f74f63ffe6177e690cb40e247c06083:a617abb6a1c5507550076025a0bd71870bda16174585baeedc563c61832a6865",
+      "identical": true
+    },
+    {
+      "trace": "despawn-reuse",
+      "fixture": "id-reuse",
+      "observations": 5,
+      "capsuleSegments": 1,
+      "liveDigest": "04d26368908e862fc1d3357499818a5d7d5215503b622f40aca841ad9ba4f3f2:a330ff182a45121a18f9c0e90efeacfa20739dd2bcdda1b8c372bea02189274a",
+      "replay1": "04d26368908e862fc1d3357499818a5d7d5215503b622f40aca841ad9ba4f3f2:a330ff182a45121a18f9c0e90efeacfa20739dd2bcdda1b8c372bea02189274a",
+      "replay2": "04d26368908e862fc1d3357499818a5d7d5215503b622f40aca841ad9ba4f3f2:a330ff182a45121a18f9c0e90efeacfa20739dd2bcdda1b8c372bea02189274a",
+      "capsuleReplay": "04d26368908e862fc1d3357499818a5d7d5215503b622f40aca841ad9ba4f3f2:a330ff182a45121a18f9c0e90efeacfa20739dd2bcdda1b8c372bea02189274a",
+      "identical": true
+    },
+    {
+      "trace": "target-player",
+      "fixture": "target-player",
+      "observations": 2,
+      "capsuleSegments": 1,
+      "liveDigest": "eac5f092f8f9377ddb1584b26c087f915c4371dfdae52463e37605fb3178b9e8:01ecb33a506f4dea6801907fc6427fd829b3a20fc72b24c47582eeb19673a3d9",
+      "replay1": "eac5f092f8f9377ddb1584b26c087f915c4371dfdae52463e37605fb3178b9e8:01ecb33a506f4dea6801907fc6427fd829b3a20fc72b24c47582eeb19673a3d9",
+      "replay2": "eac5f092f8f9377ddb1584b26c087f915c4371dfdae52463e37605fb3178b9e8:01ecb33a506f4dea6801907fc6427fd829b3a20fc72b24c47582eeb19673a3d9",
+      "capsuleReplay": "eac5f092f8f9377ddb1584b26c087f915c4371dfdae52463e37605fb3178b9e8:01ecb33a506f4dea6801907fc6427fd829b3a20fc72b24c47582eeb19673a3d9",
+      "identical": true
+    },
+    {
+      "trace": "target-mob",
+      "fixture": "target-mob",
+      "observations": 2,
+      "capsuleSegments": 1,
+      "liveDigest": "e445beee007ec571512103daa3760b0bf0962b7680d60bf0eabcb44aaf6dc7df:154fa14e8133cc131e18c4494e5487bc4718b72e9a7779a26e0fa066a1c5f85f",
+      "replay1": "e445beee007ec571512103daa3760b0bf0962b7680d60bf0eabcb44aaf6dc7df:154fa14e8133cc131e18c4494e5487bc4718b72e9a7779a26e0fa066a1c5f85f",
+      "replay2": "e445beee007ec571512103daa3760b0bf0962b7680d60bf0eabcb44aaf6dc7df:154fa14e8133cc131e18c4494e5487bc4718b72e9a7779a26e0fa066a1c5f85f",
+      "capsuleReplay": "e445beee007ec571512103daa3760b0bf0962b7680d60bf0eabcb44aaf6dc7df:154fa14e8133cc131e18c4494e5487bc4718b72e9a7779a26e0fa066a1c5f85f",
+      "identical": true
+    },
+    {
+      "trace": "gap-incomplete",
+      "fixture": "transport-gap",
+      "observations": 5,
+      "capsuleSegments": 2,
+      "liveDigest": "944dd297dfc09c9acb9b5eebd32709e4d77bfd3e99404d165e49c9c60b6d8d7a:2a53ab33cb2203dcc50cf88259a047aed9464fa4237a62ff403992d6af4cec1f",
+      "replay1": "944dd297dfc09c9acb9b5eebd32709e4d77bfd3e99404d165e49c9c60b6d8d7a:2a53ab33cb2203dcc50cf88259a047aed9464fa4237a62ff403992d6af4cec1f",
+      "replay2": "944dd297dfc09c9acb9b5eebd32709e4d77bfd3e99404d165e49c9c60b6d8d7a:2a53ab33cb2203dcc50cf88259a047aed9464fa4237a62ff403992d6af4cec1f",
+      "capsuleReplay": "944dd297dfc09c9acb9b5eebd32709e4d77bfd3e99404d165e49c9c60b6d8d7a:2a53ab33cb2203dcc50cf88259a047aed9464fa4237a62ff403992d6af4cec1f",
+      "identical": true
+    },
+    {
+      "trace": "epoch-transition",
+      "fixture": "epoch-change",
+      "observations": 4,
+      "capsuleSegments": 1,
+      "liveDigest": "7174449c8460e3d5277664fd27fca9dfb3b6b1509a04f3224479d7e52ca5cf28:1e40e0bbfdca6861971d58be3894a0bea2ef790cbce057750403cf34822763c9",
+      "replay1": "7174449c8460e3d5277664fd27fca9dfb3b6b1509a04f3224479d7e52ca5cf28:1e40e0bbfdca6861971d58be3894a0bea2ef790cbce057750403cf34822763c9",
+      "replay2": "7174449c8460e3d5277664fd27fca9dfb3b6b1509a04f3224479d7e52ca5cf28:1e40e0bbfdca6861971d58be3894a0bea2ef790cbce057750403cf34822763c9",
+      "capsuleReplay": "7174449c8460e3d5277664fd27fca9dfb3b6b1509a04f3224479d7e52ca5cf28:1e40e0bbfdca6861971d58be3894a0bea2ef790cbce057750403cf34822763c9",
+      "identical": true
+    }
+  ],
+  "replayFailures": 0,
+  "capsuleSchema": 3,
+  "digest": "EntityReplayMapper (EntityCapsule schema 1, canonical bytes, SHA-256) ':' CombatReplayMapper (CombatCapsule schema 1, canonical bytes, SHA-256)",
+  "method": "each trace fed twice into fresh runners and once through encoded capsules (a loss closes a segment with a Barrier; the next opens with a Checkpoint)"
+}

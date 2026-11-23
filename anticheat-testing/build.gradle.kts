@@ -420,3 +420,33 @@ tasks.register<JavaExec>("mitigationFixtures") {
     args(rootProject.file("docs/phase10-artifacts").absolutePath)
     doFirst { rootProject.file("docs/phase10-artifacts").mkdirs() }
 }
+
+// ---- Phase 11: combat engine (descriptive combat-domain infrastructure) harnesses
+tasks.register<JavaExec>("combatFixtures") {
+    description = "Phase 11 artifacts under docs/phase11-artifacts: attack corpus, entity lifecycle, target lookup status matrix and replay results (from CombatCorpus, through the core CombatRunner). Fails on any mismatch or non-determinism."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CombatFixtureMain")
+    args(rootProject.file("docs/phase11-artifacts").absolutePath)
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("combatMemoryHarness") {
+    description = "Empirical (forced-GC heap diff + charged-byte accounting) Phase 11 memory estimate: empty combat session, typical registry, typical PvP session, full bounded registry and history, attack-history storage, replay projection. Not a supported-capacity claim."
+    dependsOn(tasks.named("testClasses"))
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("me.nicolas.papea2ac.testing.CombatMemoryMain")
+    minHeapSize = "1g"; maxHeapSize = "1g"
+    args(rootProject.file("docs/phase11-artifacts/memory-results.json").absolutePath)
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}
+tasks.register<JavaExec>("benchmarkCombat") {
+    description = "Phase 11 JMH kernels: attack ingest (known / unknown target), current / historical lookup, move / teleport / spawn / despawn / id reuse, full bounded registry, mixed stream, and the no-combat path. Descriptive, not a capacity claim."
+    dependsOn(tasks.named(benchmark.classesTaskName))
+    classpath = benchmark.runtimeClasspath
+    mainClass.set("org.openjdk.jmh.Main")
+    val include = project.findProperty("jmhInclude")?.toString() ?: "CombatBenchmarks"
+    val outFile = project.findProperty("jmhOut")?.toString() ?: rootProject.file("docs/phase11-artifacts/benchmarks.json").absolutePath
+    args(include, "-prof", "gc", "-rf", "json", "-rff", outFile)
+    if (project.hasProperty("jmhSmoke")) args("-f", "1", "-wi", "1", "-i", "1", "-w", "200ms", "-r", "200ms") // fixture sanity only, never the record
+    doFirst { rootProject.file("docs/phase11-artifacts").mkdirs() }
+}

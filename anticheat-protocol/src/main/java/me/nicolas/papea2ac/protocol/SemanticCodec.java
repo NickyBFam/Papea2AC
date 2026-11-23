@@ -77,6 +77,8 @@ final class SemanticCodec {
             case Effect v->{o.writeByte(13);o.writeInt(v.entityId());o.writeUTF(v.effect());o.writeInt(v.amplifier());o.writeInt(v.duration());o.writeBoolean(v.ambient());o.writeBoolean(v.visible());o.writeBoolean(v.icon());o.writeBoolean(v.blend());}
             case RemoveEffect v->{o.writeByte(14);o.writeInt(v.entityId());o.writeUTF(v.effect());}
             case EntityDelta v->{o.writeByte(15);o.writeInt(v.entityId());o.writeShort(v.dx());o.writeShort(v.dy());o.writeShort(v.dz());rot(o,v.rotation());o.writeBoolean(v.hasPosition());o.writeBoolean(v.hasRotation());o.writeBoolean(v.onGround());}
+            case EntityPositionSync v->{o.writeByte(80);o.writeInt(v.entityId());pos(o,v.position());pos(o,v.delta());rot(o,v.rotation());o.writeBoolean(v.onGround());}
+            case LegacyEntityPosition v->{o.writeByte(81);o.writeInt(v.entityId());pos(o,v.position());pos(o,v.delta());rot(o,v.rotation());o.writeBoolean(v.onGround());}
             case EntityPosition v->{o.writeByte(16);o.writeInt(v.entityId());pos(o,v.position());pos(o,v.delta());rot(o,v.rotation());relative(o,v.relative());o.writeBoolean(v.onGround());}
             case RemoveEntities v->{o.writeByte(17);o.writeInt(v.ids().size());for(int id:v.ids())o.writeInt(id);}
             case BlockChange v->{o.writeByte(18);block(o,v.position());o.writeUTF(v.state().block());o.writeInt(v.state().properties().size());for(var property:v.state().properties()){o.writeUTF(property.name());o.writeUTF(property.value());}}
@@ -146,7 +148,8 @@ final class SemanticCodec {
         }
     }
     /** {@code legacySchema1}: decode tags 59/74/79 in their payload-schema-1 layout (no dimension range; summary-only chunk baseline) - every other tag is byte-identical across schemas 1 and 2 (P3-C1). */
-    static SemanticPayload read(DataInputStream i,boolean legacySchema1)throws IOException{
+    static SemanticPayload read(DataInputStream i,int payloadSchema)throws IOException{
+        boolean legacySchema1=payloadSchema==1;
         return switch(i.readUnsignedByte()){
             case 1->new Attack(i.readInt());
             case 2->new Interact(i.readInt(),Hand.valueOf(text(i)),pos(i),bool(i));
@@ -166,7 +169,8 @@ final class SemanticCodec {
             case 13->new Effect(i.readInt(),text(i),i.readInt(),i.readInt(),bool(i),bool(i),bool(i),bool(i));
             case 14->new RemoveEffect(i.readInt(),text(i));
             case 15->new EntityDelta(i.readInt(),i.readShort(),i.readShort(),i.readShort(),rot(i),bool(i),bool(i),bool(i));
-            case 16->new EntityPosition(i.readInt(),pos(i),pos(i),rot(i),relative(i),bool(i));
+            case 16->{var p=new EntityPosition(i.readInt(),pos(i),pos(i),rot(i),relative(i),bool(i)); // P11-F9: before schema 3 an empty relative set was a sync OR an absolute teleport
+                yield payloadSchema<3&&p.relative().isEmpty()?new LegacyEntityPosition(p.entityId(),p.position(),p.delta(),p.rotation(),p.onGround()):p;}
             case 17->{int n=count(i,1024);var ids=new ArrayList<Integer>(n);for(int a=0;a<n;a++)ids.add(i.readInt());yield new RemoveEntities(ids);}
             case 18->{BlockPosition block=block(i);String key=text(i);int n=count(i,32);var properties=new ArrayList<Property>(n);
                 for(int a=0;a<n;a++)properties.add(new Property(text(i),text(i)));yield new BlockChange(block,new BlockState(key,properties));}
@@ -236,6 +240,9 @@ final class SemanticCodec {
             case 79->{int cx=i.readInt(),cz=i.readInt(),bytes=i.readInt(),be=i.readInt(),hm=i.readInt();boolean light=bool(i);
                 if(legacySchema1)yield new ChunkBaseline(cx,cz,bytes,be,hm,light);
                 boolean retained=bool(i);String note=text(i,64);int n=count(i,ChunkBaseline.MAX_SECTIONS);var sections=new ArrayList<ChunkSection>(n);for(int a=0;a<n;a++)sections.add(section(i));yield new ChunkBaseline(cx,cz,bytes,be,hm,light,retained,sections,note);}
+            // payload schema 3: tag 80 (P11-F2) and tag 81 (P11-F9, the re-encoding of a decoded pre-schema-3 ambiguous position); neither can appear in schema-1/2 bytes
+            case 80->{if(payloadSchema<3)throw new IOException("semantic tag 80 requires payload schema 3");yield new EntityPositionSync(i.readInt(),pos(i),pos(i),rot(i),bool(i));}
+            case 81->{if(payloadSchema<3)throw new IOException("semantic tag 81 requires payload schema 3");yield new LegacyEntityPosition(i.readInt(),pos(i),pos(i),rot(i),bool(i));}
             default->throw new IOException("unknown semantic tag");
         };
     }

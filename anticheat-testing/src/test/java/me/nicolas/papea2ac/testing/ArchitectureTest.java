@@ -65,7 +65,7 @@ class ArchitectureTest {
     }
     /** Phase gate: modules whose phase has not started stay empty. "world" left this list in Phase 3, "collision" in Phase 4, "physics" in Phase 5, "simulation" in Phase 6 and "evidence" in Phase 9 (their approved phases); each is held to its own boundary test below instead. */
     @Test void noFutureEngineOrForbiddenMathImplementation()throws Exception{
-        for(String name:List.of("combat","checks","interaction")){ // "mitigation" left this list in Phase 10 (mitigationStaysWithinThePhase10Boundary)
+        for(String name:List.of("checks","interaction")){ // "mitigation" left this list in Phase 10, "combat" in Phase 11 (combatStaysWithinThePhase11Boundary)
             Path p=ROOT.resolve("anticheat-"+name+"/src/main/java");
             if(Files.exists(p))try(var files=Files.walk(p)){assertEquals(0,files.filter(f->f.toString().endsWith(".java")).count(),name);}
         }
@@ -279,6 +279,38 @@ class ArchitectureTest {
         assertTrue(engine.contains("if(applyPendingRestriction()||proposalGuard.tripped())return false;"),"a tripped proposal guard refuses main-thread admission");
         assertTrue(plugin.contains("engine.enableDecisionCapsules("),"decision capsules are enabled at startup (DURABLE_REQUIRED)");
         assertTrue(executor.contains("engine.applyPendingRestriction()"),"the executor applies the G2 latch before any queued intent");
+    }
+    /**
+     * Phase 11 boundary: the combat engine is descriptive infrastructure. The combat module, the world-owned entity history and the core combat composition
+     * contain no reach, hitbox, ray, occlusion, rotation-heuristic, KillAura, click/CPS, verdict, evidence, mitigation, punishment or platform concept and
+     * no reflection; combat imports only its DAG edges; no lower module depends on combat; and no Phase 12/15/16/17 class exists anywhere.
+     */
+    @Test void combatStaysWithinThePhase11Boundary()throws Exception{
+        var forbidden=Pattern.compile("\\b(reach|Reach|maxReach|reachThreshold|hitbox|Hitbox|HitBox|rayTrace|RayTrace|raytrace|rayIntersects|intersects|throughWall|lineOfSight|LineOfSight|occlusion|Occlusion|KillAura|killAura|aura|Aura|cps|CPS|clickRate|autoclick|AutoClick|entropy|autocorrelation|snap|smoothness|gcd|GCD|aimError|angleToTarget|isSuspicious|isReachHack|isAura|isInvalidHit|shouldPunish|shouldSetback|setback|Setback|kick|ban|punish|Punish|cheat|Cheat|cheater|violation|Violation|verdict|Verdict|confidence|Confidence|EvidenceEvent|EvidenceLedger|MitigationIntent|MitigationActor|Bukkit|CraftBukkit|getHandle)\\b");
+        List<Path> files=new ArrayList<>();
+        try(var s=Files.walk(ROOT.resolve("anticheat-combat/src/main/java"))){s.filter(p->p.toString().endsWith(".java")).forEach(files::add);}
+        assertTrue(files.size()>=6,"Phase 11 combat module must exist: "+files);
+        for(String f:new String[]{"EntityHistory","EntityObservation","EntityKey","EntityRevision","EntityLookup","EntityReplayMapper"})files.add(ROOT.resolve("anticheat-world/src/main/java/me/nicolas/papea2ac/world/"+f+".java"));
+        for(String f:new String[]{"CombatRunner","CombatObservationMapper"})files.add(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/"+f+".java"));
+        files.add(ROOT.resolve("anticheat-version/src/main/java/me/nicolas/papea2ac/version/CombatProfile.java"));
+        for(Path file:files){
+            String code=Files.readString(file).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+            var m=forbidden.matcher(code);boolean found=m.find();
+            assertFalse(found,file+" contains a Phase 12+ geometry/heuristic, a verdict, an evidence/mitigation/punishment concept or a platform type: "+(found?code.substring(Math.max(0,m.start()-30),Math.min(code.length(),m.end()+30)):""));
+            assertFalse(code.contains("java.lang.reflect")||code.contains("Class.forName"),file+" uses reflection");
+        }
+        // combat imports only its approved edges (model, replay-schema, version, player, world, collision) - never evidence, mitigation, checks, simulation, core or platform
+        try(var s=Files.walk(ROOT.resolve("anticheat-combat/src/main/java"))){for(Path p:s.filter(q->q.toString().endsWith(".java")).toList())for(String line:Files.readString(p).split("\n"))if(line.startsWith("import me.nicolas."))
+            assertTrue(line.matches("import me\\.nicolas\\.papea2ac\\.(model|schema|version|player|world|collision|combat)\\..*"),p+": "+line);}
+        // nothing below combat in the DAG depends on it (only checks and core may)
+        for(var e:graph().entrySet())if(e.getValue().contains("combat"))assertTrue(Set.of("checks","core","testing").contains(e.getKey()),e.getKey()+" must not depend on combat");
+        // later-phase engines are absent: no reach/hitbox/ray (12), rotation analysis (15), KillAura/combat heuristics (16) or click analysis (17) class anywhere
+        var later=Pattern.compile("(Reach|Hitbox|HitBox|RayTrace|Raytrace|Occlusion|KillAura|Aura|ClickAnalysis|Clicks|Cps|Cadence|RotationAnalysis|RotationHeuristic|AimAnalysis|CombatHeuristic)[A-Za-z]*\\.java");
+        try(var s=Files.walk(ROOT)){for(Path p:s.filter(q->q.toString().contains("src"+java.io.File.separator+"main")&&q.toString().endsWith(".java")).toList())
+            assertFalse(later.matcher(p.getFileName().toString()).matches(),"a later-phase engine class exists: "+p);}
+        // the combat engine never touches evidence or mitigation at the composition point either
+        String runner=Files.readString(ROOT.resolve("anticheat-core/src/main/java/me/nicolas/papea2ac/core/CombatRunner.java")).replaceAll("(?s)/\\*.*?\\*/","").replaceAll("//.*","");
+        assertFalse(runner.contains("evidence")||runner.contains("mitigation")||runner.contains("Evidence")||runner.contains("Mitigation"),"CombatRunner feeds neither evidence nor mitigation");
     }
     /** Phase 3 boundary: the world module reconstructs observed state only - no collision, physics, movement validation, check logic, or engine-forbidden transcendental Math (COLLISION_ENGINE.md/NUMERICAL_POLICY). */
     @Test void worldModuleStaysWithinThePhase3Boundary()throws Exception{
